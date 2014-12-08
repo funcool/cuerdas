@@ -122,7 +122,7 @@
    (string? match)
    (.replace s (js/RegExp. (escape-regexp match) "g") replacement)
 
-   (.hasOwnProperty match "source")
+   (regexp? match)
    (.replace s (js/RegExp. (.-source match) "g") replacement)
 
    :else
@@ -134,7 +134,7 @@
    (string? match)
    (.replace s (js/RegExp. (escape-regexp match)) replacement)
 
-   (.hasOwnProperty match "source")
+   (regexp? match)
    (.replace s (js/RegExp. (.-source match)) replacement)
 
    :else
