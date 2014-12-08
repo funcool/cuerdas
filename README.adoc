@@ -1,0 +1,4 @@
+= string.clj
+
+The missing clojurescript string manipulation library.
+
