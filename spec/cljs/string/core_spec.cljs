@@ -55,4 +55,13 @@
     (should= (str/split "1 2 3" " ") ["1" "2" "3"])
     (should= (str/split "1 2 3" #"\s") ["1" "2" "3"])
     (should= (str/split "1 2 3" #"\s" 2) ["1" "2 3"]))
+
+  (it "replace-first"
+    (should= (str/replace-first "aa bb aa" #"aa" "kk") "kk bb aa"))
+
+  (it "replace-all"
+    (should= (str/replace-all "aa bb aa" #"aa" "kk") "kk bb kk"))
+
+  (it "prune"
+    (should= (str/prune "Hello World" 8) "Hello..."))
 )

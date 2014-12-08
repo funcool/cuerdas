@@ -115,3 +115,44 @@
    (if (regexp? sep)
      (str/split s sep num)
      (str/split s (re-pattern sep) num))))
+
+(defn replace-all
+  [s match replacement]
+  (cond
+   (string? match)
+   (.replace s (js/RegExp. (escape-regexp match) "g") replacement)
+
+   (.hasOwnProperty match "source")
+   (.replace s (js/RegExp. (.-source match) "g") replacement)
+
+   :else
+   (throw (str "Invalid match arg: " match))))
+
+(defn replace-first
+  [s match replacement]
+  (cond
+   (string? match)
+   (.replace s (js/RegExp. (escape-regexp match)) replacement)
+
+   (.hasOwnProperty match "source")
+   (.replace s (js/RegExp. (.-source match)) replacement)
+
+   :else
+   (throw (str "Invalid match arg: " match))))
+
+(defn prune
+  "Truncates a string to a certain length and adds '...'
+  if necessary."
+  ([s num] (prune s num "..."))
+  ([s num subs]
+   (if (< (.-length s) num)
+     s
+     (let [tmpl (fn [c] (if (not= (upper c) (lower c)) "A" " "))
+           template (-> (.slice s 0 (inc (.-length s)))
+                        (replace-all #".(?=\W*\w*$)" tmpl))
+           template (if (.match (.slice template (- (.-length template) 2)) #"\w\w")
+                      (replace-first template #"\s*\S+$" "")
+                      (rtrim (.slice template 0 (dec (.-length template)))))]
+       (if (> (.-length (str template subs)) (.-length s))
+         s
+         (str (.slice s 0 (.-length template)) subs))))))
