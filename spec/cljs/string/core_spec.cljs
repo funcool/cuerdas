@@ -30,4 +30,29 @@
   (it "trim"
     (should= (str/trim " a ") "a")
     (should= (str/trim "-a-" "-") "a"))
+
+  (it "ltrim"
+    (should= (str/ltrim " a ") "a ")
+    (should= (str/ltrim "-a-", "-") "a-"))
+
+  (it "rtrim"
+    (should= (str/rtrim " a ") " a")
+    (should= (str/rtrim "-a-", "-") "-a"))
+
+  (it "empty?"
+    (should (str/empty? "  "))
+    (should-not (str/empty? " s ")))
+
+  (it "repeat"
+    (should= (str/repeat "a") "a")
+    (should= (str/repeat "a" 3) "aaa"))
+
+  (it "strip-newlines"
+    (should= (str/strip-newlines "a\n\nb") "a b"))
+
+  (it "split"
+    (should= (str/split "1 2 3") ["1" "2" "3"])
+    (should= (str/split "1 2 3" " ") ["1" "2" "3"])
+    (should= (str/split "1 2 3" #"\s") ["1" "2" "3"])
+    (should= (str/split "1 2 3" #"\s" 2) ["1" "2 3"]))
 )
