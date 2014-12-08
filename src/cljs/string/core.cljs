@@ -116,7 +116,14 @@
      (str/split s sep num)
      (str/split s (re-pattern sep) num))))
 
-(defn replace-all
+(defn slice
+  "Extracts a section of a string and returns a new string."
+  ([s begin]
+   (.slice s begin))
+  ([s begin end]
+   (.slice s begin end)))
+
+(defn replace
   [s match replacement]
   (cond
    (string? match)
@@ -127,13 +134,6 @@
 
    :else
    (throw (str "Invalid match arg: " match))))
-
-(defn slice
-  "Extracts a section of a string and returns a new string."
-  ([s begin]
-   (.slice s begin))
-  ([s begin end]
-   (.slice s begin end)))
 
 (defn replace-first
   [s match replacement]
@@ -156,10 +156,27 @@
      s
      (let [tmpl (fn [c] (if (not= (upper c) (lower c)) "A" " "))
            template (-> (slice s 0 (inc (count s)))
-                        (replace-all #".(?=\W*\w*$)" tmpl))
+                        (replace #".(?=\W*\w*$)" tmpl))
            template (if (.match (slice template (- (count template) 2)) #"\w\w")
                       (replace-first template #"\s*\S+$" "")
                       (rtrim (slice template 0 (dec (count template)))))]
        (if (> (count (str template subs)) (count s))
          s
          (str (slice s 0 (count template)) subs))))))
+
+(defn join
+  "Joins strings together with given separator."
+  ([coll]
+     (apply str coll))
+  ([separator coll]
+     (apply str (interpose separator coll))))
+
+(defn surround
+  "Surround a string with another string."
+  [s wrap]
+  (join "" [wrap s wrap]))
+
+(defn quote
+  ([s] (surround s "\""))
+  ([s qchar] (surround s qchar)))
+
