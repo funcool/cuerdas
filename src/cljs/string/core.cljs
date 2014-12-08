@@ -128,6 +128,13 @@
    :else
    (throw (str "Invalid match arg: " match))))
 
+(defn slice
+  "Extracts a section of a string and returns a new string."
+  ([s begin]
+   (.slice s begin))
+  ([s begin end]
+   (.slice s begin end)))
+
 (defn replace-first
   [s match replacement]
   (cond
@@ -145,14 +152,14 @@
   if necessary."
   ([s num] (prune s num "..."))
   ([s num subs]
-   (if (< (.-length s) num)
+   (if (< (count s) num)
      s
      (let [tmpl (fn [c] (if (not= (upper c) (lower c)) "A" " "))
-           template (-> (.slice s 0 (inc (.-length s)))
+           template (-> (slice s 0 (inc (count s)))
                         (replace-all #".(?=\W*\w*$)" tmpl))
-           template (if (.match (.slice template (- (.-length template) 2)) #"\w\w")
+           template (if (.match (slice template (- (count template) 2)) #"\w\w")
                       (replace-first template #"\s*\S+$" "")
-                      (rtrim (.slice template 0 (dec (.-length template)))))]
-       (if (> (.-length (str template subs)) (.-length s))
+                      (rtrim (slice template 0 (dec (count template)))))]
+       (if (> (count (str template subs)) (count s))
          s
-         (str (.slice s 0 (.-length template)) subs))))))
+         (str (slice s 0 (count template)) subs))))))
