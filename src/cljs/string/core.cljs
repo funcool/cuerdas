@@ -179,4 +179,3 @@
 (defn quote
   ([s] (surround s "\""))
   ([s qchar] (surround s qchar)))
-

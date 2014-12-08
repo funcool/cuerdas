@@ -16,7 +16,6 @@
                                    :optimizations :whitespace
                                    :pretty-print true}}]}
 
-  :plugins [[com.cemerick/clojurescript.test "0.3.1"]
-            [speclj "3.1.0"]
+  :plugins [[speclj "3.1.0"]
             [lein-cljsbuild "1.0.3"]])
 
