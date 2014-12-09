@@ -215,3 +215,63 @@
                            (if (empty? res) "-" res))))
         (replace #"[^\w\s-]" "")
         (dasherize))))
+
+    ;; stripTags: function() { //from sugar.js
+    ;;   var s = this.s, args = arguments.length > 0 ? arguments : [''];
+    ;;   multiArgs(args, function(tag) {
+    ;;     s = s.replace(RegExp('<\/?' + tag + '[^<>]*>', 'gi'), '');
+    ;;   });
+    ;;   return new this.constructor(s);
+
+(defn regexp
+  ([s] (regexp s ""))
+  ([s flags]
+   (if (regexp? s)
+     (js/RegExp. (.-source s) flags)
+     (js/RegExp. s flags))))
+
+(defn strip-tags
+  ([s] (strip-tags s ""))
+  ([s & tags]
+   (reduce (fn [acc tag]
+             (let [rx (regexp (str "<\\/?" tag "[^<>]*>") "gi")]
+               (replace acc rx "")))
+           s
+           tags)))
+
+(defn- parse-number-impl
+  [source]
+  (or (* source 1) 0))
+
+(defn parse-number
+  "General purpose function for parse number like
+  string to number. It works with both: integers
+  and floats."
+  ([s] (parse-number s 0))
+  ([s precision]
+   (if (nil? s)
+     0
+     (let [s  (trim s)
+           rx #"^-?\d+(?:\.\d+)?$"]
+       (if (.match s rx)
+         (parse-number-impl (.toFixed (parse-number-impl s) precision))
+         NaN)))))
+
+(defn parse-float
+  "Return the float value, wraps parseFloat."
+  ([s] (js/parseFloat s))
+  ([s precision]
+   (if (nil? precision)
+     (js/parseFloat s)
+     (-> (js/parseFloat s)
+         (.toFixed precision)
+         (js/parseFloat)))))
+
+(defn parse-int
+  "Return the number value in integer form."
+  [s]
+  (let [rx (regexp #"^\s*-?0x" "i")]
+    (if (.test rx s)
+      (js/parseInt s 16)
+      (js/parseInt s 10))))
+

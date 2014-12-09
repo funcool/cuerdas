@@ -77,5 +77,25 @@
     (should= (str/dasherize "MozTransform") "-moz-transform"))
 
   (it "slugify"
-    (should= (str/slugify "Un éléphant à l'orée du bois") "un-elephant-a-loree-du-bois"))
+    (should= (str/slugify "Un éléphant à l'orée du bois")
+             "un-elephant-a-loree-du-bois"))
+
+  (it "strip-tags"
+    (should= (str/strip-tags "<p>just <b>some</b> text</p>")
+             "just some text")
+    (should= (str/strip-tags "<p>just <b>some</b> text</p>" "p")
+             "just <b>some</b> text"))
+
+  (it "parse-number"
+    (should= (str/parse-number "1.4") 1)
+    (should= (str/parse-number "1.4" 1) 1.4)
+    (should= (str/parse-number "1" 2) 1))
+
+  (it "parse-float"
+    (should= (str/parse-float "1.4") 1.4)
+    (should= (str/parse-float "1") 1.0))
+
+  (it "parse-int"
+    (should= (str/parse-int "1.4") 1))
+
 )
