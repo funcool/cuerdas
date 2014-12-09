@@ -275,3 +275,28 @@
       (js/parseInt s 16)
       (js/parseInt s 10))))
 
+(defn format
+  "Simple string interpolation."
+  [s & args]
+  (if (and (= (count args) 1) (map? (first args)))
+    (let [params (clj->js (first args))]
+      (replace s (regexp #"%\(\w+\)s" "g")
+               (fn [match]
+                 (str (aget params (slice match 2 -2))))))
+    (let [params (clj->js args)]
+      (replace s (regexp "%s" "g") (fn [_] (str (.shift params)))))))
+
+(defn pad
+  "Pads the str with characters until the total string
+  length is equal to the passed length parameter. By
+  default, pads on the left with the space char."
+  [s & [{:keys [length padding type]
+         :or {length 0 padding " " type :left}}]]
+  (let [padding (aget padding 0)
+        padlen  (- length (count s))]
+    (condp = type
+      :right (str s (repeat padding padlen))
+      :both  (let [first (repeat padding (js/Math.ceil (/ padlen 2)))
+                   second (repeat padding (js/Math.floor (/ padlen 2)))]
+               (str first s second))
+      :left  (str (repeat padding padlen) s))))

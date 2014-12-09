@@ -98,4 +98,13 @@
   (it "parse-int"
     (should= (str/parse-int "1.4") 1))
 
+  (it "format"
+    (should= (str/format "hello %s" "pepe") "hello pepe")
+    (should= (str/format "hello %(name)s" {:name "pepe"}) "hello pepe"))
+
+  (it "pad"
+    (should= (str/pad "1" {:length 8}) "       1")
+    (should= (str/pad "1" {:length 8 :padding "0"}) "00000001")
+    (should= (str/pad "1" {:length 8 :padding "0" :type :right}) "10000000")
+    (should= (str/pad "1" {:length 8 :padding "0" :type :both}) "00001000"))
 )
