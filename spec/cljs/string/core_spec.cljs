@@ -10,9 +10,6 @@
   (it "upper"
     (should (= (str/upper "foo") "FOO")))
 
-  (it "capitalize"
-    (should (= (str/capitalize "foo") "Foo")))
-
   (it "collapse-whitespace"
     (should= (str/collapse-whitespace "a  b\n c") "a b c"))
 
@@ -73,9 +70,6 @@
     (should= (str/unquote "\"\"\"") "\"")
     (should= (str/unquote "\"a\"") "a"))
 
-  (it "dasherize"
-    (should= (str/dasherize "MozTransform") "-moz-transform"))
-
   (it "slugify"
     (should= (str/slugify "Un éléphant à l'orée du bois")
              "un-elephant-a-loree-du-bois"))
@@ -107,4 +101,27 @@
     (should= (str/pad "1" {:length 8 :padding "0"}) "00000001")
     (should= (str/pad "1" {:length 8 :padding "0" :type :right}) "10000000")
     (should= (str/pad "1" {:length 8 :padding "0" :type :both}) "00001000"))
+
+  (it "capitalize"
+    (should (= (str/capitalize "foo") "Foo")))
+
+  (it "camelize"
+    (should= "MozTransform" (str/camelize "-moz-transform"))
+    (should= "mozTransform" (str/camelize "moz-transform")))
+
+  (it "dasherize"
+    (should= "-moz-transform" (str/dasherize "MozTransform")))
+
+  (it "underscored"
+    (should= "moz_transform" (str/underscored "MozTransform")))
+
+  (it "humanize"
+    (should= "Capitalize dash camel case underscore trim"
+             (str/humanize "  capitalize dash-CamelCase_underscore trim  ")))
+
+  (it "titleize"
+    (should= "My Name Is Epeli" (str/titleize "my name is epeli")))
+
+  ;; (it "classify"
+  ;;   (should= "SomeClassName" (str/classify "some_class_name")))
 )

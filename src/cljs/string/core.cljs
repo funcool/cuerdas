@@ -2,26 +2,18 @@
   (:require [clojure.string :as str]
             [goog.string :as gstr]))
 
-(defn lower
-  "Converts string to all lower-case."
-  [s]
-  (str/lower-case s))
+(defn regexp
+  ([s] (regexp s ""))
+  ([s flags]
+   (if (regexp? s)
+     (js/RegExp. (.-source s) flags)
+     (js/RegExp. s flags))))
 
-(defn upper
-  "Converts string to all upper-case."
+(defn escape-regexp
+  "Escapes characters in the string that are not safe
+  to use in a RegExp."
   [s]
-  (str/upper-case s))
-
-(defn capitalize
-  "Converts first letter of the string to uppercase."
-  [s]
-  (str/capitalize s))
-
-(defn collapse-whitespace
-  "Converts all adjacent whitespace characters
-  to a single space."
-  [s]
-  (gstr/collapseWhitespace s))
+  (gstr/regExpEscape s))
 
 (defn contains?
   "Determines whether a string contains a substring."
@@ -38,28 +30,21 @@
   [s prefix]
   (gstr/endsWith s prefix))
 
-(defn camel-case
-  "Converts a string from selector-case to camelCase."
+(defn lower
+  "Converts string to all lower-case."
   [s]
-  (gstr/toCamelCase s))
+  (str/lower-case s))
 
-(defn selector-case
-  "Converts a string from camelCase to selector-case."
+(defn upper
+  "Converts string to all upper-case."
   [s]
-  (gstr/toSelectorCase s))
+  (str/upper-case s))
 
-(defn title-case
-  "Converts a string into TitleCase."
-  ([s]
-   (gstr/toTitleCase s))
-  ([s delimiters]
-   (gstr/toTitleCase s delimiters)))
-
-(defn escape-regexp
-  "Escapes characters in the string that are not safe
-  to use in a RegExp."
+(defn collapse-whitespace
+  "Converts all adjacent whitespace characters
+  to a single space."
   [s]
-  (gstr/regExpEscape s))
+  (gstr/collapseWhitespace s))
 
 (defn trim
   "Removes whitespace or specified characters
@@ -192,15 +177,6 @@
        (slice s 1 (dec length))
        s))))
 
-(defn dasherize
-  "Converts a underscored or camelized string into an dasherized one."
-  [s]
-  (-> s
-      (trim)
-      (replace #"([A-Z])" "-$1")
-      (replace #"[-_\s]+" "-")
-      (lower)))
-
 (defn slugify
   "Transform text into a URL slug."
   [s]
@@ -214,13 +190,6 @@
                            (if (empty? res) "-" res))))
         (replace #"[^\w\s-]" "")
         (dasherize))))
-
-(defn regexp
-  ([s] (regexp s ""))
-  ([s flags]
-   (if (regexp? s)
-     (js/RegExp. (.-source s) flags)
-     (js/RegExp. s flags))))
 
 (defn strip-tags
   ([s] (strip-tags s ""))
@@ -292,3 +261,60 @@
                    second (repeat padding (js/Math.floor (/ padlen 2)))]
                (str first s second))
       :left  (str (repeat padding padlen) s))))
+
+
+(defn capitalize
+  "Converts first letter of the string to uppercase."
+  [s]
+  (str/capitalize s))
+
+(defn camelize
+  "Converts a string from selector-case to camelCase."
+  [s]
+  (-> (trim s)
+      (replace (regexp #"[-_\s]+(.)?" "g")
+               (fn [match c] (if c (upper c) "")))))
+
+(defn dasherize
+  "Converts a underscored or camelized string
+  into an dasherized one."
+  [s]
+  (-> s
+      (trim)
+      (replace #"([A-Z])" "-$1")
+      (replace #"[-_\s]+" "-")
+      (lower)))
+
+(defn underscored
+  "Converts a camelized or dasherized string
+  into an underscored one."
+  [s]
+  (-> (trim s)
+      (replace (regexp #"([a-z\d])([A-Z]+)" "g") "$1_$2")
+      (replace (regexp #"[-\s]+", "g") "_")
+      (lower)))
+
+(defn humanize
+  "Converts an underscored, camelized, or
+  dasherized string into a humanized one."
+  [s]
+  (-> (underscored s)
+      (replace #"_id$", "")
+      (replace (regexp "_" "g") " ")
+      (capitalize)))
+
+(defn titleize
+  "Converts a string into TitleCase."
+  ([s]
+   (gstr/toTitleCase s))
+  ([s delimiters]
+   (gstr/toTitleCase s delimiters)))
+
+;; (defn classify
+;;   "Converts string to camelized class name. First letter is always upper case."
+;;   [s]
+;;   (-> (str s)
+;;       (replace #"[\W_]" " ")
+;;       (camelize)
+;;       (replace #"\s" "")
+;;       (capitalize)))
