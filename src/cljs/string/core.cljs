@@ -177,5 +177,41 @@
   (join "" [wrap s wrap]))
 
 (defn quote
+  "Quotes a string."
   ([s] (surround s "\""))
   ([s qchar] (surround s qchar)))
+
+(defn unquote
+  "Unquote a string."
+  ([s] (unquote s "\""))
+  ([s qchar]
+   (let [length (count s)
+         fchar (aget s 0)
+         lchar (aget s (dec length))]
+     (if (and (= fchar qchar) (= lchar qchar))
+       (slice s 1 (dec length))
+       s))))
+
+(defn dasherize
+  "Converts a underscored or camelized string into an dasherized one."
+  [s]
+  ;; _s.trim(str).replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase();
+  (-> s
+      (trim)
+      (replace #"([A-Z])" "-$1")
+      (replace #"[-_\s]+" "-")
+      (lower)))
+
+(defn slugify
+  "Transform text into a URL slug."
+  [s]
+  (let [from   "ąàáäâãåæăćčĉęèéëêĝĥìíïîĵłľńňòóöőôõðøśșšŝťțŭùúüűûñÿýçżźž"
+        to     "aaaaaaaaaccceeeeeghiiiijllnnoooooooossssttuuuuuunyyczzz",
+        regex  (js/RegExp. (str "[" (escape-regexp from) "]"))]
+    (-> (lower s)
+        (replace regex (fn [c]
+                         (let [index (.indexOf from c)
+                               res   (.charAt to index)]
+                           (if (empty? res) "-" res))))
+        (replace #"[^\w\s-]" "")
+        (dasherize))))

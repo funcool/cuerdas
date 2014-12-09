@@ -68,4 +68,14 @@
   (it "quote"
     (should= (str/quote "a") "\"a\"")
     (should= (str/quote "\"") "\"\"\""))
+
+  (it "unquote"
+    (should= (str/unquote "\"\"\"") "\"")
+    (should= (str/unquote "\"a\"") "a"))
+
+  (it "dasherize"
+    (should= (str/dasherize "MozTransform") "-moz-transform"))
+
+  (it "slugify"
+    (should= (str/slugify "Un éléphant à l'orée du bois") "un-elephant-a-loree-du-bois"))
 )
