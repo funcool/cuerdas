@@ -195,7 +195,6 @@
 (defn dasherize
   "Converts a underscored or camelized string into an dasherized one."
   [s]
-  ;; _s.trim(str).replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase();
   (-> s
       (trim)
       (replace #"([A-Z])" "-$1")
@@ -215,13 +214,6 @@
                            (if (empty? res) "-" res))))
         (replace #"[^\w\s-]" "")
         (dasherize))))
-
-    ;; stripTags: function() { //from sugar.js
-    ;;   var s = this.s, args = arguments.length > 0 ? arguments : [''];
-    ;;   multiArgs(args, function(tag) {
-    ;;     s = s.replace(RegExp('<\/?' + tag + '[^<>]*>', 'gi'), '');
-    ;;   });
-    ;;   return new this.constructor(s);
 
 (defn regexp
   ([s] (regexp s ""))
