@@ -262,11 +262,10 @@
                (str first s second))
       :left  (str (repeat padding padlen) s))))
 
-
 (defn capitalize
   "Converts first letter of the string to uppercase."
   [s]
-  (str/capitalize s))
+  (str (upper (.charAt s 0)) (slice s 1)))
 
 (defn camelize
   "Converts a string from selector-case to camelCase."
@@ -310,11 +309,11 @@
   ([s delimiters]
    (gstr/toTitleCase s delimiters)))
 
-;; (defn classify
-;;   "Converts string to camelized class name. First letter is always upper case."
-;;   [s]
-;;   (-> (str s)
-;;       (replace #"[\W_]" " ")
-;;       (camelize)
-;;       (replace #"\s" "")
-;;       (capitalize)))
+(defn classify
+  "Converts string to camelized class name. First letter is always upper case."
+  [s]
+  (-> (str s)
+      (replace #"[\W_]" " ")
+      (camelize)
+      (replace #"\s" "")
+      (capitalize)))

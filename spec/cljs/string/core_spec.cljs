@@ -103,7 +103,8 @@
     (should= (str/pad "1" {:length 8 :padding "0" :type :both}) "00001000"))
 
   (it "capitalize"
-    (should (= (str/capitalize "foo") "Foo")))
+    (should= "Foo" (str/capitalize "foo"))
+    (should= "FooBar" (str/capitalize "fooBar")))
 
   (it "camelize"
     (should= "MozTransform" (str/camelize "-moz-transform"))
@@ -122,6 +123,6 @@
   (it "titleize"
     (should= "My Name Is Epeli" (str/titleize "my name is epeli")))
 
-  ;; (it "classify"
-  ;;   (should= "SomeClassName" (str/classify "some_class_name")))
+  (it "classify"
+    (should= "SomeClassName" (str/classify "some_class_name")))
 )
