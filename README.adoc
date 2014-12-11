@@ -4,6 +4,10 @@
 :pygments-style: friendly
 :sectlinks:
 
+== Introduction
+
+The missing clojurescript string manipulation library.
+
 [quote, Federico García Lorca, Las Seis Cuerdas]
 ____
 La guitarra, +
@@ -18,10 +22,6 @@ para cazar suspiros, +
 que flotan en su negro +
 aljibe de madera.
 ____
-
-== Introduction
-
-The missing clojurescript string manipulation library.
 
 
 == Install
