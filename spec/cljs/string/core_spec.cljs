@@ -54,7 +54,8 @@
     (should= (str/split "1 2 3" #"\s" 2) ["1" "2 3"]))
 
   (it "replace-first"
-    (should= (str/replace-first "aa bb aa" #"aa" "kk") "kk bb aa"))
+    (should= "kk bb aa" (str/replace-first "aa bb aa" #"aa" "kk"))
+    (should= "kk bb aa" (str/replace-first "aa bb aa" (str/regexp #"aa" "g") "kk")))
 
   (it "replace"
     (should= (str/replace "aa bb aa" #"aa" "kk") "kk bb kk"))
@@ -75,10 +76,9 @@
              "un-elephant-a-loree-du-bois"))
 
   (it "strip-tags"
-    (should= (str/strip-tags "<p>just <b>some</b> text</p>")
-             "just some text")
-    (should= (str/strip-tags "<p>just <b>some</b> text</p>" "p")
-             "just <b>some</b> text"))
+    (should= "just some text" (str/strip-tags "<p>just <b>some</b> text</p>"))
+    (should= "just <b>some</b> text" (str/strip-tags "<p>just <b>some</b> text</p>" "p"))
+    (should= "just <b>some</b> text" (str/strip-tags "<p>just <b>some</b> text</p>" "P")))
 
   (it "parse-number"
     (should= (str/parse-number "1.4") 1)
@@ -125,4 +125,7 @@
 
   (it "classify"
     (should= "SomeClassName" (str/classify "some_class_name")))
+
+  (it "lines"
+    (should= ["foo" "bar"] (str/lines "foo\nbar")))
 )

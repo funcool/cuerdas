@@ -2,11 +2,45 @@
   (:require [clojure.string :as str]
             [goog.string :as gstr]))
 
+(defn contains?
+  "Determines whether a string contains a substring."
+  [s subs]
+  (gstr/contains s subs))
+
+
+;; (let [flags (reduce (fn [acc flag]
+;;                       (if (and (not (contains? flags (str "-" flag)))
+;;                                (or (case flag
+;;                                      "g" (.-global rx)
+;;                                      "i" (.-ignoreCase rx)
+;;                                      "m" (.-multiline rx))
+;;                                    (contains? flags flag)))
+;;                         (str acc flag)
+;;                         acc))
+;;                     ""
+;;                     ["g" "i" "m"])]
+;;   (println 2222 flags)
+;;   (js/RegExp. (.-source rx) flags)))
+
+(defn- derive-regexp
+  [rx flags]
+  (let [gflag (if (and (not (contains? flags "-g"))
+                       (or (.-global rx) (contains? flags "g")))
+                "g" "")
+        iflag (if (and (not (contains? flags "-i"))
+                       (or (.-ignoreCase rx) (contains? flags "i")))
+                "i" "")
+        mflag (if (and (not (contains? flags "-m"))
+                       (or (.-multiline rx) (contains? flags "m")))
+                "m" "")]
+    (js/RegExp. (.-source rx) (str gflag iflag mflag))))
+
 (defn regexp
+  "Build or derive regexp instance."
   ([s] (regexp s ""))
   ([s flags]
    (if (regexp? s)
-     (js/RegExp. (.-source s) flags)
+     (derive-regexp s flags "")
      (js/RegExp. s flags))))
 
 (defn escape-regexp
@@ -14,11 +48,6 @@
   to use in a RegExp."
   [s]
   (gstr/regExpEscape s))
-
-(defn contains?
-  "Determines whether a string contains a substring."
-  [s subs]
-  (gstr/contains s subs))
 
 (defn startswith?
   "Check if the string starts with prefix."
@@ -46,33 +75,6 @@
   [s]
   (gstr/collapseWhitespace s))
 
-(defn trim
-  "Removes whitespace or specified characters
-  from both ends of string."
-  ([s] (trim s " "))
-  ([s chs]
-   (let [rxstr (str "[" (escape-regexp chs) "]")
-         rx    (js/RegExp. (str "^" rxstr "+|" rxstr "+$") "g")]
-     (.replace s rx ""))))
-
-(defn rtrim
-  "Removes whitespace or specified characters
-  from right side of string."
-  ([s] (rtrim s " "))
-  ([s chs]
-   (let [rxstr (str "[" (escape-regexp chs) "]")
-         rx    (js/RegExp. (str rxstr "+$"))]
-     (.replace s rx ""))))
-
-(defn ltrim
-  "Removes whitespace or specified characters
-  from left side of string."
-  ([s] (ltrim s " "))
-  ([s chs]
-   (let [rxstr (str "[" (escape-regexp chs) "]")
-         rx    (js/RegExp. (str "^" rxstr "+"))]
-     (.replace s rx ""))))
-
 (defn empty?
   "Checks if a string is empty or contains only whitespaces."
   [s]
@@ -95,11 +97,15 @@
   number of times. The separator can be a string
   or RegExp instance."
   ([s] (split s #"\s" nil))
-  ([s sep] (split s sep 0))
+  ([s sep] (split s sep nil))
   ([s sep num]
    (if (regexp? sep)
      (str/split s sep num)
-     (str/split s (re-pattern sep) num))))
+     (str/split s (regexp sep) num))))
+
+(defn lines
+  [s]
+  (split s #"\n|\r\n"))
 
 (defn slice
   "Extracts a section of a string and returns a new string."
@@ -110,27 +116,38 @@
 
 (defn replace
   [s match replacement]
-  (cond
-   (string? match)
-   (.replace s (js/RegExp. (escape-regexp match) "g") replacement)
-
-   (regexp? match)
-   (.replace s (js/RegExp. (.-source match) "g") replacement)
-
-   :else
-   (throw (str "Invalid match arg: " match))))
+  (.replace s (regexp match "g") replacement))
 
 (defn replace-first
   [s match replacement]
-  (cond
-   (string? match)
-   (.replace s (js/RegExp. (escape-regexp match)) replacement)
+  (.replace s (regexp match "-g") replacement))
 
-   (regexp? match)
-   (.replace s (js/RegExp. (.-source match)) replacement)
+(defn trim
+  "Removes whitespace or specified characters
+  from both ends of string."
+  ([s] (trim s " "))
+  ([s chs]
+   (let [rxstr (str "[" (escape-regexp chs) "]")
+         rx    (str "^" rxstr "+|" rxstr "+$")]
+     (replace s rx ""))))
 
-   :else
-   (throw (str "Invalid match arg: " match))))
+(defn rtrim
+  "Removes whitespace or specified characters
+  from right side of string."
+  ([s] (rtrim s " "))
+  ([s chs]
+   (let [rxstr (str "[" (escape-regexp chs) "]")
+         rx    (str rxstr "+$")]
+     (replace s rx ""))))
+
+(defn ltrim
+  "Removes whitespace or specified characters
+  from left side of string."
+  ([s] (ltrim s " "))
+  ([s chs]
+   (let [rxstr (str "[" (escape-regexp chs) "]")
+         rx    (str "^" rxstr "+")]
+     (replace s rx ""))))
 
 (defn prune
   "Truncates a string to a certain length and adds '...'
@@ -182,7 +199,7 @@
   [s]
   (let [from   "ąàáäâãåæăćčĉęèéëêĝĥìíïîĵłľńňòóöőôõðøśșšŝťțŭùúüűûñÿýçżźž"
         to     "aaaaaaaaaccceeeeeghiiiijllnnoooooooossssttuuuuuunyyczzz",
-        regex  (js/RegExp. (str "[" (escape-regexp from) "]"))]
+        regex  (str "[" (escape-regexp from) "]")]
     (-> (lower s)
         (replace regex (fn [c]
                          (let [index (.indexOf from c)
