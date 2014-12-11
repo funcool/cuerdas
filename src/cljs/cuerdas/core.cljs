@@ -1,4 +1,4 @@
-(ns string.core
+(ns cuerdas.core
   (:require [clojure.string :as str]
             [goog.string :as gstr]))
 
@@ -6,21 +6,6 @@
   "Determines whether a string contains a substring."
   [s subs]
   (gstr/contains s subs))
-
-
-;; (let [flags (reduce (fn [acc flag]
-;;                       (if (and (not (contains? flags (str "-" flag)))
-;;                                (or (case flag
-;;                                      "g" (.-global rx)
-;;                                      "i" (.-ignoreCase rx)
-;;                                      "m" (.-multiline rx))
-;;                                    (contains? flags flag)))
-;;                         (str acc flag)
-;;                         acc))
-;;                     ""
-;;                     ["g" "i" "m"])]
-;;   (println 2222 flags)
-;;   (js/RegExp. (.-source rx) flags)))
 
 (defn- derive-regexp
   [rx flags]
@@ -104,6 +89,7 @@
      (str/split s (regexp sep) num))))
 
 (defn lines
+  "Return a list of the lines in the string."
   [s]
   (split s #"\n|\r\n"))
 
@@ -115,10 +101,12 @@
    (.slice s begin end)))
 
 (defn replace
+  "Replaces all instance of match with replacement in s."
   [s match replacement]
   (.replace s (regexp match "g") replacement))
 
 (defn replace-first
+  "Replaces first instance of match with replacement in s."
   [s match replacement]
   (.replace s (regexp match "-g") replacement))
 
@@ -209,6 +197,7 @@
         (dasherize))))
 
 (defn strip-tags
+  "Remove html tags from string."
   ([s] (strip-tags s ""))
   ([s & tags]
    (reduce (fn [acc tag]

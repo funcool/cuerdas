@@ -1,7 +1,7 @@
-(ns string.core-spec
+(ns cuerdas.core-spec
   (:require-macros [speclj.core :refer [describe it should should= should-not run-specs]])
   (:require [speclj.core]
-            [string.core :as str]))
+            [cuerdas.core :as str]))
 
 (describe "String basic operations"
   (it "lower"
@@ -61,7 +61,9 @@
     (should= (str/replace "aa bb aa" #"aa" "kk") "kk bb kk"))
 
   (it "prune"
-    (should= (str/prune "Hello World" 8) "Hello..."))
+    (should= "Hello..." (str/prune "Hello World" 8))
+    (should= "Hello (...)"
+             (str/prune "Hello World" 11 " (...)")))
 
   (it "quote"
     (should= (str/quote "a") "\"a\"")
@@ -108,7 +110,8 @@
 
   (it "camelize"
     (should= "MozTransform" (str/camelize "-moz-transform"))
-    (should= "mozTransform" (str/camelize "moz-transform")))
+    (should= "mozTransform" (str/camelize "moz-transform"))
+    (should= "mozTransform" (str/camelize "moz transform")))
 
   (it "dasherize"
     (should= "-moz-transform" (str/dasherize "MozTransform")))
