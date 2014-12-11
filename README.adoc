@@ -1,4 +1,4 @@
-= string.clj
+= cuerdas
 :toc: left
 :source-highlighter: pygments
 :pygments-style: friendly
@@ -8,18 +8,15 @@
 
 The missing clojurescript string manipulation library.
 
-== Rationale
-
-TODO
 
 == Install
 
-The simplest way to use _string.clj_ in a clojure project, is by including it in the dependency
+The simplest way to use _cuerdas_ in a clojure project, is by including it in the dependency
 vector on your *_project.clj_* file:
 
 [source,clojure]
 ----
-[string.clj "0.1.0-SNAPSHOT"]
+[cuerdas "0.1.0-SNAPSHOT"]
 ----
 
 
@@ -29,7 +26,7 @@ vector on your *_project.clj_* file:
 [source, clojure]
 ----
 (ns my.namespace
-  (:require [string.core :as str]))
+  (:require [cuerdas.core :as str]))
 ----
 
 .Use its functions
@@ -41,6 +38,7 @@ vector on your *_project.clj_* file:
 (str/strip-tags "<p>just <b>some</b> text</p>" "p")
 ;; => "just <b>some</b> text"
 ----
+
 
 == Reference
 
@@ -55,6 +53,7 @@ Determines whether a string contains a substring.
 ;; => true
 ----
 
+
 [[startswith]]
 === _startswith?_
 
@@ -66,6 +65,7 @@ Check if the string starts with prefix.
 ;; => true
 ----
 
+
 [[endswith]]
 === _endswith?_
 
@@ -76,6 +76,7 @@ Check if the string ends with suffix.
 (str/endswith? "foobar" "bar")
 ;; => true
 ----
+
 
 [[empty]]
 === _empty?_
@@ -91,6 +92,7 @@ Check if the string is empty or contains only whitespaces.
 ;; => true
 ----
 
+
 [[upper]]
 === _upper_
 
@@ -101,6 +103,7 @@ Converts string to all upper-case.
 (str/upper "foobar")
 ;; => "FOOBAR"
 ----
+
 
 [[lower]]
 === _lower_
@@ -113,6 +116,7 @@ Converts string to all lower-case.
 ;; => "foo"
 ----
 
+
 [[repeat]]
 === _repeat_
 
@@ -123,6 +127,7 @@ Repeats string N times.
 (str/repeat "a" 3)
 ;; => "aaa"
 ----
+
 
 [[trim]]
 === _trim_
@@ -139,6 +144,7 @@ both ends of string.
 ;; => "foo"
 ----
 
+
 [[ltrim]]
 === _ltrim_
 
@@ -154,6 +160,7 @@ left side of string.
 ;; => "foo-"
 ----
 
+
 [[rtrim]]
 === _rtrim_
 
@@ -168,6 +175,7 @@ right side of string.
 (str/rtrim "-foo-", "-")
 ;; => "-foo"
 ----
+
 
 [[prune]]
 === _prune_
@@ -188,6 +196,7 @@ half-chopped words when truncating.
 ;; => "Hello (...)"
 ----
 
+
 [[join]]
 === _join_
 
@@ -202,6 +211,86 @@ Join strings together with given separator.
 ;; => "foo,bar"
 ----
 
+
+[[split]]
+=== _split_
+
+Splits a string on a separator a limited number of times.
+The separator can be a string or RegExp instance.
+
+[source, clojure]
+----
+(str/split "1 2 3")
+;; => ["1" "2" "3"]
+
+(str/split "1 2 3" " ")
+;; => ["1" "2" "3"])
+
+(str/split "1 2 3" #"\s")
+;; => ["1" "2" "3"]
+
+(str/split "1 2 3" #"\s" 2)
+;; => ["1" "2 3"]
+----
+
+
+[[lines]]
+=== _lines_
+
+Return a list of the lines in the string.
+
+[source, clojure]
+----
+(str/lines "foo\nbar")
+;; => ["foo" "bar"]
+----
+
+
+[[slice]]
+=== _slice_
+
+Extracts a section of a string and returns a new string.
+
+[source, clojure]
+----
+(str/slice "123" 1)
+;; => "23"
+----
+
+
+[[replace]]
+=== _replace_
+
+Replaces all instance of match with replacement in s.
+
+[source, clojure]
+----
+(str/replace "aa bb aa" "aa" "kk")
+;; => "kk bb kk"
+
+(str/replace "aa bb aa" #"aa" "kk")
+;; => "kk bb kk"
+----
+
+
+[[replace-first]]
+=== _replace-first_
+
+Replaces first instance of match with replacement in s.
+
+[source, clojure]
+----
+(str/replace-first "aa bb aa" "aa" "kk")
+;; => "kk bb aa"
+
+(str/replace-first "aa bb aa" #"aa" "kk")
+;; => "kk bb aa"
+
+(str/replace-first "aa bb aa" (str/regexp #"aa" "g") "kk")
+;; => "kk bb aa"
+----
+
+
 [[surround]]
 === _surround_
 
@@ -212,6 +301,7 @@ Surround a string with another string.
 (str/surround "a" "-")
 ;; => "-a-"
 ----
+
 
 [[quote]]
 === _quote_
@@ -224,6 +314,7 @@ Quote a string.
 ;; => "\"a\""
 ----
 
+
 [[unquote]]
 === _unquote_
 
@@ -235,6 +326,7 @@ Unquote a string.
 ;; => "a"
 ----
 
+
 [[slugify]]
 === _slugify_
 
@@ -245,6 +337,7 @@ Transforms string into URL slug.
 (str/slugify "Un éléphant à l'orée du bois")
 ;; => "un-elephant-a-loree-du-bois"
 ----
+
 
 [[strip-tags]]
 === _strip-tags_
@@ -259,6 +352,20 @@ Remove html tags from string.
 (str/strip-tags "<p>just <b>some</b> text</p>" "p")
 ;; => "just <b>some</b> text"
 ----
+
+
+[[strip-newlines]]
+=== _strip-newlines_
+
+Takes a string and replaces newlines with a space. Multiple lines are
+replaced with a single space.
+
+[source, clojure]
+----
+(str/strip-newlines "a\n\nb")
+;; => "a b"
+----
+
 
 [[parse-number]]
 === _parse-number_
@@ -281,6 +388,7 @@ works with integers and floats.
 ;; => NaN
 ----
 
+
 [[parse-float]]
 === _parse-float_
 
@@ -295,6 +403,7 @@ Returns a float value. Wraps parseFloat.
 ;; => 1.0
 ----
 
+
 [[parse-int]]
 === _parse-int_
 
@@ -305,6 +414,7 @@ Returns a number value in integer form. Wraps parseInt.
 (str/parse-int "1.4")
 ;; => 1
 ----
+
 
 [[format]]
 === _format_
@@ -319,6 +429,7 @@ Simple string interpolation.
 (str/format "hello %(name)s" {:name "yen"})
 ;; => "hello yen"
 ----
+
 
 [[pad]]
 === _pad_
@@ -343,16 +454,125 @@ By default, pads on the left with the space char.
 ;; => "00001000"
 ----
 
-[[caputalize]]
+
+[[capitalize]]
 === _capitalize_
 
-Simple string interpolation.
+Converts first letter of the string to uppercase.
 
 [source, clojure]
 ----
-(str/format "hello %s" "yen")
-;; => "hello yen"
+(str/capitalize "foo")
+;; => "Foo"
+----
 
-(str/format "hello %(name)s" {:name "yen"})
-;; => "hello yen"
+
+[[camelize]]
+=== _camelize_
+
+Converts a string from selector-case to camelCase.
+
+[source, clojure]
+----
+(str/camelize "foo bar")
+;; => "fooBar"
+----
+
+
+[[dasherize]]
+=== _dasherize_
+
+Converts a underscored or camelized string into an dasherized one.
+
+[source, clojure]
+----
+(str/dasherize "MozTransform")
+;; => "-moz-transform"
+----
+
+
+[[underscored]]
+=== _underscored_
+
+Converts a camelized or dasherized string into an underscored one.
+
+[source, clojure]
+----
+(str/underscored "MozTransform")
+;; => "moz_transform"
+----
+
+
+[[titleize]]
+=== _titleize_
+
+Converts a string into TitleCase.
+
+[source, clojure]
+----
+(str/titleize "my name is epeli")
+;; => "My Name Is Epeli"
+----
+
+
+[[classify]]
+=== _classify_
+
+Converts string to camelized class name. First letter is always upper case.
+
+[source, clojure]
+----
+(str/classify "some_class_name")
+;; => "SomeClassName"
+----
+
+
+[[humanize]]
+=== _humanize_
+
+Converts an underscored, camelized, or dasherized string into a humanized one.
+
+[source, clojure]
+----
+(str/humanize "  capitalize dash-CamelCase_underscore trim  ")
+;; => "Capitalize dash camel case underscore trim"
+----
+
+
+== How to Contribute?
+
+**cuerdas** unlike Clojure and other Clojure contrib libs, does not have many
+restrictions for contributions.
+
+*Pull requests are welcome!*
+
+== License
+
+_cuerdas_ is licensed under BSD (2-Clause) license:
+
+----
+Copyright (c) 2014, Andrey Antukh
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ----
