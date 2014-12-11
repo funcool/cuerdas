@@ -4,6 +4,21 @@
 :pygments-style: friendly
 :sectlinks:
 
+[quote, Federico García Lorca, Las Seis Cuerdas]
+____
+La guitarra,
+hace llorar a los sueños.
+El sollozo de las almas
+perdidas,
+se escapa por su boca
+redonda.
+Y como la tarántula
+teje una gran estrella
+para cazar suspiros,
+que flotan en su negro
+aljibe de madera.
+____
+
 == Introduction
 
 The missing clojurescript string manipulation library.
