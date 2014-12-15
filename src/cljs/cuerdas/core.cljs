@@ -1,4 +1,5 @@
 (ns cuerdas.core
+  (:refer-clojure :exclude [contains? empty? repeat replace])
   (:require [clojure.string :as str]
             [goog.string :as gstr]))
 
@@ -25,7 +26,7 @@
   ([s] (regexp s ""))
   ([s flags]
    (if (regexp? s)
-     (derive-regexp s flags "")
+     (derive-regexp s flags)
      (js/RegExp. s flags))))
 
 (defn escape-regexp
@@ -182,6 +183,7 @@
        (slice s 1 (dec length))
        s))))
 
+(declare dasherize)
 (defn slugify
   "Transform text into a URL slug."
   [s]
