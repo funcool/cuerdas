@@ -54,10 +54,13 @@
     (s/should (str/blank? nil))
     (s/should-not (str/blank? " s ")))
 
-  #+cljs
   (s/it "repeat"
     (s/should= (str/repeat "a") "a")
     (s/should= (str/repeat "a" 3) "aaa"))
+
+  (s/it "slice"
+    (s/should= (str/slice "abc" 1) "bc")
+    (s/should= (str/slice "abcd" 1 3) "bc"))
 
   #+cljs
   (s/it "strip-newlines"
@@ -70,16 +73,15 @@
     (s/should= (str/split "1 2 3" #"\s") ["1" "2" "3"])
     (s/should= (str/split "1 2 3" #"\s" 2) ["1" "2 3"]))
 
-  #+cljs
   (s/it "replace-first"
     (s/should= "kk bb aa" (str/replace-first "aa bb aa" #"aa" "kk"))
+
+    #+cljs
     (s/should= "kk bb aa" (str/replace-first "aa bb aa" (str/regexp #"aa" "g") "kk")))
 
-  #+cljs
   (s/it "replace"
     (s/should= (str/replace "aa bb aa" #"aa" "kk") "kk bb kk"))
 
-  #+cljs
   (s/it "prune"
     (s/should= "Hello..." (str/prune "Hello World" 8))
     (s/should= "Hello (...)"

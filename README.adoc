@@ -175,7 +175,7 @@ Repeats string N times.
 ;; => "aaa"
 ----
 
-[small]#Implemented in: *cljs*#
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[trim]]
@@ -251,7 +251,7 @@ half-chopped words when truncating.
 ;; => "Hello (...)"
 ----
 
-[small]#Implemented in: *cljs*#
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[join]]
@@ -318,9 +318,12 @@ Extracts a section of a string and returns a new string.
 ----
 (str/slice "123" 1)
 ;; => "23"
+
+(str/slice "1234" 1 3)
+;; => "23"
 ----
 
-[small]#Implemented in: *cljs*#
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[replace]]
@@ -337,7 +340,7 @@ Replaces all instance of match with replacement in s.
 ;; => "kk bb kk"
 ----
 
-[small]#Implemented in: *cljs*#
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[replace-first]]
@@ -357,7 +360,7 @@ Replaces first instance of match with replacement in s.
 ;; => "kk bb aa"
 ----
 
-[small]#Implemented in: *cljs*#
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[surround]]

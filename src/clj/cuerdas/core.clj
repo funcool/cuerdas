@@ -1,7 +1,8 @@
 (ns cuerdas.core
   (:refer-clojure :exclude [contains? empty? repeat replace])
   (:require [clojure.string :as str])
-  (:import org.apache.commons.lang3.StringUtils))
+  (:import org.apache.commons.lang3.StringUtils
+           java.util.regex.Pattern))
 
 (defn contains?
   "Determines whether a string contains a substring."
@@ -38,7 +39,6 @@
   [^String s]
   (StringUtils/isBlank s))
 
-
 (defn trim
   "Removes whitespace or specified characters
   from both ends of string."
@@ -59,3 +59,49 @@
   ([s] (ltrim s " "))
   ([s chs]
    (StringUtils/stripStart s chs)))
+
+(defn repeat
+  "Repeats string n times."
+  ([^String s] (repeat s 1))
+  ([^String s ^long n]
+   (StringUtils/repeat s n)))
+
+(defn slice
+  "Extracts a section of a string and returns a new string."
+  ([^String s ^long begin]
+   (StringUtils/substring s begin))
+  ([^String s ^long begin ^long end]
+   (StringUtils/substring s begin end)))
+
+(defn- pattern-quote
+  "Java specific pattern quoting."
+  [^String s]
+  (Pattern/quote s))
+
+(defn replace
+  "Replaces all instance of match with replacement in s."
+  [^String s match ^String replacement]
+  (str/replace s match replacement))
+
+(defn replace-first
+  "Replaces first instance of match with replacement in s."
+  [s match replacement]
+  (str/replace-first s match replacement))
+
+(defn prune
+  "Truncates a string to a certain length and adds '...'
+  if necessary."
+  ([s num] (prune s num "..."))
+  ([s num subs]
+   (if (< (count s) num)
+     s
+     (let [tmpl (fn [c] (if (not= (upper c) (lower c)) "A" " "))
+           template (-> (slice s 0 (inc (count s)))
+                        (replace #".(?=\W*\w*$)" tmpl))
+           template (if (.matches (slice template (- (count template) 2)) "\\w\\w")
+                      (replace-first template #"\s*\S+$" "")
+                      (rtrim (slice template 0 (dec (count template)))))]
+       (if (> (count (str template subs)) (count s))
+         s
+         (str (slice s 0 (count template)) subs))))))
+
