@@ -109,7 +109,9 @@
 (defn replace-first
   "Replaces first instance of match with replacement in s."
   [s match replacement]
-  (.replace s (regexp match "-g") replacement))
+  (if (regexp? match)
+    (.replace s (regexp match "-g") replacement)
+    (.replace s (regexp match) replacement)))
 
 (defn trim
   "Removes whitespace or specified characters
