@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.2">
+<meta name="generator" content="Asciidoctor 1.5.1">
 <title>cuerdas</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
 /* Remove the comments around the @import statement below when using this as a custom stylesheet */
-/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400";*/
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400";*/
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block}
 audio:not([controls]){display:none;height:0}
@@ -274,8 +274,8 @@ dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
 ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
 ul.unstyled,ol.unnumbered,ul.checklist,ul.none{list-style-type:none}
 ul.unstyled,ol.unnumbered,ul.checklist{margin-left:.625em}
-ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1em;font-size:.85em}
-ul.checklist li>p:first-child>input[type="checkbox"]:first-child{width:1em;position:relative;top:1px}
+ul.checklist li>p:first-child>.fa-check-square-o:first-child,ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{position:relative;top:1px}
 ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
 ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
 ul.inline>li>*{display:block}
@@ -489,6 +489,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#startswith"><em>startswith?</em></a></li>
 <li><a href="#endswith"><em>endswith?</em></a></li>
 <li><a href="#empty"><em>empty?</em></a></li>
+<li><a href="#blank"><em>blank?</em></a></li>
 <li><a href="#upper"><em>upper</em></a></li>
 <li><a href="#lower"><em>lower</em></a></li>
 <li><a href="#repeat"><em>repeat</em></a></li>
@@ -520,8 +521,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#titleize"><em>titleize</em></a></li>
 <li><a href="#classify"><em>classify</em></a></li>
 <li><a href="#humanize"><em>humanize</em></a></li>
+<li><a href="#escape-regexp"><em>escape-regexp</em></a></li>
 </ul>
 </li>
+<li><a href="#_run_tests">Run tests</a></li>
 <li><a href="#_how_to_contribute">How to Contribute?</a></li>
 <li><a href="#_license">License</a></li>
 </ul>
@@ -607,6 +610,9 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 <span class="tok-c1">;; =&gt; true</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong>, <strong>clj</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="startswith"><a class="link" href="#startswith"><em>startswith?</em></a></h3>
@@ -618,6 +624,9 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/startswith?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-s">&quot;foo&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; true</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong>, <strong>clj</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -631,9 +640,33 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 <span class="tok-c1">;; =&gt; true</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong>, <strong>clj</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="empty"><a class="link" href="#empty"><em>empty?</em></a></h3>
+<div class="paragraph">
+<p>Check if the string is empty.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/empty?</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; false</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/empty?</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; true</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/empty?</span> <span class="tok-s">&quot; &quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; false</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong>, <strong>clj</strong></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="blank"><a class="link" href="#blank"><em>blank?</em></a></h3>
 <div class="paragraph">
 <p>Check if the string is empty or contains only whitespaces.</p>
 </div>
@@ -645,6 +678,9 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 <span class="tok-p">(</span><span class="tok-nf">str/empty?</span> <span class="tok-s">&quot;   &quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; true</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong>, <strong>clj</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -658,6 +694,9 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 <span class="tok-c1">;; =&gt; &quot;FOOBAR&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong>, <strong>clj</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="lower"><a class="link" href="#lower"><em>lower</em></a></h3>
@@ -670,6 +709,9 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 <span class="tok-c1">;; =&gt; &quot;foo&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong>, <strong>clj</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="repeat"><a class="link" href="#repeat"><em>repeat</em></a></h3>
@@ -681,6 +723,9 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/repeat</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-mi">3</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;aaa&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -698,6 +743,9 @@ both ends of string.</p>
 <span class="tok-c1">;; =&gt; &quot;foo&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong>, <strong>clj</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="ltrim"><a class="link" href="#ltrim"><em>ltrim</em></a></h3>
@@ -714,6 +762,9 @@ left side of string.</p>
 <span class="tok-c1">;; =&gt; &quot;foo-&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong>, <strong>clj</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="rtrim"><a class="link" href="#rtrim"><em>rtrim</em></a></h3>
@@ -729,6 +780,9 @@ right side of string.</p>
 <span class="tok-p">(</span><span class="tok-nf">str/rtrim</span> <span class="tok-s">&quot;-foo-&quot;</span>, <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;-foo&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong>, <strong>clj</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -750,6 +804,9 @@ half-chopped words when truncating.</p>
 <span class="tok-c1">;; =&gt; &quot;Hello (...)&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="join"><a class="link" href="#join"><em>join</em></a></h3>
@@ -764,6 +821,9 @@ half-chopped words when truncating.</p>
 <span class="tok-p">(</span><span class="tok-nf">str/join</span> <span class="tok-s">&quot;,&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">])</span>
 <span class="tok-c1">;; =&gt; &quot;foo,bar&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -787,6 +847,9 @@ The separator can be a string or RegExp instance.</p>
 <span class="tok-c1">;; =&gt; [&quot;1&quot; &quot;2 3&quot;]</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="lines"><a class="link" href="#lines"><em>lines</em></a></h3>
@@ -799,6 +862,9 @@ The separator can be a string or RegExp instance.</p>
 <span class="tok-c1">;; =&gt; [&quot;foo&quot; &quot;bar&quot;]</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="slice"><a class="link" href="#slice"><em>slice</em></a></h3>
@@ -810,6 +876,9 @@ The separator can be a string or RegExp instance.</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/slice</span> <span class="tok-s">&quot;123&quot;</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;23&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -825,6 +894,9 @@ The separator can be a string or RegExp instance.</p>
 <span class="tok-p">(</span><span class="tok-nf">str/replace</span> <span class="tok-s">&quot;aa bb aa&quot;</span> <span class="tok-o">#</span><span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;kk bb kk&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -844,6 +916,9 @@ The separator can be a string or RegExp instance.</p>
 <span class="tok-c1">;; =&gt; &quot;kk bb aa&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="surround"><a class="link" href="#surround"><em>surround</em></a></h3>
@@ -855,6 +930,9 @@ The separator can be a string or RegExp instance.</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/surround</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;-a-&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -868,6 +946,9 @@ The separator can be a string or RegExp instance.</p>
 <span class="tok-c1">;; =&gt; &quot;\&quot;a\&quot;&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="unquote"><a class="link" href="#unquote"><em>unquote</em></a></h3>
@@ -880,6 +961,9 @@ The separator can be a string or RegExp instance.</p>
 <span class="tok-c1">;; =&gt; &quot;a&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="slugify"><a class="link" href="#slugify"><em>slugify</em></a></h3>
@@ -891,6 +975,9 @@ The separator can be a string or RegExp instance.</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/slugify</span> <span class="tok-s">&quot;Un éléphant à l&#39;orée du bois&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;un-elephant-a-loree-du-bois&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -907,6 +994,9 @@ The separator can be a string or RegExp instance.</p>
 <span class="tok-c1">;; =&gt; &quot;just &lt;b&gt;some&lt;/b&gt; text&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="strip-newlines"><a class="link" href="#strip-newlines"><em>strip-newlines</em></a></h3>
@@ -919,6 +1009,9 @@ replaced with a single space.</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-newlines</span> <span class="tok-s">&quot;a\n\nb&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;a b&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -942,6 +1035,9 @@ works with integers and floats.</p>
 <span class="tok-c1">;; =&gt; NaN</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="parse-float"><a class="link" href="#parse-float"><em>parse-float</em></a></h3>
@@ -957,6 +1053,9 @@ works with integers and floats.</p>
 <span class="tok-c1">;; =&gt; 1.0</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="parse-int"><a class="link" href="#parse-int"><em>parse-int</em></a></h3>
@@ -968,6 +1067,9 @@ works with integers and floats.</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/parse-int</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; 1</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -983,6 +1085,9 @@ works with integers and floats.</p>
 <span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello %(name)s&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:name</span> <span class="tok-s">&quot;yen&quot;</span><span class="tok-p">})</span>
 <span class="tok-c1">;; =&gt; &quot;hello yen&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -1009,6 +1114,9 @@ the passed length parameter.</p>
 <span class="tok-c1">;; =&gt; &quot;00001000&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="capitalize"><a class="link" href="#capitalize"><em>capitalize</em></a></h3>
@@ -1020,6 +1128,9 @@ the passed length parameter.</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/capitalize</span> <span class="tok-s">&quot;foo&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;Foo&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -1033,6 +1144,9 @@ the passed length parameter.</p>
 <span class="tok-c1">;; =&gt; &quot;fooBar&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="dasherize"><a class="link" href="#dasherize"><em>dasherize</em></a></h3>
@@ -1044,6 +1158,9 @@ the passed length parameter.</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/dasherize</span> <span class="tok-s">&quot;MozTransform&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;-moz-transform&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -1057,6 +1174,9 @@ the passed length parameter.</p>
 <span class="tok-c1">;; =&gt; &quot;moz_transform&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="titleize"><a class="link" href="#titleize"><em>titleize</em></a></h3>
@@ -1068,6 +1188,9 @@ the passed length parameter.</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/titleize</span> <span class="tok-s">&quot;my name is epeli&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;My Name Is Epeli&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -1081,6 +1204,9 @@ the passed length parameter.</p>
 <span class="tok-c1">;; =&gt; &quot;SomeClassName&quot;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="humanize"><a class="link" href="#humanize"><em>humanize</em></a></h3>
@@ -1092,6 +1218,57 @@ the passed length parameter.</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/humanize</span> <span class="tok-s">&quot;  capitalize dash-CamelCase_underscore trim  &quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;Capitalize dash camel case underscore trim&quot;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="escape-regexp"><a class="link" href="#escape-regexp"><em>escape-regexp</em></a></h3>
+<div class="paragraph">
+<p>Escape characters on the string that are not safe to use in a RegExp.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/escape-regexp</span> <span class="tok-s">&quot;\s&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;\\s&quot;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="small">Implemented in: <strong>cljs</strong></span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_run_tests"><a class="link" href="#_run_tests">Run tests</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>cuerdas</em> has splitted implementation for clojure and clojurescript, but tests are build using
+speclj and cljx for execute the same tests for both implementations.</p>
+</div>
+<div class="paragraph">
+<p>For run tests, cljx source should be compiled.</p>
+</div>
+<div class="paragraph">
+<p>Additional note for run clojurescript tests: you should have instaled phantomjs.</p>
+</div>
+<div class="listingblock">
+<div class="title">Compile cljx source, and keep watching changes.</div>
+<div class="content">
+<pre>$ lein cljx auto</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Run tests for clojure and keep watching changes.</div>
+<div class="content">
+<pre>$ lein spec -a</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Compile clojurescript and run test on successful build.</div>
+<div class="content">
+<pre>$ lein cljsbuild auto dev</pre>
 </div>
 </div>
 </div>
@@ -1147,7 +1324,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-12-11 13:48:22 UTC
+Last updated 2014-12-20 20:58:30 CET
 </div>
 </div>
 </body>
