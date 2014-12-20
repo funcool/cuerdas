@@ -1,4 +1,5 @@
 (ns cuerdas.core
+  (:refer-clojure :exclude [contains? empty? repeat replace])
   (:require [clojure.string :as str]
             [goog.string :as gstr]))
 
@@ -25,7 +26,7 @@
   ([s] (regexp s ""))
   ([s flags]
    (if (regexp? s)
-     (derive-regexp s flags "")
+     (derive-regexp s flags)
      (js/RegExp. s flags))))
 
 (defn escape-regexp
@@ -61,9 +62,17 @@
   (gstr/collapseWhitespace s))
 
 (defn empty?
+  "Checks if a string is empty."
+  [s]
+  (cond
+   (nil? s) true
+   (= (count s) 0) true
+   :else false))
+
+(defn blank?
   "Checks if a string is empty or contains only whitespaces."
   [s]
-  (gstr/isEmpty s))
+  (gstr/isEmptySafe s))
 
 (defn repeat
   "Repeats string n times."
@@ -108,7 +117,9 @@
 (defn replace-first
   "Replaces first instance of match with replacement in s."
   [s match replacement]
-  (.replace s (regexp match "-g") replacement))
+  (if (regexp? match)
+    (.replace s (regexp match "-g") replacement)
+    (.replace s (regexp match) replacement)))
 
 (defn trim
   "Removes whitespace or specified characters
@@ -182,6 +193,7 @@
        (slice s 1 (dec length))
        s))))
 
+(declare dasherize)
 (defn slugify
   "Transform text into a URL slug."
   [s]
