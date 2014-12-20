@@ -553,6 +553,16 @@ Converts an underscored, camelized, or dasherized string into a humanized one.
 ;; => "Capitalize dash camel case underscore trim"
 ----
 
+[[escape-regexp]]
+=== _escape-regexp_
+
+Escape characters on the string that are not safe to use in a RegExp.
+
+[source, clojure]
+----
+(str/escape-regexp "\s")
+;; => "\\s"
+----
 
 == How to Contribute?
 
