@@ -68,6 +68,8 @@ Determines whether a string contains a substring.
 ;; => true
 ----
 
+[small]#Implemented in: *cljs*, *clj*#
+
 
 [[startswith]]
 === _startswith?_
@@ -79,6 +81,8 @@ Check if the string starts with prefix.
 (str/startswith? "foobar" "foo")
 ;; => true
 ----
+
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[endswith]]
@@ -92,9 +96,31 @@ Check if the string ends with suffix.
 ;; => true
 ----
 
+[small]#Implemented in: *cljs*, *clj*#
+
 
 [[empty]]
 === _empty?_
+
+Check if the string is empty.
+
+[source, clojure]
+----
+(str/empty? "foobar")
+;; => false
+
+(str/empty? "")
+;; => true
+
+(str/empty? " ")
+;; => false
+----
+
+[small]#Implemented in: *cljs*, *clj*#
+
+
+[[blank]]
+=== _blank?_
 
 Check if the string is empty or contains only whitespaces.
 
@@ -106,6 +132,8 @@ Check if the string is empty or contains only whitespaces.
 (str/empty? "   ")
 ;; => true
 ----
+
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[upper]]
@@ -119,6 +147,8 @@ Converts string to all upper-case.
 ;; => "FOOBAR"
 ----
 
+[small]#Implemented in: *cljs*, *clj*#
+
 
 [[lower]]
 === _lower_
@@ -131,6 +161,8 @@ Converts string to all lower-case.
 ;; => "foo"
 ----
 
+[small]#Implemented in: *cljs*, *clj*#
+
 
 [[repeat]]
 === _repeat_
@@ -142,6 +174,8 @@ Repeats string N times.
 (str/repeat "a" 3)
 ;; => "aaa"
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[trim]]
@@ -159,6 +193,8 @@ both ends of string.
 ;; => "foo"
 ----
 
+[small]#Implemented in: *cljs*, *clj*#
+
 
 [[ltrim]]
 === _ltrim_
@@ -175,6 +211,8 @@ left side of string.
 ;; => "foo-"
 ----
 
+[small]#Implemented in: *cljs*, *clj*#
+
 
 [[rtrim]]
 === _rtrim_
@@ -190,6 +228,8 @@ right side of string.
 (str/rtrim "-foo-", "-")
 ;; => "-foo"
 ----
+
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[prune]]
@@ -211,6 +251,8 @@ half-chopped words when truncating.
 ;; => "Hello (...)"
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[join]]
 === _join_
@@ -225,6 +267,8 @@ Join strings together with given separator.
 (str/join "," ["foo" "bar"])
 ;; => "foo,bar"
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[split]]
@@ -248,6 +292,8 @@ The separator can be a string or RegExp instance.
 ;; => ["1" "2 3"]
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[lines]]
 === _lines_
@@ -260,6 +306,8 @@ Return a list of the lines in the string.
 ;; => ["foo" "bar"]
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[slice]]
 === _slice_
@@ -271,6 +319,8 @@ Extracts a section of a string and returns a new string.
 (str/slice "123" 1)
 ;; => "23"
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[replace]]
@@ -286,6 +336,8 @@ Replaces all instance of match with replacement in s.
 (str/replace "aa bb aa" #"aa" "kk")
 ;; => "kk bb kk"
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[replace-first]]
@@ -305,6 +357,8 @@ Replaces first instance of match with replacement in s.
 ;; => "kk bb aa"
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[surround]]
 === _surround_
@@ -316,6 +370,8 @@ Surround a string with another string.
 (str/surround "a" "-")
 ;; => "-a-"
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[quote]]
@@ -329,6 +385,8 @@ Quote a string.
 ;; => "\"a\""
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[unquote]]
 === _unquote_
@@ -341,6 +399,8 @@ Unquote a string.
 ;; => "a"
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[slugify]]
 === _slugify_
@@ -352,6 +412,8 @@ Transforms string into URL slug.
 (str/slugify "Un éléphant à l'orée du bois")
 ;; => "un-elephant-a-loree-du-bois"
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[strip-tags]]
@@ -368,6 +430,8 @@ Remove html tags from string.
 ;; => "just <b>some</b> text"
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[strip-newlines]]
 === _strip-newlines_
@@ -380,6 +444,8 @@ replaced with a single space.
 (str/strip-newlines "a\n\nb")
 ;; => "a b"
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[parse-number]]
@@ -403,6 +469,8 @@ works with integers and floats.
 ;; => NaN
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[parse-float]]
 === _parse-float_
@@ -418,6 +486,8 @@ Returns a float value. Wraps parseFloat.
 ;; => 1.0
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[parse-int]]
 === _parse-int_
@@ -429,6 +499,8 @@ Returns a number value in integer form. Wraps parseInt.
 (str/parse-int "1.4")
 ;; => 1
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[format]]
@@ -444,6 +516,8 @@ Simple string interpolation.
 (str/format "hello %(name)s" {:name "yen"})
 ;; => "hello yen"
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[pad]]
@@ -469,6 +543,8 @@ By default, pads on the left with the space char.
 ;; => "00001000"
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[capitalize]]
 === _capitalize_
@@ -480,6 +556,8 @@ Converts first letter of the string to uppercase.
 (str/capitalize "foo")
 ;; => "Foo"
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[camelize]]
@@ -493,6 +571,8 @@ Converts a string from selector-case to camelCase.
 ;; => "fooBar"
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[dasherize]]
 === _dasherize_
@@ -504,6 +584,8 @@ Converts a underscored or camelized string into an dasherized one.
 (str/dasherize "MozTransform")
 ;; => "-moz-transform"
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[underscored]]
@@ -517,6 +599,8 @@ Converts a camelized or dasherized string into an underscored one.
 ;; => "moz_transform"
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[titleize]]
 === _titleize_
@@ -528,6 +612,8 @@ Converts a string into TitleCase.
 (str/titleize "my name is epeli")
 ;; => "My Name Is Epeli"
 ----
+
+[small]#Implemented in: *cljs*#
 
 
 [[classify]]
@@ -541,6 +627,8 @@ Converts string to camelized class name. First letter is always upper case.
 ;; => "SomeClassName"
 ----
 
+[small]#Implemented in: *cljs*#
+
 
 [[humanize]]
 === _humanize_
@@ -553,6 +641,9 @@ Converts an underscored, camelized, or dasherized string into a humanized one.
 ;; => "Capitalize dash camel case underscore trim"
 ----
 
+[small]#Implemented in: *cljs*#
+
+
 [[escape-regexp]]
 === _escape-regexp_
 
@@ -563,6 +654,34 @@ Escape characters on the string that are not safe to use in a RegExp.
 (str/escape-regexp "\s")
 ;; => "\\s"
 ----
+
+[small]#Implemented in: *cljs*#
+
+
+== Run tests
+
+_cuerdas_ has splitted implementation for clojure and clojurescript, but tests are build using
+speclj and cljx for execute the same tests for both implementations.
+
+For run tests, cljx source should be compiled.
+
+Additional note for run clojurescript tests: you should have instaled phantomjs.
+
+.Compile cljx source, and keep watching changes.
+----
+$ lein cljx auto
+----
+
+.Run tests for clojure and keep watching changes.
+----
+$ lein spec -a
+----
+
+.Compile clojurescript and run test on successful build.
+----
+$ lein cljsbuild auto dev
+----
+
 
 == How to Contribute?
 

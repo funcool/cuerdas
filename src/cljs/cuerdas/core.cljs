@@ -62,9 +62,17 @@
   (gstr/collapseWhitespace s))
 
 (defn empty?
+  "Checks if a string is empty."
+  [s]
+  (cond
+   (nil? s) true
+   (= (count s) 0) true
+   :else false))
+
+(defn blank?
   "Checks if a string is empty or contains only whitespaces."
   [s]
-  (gstr/isEmpty s))
+  (gstr/isEmptySafe s))
 
 (defn repeat
   "Repeats string n times."
