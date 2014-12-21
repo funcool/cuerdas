@@ -1,6 +1,7 @@
 (ns cuerdas.core
-  (:refer-clojure :exclude [contains? empty? repeat replace])
-  (:require [clojure.string :as str])
+  (:refer-clojure :exclude [contains? empty? repeat replace reverse chars])
+  (:require [clojure.string :as str]
+            [clojure.walk :refer [stringify-keys]])
   (:import org.apache.commons.lang3.StringUtils
            java.util.regex.Pattern))
 
@@ -73,13 +74,28 @@
   ([^String s ^long begin ^long end]
    (StringUtils/substring s begin end)))
 
-(defn- pattern-quote
+(defn escape-regexp
   "Java specific pattern quoting."
   [^String s]
   (Pattern/quote s))
 
 (defn replace
-  "Replaces all instance of match with replacement in s."
+  "Replaces all instance of match with replacement in s.
+
+  The replacement is literal (i.e. none of its characters are treated
+  specially) for all cases above except pattern / string.
+
+  In match is pattern instance, replacement can contain $1, $2, etc.
+  will be substituted with string that matcher the corresponding
+  parenthesized group in pattern.
+
+  If you wish your replacement string to be used literary,
+  use `(escape-regexp replacement)`.
+
+  Example:
+    (replace \"Almost Pig Latin\" #\"\\b(\\w)(\\w+)\\b\" \"$2$1ay\")
+    ;; => \"lmostAay igPay atinLay\"
+  "
   [^String s match ^String replacement]
   (str/replace s match replacement))
 
