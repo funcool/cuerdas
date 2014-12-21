@@ -8,25 +8,15 @@
   [s subs]
   (gstr/contains s subs))
 
-(defn- derive-regexp
-  [rx flags]
-  (let [gflag (if (and (not (contains? flags "-g"))
-                       (or (.-global rx) (contains? flags "g")))
-                "g" "")
-        iflag (if (and (not (contains? flags "-i"))
-                       (or (.-ignoreCase rx) (contains? flags "i")))
-                "i" "")
-        mflag (if (and (not (contains? flags "-m"))
-                       (or (.-multiline rx) (contains? flags "m")))
-                "m" "")]
-    (js/RegExp. (.-source rx) (str gflag iflag mflag))))
-
 (defn regexp
   "Build or derive regexp instance."
-  ([s] (regexp s ""))
+  ([s]
+   (if (regexp? s)
+     s
+     (js/RegExp. s)))
   ([s flags]
    (if (regexp? s)
-     (derive-regexp s flags)
+     (js/RegExp. (.-source s) flags)
      (js/RegExp. s flags))))
 
 (defn escape-regexp
