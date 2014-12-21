@@ -1,5 +1,5 @@
 (ns cuerdas.core
-  (:refer-clojure :exclude [contains? empty? repeat replace])
+  (:refer-clojure :exclude [contains? empty? repeat replace chars reverse])
   (:require [clojure.string :as str]
             [goog.string :as gstr]))
 
