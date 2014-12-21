@@ -292,7 +292,36 @@ The separator can be a string or RegExp instance.
 ;; => ["1" "2 3"]
 ----
 
-[small]#Implemented in: *cljs*#
+[small]#Implemented in: *cljs*, *clj*#
+
+
+[[reverse]]
+=== _reverse_
+
+Return strign reverted
+
+[source, clojure]
+----
+(str/reverse "bar")
+;; => "rab"
+----
+
+[small]#Implemented in: *cljs*, *clj*#
+
+
+
+[[chars]]
+=== _chars_
+
+Returns a seq of char strings from string.
+
+[source, clojure]
+----
+(str/chars "bar")
+;; => ["b" "a" "r"]
+----
+
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[lines]]
@@ -306,7 +335,7 @@ Return a list of the lines in the string.
 ;; => ["foo" "bar"]
 ----
 
-[small]#Implemented in: *cljs*#
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[slice]]
@@ -448,7 +477,7 @@ replaced with a single space.
 ;; => "a b"
 ----
 
-[small]#Implemented in: *cljs*#
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[parse-number]]
@@ -520,7 +549,7 @@ Simple string interpolation.
 ;; => "hello yen"
 ----
 
-[small]#Implemented in: *cljs*#
+[small]#Implemented in: *cljs*, *clj*#
 
 
 [[pad]]
@@ -658,7 +687,7 @@ Escape characters on the string that are not safe to use in a RegExp.
 ;; => "\\s"
 ----
 
-[small]#Implemented in: *cljs*#
+[small]#Implemented in: *cljs*, *clj*#
 
 
 == Run tests
