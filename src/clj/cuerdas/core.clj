@@ -121,3 +121,58 @@
          s
          (str (slice s 0 (count template)) subs))))))
 
+(defn strip-newlines
+  "Takes a string and replaces newlines with a space.
+  Multiple lines are replaced with a single space."
+  [^String s]
+  (replace s #"[\n\r|\n]+" " "))
+
+(defn split
+  "Splits a string on a separator a limited
+  number of times. The separator can be a string
+  or Pattern instance."
+  ([^String s] (split s #"\s"))
+  ([^String s sep]
+   (if (instance? Pattern sep)
+     (str/split s sep)
+     (str/split s (re-pattern sep))))
+  ([^String s sep ^long num]
+   (if (instance? Pattern sep)
+     (str/split s sep num)
+     (str/split s (re-pattern sep) num))))
+
+(defn reverse
+  "Return string reversed."
+  [^String s]
+  (StringUtils/reverse s))
+
+(defn chars
+  "Split a string in a seq of chars."
+  [^String s]
+  (into [] (.split s "(?!^)")))
+
+(defn lines
+  "Return a list of the lines in the string."
+  [s]
+  (split s #"\n|\r\n"))
+
+(defn format
+  "Simple string interpolation."
+  [s & args]
+  (if (and (= (count args) 1) (map? (first args)))
+    (let [params (stringify-keys (first args))]
+      (replace s #"%\(\w+\)s"
+               (fn [match]
+                 (let [substr (slice match 2 -2)]
+                   (get params substr)))))
+    (let [params (java.util.ArrayList. args)]
+      (replace s #"%s" (fn [_] (str (.remove params 0)))))))
+
+;; (defn parse-int
+;;   "Return the number value in integer form."
+;;   [s]
+;;   (let [rx (regexp "^\\s*-?0x" "i")]
+;;     (if (.test rx s)
+;;       (js/parseInt s 16)
+;;       (js/parseInt s 10))))
+
