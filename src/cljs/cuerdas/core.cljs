@@ -102,6 +102,11 @@
   [s]
   (split s #"\n|\r\n"))
 
+(defn chars
+  "Split a string in a seq of chars."
+  [s]
+  (js->clj (.split s "")))
+
 (defn slice
   "Extracts a section of a string and returns a new string."
   ([s begin]
@@ -114,12 +119,20 @@
   [s match replacement]
   (.replace s (regexp match "g") replacement))
 
+(defn ireplace
+  "Replaces all instance of match with replacement in s."
+  [s match replacement]
+  (.replace s (regexp match "ig") replacement))
+
 (defn replace-first
   "Replaces first instance of match with replacement in s."
   [s match replacement]
-  (if (regexp? match)
-    (.replace s (regexp match "-g") replacement)
-    (.replace s (regexp match) replacement)))
+  (.replace s (regexp match) replacement))
+
+(defn ireplace-first
+  "Replaces first instance of match with replacement in s."
+  [s match replacement]
+  (.replace s (regexp match "i") replacement))
 
 (defn trim
   "Removes whitespace or specified characters
@@ -213,10 +226,19 @@
   ([s] (strip-tags s ""))
   ([s & tags]
    (reduce (fn [acc tag]
-             (let [rx (regexp (str "<\\/?" tag "[^<>]*>") "gi")]
-               (replace acc rx "")))
+             (let [rx (str "<\\/?" tag "[^<>]*>")]
+               (ireplace acc rx "")))
            s
            tags)))
+
+(defn reverse
+  "Return string reversed."
+  [s]
+  ;; Uses bare js implementation
+  ;; for performance reasons.
+  (let [cs (.split s "")
+        cs (.reverse cs)]
+    (.join cs "")))
 
 (defn- parse-number-impl
   [source]
@@ -249,7 +271,7 @@
 (defn parse-int
   "Return the number value in integer form."
   [s]
-  (let [rx (regexp #"^\s*-?0x" "i")]
+  (let [rx (regexp "^\\s*-?0x" "i")]
     (if (.test rx s)
       (js/parseInt s 16)
       (js/parseInt s 10))))
@@ -259,7 +281,7 @@
   [s & args]
   (if (and (= (count args) 1) (map? (first args)))
     (let [params (clj->js (first args))]
-      (replace s (regexp #"%\(\w+\)s" "g")
+      (replace s #"%\(\w+\)s"
                (fn [match]
                  (str (aget params (slice match 2 -2))))))
     (let [params (clj->js args)]
