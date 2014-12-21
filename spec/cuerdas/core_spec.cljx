@@ -62,11 +62,9 @@
     (s/should= (str/slice "abc" 1) "bc")
     (s/should= (str/slice "abcd" 1 3) "bc"))
 
-  #+cljs
   (s/it "strip-newlines"
-    (s/should= (str/strip-newlines "a\n\nb") "a b"))
+    (s/should= "a b" (str/strip-newlines "a\n\nb")))
 
-  #+cljs
   (s/it "split"
     (s/should= (str/split "1 2 3") ["1" "2" "3"])
     (s/should= (str/split "1 2 3" " ") ["1" "2" "3"])
@@ -74,10 +72,13 @@
     (s/should= (str/split "1 2 3" #"\s" 2) ["1" "2 3"]))
 
   (s/it "replace-first"
-    (s/should= "kk bb aa" (str/replace-first "aa bb aa" #"aa" "kk"))
+    (s/should= "kk bb cc" (str/replace-first "aa bb cc" #"aa" "kk")))
 
-    #+cljs
-    (s/should= "kk bb aa" (str/replace-first "aa bb aa" (str/regexp #"aa" "g") "kk")))
+  (s/it "chars"
+    (s/should= ["a", "b"] (str/chars "ab")))
+
+  (s/it "reverse"
+    (s/should= "cba" (str/reverse "abc")))
 
   (s/it "replace"
     (s/should= (str/replace "aa bb aa" #"aa" "kk") "kk bb kk"))
@@ -123,7 +124,6 @@
   (s/it "parse-int"
     (s/should= (str/parse-int "1.4") 1))
 
-  #+cljs
   (s/it "format"
     (s/should= (str/format "hello %s" "pepe") "hello pepe")
     (s/should= (str/format "hello %(name)s" {:name "pepe"}) "hello pepe"))
@@ -167,7 +167,6 @@
   (s/it "classify"
     (s/should= "SomeClassName" (str/classify "some_class_name")))
 
-  #+cljs
   (s/it "lines"
     (s/should= ["foo" "bar"] (str/lines "foo\nbar")))
 )
