@@ -1,5 +1,5 @@
 (ns cuerdas.core
-  (:refer-clojure :exclude [contains? empty? repeat replace])
+  (:refer-clojure :exclude [contains? empty? repeat replace chars reverse])
   (:require [clojure.string :as str]
             [goog.string :as gstr]))
 
@@ -8,25 +8,15 @@
   [s subs]
   (gstr/contains s subs))
 
-(defn- derive-regexp
-  [rx flags]
-  (let [gflag (if (and (not (contains? flags "-g"))
-                       (or (.-global rx) (contains? flags "g")))
-                "g" "")
-        iflag (if (and (not (contains? flags "-i"))
-                       (or (.-ignoreCase rx) (contains? flags "i")))
-                "i" "")
-        mflag (if (and (not (contains? flags "-m"))
-                       (or (.-multiline rx) (contains? flags "m")))
-                "m" "")]
-    (js/RegExp. (.-source rx) (str gflag iflag mflag))))
-
 (defn regexp
   "Build or derive regexp instance."
-  ([s] (regexp s ""))
+  ([s]
+   (if (regexp? s)
+     s
+     (js/RegExp. s)))
   ([s flags]
    (if (regexp? s)
-     (derive-regexp s flags)
+     (js/RegExp. (.-source s) flags)
      (js/RegExp. s flags))))
 
 (defn escape-regexp
@@ -102,6 +92,11 @@
   [s]
   (split s #"\n|\r\n"))
 
+(defn chars
+  "Split a string in a seq of chars."
+  [s]
+  (js->clj (.split s "")))
+
 (defn slice
   "Extracts a section of a string and returns a new string."
   ([s begin]
@@ -114,12 +109,20 @@
   [s match replacement]
   (.replace s (regexp match "g") replacement))
 
+(defn ireplace
+  "Replaces all instance of match with replacement in s."
+  [s match replacement]
+  (.replace s (regexp match "ig") replacement))
+
 (defn replace-first
   "Replaces first instance of match with replacement in s."
   [s match replacement]
-  (if (regexp? match)
-    (.replace s (regexp match "-g") replacement)
-    (.replace s (regexp match) replacement)))
+  (.replace s (regexp match) replacement))
+
+(defn ireplace-first
+  "Replaces first instance of match with replacement in s."
+  [s match replacement]
+  (.replace s (regexp match "i") replacement))
 
 (defn trim
   "Removes whitespace or specified characters
@@ -177,6 +180,18 @@
   [s wrap]
   (join "" [wrap s wrap]))
 
+(defn unsurround
+  "Unsurround a string surrounded by another."
+  [s surrounding]
+  (let [length (count surrounding)
+        fstr (slice s 0 length)
+        slength (count s)
+        rightend (- slength length)
+        lstr (slice s rightend slength)]
+    (if (and (= fstr surrounding) (= lstr surrounding))
+      (slice s length rightend)
+      s)))
+
 (defn quote
   "Quotes a string."
   ([s] (surround s "\""))
@@ -184,16 +199,12 @@
 
 (defn unquote
   "Unquote a string."
-  ([s] (unquote s "\""))
+  ([s] (unsurround s "\""))
   ([s qchar]
-   (let [length (count s)
-         fchar (aget s 0)
-         lchar (aget s (dec length))]
-     (if (and (= fchar qchar) (= lchar qchar))
-       (slice s 1 (dec length))
-       s))))
+    (unsurround s qchar)))
 
 (declare dasherize)
+
 (defn slugify
   "Transform text into a URL slug."
   [s]
@@ -213,10 +224,19 @@
   ([s] (strip-tags s ""))
   ([s & tags]
    (reduce (fn [acc tag]
-             (let [rx (regexp (str "<\\/?" tag "[^<>]*>") "gi")]
-               (replace acc rx "")))
+             (let [rx (str "<\\/?" tag "[^<>]*>")]
+               (ireplace acc rx "")))
            s
            tags)))
+
+(defn reverse
+  "Return string reversed."
+  [s]
+  ;; Uses bare js implementation
+  ;; for performance reasons.
+  (let [cs (.split s "")
+        cs (.reverse cs)]
+    (.join cs "")))
 
 (defn- parse-number-impl
   [source]
@@ -249,7 +269,7 @@
 (defn parse-int
   "Return the number value in integer form."
   [s]
-  (let [rx (regexp #"^\s*-?0x" "i")]
+  (let [rx (regexp "^\\s*-?0x" "i")]
     (if (.test rx s)
       (js/parseInt s 16)
       (js/parseInt s 10))))
@@ -259,7 +279,7 @@
   [s & args]
   (if (and (= (count args) 1) (map? (first args)))
     (let [params (clj->js (first args))]
-      (replace s (regexp #"%\(\w+\)s" "g")
+      (replace s #"%\(\w+\)s"
                (fn [match]
                  (str (aget params (slice match 2 -2))))))
     (let [params (clj->js args)]

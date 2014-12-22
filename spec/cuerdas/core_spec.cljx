@@ -54,48 +54,59 @@
     (s/should (str/blank? nil))
     (s/should-not (str/blank? " s ")))
 
-  #+cljs
   (s/it "repeat"
     (s/should= (str/repeat "a") "a")
     (s/should= (str/repeat "a" 3) "aaa"))
 
-  #+cljs
-  (s/it "strip-newlines"
-    (s/should= (str/strip-newlines "a\n\nb") "a b"))
+  (s/it "slice"
+    (s/should= (str/slice "abc" 1) "bc")
+    (s/should= (str/slice "abcd" 1 3) "bc"))
 
-  #+cljs
+  (s/it "strip-newlines"
+    (s/should= "a b" (str/strip-newlines "a\n\nb")))
+
   (s/it "split"
     (s/should= (str/split "1 2 3") ["1" "2" "3"])
     (s/should= (str/split "1 2 3" " ") ["1" "2" "3"])
     (s/should= (str/split "1 2 3" #"\s") ["1" "2" "3"])
     (s/should= (str/split "1 2 3" #"\s" 2) ["1" "2 3"]))
 
-  #+cljs
   (s/it "replace-first"
-    (s/should= "kk bb aa" (str/replace-first "aa bb aa" #"aa" "kk"))
-    (s/should= "kk bb aa" (str/replace-first "aa bb aa" (str/regexp #"aa" "g") "kk")))
+    (s/should= "kk bb cc" (str/replace-first "aa bb cc" #"aa" "kk")))
 
-  #+cljs
+  (s/it "surround"
+    (s/should= "-aaa-" (str/surround "aaa" "-"))
+    (s/should= "-^-aaa-^-" (str/surround "aaa" "-^-")))
+
+  (s/it "unsurround"
+    (s/should= "aaa" (str/unsurround "-aaa-" "-"))
+    (s/should= "aaa" (str/unsurround "-^-aaa-^-" "-^-")))
+
+  (s/it "chars"
+    (s/should= ["a", "b"] (str/chars "ab")))
+
+  (s/it "reverse"
+    (s/should= "cba" (str/reverse "abc")))
+
   (s/it "replace"
     (s/should= (str/replace "aa bb aa" #"aa" "kk") "kk bb kk"))
 
-  #+cljs
   (s/it "prune"
     (s/should= "Hello..." (str/prune "Hello World" 8))
     (s/should= "Hello (...)"
              (str/prune "Hello World" 11 " (...)")))
 
-  #+cljs
+  (s/it "join"
+    (s/should= "ab" (str/join ["a" "b"])))
+
   (s/it "quote"
     (s/should= (str/quote "a") "\"a\"")
     (s/should= (str/quote "\"") "\"\"\""))
 
-  #+cljs
   (s/it "unquote"
     (s/should= (str/unquote "\"\"\"") "\"")
     (s/should= (str/unquote "\"a\"") "a"))
 
-  #+cljs
   (s/it "slugify"
     (s/should= (str/slugify "Un éléphant à l'orée du bois")
              "un-elephant-a-loree-du-bois"))
@@ -121,7 +132,6 @@
   (s/it "parse-int"
     (s/should= (str/parse-int "1.4") 1))
 
-  #+cljs
   (s/it "format"
     (s/should= (str/format "hello %s" "pepe") "hello pepe")
     (s/should= (str/format "hello %(name)s" {:name "pepe"}) "hello pepe"))
@@ -133,39 +143,31 @@
     (s/should= (str/pad "1" {:length 8 :padding "0" :type :right}) "10000000")
     (s/should= (str/pad "1" {:length 8 :padding "0" :type :both}) "00001000"))
 
-  #+cljs
   (s/it "capitalize"
     (s/should= "Foo" (str/capitalize "foo"))
     (s/should= "FooBar" (str/capitalize "fooBar")))
 
-  #+cljs
   (s/it "camelize"
     (s/should= "MozTransform" (str/camelize "-moz-transform"))
     (s/should= "mozTransform" (str/camelize "moz-transform"))
     (s/should= "mozTransform" (str/camelize "moz transform")))
 
-  #+cljs
   (s/it "dasherize"
     (s/should= "-moz-transform" (str/dasherize "MozTransform")))
 
-  #+cljs
   (s/it "underscored"
     (s/should= "moz_transform" (str/underscored "MozTransform")))
 
-  #+cljs
   (s/it "humanize"
     (s/should= "Capitalize dash camel case underscore trim"
              (str/humanize "  capitalize dash-CamelCase_underscore trim  ")))
 
-  #+cljs
   (s/it "titleize"
     (s/should= "My Name Is Epeli" (str/titleize "my name is epeli")))
 
-  #+cljs
   (s/it "classify"
     (s/should= "SomeClassName" (str/classify "some_class_name")))
 
-  #+cljs
   (s/it "lines"
     (s/should= ["foo" "bar"] (str/lines "foo\nbar")))
 )
