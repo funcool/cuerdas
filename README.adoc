@@ -401,6 +401,25 @@ Surround a string with another string.
 ----
 (str/surround "a" "-")
 ;; => "-a-"
+
+(str/surround "a" "-^-")
+;; => "-^-a-^-"
+----
+
+[small]#Implemented in: *cljs*#
+
+[[unsurround]]
+=== _unsurround_
+
+Unsurround a string surrounded by another.
+
+[source, clojure]
+----
+(str/unsurround "-a-" "-")
+;; => "a"
+
+(str/unsurround "-^-a-^-" "-^-")
+;; => "a"
 ----
 
 [small]#Implemented in: *cljs*#

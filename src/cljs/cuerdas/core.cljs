@@ -180,6 +180,18 @@
   [s wrap]
   (join "" [wrap s wrap]))
 
+(defn unsurround
+  "Unsurround a string surrounded by another."
+  [s surrounding]
+  (let [length (count surrounding)
+        fstr (slice s 0 length)
+        slength (count s)
+        rightend (- slength length)
+        lstr (slice s rightend slength)]
+    (if (and (= fstr surrounding) (= lstr surrounding))
+      (slice s length rightend)
+      s)))
+
 (defn quote
   "Quotes a string."
   ([s] (surround s "\""))
@@ -187,14 +199,9 @@
 
 (defn unquote
   "Unquote a string."
-  ([s] (unquote s "\""))
+  ([s] (unsurround s "\""))
   ([s qchar]
-   (let [length (count s)
-         fchar (aget s 0)
-         lchar (aget s (dec length))]
-     (if (and (= fchar qchar) (= lchar qchar))
-       (slice s 1 (dec length))
-       s))))
+    (unsurround s qchar)))
 
 (declare dasherize)
 (defn slugify
