@@ -114,10 +114,10 @@ Check if the string is empty or contains only whitespaces.
 
 [source, clojure]
 ----
-(str/empty? "foobar")
+(str/blank? "foobar")
 ;; => false
 
-(str/empty? "   ")
+(str/blank? "   ")
 ;; => true
 ----
 
