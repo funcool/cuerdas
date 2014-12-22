@@ -414,8 +414,6 @@ Remove html tags from string.
 ;; => "just <b>some</b> text"
 ----
 
-WARNING: only on *clojurescript*
-
 
 === _strip-newlines_
 

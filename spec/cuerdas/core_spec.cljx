@@ -110,7 +110,6 @@
     (s/should= (str/slugify "Un éléphant à l'orée du bois")
              "un-elephant-a-loree-du-bois"))
 
-  #+cljs
   (s/it "strip-tags"
     (s/should= "just some text" (str/strip-tags "<p>just <b>some</b> text</p>"))
     (s/should= "just <b>some</b> text" (str/strip-tags "<p>just <b>some</b> text</p>" "p"))

@@ -337,3 +337,18 @@
   (-> s
       (replace #"[\s\xa0]+" " ")
       (replace #"^\s+|\s+$" "")))
+
+(defn strip-tags
+  "Remove html tags from string."
+  ([s] (strip-tags s ""))
+  ([s & tags]
+   (reduce (fn [acc tag]
+             (let [rx1  (-> (str "<\\/?" (lower tag) "[^<>]*>")
+                            (re-pattern))
+                   rx2  (-> (str "<\\/?" (upper tag) "[^<>]*>")
+                            (re-pattern))]
+               (-> acc
+                   (replace rx1 "")
+                   (replace rx2 ""))))
+           s
+           tags)))
