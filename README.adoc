@@ -57,7 +57,6 @@ vector on your *_project.clj_* file:
 
 == Reference
 
-[[contains]]
 === _contains?_
 
 Determines whether a string contains a substring.
@@ -68,10 +67,7 @@ Determines whether a string contains a substring.
 ;; => true
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[startswith]]
 === _startswith?_
 
 Check if the string starts with prefix.
@@ -82,10 +78,7 @@ Check if the string starts with prefix.
 ;; => true
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[endswith]]
 === _endswith?_
 
 Check if the string ends with suffix.
@@ -96,10 +89,7 @@ Check if the string ends with suffix.
 ;; => true
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[empty]]
 === _empty?_
 
 Check if the string is empty.
@@ -116,10 +106,7 @@ Check if the string is empty.
 ;; => false
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[blank]]
 === _blank?_
 
 Check if the string is empty or contains only whitespaces.
@@ -133,10 +120,7 @@ Check if the string is empty or contains only whitespaces.
 ;; => true
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[upper]]
 === _upper_
 
 Converts string to all upper-case.
@@ -147,10 +131,7 @@ Converts string to all upper-case.
 ;; => "FOOBAR"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[lower]]
 === _lower_
 
 Converts string to all lower-case.
@@ -161,10 +142,7 @@ Converts string to all lower-case.
 ;; => "foo"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[repeat]]
 === _repeat_
 
 Repeats string N times.
@@ -175,10 +153,7 @@ Repeats string N times.
 ;; => "aaa"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[trim]]
 === _trim_
 
 Removes whitespace or specified characters from
@@ -193,10 +168,7 @@ both ends of string.
 ;; => "foo"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[ltrim]]
 === _ltrim_
 
 Removes whitespace or specified characters from
@@ -211,10 +183,7 @@ left side of string.
 ;; => "foo-"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[rtrim]]
 === _rtrim_
 
 Removes whitespace or specified characters from
@@ -229,10 +198,7 @@ right side of string.
 ;; => "-foo"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[prune]]
 === _prune_
 
 Truncates a string to certain left and adds "..." if necesary. Making
@@ -251,10 +217,7 @@ half-chopped words when truncating.
 ;; => "Hello (...)"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[join]]
 === _join_
 
 Join strings together with given separator.
@@ -268,10 +231,7 @@ Join strings together with given separator.
 ;; => "foo,bar"
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[split]]
 === _split_
 
 Splits a string on a separator a limited number of times.
@@ -292,10 +252,7 @@ The separator can be a string or RegExp instance.
 ;; => ["1" "2 3"]
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[reverse]]
 === _reverse_
 
 Return strign reverted
@@ -306,11 +263,7 @@ Return strign reverted
 ;; => "rab"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-
-[[chars]]
 === _chars_
 
 Returns a seq of char strings from string.
@@ -321,10 +274,7 @@ Returns a seq of char strings from string.
 ;; => ["b" "a" "r"]
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[lines]]
 === _lines_
 
 Return a list of the lines in the string.
@@ -335,10 +285,7 @@ Return a list of the lines in the string.
 ;; => ["foo" "bar"]
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[slice]]
 === _slice_
 
 Extracts a section of a string and returns a new string.
@@ -352,10 +299,7 @@ Extracts a section of a string and returns a new string.
 ;; => "23"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[replace]]
 === _replace_
 
 Replaces all instance of match with replacement in s.
@@ -369,10 +313,7 @@ Replaces all instance of match with replacement in s.
 ;; => "kk bb kk"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[replace-first]]
 === _replace-first_
 
 Replaces first instance of match with replacement in s.
@@ -389,10 +330,7 @@ Replaces first instance of match with replacement in s.
 ;; => "kk bb aa"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[surround]]
 === _surround_
 
 Surround a string with another string.
@@ -406,9 +344,7 @@ Surround a string with another string.
 ;; => "-^-a-^-"
 ----
 
-[small]#Implemented in: *cljs*#
 
-[[unsurround]]
 === _unsurround_
 
 Unsurround a string surrounded by another.
@@ -422,10 +358,7 @@ Unsurround a string surrounded by another.
 ;; => "a"
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[quote]]
 === _quote_
 
 Quote a string.
@@ -436,10 +369,7 @@ Quote a string.
 ;; => "\"a\""
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[unquote]]
 === _unquote_
 
 Unquote a string.
@@ -450,10 +380,7 @@ Unquote a string.
 ;; => "a"
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[slugify]]
 === _slugify_
 
 Transforms string into URL slug.
@@ -464,10 +391,7 @@ Transforms string into URL slug.
 ;; => "un-elephant-a-loree-du-bois"
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[strip-tags]]
 === _strip-tags_
 
 Remove html tags from string.
@@ -481,10 +405,9 @@ Remove html tags from string.
 ;; => "just <b>some</b> text"
 ----
 
-[small]#Implemented in: *cljs*#
+WARNING: only on *clojurescript*
 
 
-[[strip-newlines]]
 === _strip-newlines_
 
 Takes a string and replaces newlines with a space. Multiple lines are
@@ -495,8 +418,6 @@ replaced with a single space.
 (str/strip-newlines "a\n\nb")
 ;; => "a b"
 ----
-
-[small]#Implemented in: *cljs*, *clj*#
 
 
 [[parse-number]]
@@ -520,10 +441,9 @@ works with integers and floats.
 ;; => NaN
 ----
 
-[small]#Implemented in: *cljs*#
+WARNING: only on *clojurescript*
 
 
-[[parse-float]]
 === _parse-float_
 
 Returns a float value. Wraps parseFloat.
@@ -537,10 +457,9 @@ Returns a float value. Wraps parseFloat.
 ;; => 1.0
 ----
 
-[small]#Implemented in: *cljs*#
+WARNING: only on *clojurescript*
 
 
-[[parse-int]]
 === _parse-int_
 
 Returns a number value in integer form. Wraps parseInt.
@@ -551,10 +470,9 @@ Returns a number value in integer form. Wraps parseInt.
 ;; => 1
 ----
 
-[small]#Implemented in: *cljs*#
+WARNING: only on *clojurescript*
 
 
-[[format]]
 === _format_
 
 Simple string interpolation.
@@ -568,10 +486,7 @@ Simple string interpolation.
 ;; => "hello yen"
 ----
 
-[small]#Implemented in: *cljs*, *clj*#
 
-
-[[pad]]
 === _pad_
 
 Pads the str with characters until the total string length is equal to
@@ -594,10 +509,9 @@ By default, pads on the left with the space char.
 ;; => "00001000"
 ----
 
-[small]#Implemented in: *cljs*#
+WARNING: only on *clojurescript*
 
 
-[[capitalize]]
 === _capitalize_
 
 Converts first letter of the string to uppercase.
@@ -608,10 +522,7 @@ Converts first letter of the string to uppercase.
 ;; => "Foo"
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[camelize]]
 === _camelize_
 
 Converts a string from selector-case to camelCase.
@@ -622,10 +533,7 @@ Converts a string from selector-case to camelCase.
 ;; => "fooBar"
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[dasherize]]
 === _dasherize_
 
 Converts a underscored or camelized string into an dasherized one.
@@ -636,10 +544,7 @@ Converts a underscored or camelized string into an dasherized one.
 ;; => "-moz-transform"
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[underscored]]
 === _underscored_
 
 Converts a camelized or dasherized string into an underscored one.
@@ -650,10 +555,7 @@ Converts a camelized or dasherized string into an underscored one.
 ;; => "moz_transform"
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[titleize]]
 === _titleize_
 
 Converts a string into TitleCase.
@@ -664,10 +566,7 @@ Converts a string into TitleCase.
 ;; => "My Name Is Epeli"
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[classify]]
 === _classify_
 
 Converts string to camelized class name. First letter is always upper case.
@@ -678,10 +577,7 @@ Converts string to camelized class name. First letter is always upper case.
 ;; => "SomeClassName"
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[humanize]]
 === _humanize_
 
 Converts an underscored, camelized, or dasherized string into a humanized one.
@@ -692,10 +588,7 @@ Converts an underscored, camelized, or dasherized string into a humanized one.
 ;; => "Capitalize dash camel case underscore trim"
 ----
 
-[small]#Implemented in: *cljs*#
 
-
-[[escape-regexp]]
 === _escape-regexp_
 
 Escape characters on the string that are not safe to use in a RegExp.
@@ -705,8 +598,6 @@ Escape characters on the string that are not safe to use in a RegExp.
 (str/escape-regexp "\s")
 ;; => "\\s"
 ----
-
-[small]#Implemented in: *cljs*, *clj*#
 
 
 == Run tests
