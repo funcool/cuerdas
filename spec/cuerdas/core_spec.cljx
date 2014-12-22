@@ -14,7 +14,6 @@
   (s/it "upper"
     (s/should (= (str/upper "foo") "FOO")))
 
-  #+cljs
   (s/it "collapse-whitespace"
     (s/should= (str/collapse-whitespace "a  b\n c") "a b c"))
 
@@ -128,15 +127,23 @@
     (s/should= (str/parse-float "1.4") 1.4)
     (s/should= (str/parse-float "1") 1.0))
 
+  #+clj
+  (s/it "parse-double"
+    (s/should= (str/parse-double "1.4") 1.4)
+    (s/should= (str/parse-double "1") 1.0))
+
   #+cljs
   (s/it "parse-int"
     (s/should= (str/parse-int "1.4") 1))
+
+  #+clj
+  (s/it "parse-long"
+    (s/should= (str/parse-long "1.4") 1))
 
   (s/it "format"
     (s/should= (str/format "hello %s" "pepe") "hello pepe")
     (s/should= (str/format "hello %(name)s" {:name "pepe"}) "hello pepe"))
 
-  #+cljs
   (s/it "pad"
     (s/should= (str/pad "1" {:length 8}) "       1")
     (s/should= (str/pad "1" {:length 8 :padding "0"}) "00000001")

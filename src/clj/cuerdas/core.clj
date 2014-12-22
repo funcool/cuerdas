@@ -304,3 +304,36 @@
       (replace #"\s" "")
       (capitalize)))
 
+(defn parse-double
+  "Return the double value from string."
+  [^String s]
+  (Double/parseDouble s))
+
+(defn parse-long
+  "Return the long value from string."
+  [^String s]
+  (let [r (Double/parseDouble s)]
+    (.longValue r)))
+
+(defn pad
+  "Pads the str with characters until the total string
+  length is equal to the passed length parameter. By
+  default, pads on the left with the space char."
+  [s & [{:keys [length padding type]
+         :or {length 0 padding " " type :left}}]]
+  (let [padding (slice padding 0 1)
+        padlen  (- length (count s))]
+    (condp = type
+      :right (str s (repeat padding padlen))
+      :both  (let [first (repeat padding (Math/ceil (/ padlen 2)))
+                   second (repeat padding (Math/floor (/ padlen 2)))]
+               (str first s second))
+      :left  (str (repeat padding padlen) s))))
+
+(defn collapse-whitespace
+  "Converts all adjacent whitespace characters
+  to a single space."
+  [s]
+  (-> s
+      (replace #"[\s\xa0]+" " ")
+      (replace #"^\s+|\s+$" "")))

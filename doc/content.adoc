@@ -200,6 +200,17 @@ right side of string.
 ----
 
 
+=== collapse-whitespace
+
+Converts all adjacent whitespace characters to a single space.
+
+[source, clojure]
+----
+(str/collapse-whitespace "a\n\nb")
+;; => "a b"
+----
+
+
 === _prune_
 
 Truncates a string to certain left and adds "..." if necesary. Making
@@ -469,6 +480,32 @@ Returns a number value in integer form. Wraps parseInt.
 ----
 
 WARNING: only on *clojurescript*
+
+
+=== _parse-double_
+
+Returns a number value in integer form. Wraps parseInt.
+
+[source, clojure]
+----
+(str/parse-double "1.4")
+;; => 1.4
+----
+
+WARNING: only on *clojure*
+
+
+=== _parse-long_
+
+Returns a number value in integer form. Wraps parseInt.
+
+[source, clojure]
+----
+(str/parse-long "1.4")
+;; => 1
+----
+
+WARNING: only on *clojure*
 
 
 === _format_
