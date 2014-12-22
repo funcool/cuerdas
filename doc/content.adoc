@@ -326,9 +326,6 @@ Replaces first instance of match with replacement in s.
 
 (str/replace-first "aa bb aa" #"aa" "kk")
 ;; => "kk bb aa"
-
-(str/replace-first "aa bb aa" (str/regexp #"aa" "g") "kk")
-;; => "kk bb aa"
 ----
 
 
