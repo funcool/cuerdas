@@ -414,6 +414,16 @@ Remove html tags from string.
 ;; => "just <b>some</b> text"
 ----
 
+=== clean
+
+Trim and replace multiple spaces with a single space.
+
+[source, clojure]
+----
+(str/clean "  a   b   ")
+;; => "a b"
+----
+
 
 === _strip-newlines_
 

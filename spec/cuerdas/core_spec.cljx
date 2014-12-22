@@ -110,6 +110,9 @@
     (s/should= (str/slugify "Un éléphant à l'orée du bois")
              "un-elephant-a-loree-du-bois"))
 
+  (s/it "clean"
+    (s/should= "a b" (str/clean " a   b  ")))
+
   (s/it "strip-tags"
     (s/should= "just some text" (str/strip-tags "<p>just <b>some</b> text</p>"))
     (s/should= "just <b>some</b> text" (str/strip-tags "<p>just <b>some</b> text</p>" "p"))

@@ -229,6 +229,13 @@
            s
            tags)))
 
+(defn clean
+  "Trim and replace multiple spaces with
+  a single space."
+  [s]
+  (-> (trim s)
+      (replace #"\s+" " ")))
+
 (defn reverse
   "Return string reversed."
   [s]
