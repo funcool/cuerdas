@@ -96,17 +96,17 @@
     (s/should= "Hello (...)"
              (str/prune "Hello World" 11 " (...)")))
 
-  #+cljs
+  (s/it "join"
+    (s/should= "ab" (str/join ["a" "b"])))
+
   (s/it "quote"
     (s/should= (str/quote "a") "\"a\"")
     (s/should= (str/quote "\"") "\"\"\""))
 
-  #+cljs
   (s/it "unquote"
     (s/should= (str/unquote "\"\"\"") "\"")
     (s/should= (str/unquote "\"a\"") "a"))
 
-  #+cljs
   (s/it "slugify"
     (s/should= (str/slugify "Un éléphant à l'orée du bois")
              "un-elephant-a-loree-du-bois"))
@@ -143,35 +143,28 @@
     (s/should= (str/pad "1" {:length 8 :padding "0" :type :right}) "10000000")
     (s/should= (str/pad "1" {:length 8 :padding "0" :type :both}) "00001000"))
 
-  #+cljs
   (s/it "capitalize"
     (s/should= "Foo" (str/capitalize "foo"))
     (s/should= "FooBar" (str/capitalize "fooBar")))
 
-  #+cljs
   (s/it "camelize"
     (s/should= "MozTransform" (str/camelize "-moz-transform"))
     (s/should= "mozTransform" (str/camelize "moz-transform"))
     (s/should= "mozTransform" (str/camelize "moz transform")))
 
-  #+cljs
   (s/it "dasherize"
     (s/should= "-moz-transform" (str/dasherize "MozTransform")))
 
-  #+cljs
   (s/it "underscored"
     (s/should= "moz_transform" (str/underscored "MozTransform")))
 
-  #+cljs
   (s/it "humanize"
     (s/should= "Capitalize dash camel case underscore trim"
              (str/humanize "  capitalize dash-CamelCase_underscore trim  ")))
 
-  #+cljs
   (s/it "titleize"
     (s/should= "My Name Is Epeli" (str/titleize "my name is epeli")))
 
-  #+cljs
   (s/it "classify"
     (s/should= "SomeClassName" (str/classify "some_class_name")))
 

@@ -204,6 +204,7 @@
     (unsurround s qchar)))
 
 (declare dasherize)
+
 (defn slugify
   "Transform text into a URL slug."
   [s]
