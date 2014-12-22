@@ -113,6 +113,16 @@
   (s/it "clean"
     (s/should= "a b" (str/clean " a   b  ")))
 
+  #+cljs
+  (s/it "escape-html"
+    (s/should= "&lt;div&gt;Blah blah blah&lt;/div&gt;"
+               (str/escape-html "<div>Blah blah blah</div>")))
+
+  #+cljs
+  (s/it "unescape-html"
+    (s/should= "<div>Blah blah blah</div>"
+               (str/unescape-html "&lt;div&gt;Blah blah blah&lt;/div&gt;")))
+
   (s/it "strip-tags"
     (s/should= "just some text" (str/strip-tags "<p>just <b>some</b> text</p>"))
     (s/should= "just <b>some</b> text" (str/strip-tags "<p>just <b>some</b> text</p>" "p"))

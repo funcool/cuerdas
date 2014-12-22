@@ -1,6 +1,7 @@
 (ns cuerdas.core
   (:refer-clojure :exclude [contains? empty? repeat replace chars reverse])
   (:require [clojure.string :as str]
+            [clojure.set :refer [map-invert]]
             [goog.string :as gstr]))
 
 (defn contains?
@@ -235,6 +236,61 @@
   [s]
   (-> (trim s)
       (replace #"\s+" " ")))
+
+
+;; var escapeChars = {
+;;   lt: '<',
+;;   gt: '>',
+;;   quot: '"',
+;;   amp: '&',
+;;   apos: "'"
+;; }
+
+(def html-escape-chars
+  {"lt" "<"
+   "gt" ">"
+   "quot" "\""
+   "amp" "&"
+   "apos" "'"})
+
+(def reversed-html-escape-chars
+  (map-invert html-escape-chars))
+
+
+;; reversedEscapeChars["'"] = '#39';
+
+(defn escape-html
+  [s]
+  "Converts HTML special characters to their entity equivalents."
+  (let [escapechars (assoc reversed-html-escape-chars "'" "#39")
+        rx (re-pattern "[&<>\"']")]
+    (replace s rx (fn [x]
+                    (str "&" (get escapechars x) ";")))))
+
+
+
+;; Complete logic for unescape-html
+;;   if (entityCode in escapeChars) {
+;;     return escapeChars[entityCode];
+;;   } else if (match = entityCode.match(/^#x([\da-fA-F]+)$/)) {
+;;     return String.fromCharCode(parseInt(match[1], 16));
+;;   } else if (match = entityCode.match(/^#(\d+)$/)) {
+;;     return String.fromCharCode(~~match[1]);
+;;   } else {
+;;     return entity;
+;;   }
+
+;; TODO: basic implementation
+
+(defn unescape-html
+  "Converts entity characters to HTML equivalents."
+  [s]
+  (println s)
+  (replace s #"\&(\w+);" (fn [x y]
+                             (cond
+                               (cljs.core/contains? html-escape-chars y)
+                               (get html-escape-chars y)
+                               :else y))))
 
 (defn reverse
   "Return string reversed."
