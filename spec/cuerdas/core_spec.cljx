@@ -74,6 +74,14 @@
   (s/it "replace-first"
     (s/should= "kk bb cc" (str/replace-first "aa bb cc" #"aa" "kk")))
 
+  (s/it "surround"
+    (s/should= "-aaa-" (str/surround "aaa" "-"))
+    (s/should= "-^-aaa-^-" (str/surround "aaa" "-^-")))
+
+  (s/it "unsurround"
+    (s/should= "aaa" (str/unsurround "-aaa-" "-"))
+    (s/should= "aaa" (str/unsurround "-^-aaa-^-" "-^-")))
+
   (s/it "chars"
     (s/should= ["a", "b"] (str/chars "ab")))
 
