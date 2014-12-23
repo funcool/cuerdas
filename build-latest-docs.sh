@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION="latest"
+VERSION="devel"
 
 (cd doc; make)
 
