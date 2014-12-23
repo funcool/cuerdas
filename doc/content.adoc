@@ -7,7 +7,7 @@ Andrey Antukh, <niwi@niwi.be>
 
 == Introduction
 
-The missing clojurescript string manipulation library.
+The missing clojure(script) string manipulation library.
 
 [quote, Federico García Lorca, Las Seis Cuerdas]
 ____
