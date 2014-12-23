@@ -1,4 +1,4 @@
-(defproject cuerdas "0.1.0-SNAPSHOT"
+(defproject cuerdas "0.2.0-SNAPSHOT"
   :description "The missing string manipulation library for clojure"
   :url "https://github.com/funcool/cuerdas"
 
