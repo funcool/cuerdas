@@ -58,7 +58,7 @@ vector on your *_project.clj_* file:
 
 == Reference
 
-=== _contains?_
+=== contains?
 
 Determines whether a string contains a substring.
 
@@ -69,7 +69,7 @@ Determines whether a string contains a substring.
 ----
 
 
-=== _startswith?_
+=== startswith?
 
 Check if the string starts with prefix.
 
@@ -91,7 +91,7 @@ Check if the string ends with suffix.
 ----
 
 
-=== _empty?_
+=== empty?
 
 Check if the string is empty.
 
@@ -108,7 +108,7 @@ Check if the string is empty.
 ----
 
 
-=== _blank?_
+=== blank?
 
 Check if the string is empty or contains only whitespaces.
 
@@ -122,7 +122,7 @@ Check if the string is empty or contains only whitespaces.
 ----
 
 
-=== _upper_
+=== upper
 
 Converts string to all upper-case.
 
@@ -133,7 +133,7 @@ Converts string to all upper-case.
 ----
 
 
-=== _lower_
+=== lower
 
 Converts string to all lower-case.
 
@@ -144,7 +144,7 @@ Converts string to all lower-case.
 ----
 
 
-=== _repeat_
+=== repeat
 
 Repeats string N times.
 
@@ -155,7 +155,7 @@ Repeats string N times.
 ----
 
 
-=== _trim_
+=== trim
 
 Removes whitespace or specified characters from
 both ends of string.
@@ -170,7 +170,7 @@ both ends of string.
 ----
 
 
-=== _ltrim_
+=== ltrim
 
 Removes whitespace or specified characters from
 left side of string.
@@ -185,7 +185,7 @@ left side of string.
 ----
 
 
-=== _rtrim_
+=== rtrim
 
 Removes whitespace or specified characters from
 right side of string.
@@ -211,7 +211,7 @@ Converts all adjacent whitespace characters to a single space.
 ----
 
 
-=== _prune_
+=== prune
 
 Truncates a string to certain left and adds "..." if necesary. Making
 sure that the pruned string does not exceed the original length and avoid
@@ -230,7 +230,7 @@ half-chopped words when truncating.
 ----
 
 
-=== _join_
+=== join
 
 Join strings together with given separator.
 
@@ -244,7 +244,7 @@ Join strings together with given separator.
 ----
 
 
-=== _split_
+=== split
 
 Splits a string on a separator a limited number of times.
 The separator can be a string or RegExp instance.
@@ -265,7 +265,7 @@ The separator can be a string or RegExp instance.
 ----
 
 
-=== _reverse_
+=== reverse
 
 Return strign reverted
 
@@ -276,7 +276,7 @@ Return strign reverted
 ----
 
 
-=== _chars_
+=== chars
 
 Returns a seq of char strings from string.
 
@@ -287,7 +287,7 @@ Returns a seq of char strings from string.
 ----
 
 
-=== _lines_
+=== lines
 
 Return a list of the lines in the string.
 
@@ -298,7 +298,7 @@ Return a list of the lines in the string.
 ----
 
 
-=== _slice_
+=== slice
 
 Extracts a section of a string and returns a new string.
 
@@ -312,7 +312,7 @@ Extracts a section of a string and returns a new string.
 ----
 
 
-=== _replace_
+=== replace
 
 Replaces all instance of match with replacement in s.
 
@@ -326,7 +326,7 @@ Replaces all instance of match with replacement in s.
 ----
 
 
-=== _replace-first_
+=== replace-first
 
 Replaces first instance of match with replacement in s.
 
@@ -340,7 +340,7 @@ Replaces first instance of match with replacement in s.
 ----
 
 
-=== _surround_
+=== surround
 
 Surround a string with another string.
 
@@ -354,7 +354,7 @@ Surround a string with another string.
 ----
 
 
-=== _unsurround_
+=== unsurround
 
 Unsurround a string surrounded by another.
 
@@ -368,7 +368,7 @@ Unsurround a string surrounded by another.
 ----
 
 
-=== _quote_
+=== quote
 
 Quote a string.
 
@@ -379,7 +379,7 @@ Quote a string.
 ----
 
 
-=== _unquote_
+=== unquote
 
 Unquote a string.
 
@@ -390,7 +390,7 @@ Unquote a string.
 ----
 
 
-=== _slugify_
+=== slugify
 
 Transforms string into URL slug.
 
@@ -401,7 +401,7 @@ Transforms string into URL slug.
 ----
 
 
-=== _strip-tags_
+=== strip-tags
 
 Remove html tags from string.
 
@@ -425,7 +425,7 @@ Trim and replace multiple spaces with a single space.
 ----
 
 
-=== _strip-newlines_
+=== strip-newlines
 
 Takes a string and replaces newlines with a space. Multiple lines are
 replaced with a single space.
@@ -437,8 +437,7 @@ replaced with a single space.
 ----
 
 
-[[parse-number]]
-=== _parse-number_
+=== parse-number
 
 General purpose function for parse number like strings to number. It
 works with integers and floats.
@@ -461,7 +460,7 @@ works with integers and floats.
 WARNING: only on *clojurescript*
 
 
-=== _parse-float_
+=== parse-float
 
 Returns a float value. Wraps parseFloat.
 
@@ -477,7 +476,7 @@ Returns a float value. Wraps parseFloat.
 WARNING: only on *clojurescript*
 
 
-=== _parse-int_
+=== parse-int
 
 Returns a number value in integer form. Wraps parseInt.
 
@@ -490,7 +489,7 @@ Returns a number value in integer form. Wraps parseInt.
 WARNING: only on *clojurescript*
 
 
-=== _parse-double_
+=== parse-double
 
 Returns a number value in integer form. Wraps parseInt.
 
@@ -503,7 +502,7 @@ Returns a number value in integer form. Wraps parseInt.
 WARNING: only on *clojure*
 
 
-=== _parse-long_
+=== parse-long
 
 Returns a number value in integer form. Wraps parseInt.
 
@@ -516,7 +515,7 @@ Returns a number value in integer form. Wraps parseInt.
 WARNING: only on *clojure*
 
 
-=== _format_
+=== format
 
 Simple string interpolation.
 
@@ -530,7 +529,7 @@ Simple string interpolation.
 ----
 
 
-=== _pad_
+=== pad
 
 Pads the str with characters until the total string length is equal to
 the passed length parameter.
@@ -555,7 +554,7 @@ By default, pads on the left with the space char.
 WARNING: only on *clojurescript*
 
 
-=== _capitalize_
+=== capitalize
 
 Converts first letter of the string to uppercase.
 
@@ -566,7 +565,7 @@ Converts first letter of the string to uppercase.
 ----
 
 
-=== _camelize_
+=== camelize
 
 Converts a string from selector-case to camelCase.
 
@@ -577,7 +576,7 @@ Converts a string from selector-case to camelCase.
 ----
 
 
-=== _dasherize_
+=== dasherize
 
 Converts a underscored or camelized string into an dasherized one.
 
@@ -588,7 +587,7 @@ Converts a underscored or camelized string into an dasherized one.
 ----
 
 
-=== _underscored_
+=== underscored
 
 Converts a camelized or dasherized string into an underscored one.
 
@@ -599,7 +598,7 @@ Converts a camelized or dasherized string into an underscored one.
 ----
 
 
-=== _titleize_
+=== titleize
 
 Converts a string into TitleCase.
 
@@ -610,7 +609,7 @@ Converts a string into TitleCase.
 ----
 
 
-=== _classify_
+=== classify
 
 Converts string to camelized class name. First letter is always upper case.
 
@@ -621,7 +620,7 @@ Converts string to camelized class name. First letter is always upper case.
 ----
 
 
-=== _humanize_
+=== humanize
 
 Converts an underscored, camelized, or dasherized string into a humanized one.
 
@@ -632,7 +631,7 @@ Converts an underscored, camelized, or dasherized string into a humanized one.
 ----
 
 
-=== _escape-regexp_
+=== escape-regexp
 
 Escape characters on the string that are not safe to use in a RegExp.
 
