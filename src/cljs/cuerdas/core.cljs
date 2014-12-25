@@ -7,7 +7,8 @@
 (defn contains?
   "Determines whether a string contains a substring."
   [s subs]
-  (gstr/contains s subs))
+  (when-not (nil? s)
+    (not= (.indexOf s subs) -1)))
 
 (defn regexp
   "Build or derive regexp instance."
@@ -29,28 +30,37 @@
 (defn startswith?
   "Check if the string starts with prefix."
   [s prefix]
-  (gstr/startsWith s prefix))
+  (when-not (nil? s)
+    (= (.lastIndexOf s prefix 0) 0)))
 
 (defn endswith?
   "Check if the string ends with suffix."
-  [s prefix]
-  (gstr/endsWith s prefix))
+  [s suffix]
+  (let [l (- (count s) (count suffix))]
+    (and (>= l 0)
+         (= (.indexOf s suffix l) l))))
 
 (defn lower
   "Converts string to all lower-case."
   [s]
-  (str/lower-case s))
+  (when-not (nil? s)
+    (.toLowerCase s)))
 
 (defn upper
   "Converts string to all upper-case."
   [s]
-  (str/upper-case s))
+  (when-not (nil? s)
+    (.toUpperCase s)))
+
+(declare replace)
 
 (defn collapse-whitespace
   "Converts all adjacent whitespace characters
   to a single space."
   [s]
-  (gstr/collapseWhitespace s))
+  (some-> s
+          (replace #"[\s\xa0]+" " ")
+          (replace #"^\s+|\s+$" "")))
 
 (defn empty?
   "Checks if a string is empty."
@@ -69,13 +79,14 @@
   "Repeats string n times."
   ([s] (repeat s 1))
   ([s n]
-   (gstr/repeat s n)))
+   (when-not (nil? s)
+     (gstr/repeat s n))))
 
 (defn strip-newlines
   "Takes a string and replaces newlines with a space.
   Multiple lines are replaced with a single space."
   [s]
-  (gstr/stripNewlines s))
+  (replace s #"(\r\n|\r|\n)+" " "))
 
 (defn split
   "Splits a string on a separator a limited
@@ -84,9 +95,10 @@
   ([s] (split s #"\s" nil))
   ([s sep] (split s sep nil))
   ([s sep num]
-   (if (regexp? sep)
-     (str/split s sep num)
-     (str/split s (regexp sep) num))))
+   (cond
+     (nil? s) s
+     (regexp? sep) (str/split s sep num)
+     :else (str/split s (re-pattern sep) num))))
 
 (defn lines
   "Return a list of the lines in the string."
@@ -96,61 +108,71 @@
 (defn chars
   "Split a string in a seq of chars."
   [s]
-  (js->clj (.split s "")))
+  (when-not (nil? s)
+    (js->clj (.split s ""))))
 
 (defn slice
   "Extracts a section of a string and returns a new string."
   ([s begin]
-   (.slice s begin))
+   (when-not (nil? s)
+     (.slice s begin)))
   ([s begin end]
-   (.slice s begin end)))
+   (when-not (nil? s)
+     (.slice s begin end))))
 
 (defn replace
   "Replaces all instance of match with replacement in s."
   [s match replacement]
-  (.replace s (regexp match "g") replacement))
+  (when-not (nil? s)
+    (.replace s (regexp match "g") replacement)))
 
 (defn ireplace
   "Replaces all instance of match with replacement in s."
   [s match replacement]
-  (.replace s (regexp match "ig") replacement))
+  (when-not (nil? s)
+    (.replace s (regexp match "ig") replacement)))
 
 (defn replace-first
   "Replaces first instance of match with replacement in s."
   [s match replacement]
-  (.replace s (regexp match) replacement))
+  (when-not (nil? s)
+    (.replace s (regexp match) replacement)))
 
 (defn ireplace-first
   "Replaces first instance of match with replacement in s."
   [s match replacement]
-  (.replace s (regexp match "i") replacement))
+  (when-not (nil? s)
+    (.replace s (regexp match "i") replacement)))
 
 (defn trim
   "Removes whitespace or specified characters
   from both ends of string."
   ([s] (trim s " "))
   ([s chs]
-   (let [rxstr (str "[" (escape-regexp chs) "]")
-         rx    (str "^" rxstr "+|" rxstr "+$")]
-     (replace s rx ""))))
+   (when-not (nil? s)
+     (let [rxstr (str "[" (escape-regexp chs) "]")
+           rx    (str "^" rxstr "+|" rxstr "+$")]
+       (replace s rx "")))))
 
 (defn rtrim
   "Removes whitespace or specified characters
   from right side of string."
   ([s] (rtrim s " "))
   ([s chs]
-   (let [rxstr (str "[" (escape-regexp chs) "]")
-         rx    (str rxstr "+$")]
-     (replace s rx ""))))
+   (when-not (nil? s)
+     (let [rxstr (str "[" (escape-regexp chs) "]")
+           rx    (str rxstr "+$")]
+       (replace s rx "")))))
 
 (defn ltrim
   "Removes whitespace or specified characters
   from left side of string."
   ([s] (ltrim s " "))
   ([s chs]
-   (let [rxstr (str "[" (escape-regexp chs) "]")
-         rx    (str "^" rxstr "+")]
-     (replace s rx ""))))
+   (when-not (nil? s)
+     (let [rxstr (str "[" (escape-regexp chs) "]")
+           rx    (str "^" rxstr "+")]
+       (replace s rx "")))))
 
 (defn prune
   "Truncates a string to a certain length and adds '...'
@@ -179,7 +201,8 @@
 (defn surround
   "Surround a string with another string."
   [s wrap]
-  (join "" [wrap s wrap]))
+  (when-not (nil? s)
+    (join "" [wrap s wrap])))
 
 (defn unsurround
   "Unsurround a string surrounded by another."
@@ -285,7 +308,6 @@
 (defn unescape-html
   "Converts entity characters to HTML equivalents."
   [s]
-  (println s)
   (replace s #"\&(\w+);" (fn [x y]
                              (cond
                                (cljs.core/contains? html-escape-chars y)
@@ -295,11 +317,10 @@
 (defn reverse
   "Return string reversed."
   [s]
-  ;; Uses bare js implementation
-  ;; for performance reasons.
-  (let [cs (.split s "")
-        cs (.reverse cs)]
-    (.join cs "")))
+  (when-not (nil? s)
+    (let [cs (.split s "")
+          cs (.reverse cs)]
+      (.join cs ""))))
 
 (defn- parse-number-impl
   [source]
@@ -354,26 +375,29 @@
   default, pads on the left with the space char."
   [s & [{:keys [length padding type]
          :or {length 0 padding " " type :left}}]]
-  (let [padding (aget padding 0)
-        padlen  (- length (count s))]
-    (condp = type
-      :right (str s (repeat padding padlen))
-      :both  (let [first (repeat padding (js/Math.ceil (/ padlen 2)))
-                   second (repeat padding (js/Math.floor (/ padlen 2)))]
-               (str first s second))
-      :left  (str (repeat padding padlen) s))))
+  (when-not (nil? s)
+    (let [padding (aget padding 0)
+          padlen  (- length (count s))]
+      (condp = type
+        :right (str s (repeat padding padlen))
+        :both  (let [first (repeat padding (js/Math.ceil (/ padlen 2)))
+                     second (repeat padding (js/Math.floor (/ padlen 2)))]
+                 (str first s second))
+        :left  (str (repeat padding padlen) s)))))
 
 (defn capitalize
   "Converts first letter of the string to uppercase."
   [s]
-  (str (upper (.charAt s 0)) (slice s 1)))
+  (when-not (nil? s)
+    (str (upper (.charAt s 0)) (slice s 1))))
 
 (defn camelize
   "Converts a string from selector-case to camelCase."
   [s]
-  (-> (trim s)
-      (replace (regexp #"[-_\s]+(.)?" "g")
-               (fn [match c] (if c (upper c) "")))))
+  (some-> s
+          (trim)
+          (replace (regexp #"[-_\s]+(.)?" "g")
+                   (fn [match c] (if c (upper c) "")))))
 
 (defn dasherize
   "Converts a underscored or camelized string
@@ -389,32 +413,37 @@
   "Converts a camelized or dasherized string
   into an underscored one."
   [s]
-  (-> (trim s)
-      (replace (regexp #"([a-z\d])([A-Z]+)" "g") "$1_$2")
-      (replace (regexp #"[-\s]+", "g") "_")
-      (lower)))
+  (some-> s
+          (trim)
+          (replace (regexp #"([a-z\d])([A-Z]+)" "g") "$1_$2")
+          (replace (regexp #"[-\s]+", "g") "_")
+          (lower)))
 
 (defn humanize
   "Converts an underscored, camelized, or
   dasherized string into a humanized one."
   [s]
-  (-> (underscored s)
-      (replace #"_id$", "")
-      (replace (regexp "_" "g") " ")
-      (capitalize)))
+  (some-> s
+          (underscored)
+          (replace #"_id$", "")
+          (replace (regexp "_" "g") " ")
+          (capitalize)))
 
 (defn titleize
   "Converts a string into TitleCase."
   ([s]
-   (gstr/toTitleCase s))
+   (when-not (nil? s)
+     (gstr/toTitleCase s)))
   ([s delimiters]
-   (gstr/toTitleCase s delimiters)))
+   (when-not (nil? s)
+     (gstr/toTitleCase s delimiters))))
 
 (defn classify
   "Converts string to camelized class name. First letter is always upper case."
   [s]
-  (-> (str s)
-      (replace #"[\W_]" " ")
-      (camelize)
-      (replace #"\s" "")
-      (capitalize)))
+  (some-> s
+          (str)
+          (replace #"[\W_]" " ")
+          (camelize)
+          (replace #"\s" "")
+          (capitalize)))

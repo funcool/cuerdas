@@ -28,7 +28,7 @@
 (defn upper
   "Converts string to all upper-case."
   [s]
-  (str/upper-case s))
+  (StringUtils/upperCase s))
 
 (defn empty?
   "Checks if a string is empty or contains only whitespaces."
@@ -97,12 +97,14 @@
     ;; => \"lmostAay igPay atinLay\"
   "
   [^String s match ^String replacement]
-  (str/replace s match replacement))
+  (when-not (nil? s)
+    (str/replace s match replacement)))
 
 (defn replace-first
   "Replaces first instance of match with replacement in s."
-  [s match replacement]
-  (str/replace-first s match replacement))
+  [^String s match replacement]
+  (when-not (nil? s)
+    (str/replace-first s match replacement)))
 
 (defn prune
   "Truncates a string to a certain length and adds '...'
@@ -133,13 +135,16 @@
   or Pattern instance."
   ([^String s] (split s #"\s"))
   ([^String s sep]
-   (if (instance? Pattern sep)
-     (str/split s sep)
-     (str/split s (re-pattern sep))))
+   (cond
+     (nil? s) s
+     (instance? Pattern sep) (str/split s sep)
+     :else (str/split s (re-pattern sep))))
+
   ([^String s sep ^long num]
-   (if (instance? Pattern sep)
-     (str/split s sep num)
-     (str/split s (re-pattern sep) num))))
+   (cond
+     (nil? s) s
+     (instance? Pattern sep) (str/split s sep num)
+     :else (str/split s (re-pattern sep) num))))
 
 (defn reverse
   "Return string reversed."
@@ -149,7 +154,8 @@
 (defn chars
   "Split a string in a seq of chars."
   [^String s]
-  (into [] (.split s "(?!^)")))
+  (when-not (nil? s)
+    (into [] (.split s "(?!^)"))))
 
 (defn lines
   "Return a list of the lines in the string."
@@ -168,14 +174,6 @@
     (let [params (java.util.ArrayList. args)]
       (replace s #"%s" (fn [_] (str (.remove params 0)))))))
 
-;; (defn parse-int
-;;   "Return the number value in integer form."
-;;   [s]
-;;   (let [rx (regexp "^\\s*-?0x" "i")]
-;;     (if (.test rx s)
-;;       (js/parseInt s 16)
-;;       (js/parseInt s 10))))
-
 (defn join
   "Joins strings together with given separator."
   ([coll]
@@ -186,7 +184,8 @@
 (defn surround
   "Surround a string with another string."
   [s wrap]
-  (join [wrap s wrap]))
+  (when-not (nil? s)
+    (join [wrap s wrap])))
 
 (defn unsurround
   "Unsurround a string surrounded by another."
@@ -254,66 +253,76 @@
 
 (defn capitalize
   "Converts first letter of the string to uppercase."
-  [s]
-  (let [firstc (-> (.charAt s 0)
-                   (String/valueOf)
-                   (upper))]
-  (str firstc (slice s 1))))
+  [^String s]
+  (when-not (nil? s)
+    (let [firstc (-> (.charAt s 0)
+                     (String/valueOf)
+                     (upper))]
+      (str firstc (slice s 1)))))
 
 (defn camelize
   "Converts a string from selector-case to camelCase."
-  [s]
-  (-> (trim s)
-      (replace #"[-_\s]+(.)?" (fn [[match c]] (if c (upper c) "")))))
+  [^String s]
+  (some-> s
+          (trim)
+          (replace #"[-_\s]+(.)?" (fn [[match c]] (if c (upper c) "")))))
 
 (defn underscored
   "Converts a camelized or dasherized string
   into an underscored one."
-  [s]
-  (-> (trim s)
-      (replace #"([a-z\d])([A-Z]+)" "$1_$2")
-      (replace #"[-\s]+" "_")
-      (lower)))
+  [^String s]
+  (some-> s
+          (trim)
+          (replace #"([a-z\d])([A-Z]+)" "$1_$2")
+          (replace #"[-\s]+" "_")
+          (lower)))
 
 (defn humanize
   "Converts an underscored, camelized, or
   dasherized string into a humanized one."
-  [s]
-  (-> (underscored s)
-      (replace #"_id$", "")
-      (replace "_" " ")
-      (capitalize)))
+  [^String s]
+  (some-> s
+          (underscored)
+          (replace #"_id$", "")
+          (replace "_" " ")
+          (capitalize)))
 
 (defn titleize
   "Converts a string into TitleCase."
   [^String s & [delimeters]]
-  (let [delimeters (if delimeters
-                     (escape-regexp delimeters)
-                     "\\s")
-        delimeters (str "|[" delimeters "]+")
-        rx         (re-pattern (str "(^" delimeters ")([a-z])"))]
-    (replace s rx (fn [[c1 _]]
-                    (upper c1)))))
+  (when-not (nil? s)
+    (let [delimeters (if delimeters
+                       (escape-regexp delimeters)
+                       "\\s")
+          delimeters (str "|[" delimeters "]+")
+          rx         (re-pattern (str "(^" delimeters ")([a-z])"))]
+      (replace s rx (fn [[c1 _]]
+                      (upper c1))))))
 
 (defn classify
   "Converts string to camelized class name. First letter is always upper case."
   [^String s]
-  (-> (str s)
-      (replace #"[\W_]" " ")
-      (camelize)
-      (replace #"\s" "")
-      (capitalize)))
+  (some-> s
+          (str)
+          (replace #"[\W_]" " ")
+          (camelize)
+          (replace #"\s" "")
+          (capitalize)))
 
 (defn parse-double
   "Return the double value from string."
   [^String s]
-  (Double/parseDouble s))
+  (cond
+    (nil? s) Double/NaN
+    :else (Double/parseDouble s)))
 
 (defn parse-long
   "Return the long value from string."
   [^String s]
-  (let [r (Double/parseDouble s)]
-    (.longValue r)))
+  (cond
+   (nil? s) Double/NaN
+   :else (let [r (Double/parseDouble s)]
+           (.longValue r))))
 
 (defn pad
   "Pads the str with characters until the total string
@@ -321,22 +330,23 @@
   default, pads on the left with the space char."
   [s & [{:keys [length padding type]
          :or {length 0 padding " " type :left}}]]
-  (let [padding (slice padding 0 1)
-        padlen  (- length (count s))]
-    (condp = type
-      :right (str s (repeat padding padlen))
-      :both  (let [first (repeat padding (Math/ceil (/ padlen 2)))
-                   second (repeat padding (Math/floor (/ padlen 2)))]
-               (str first s second))
-      :left  (str (repeat padding padlen) s))))
+  (when-not (nil? s)
+    (let [padding (slice padding 0 1)
+          padlen  (- length (count s))]
+      (condp = type
+        :right (str s (repeat padding padlen))
+        :both  (let [first (repeat padding (Math/ceil (/ padlen 2)))
+                     second (repeat padding (Math/floor (/ padlen 2)))]
+                 (str first s second))
+        :left  (str (repeat padding padlen) s)))))
 
 (defn collapse-whitespace
   "Converts all adjacent whitespace characters
   to a single space."
   [s]
-  (-> s
-      (replace #"[\s\xa0]+" " ")
-      (replace #"^\s+|\s+$" "")))
+  (some-> s
+          (replace #"[\s\xa0]+" " ")
+          (replace #"^\s+|\s+$" "")))
 
 (defn strip-tags
   "Remove html tags from string."
