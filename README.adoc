@@ -54,8 +54,8 @@ vector on your *_project.clj_* file:
 
 == Documentation
 
-https://funcool.github.io/cuerdas/latest/
-
+- Stable version: https://funcool.github.io/cuerdas/latest/
+- Development version: http://funcool.github.io/cuerdas/devel/
 
 == How to Contribute?
 

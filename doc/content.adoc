@@ -91,7 +91,7 @@ Check if the string starts with prefix.
 ----
 
 
-=== _endswith?_
+=== endswith?
 
 Check if the string ends with suffix.
 
