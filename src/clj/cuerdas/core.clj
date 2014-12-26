@@ -2,77 +2,129 @@
   (:refer-clojure :exclude [contains? empty? repeat replace reverse chars unquote format])
   (:require [clojure.string :as str]
             [clojure.walk :refer [stringify-keys]])
-  (:import org.apache.commons.lang3.StringUtils
-           java.util.regex.Pattern))
+  (:import java.util.regex.Pattern))
 
 (defn contains?
   "Determines whether a string contains a substring."
   [^String s ^String subs]
-  (StringUtils/contains s subs))
+  (when-not (nil? s)
+    (cond
+      (nil? subs) false
+      (>= 0 (.indexOf s subs)) true
+      :else false)))
+
+(declare slice)
 
 (defn startswith?
   "Check if the string starts with prefix."
   [^String s ^String prefix]
-  (StringUtils/startsWith s prefix))
+  (cond
+    (nil? s) false
+    (nil? prefix) false
+    :else (let [region (slice s 0 (count prefix))]
+            (= region prefix))))
 
 (defn endswith?
   "Check if the string ends with suffix."
   [^String s ^String suffix]
-  (StringUtils/endsWith s suffix))
+  (cond
+    (nil? s) false
+    (nil? suffix) false
+    :else (let [len (count s)
+                region (slice s (- len (count suffix)) len)]
+            (= region suffix))))
 
 (defn lower
   "Converts string to all lower-case."
   [^String s]
-  (StringUtils/lowerCase s))
+  (when-not (nil? s)
+    (.toLowerCase s)))
 
 (defn upper
   "Converts string to all upper-case."
   [s]
-  (StringUtils/upperCase s))
+  (when-not (nil? s)
+    (.toUpperCase s)))
 
 (defn empty?
   "Checks if a string is empty or contains only whitespaces."
   [^String s]
-  (StringUtils/isEmpty s))
+  (cond
+    (nil? s) true
+    (= (count s) 0) true
+    :else false))
 
 (defn blank?
   "Checks if a string is empty or contains only whitespaces."
   [^String s]
-  (StringUtils/isBlank s))
+  (cond
+    (nil? s) true
+    (= (count s) 0) true
+    :else (let [rx #"^[\s\n]+$"]
+            (if (re-matches rx s)
+              true
+              false))))
+
+(declare escape-regexp)
+(declare replace)
 
 (defn trim
   "Removes whitespace or specified characters
   from both ends of string."
   ([s] (trim s " "))
   ([s chs]
-   (StringUtils/strip s chs)))
+   (when-not (nil? s)
+     (let [rxstr (str "[" chs "]")
+           rxstr (str "^" rxstr "+|" rxstr "+$")]
+       (as-> (re-pattern rxstr) rx
+         (replace s rx ""))))))
 
 (defn rtrim
   "Removes whitespace or specified characters
   from right side of string."
   ([s] (rtrim s " "))
   ([s chs]
-   (StringUtils/stripEnd s chs)))
+   (when-not (nil? s)
+     (let [rxstr (str "[" chs "]")
+           rxstr (str rxstr "+$")]
+       (as-> (re-pattern rxstr) rx
+         (replace s rx ""))))))
 
 (defn ltrim
   "Removes whitespace or specified characters
   from left side of string."
   ([s] (ltrim s " "))
   ([s chs]
-   (StringUtils/stripStart s chs)))
+   (when-not (nil? s)
+     (let [rxstr (str "[" chs "]")
+           rxstr (str "^" rxstr)]
+       (as-> (re-pattern rxstr) rx
+         (replace s rx ""))))))
+
+(declare join)
 
 (defn repeat
   "Repeats string n times."
   ([^String s] (repeat s 1))
   ([^String s ^long n]
-   (StringUtils/repeat s n)))
+   (if (nil? s)
+     s
+     (join (clojure.core/repeat n s)))))
 
 (defn slice
   "Extracts a section of a string and returns a new string."
-  ([^String s ^long begin]
-   (StringUtils/substring s begin))
+  ([^String s ^long begin] (slice s begin (count s)))
   ([^String s ^long begin ^long end]
-   (StringUtils/substring s begin end)))
+   (if (nil? s)
+     s
+     (let [end   (if (< end 0) (+ (count s) end) end)
+           begin (if (< begin 0) (+ (count s) begin) begin)
+           end   (if (> end (count s)) (count s) end)]
+       (if (> begin end)
+         ""
+         (let [begin (if (< begin 0) 0 begin)
+               end (if (< end 0) 0 end)]
+           (.substring s begin end)))))))
 
 (defn escape-regexp
   "Java specific pattern quoting."
@@ -149,7 +201,10 @@
 (defn reverse
   "Return string reversed."
   [^String s]
-  (StringUtils/reverse s))
+  (if (nil? s)
+    s
+    (let [sb (StringBuilder. s)]
+      (.toString (.reverse sb)))))
 
 (defn chars
   "Split a string in a seq of chars."
