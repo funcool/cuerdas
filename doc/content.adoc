@@ -7,7 +7,7 @@ Andrey Antukh, <niwi@niwi.be>
 
 == Introduction
 
-The missing clojurescript string manipulation library.
+The missing clojure(script) string manipulation library.
 
 [quote, Federico García Lorca, Las Seis Cuerdas]
 ____
@@ -32,7 +32,7 @@ vector on your *_project.clj_* file:
 
 [source,clojure]
 ----
-[cuerdas "0.1.0-SNAPSHOT"]
+[cuerdas "0.2.0-SNAPSHOT"]
 ----
 
 
@@ -66,8 +66,13 @@ Determines whether a string contains a substring.
 ----
 (str/contains? "foobar" "bar")
 ;; => true
-----
 
+(str/contains? "foobar" nil)
+;; => false
+
+(str/contains? nil nil)
+;; => false
+----
 
 === startswith?
 
@@ -77,6 +82,12 @@ Check if the string starts with prefix.
 ----
 (str/startswith? "foobar" "foo")
 ;; => true
+
+(str/startswith? "foobar" nil)
+;; => false
+
+(str/startswith? nil "foo")
+;; => false
 ----
 
 
@@ -88,6 +99,12 @@ Check if the string ends with suffix.
 ----
 (str/endswith? "foobar" "bar")
 ;; => true
+
+(str/endswith? "foobar" nil)
+;; => false
+
+(str/endswith? nil "bar")
+;; => false
 ----
 
 
@@ -99,6 +116,9 @@ Check if the string is empty.
 ----
 (str/empty? "foobar")
 ;; => false
+
+(str/empty? nil)
+;; => true
 
 (str/empty? "")
 ;; => true
@@ -119,6 +139,12 @@ Check if the string is empty or contains only whitespaces.
 
 (str/blank? "   ")
 ;; => true
+
+(str/blank? "")
+;; => true
+
+(str/blank? nil)
+;; => true
 ----
 
 
@@ -130,6 +156,9 @@ Converts string to all upper-case.
 ----
 (str/upper "foobar")
 ;; => "FOOBAR"
+
+(str/upper nil)
+;; => nil
 ----
 
 
@@ -141,8 +170,10 @@ Converts string to all lower-case.
 ----
 (str/lower "FOO")
 ;; => "foo"
-----
 
+(str/lower nil)
+;; => nil
+----
 
 === repeat
 
@@ -152,6 +183,9 @@ Repeats string N times.
 ----
 (str/repeat "a" 3)
 ;; => "aaa"
+
+(str/repeat nil 3)
+;; => nil
 ----
 
 
@@ -167,6 +201,9 @@ both ends of string.
 
 (str/trim "-foo-", "-")
 ;; => "foo"
+
+(str/trim nil)
+;; => nil
 ----
 
 
@@ -182,6 +219,9 @@ left side of string.
 
 (str/ltrim "-foo-", "-")
 ;; => "foo-"
+
+(str/ltrim nil)
+;; => nil
 ----
 
 
@@ -197,6 +237,9 @@ right side of string.
 
 (str/rtrim "-foo-", "-")
 ;; => "-foo"
+
+(str/rtrim nil)
+;; => nil
 ----
 
 
@@ -208,6 +251,9 @@ Converts all adjacent whitespace characters to a single space.
 ----
 (str/collapse-whitespace "a\n\nb")
 ;; => "a b"
+
+(str/collapse-whitespace nil)
+;; => nil
 ----
 
 
@@ -227,6 +273,9 @@ half-chopped words when truncating.
 
 (str/prune "Hello World" 11 " (...)")
 ;; => "Hello (...)"
+
+(str/prune nil 5)
+;; => nil
 ----
 
 
@@ -262,6 +311,9 @@ The separator can be a string or RegExp instance.
 
 (str/split "1 2 3" #"\s" 2)
 ;; => ["1" "2 3"]
+
+(str/split nil)
+;; => nil
 ----
 
 
@@ -273,6 +325,9 @@ Return strign reverted
 ----
 (str/reverse "bar")
 ;; => "rab"
+
+(str/reverse nil)
+;; => nil
 ----
 
 
@@ -284,6 +339,9 @@ Returns a seq of char strings from string.
 ----
 (str/chars "bar")
 ;; => ["b" "a" "r"]
+
+(str/chars nil)
+;; => nil
 ----
 
 
@@ -295,6 +353,9 @@ Return a list of the lines in the string.
 ----
 (str/lines "foo\nbar")
 ;; => ["foo" "bar"]
+
+(str/lines nil)
+;; => nil
 ----
 
 
@@ -309,6 +370,9 @@ Extracts a section of a string and returns a new string.
 
 (str/slice "1234" 1 3)
 ;; => "23"
+
+(str/slice nil 1 3)
+;; => nil
 ----
 
 
@@ -323,6 +387,9 @@ Replaces all instance of match with replacement in s.
 
 (str/replace "aa bb aa" #"aa" "kk")
 ;; => "kk bb kk"
+
+(str/replace nil #"aa" "kk")
+;; => nil
 ----
 
 
@@ -337,6 +404,9 @@ Replaces first instance of match with replacement in s.
 
 (str/replace-first "aa bb aa" #"aa" "kk")
 ;; => "kk bb aa"
+
+(str/replace-first nil #"aa" "kk")
+;; => nil
 ----
 
 
@@ -351,6 +421,9 @@ Surround a string with another string.
 
 (str/surround "a" "-^-")
 ;; => "-^-a-^-"
+
+(str/surround nil "-^-")
+;; => nil
 ----
 
 
@@ -365,6 +438,9 @@ Unsurround a string surrounded by another.
 
 (str/unsurround "-^-a-^-" "-^-")
 ;; => "a"
+
+(str/unsurround nil "-")
+;; => nil
 ----
 
 
@@ -376,6 +452,9 @@ Quote a string.
 ----
 (str/quote "a")
 ;; => "\"a\""
+
+(str/quote nil)
+;; => nil
 ----
 
 
@@ -387,6 +466,9 @@ Unquote a string.
 ----
 (str/unquote "\"a\"")
 ;; => "a"
+
+(str/unquote nil)
+;; => nil
 ----
 
 
@@ -398,6 +480,9 @@ Transforms string into URL slug.
 ----
 (str/slugify "Un éléphant à l'orée du bois")
 ;; => "un-elephant-a-loree-du-bois"
+
+(str/slugify nil)
+;; => nil
 ----
 
 
@@ -412,6 +497,9 @@ Remove html tags from string.
 
 (str/strip-tags "<p>just <b>some</b> text</p>" "p")
 ;; => "just <b>some</b> text"
+
+(str/strip-tags nil)
+;; => nil
 ----
 
 === clean
@@ -422,6 +510,9 @@ Trim and replace multiple spaces with a single space.
 ----
 (str/clean "  a   b   ")
 ;; => "a b"
+
+(str/clean nil)
+;; => nil
 ----
 
 
@@ -434,6 +525,9 @@ replaced with a single space.
 ----
 (str/strip-newlines "a\n\nb")
 ;; => "a b"
+
+(str/strip-newlines nil)
+;; => nil
 ----
 
 
@@ -471,6 +565,9 @@ Returns a float value. Wraps parseFloat.
 
 (str/parse-float "1")
 ;; => 1.0
+
+(str/parse-float nil)
+;; => NaN
 ----
 
 WARNING: only on *clojurescript*
@@ -484,6 +581,9 @@ Returns a number value in integer form. Wraps parseInt.
 ----
 (str/parse-int "1.4")
 ;; => 1
+
+(str/parse-int nil)
+;; => NaN
 ----
 
 WARNING: only on *clojurescript*
@@ -497,6 +597,9 @@ Returns a number value in integer form. Wraps parseInt.
 ----
 (str/parse-double "1.4")
 ;; => 1.4
+
+(str/parse-double nil)
+;; => NaN
 ----
 
 WARNING: only on *clojure*
@@ -510,6 +613,9 @@ Returns a number value in integer form. Wraps parseInt.
 ----
 (str/parse-long "1.4")
 ;; => 1
+
+(str/parse-long nil)
+;; => NaN
 ----
 
 WARNING: only on *clojure*
@@ -541,6 +647,9 @@ By default, pads on the left with the space char.
 (str/pad "1" {:length 8})
 ;; => "       1"
 
+(str/pad nil {:length 8})
+;; => nil
+
 (str/pad "1" {:length 8 :padding "0"})
 ;; => "00000001"
 
@@ -551,8 +660,6 @@ By default, pads on the left with the space char.
 ;; => "00001000"
 ----
 
-WARNING: only on *clojurescript*
-
 
 === capitalize
 
@@ -562,6 +669,9 @@ Converts first letter of the string to uppercase.
 ----
 (str/capitalize "foo")
 ;; => "Foo"
+
+(str/capitalize nil)
+;; => nil
 ----
 
 
@@ -573,6 +683,9 @@ Converts a string from selector-case to camelCase.
 ----
 (str/camelize "foo bar")
 ;; => "fooBar"
+
+(str/camelize nil)
+;; => nil
 ----
 
 
@@ -584,6 +697,9 @@ Converts a underscored or camelized string into an dasherized one.
 ----
 (str/dasherize "MozTransform")
 ;; => "-moz-transform"
+
+(str/dasherize nil)
+;; => nil
 ----
 
 
@@ -595,6 +711,9 @@ Converts a camelized or dasherized string into an underscored one.
 ----
 (str/underscored "MozTransform")
 ;; => "moz_transform"
+
+(str/underscored nil)
+;; => nil
 ----
 
 
@@ -606,6 +725,9 @@ Converts a string into TitleCase.
 ----
 (str/titleize "my name is epeli")
 ;; => "My Name Is Epeli"
+
+(str/titleize nil)
+;; => nil
 ----
 
 
@@ -617,6 +739,9 @@ Converts string to camelized class name. First letter is always upper case.
 ----
 (str/classify "some_class_name")
 ;; => "SomeClassName"
+
+(str/classify nil)
+;; => nil
 ----
 
 
@@ -628,6 +753,9 @@ Converts an underscored, camelized, or dasherized string into a humanized one.
 ----
 (str/humanize "  capitalize dash-CamelCase_underscore trim  ")
 ;; => "Capitalize dash camel case underscore trim"
+
+(str/humanize nil)
+;; => nil
 ----
 
 

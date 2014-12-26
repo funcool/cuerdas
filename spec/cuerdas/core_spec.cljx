@@ -39,11 +39,13 @@
   (s/it "startswith?"
     (s/should (str/startswith? "abc" "ab"))
     (s/should-not (str/startswith? "abc" "cab"))
+    (s/should-not (str/startswith? nil "ab"))
     (s/should-not (str/startswith? "abc" nil)))
 
   (s/it "endswith?"
     (s/should (str/endswith? "abc" "bc"))
     (s/should-not (str/endswith? "abc" "bca"))
+    (s/should-not (str/endswith? nil "bc"))
     (s/should-not (str/endswith? "abc" nil)))
 
   (s/it "trim"
@@ -58,6 +60,7 @@
 
   (s/it "rtrim"
     (s/should= " a" (str/rtrim " a "))
+    (s/should= "a" (str/rtrim "a" "foo"))
     (s/should= nil (str/rtrim nil))
     (s/should= "-a" (str/rtrim "-a-", "-")))
 
@@ -192,8 +195,9 @@
     (s/should= 1 (str/parse-long "1.4")))
 
   (s/it "format"
-    (s/should= (str/format "hello %s" "pepe") "hello pepe")
-    (s/should= (str/format "hello %(name)s" {:name "pepe"}) "hello pepe"))
+    (s/should= nil (str/format nil "pepe"))
+    (s/should= "hello pepe" (str/format "hello %s" "pepe"))
+    (s/should= "hello pepe" (str/format "hello %(name)s" {:name "pepe"})))
 
   (s/it "pad"
     (s/should= nil (str/pad nil {:length 8}))
@@ -235,5 +239,6 @@
     (s/should= "SomeClassName" (str/classify "some_class_name")))
 
   (s/it "lines"
+    (s/should= nil (str/lines nil))
     (s/should= ["foo" "bar"] (str/lines "foo\nbar")))
 )
