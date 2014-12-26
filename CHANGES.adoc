@@ -1,5 +1,15 @@
 = Changelog
 
+== Version 0.2.0
+
+Date: Unreleased
+
+- Remove Apache Commons Lang dependency.
+- Add specific nil handling on code and documentation.
+
+
 == Version 0.1.0
+
+Date: 2014-12-23
 
 - Initial version
