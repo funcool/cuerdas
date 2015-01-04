@@ -6,6 +6,12 @@ Date: Unreleased
 
 - Remove Apache Commons Lang dependency.
 - Add specific nil handling on code and documentation.
+- Add strip, rstrip and lstrip aliases for trim, rtrim and ltrim respectivelly.
+- Rename endswith? and startswith? with ends-with? and starts-with? repectively,
+  but conserve the previosly funcnames as aliases.
+- Reimplement strip-tags. Now it has different call signature and allow arbitrary
+  replacements for concrete tags. (BACKWARD INCOMPATIBILITY)
+
 
 
 == Version 0.1.0
