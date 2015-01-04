@@ -278,15 +278,6 @@
   (-> (trim s)
       (replace #"\s+" " ")))
 
-
-;; var escapeChars = {
-;;   lt: '<',
-;;   gt: '>',
-;;   quot: '"',
-;;   amp: '&',
-;;   apos: "'"
-;; }
-
 (def html-escape-chars
   {"lt" "<"
    "gt" ">"
@@ -296,7 +287,6 @@
 
 (def reversed-html-escape-chars
   (map-invert html-escape-chars))
-
 
 ;; reversedEscapeChars["'"] = '#39';
 
