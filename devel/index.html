@@ -889,7 +889,7 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;just some text&quot;</span>
 
-<span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:tags</span> <span class="tok-p">[</span><span class="tok-s">&quot;p&quot;</span><span class="tok-p">]})</span>
+<span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;p&quot;</span><span class="tok-p">])</span>
 <span class="tok-c1">;; =&gt; &quot;just &lt;b&gt;some&lt;/b&gt; text&quot;</span></code></pre>
 </div>
 </div>
@@ -1379,7 +1379,7 @@ The separator can be a string or RegExp instance.</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;just some text&quot;</span>
 
-<span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:tags</span> <span class="tok-p">[</span><span class="tok-s">&quot;p&quot;</span><span class="tok-p">]})</span>
+<span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;p&quot;</span><span class="tok-p">])</span>
 <span class="tok-c1">;; =&gt; &quot;just &lt;b&gt;some&lt;/b&gt; text&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1391,7 +1391,7 @@ The separator can be a string or RegExp instance.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;just&lt;br&gt;text&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:replace-map</span> <span class="tok-p">{</span><span class="tok-ss">:br</span> <span class="tok-s">&quot;\n&quot;</span><span class="tok-p">}})</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;just&lt;br&gt;text&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:br</span> <span class="tok-s">&quot;\n&quot;</span><span class="tok-p">})</span>
 <span class="tok-c1">;; =&gt; &quot;just\ntext&quot;</span></code></pre>
 </div>
 </div>
@@ -1818,7 +1818,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-01-04 18:59:58 CET
+Last updated 2015-01-04 19:12:24 CET
 </div>
 </div>
 </body>
