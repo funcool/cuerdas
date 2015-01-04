@@ -516,8 +516,11 @@ It also allows arbitrary replacements:
 
 [source, clojure]
 ----
-(str/strip-tags "just<br>text" {:br "\n"})
+(str/strip-tags "<p>just<br>text</p>" {:br "\n"})
 ;; => "just\ntext"
+
+(str/strip-tags "<p>just<br>text</p>" ["br"] {:br "\n"})
+;; => "<p>just\ntext</p>"
 ----
 
 === clean
