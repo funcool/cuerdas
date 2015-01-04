@@ -161,6 +161,7 @@
 
   (s/it "strip-tags"
     (s/should= nil (str/strip-tags nil))
+    (s/should= "just\ntext" (str/strip-tags "just<br>text" "br" {:br "\n"}))
     (s/should= "just some text" (str/strip-tags "<p>just <b>some</b> text</p>"))
     (s/should= "just <b>some</b> text" (str/strip-tags "<p>just <b>some</b> text</p>" "p"))
     (s/should= "just <b>some</b> text" (str/strip-tags "<p>just <b>some</b> text</p>" "P")))

@@ -412,18 +412,24 @@
 
 (defn strip-tags
   "Remove html tags from string."
-  ([s] (strip-tags s ""))
-  ([s & tags]
-   (reduce (fn [acc tag]
-             (let [rx1  (-> (str "<\\/?" (lower tag) "[^<>]*>")
-                            (re-pattern))
-                   rx2  (-> (str "<\\/?" (upper tag) "[^<>]*>")
-                            (re-pattern))]
-               (-> acc
-                   (replace rx1 "")
-                   (replace rx2 ""))))
-           s
-           tags)))
+  ([^String s] (strip-tags s nil {}))
+  ([^String s tags] (strip-tags s tags {}))
+  ([^String s tags mappings]
+   (let [kwdize (comp keyword lower)
+         tags (cond
+                (nil? tags) tags
+                (string? tags) (hash-set (kwdize tags))
+                (sequential? tags) (set (map kwdize tags)))
+         rx   #"<\/?([^<>]*)>"]
+     (if (nil? tags)
+       (replace s rx (fn [[match tag]]
+                       (let [tag (kwdize tag)]
+                         (get mappings tag ""))))
+       (replace s rx (fn [[match tag]]
+                       (let [tag (kwdize tag)]
+                         (if (tags tag)
+                           (get mappings tag "")
+                           match))))))))
 
 (defn clean
   "Trim and replace multiple spaces with
