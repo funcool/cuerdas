@@ -10,7 +10,7 @@
   (when-not (nil? s)
     (not= (.indexOf s subs) -1)))
 
-(defn regexp
+(defn- regexp
   "Build or derive regexp instance."
   ([s]
    (if (regexp? s)
