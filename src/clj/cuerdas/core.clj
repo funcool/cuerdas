@@ -15,7 +15,7 @@
 
 (declare slice)
 
-(defn startswith?
+(defn starts-with?
   "Check if the string starts with prefix."
   [^String s ^String prefix]
   (cond
@@ -24,7 +24,7 @@
     :else (let [region (slice s 0 (count prefix))]
             (= region prefix))))
 
-(defn endswith?
+(defn ends-with?
   "Check if the string ends with suffix."
   [^String s ^String suffix]
   (cond
@@ -33,6 +33,9 @@
     :else (let [len (count s)
                 region (slice s (- len (count suffix)) len)]
             (= region suffix))))
+
+(def startswith? starts-with?)
+(def endswith? ends-with?)
 
 (defn lower
   "Converts string to all lower-case."

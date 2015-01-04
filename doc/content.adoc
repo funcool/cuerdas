@@ -74,9 +74,11 @@ Determines whether a string contains a substring.
 ;; => false
 ----
 
-=== startswith?
+=== starts-with?
 
 Check if the string starts with prefix.
+
+Alias: startswith?
 
 [source, clojure]
 ----
@@ -91,9 +93,11 @@ Check if the string starts with prefix.
 ----
 
 
-=== endswith?
+=== ends-with?
 
 Check if the string ends with suffix.
+
+Alias: endswith?
 
 [source, clojure]
 ----

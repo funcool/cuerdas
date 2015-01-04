@@ -27,18 +27,21 @@
   [s]
   (gstr/regExpEscape s))
 
-(defn startswith?
+(defn starts-with?
   "Check if the string starts with prefix."
   [s prefix]
   (when-not (nil? s)
     (= (.lastIndexOf s prefix 0) 0)))
 
-(defn endswith?
+(defn ends-with?
   "Check if the string ends with suffix."
   [s suffix]
   (let [l (- (count s) (count suffix))]
     (and (>= l 0)
          (= (.indexOf s suffix l) l))))
+
+(def startswith? starts-with?)
+(def endswith? ends-with?)
 
 (defn lower
   "Converts string to all lower-case."
