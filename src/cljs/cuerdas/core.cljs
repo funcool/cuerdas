@@ -250,11 +250,9 @@
         (replace #"[^\w\s-]" "")
         (dasherize))))
 
-(defn strip-tags
-  "Remove html tags from string."
-  [s & [{:keys [tags replace-map]
-                 :or {tags nil replace-map {}}}]]
-  (let [kwdize (comp keyword lower)
+(defn- strip-tags-impl
+  [s tags mappings]
+  (let [kwdize (comp keyword lower name)
         tags (cond
                (nil? tags) tags
                (string? tags) (hash-set (kwdize tags))
@@ -263,13 +261,23 @@
         replacer (if (nil? tags)
                    (fn [match tag]
                      (let [tag (kwdize tag)]
-                       (get replace-map tag "")))
+                       (get mappings tag "")))
                    (fn [match tag]
                      (let [tag (kwdize tag)]
                        (if (tags tag)
-                         (get replace-map tag "")
+                         (get mappings tag "")
                          match))))]
     (replace s rx replacer)))
+
+(defn strip-tags
+  "Remove html tags from string."
+  ([s] (strip-tags-impl s nil {}))
+  ([s tags]
+   (if (map? tags)
+     (strip-tags-impl s nil tags)
+     (strip-tags-impl s tags {})))
+  ([s tags mapping]
+   (strip-tags-impl s tags mapping)))
 
 (defn clean
   "Trim and replace multiple spaces with

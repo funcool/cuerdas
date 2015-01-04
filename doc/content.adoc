@@ -51,7 +51,7 @@ vector on your *_project.clj_* file:
 (str/strip-tags "<p>just <b>some</b> text</p>")
 ;; => "just some text"
 
-(str/strip-tags "<p>just <b>some</b> text</p>" {:tags ["p"]})
+(str/strip-tags "<p>just <b>some</b> text</p>" ["p"])
 ;; => "just <b>some</b> text"
 ----
 
@@ -505,7 +505,7 @@ Remove html tags from string.
 (str/strip-tags "<p>just <b>some</b> text</p>")
 ;; => "just some text"
 
-(str/strip-tags "<p>just <b>some</b> text</p>" {:tags ["p"]})
+(str/strip-tags "<p>just <b>some</b> text</p>" ["p"])
 ;; => "just <b>some</b> text"
 
 (str/strip-tags nil)
@@ -516,10 +516,9 @@ It also allows arbitrary replacements:
 
 [source, clojure]
 ----
-(str/strip-tags "just<br>text" {:replace-map {:br "\n"}})
+(str/strip-tags "just<br>text" {:br "\n"})
 ;; => "just\ntext"
 ----
-
 
 === clean
 

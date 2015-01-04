@@ -162,13 +162,14 @@
   (s/it "strip-tags"
     (s/should= nil (str/strip-tags nil))
     (s/should= "just\ntext"
-               (str/strip-tags "just<br>text" {:replace-map {:br "\n"}}))
+               (str/strip-tags "just<br>text" {:br "\n"}))
     (s/should= "just some text"
                (str/strip-tags "<p>just <b>some</b> text</p>"))
     (s/should= "just <b>some</b> text"
-               (str/strip-tags "<p>just <b>some</b> text</p>" {:tags ["p"]}))
+               (str/strip-tags "<p>just <b>some</b> text</p>" ["p"]))
     (s/should= "just <b>some</b> text"
-               (str/strip-tags "<p>just <b>some</b> text</p>" {:tags "P"})))
+               (str/strip-tags "<p>just <b>some</b> text</p>" "P")))
+
 
   #+cljs
   (s/it "parse-number"

@@ -9,8 +9,7 @@ Date: Unreleased
 - Add strip, rstrip and lstrip aliases for trim, rtrim and ltrim respectivelly.
 - Rename endswith? and startswith? with ends-with? and starts-with? repectively,
   but conserve the previosly funcnames as aliases.
-- Reimplement strip-tags. Now it has different call signature and allow arbitrary
-  replacements for concrete tags. (BACKWARD INCOMPATIBILITY)
+- Add the ability of arbitrary replacements to strip-tags function.
 
 
 == Version 0.1.0
