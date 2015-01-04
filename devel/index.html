@@ -1391,8 +1391,11 @@ The separator can be a string or RegExp instance.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;just&lt;br&gt;text&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:br</span> <span class="tok-s">&quot;\n&quot;</span><span class="tok-p">})</span>
-<span class="tok-c1">;; =&gt; &quot;just\ntext&quot;</span></code></pre>
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just&lt;br&gt;text&lt;/p&gt;&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:br</span> <span class="tok-s">&quot;\n&quot;</span><span class="tok-p">})</span>
+<span class="tok-c1">;; =&gt; &quot;just\ntext&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just&lt;br&gt;text&lt;/p&gt;&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;br&quot;</span><span class="tok-p">]</span> <span class="tok-p">{</span><span class="tok-ss">:br</span> <span class="tok-s">&quot;\n&quot;</span><span class="tok-p">})</span>
+<span class="tok-c1">;; =&gt; &quot;&lt;p&gt;just\ntext&lt;/p&gt;&quot;</span></code></pre>
 </div>
 </div>
 </div>
@@ -1818,7 +1821,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-01-04 19:12:24 CET
+Last updated 2015-01-04 19:57:43 CET
 </div>
 </div>
 </body>
