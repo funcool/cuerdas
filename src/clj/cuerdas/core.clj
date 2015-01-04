@@ -104,6 +104,10 @@
        (as-> (re-pattern rxstr) rx
          (replace s rx ""))))))
 
+(def strip trim)
+(def rstrip rtrim)
+(def lstrip ltrim)
+
 (declare join)
 
 (defn repeat

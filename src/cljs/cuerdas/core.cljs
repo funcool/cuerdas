@@ -177,6 +177,10 @@
            rx    (str "^" rxstr "+")]
        (replace s rx "")))))
 
+(def strip trim)
+(def rstrip rtrim)
+(def lstrip ltrim)
+
 (defn prune
   "Truncates a string to a certain length and adds '...'
   if necessary."

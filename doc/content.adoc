@@ -198,6 +198,8 @@ Repeats string N times.
 Removes whitespace or specified characters from
 both ends of string.
 
+Alias: _strip_
+
 [source, clojure]
 ----
 (str/trim " foo ")
@@ -216,6 +218,8 @@ both ends of string.
 Removes whitespace or specified characters from
 left side of string.
 
+Alias: _lstrip_
+
 [source, clojure]
 ----
 (str/ltrim " foo ")
@@ -233,6 +237,8 @@ left side of string.
 
 Removes whitespace or specified characters from
 right side of string.
+
+Alias: _rstrip_
 
 [source, clojure]
 ----
