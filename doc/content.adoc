@@ -829,7 +829,7 @@ restrictions for contributions.
 _cuerdas_ is licensed under BSD (2-Clause) license:
 
 ----
-Copyright (c) 2014, Andrey Antukh
+Copyright (c) 2014-2015, Andrey Antukh <niwi@niwi.be>
 
 All rights reserved.
 
