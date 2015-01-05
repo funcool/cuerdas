@@ -1,14 +1,21 @@
 = Changelog
 
+== Version 0.3.0
+
+Date: unreleased
+
+No changes.
+
+
 == Version 0.2.0
 
-Date: Unreleased
+Date: 2015-01-05
 
-- Remove Apache Commons Lang dependency.
-- Add specific nil handling on code and documentation.
-- Add strip, rstrip and lstrip aliases for trim, rtrim and ltrim respectivelly.
-- Rename endswith? and startswith? with ends-with? and starts-with? repectively,
-  but conserve the previosly funcnames as aliases.
+- Remove Apache Commons Lang dependency (clj).
+- Add proper nil handling for almost all functions.
+- Add strip, rstrip and lstrip aliases for trim, rtrim and ltrim respectively.
+- Rename endswith? and startswith? with ends-with? and starts-with? respectively,
+  but conserve the previously funcnames as aliases.
 - Add the ability of arbitrary replacements to strip-tags function.
 
 
