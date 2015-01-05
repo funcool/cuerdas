@@ -823,6 +823,7 @@ restrictions for contributions.
 
 *Pull requests are welcome!*
 
+
 == License
 
 _cuerdas_ is licensed under BSD (2-Clause) license:
