@@ -223,6 +223,11 @@
     (s/should= "mozTransform" (str/camelize "moz-transform"))
     (s/should= "mozTransform" (str/camelize "moz transform")))
 
+  #+clj
+  (s/it "strip-suffix"
+    (s/should= nil (str/strip-suffix nil "foo"))
+    (s/should= "foobar" (str/strip-suffix "foobar-" "-")))
+
   (s/it "dasherize"
     (s/should= nil (str/dasherize nil))
     (s/should= "-moz-transform" (str/dasherize "MozTransform")))
