@@ -315,11 +315,12 @@
   "Converts a underscored or camelized string
   into an dasherized one."
   [s]
-  (-> s
-      (trim)
-      (replace #"([A-Z])" "-$1")
-      (replace #"[-_\s]+" "-")
-      (lower)))
+  (some-> s
+          (trim)
+          (replace #"([A-Z]+)" "-$1")
+          (replace #"[-_\s]+" "-")
+          (strip-prefix "-")
+          (lower)))
 
 (defn slugify
   "Transform text into a URL slug."

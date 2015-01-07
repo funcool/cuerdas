@@ -230,7 +230,8 @@
 
   (s/it "dasherize"
     (s/should= nil (str/dasherize nil))
-    (s/should= "-moz-transform" (str/dasherize "MozTransform")))
+    (s/should= "moz" (str/dasherize "MOZ"))
+    (s/should= "moz-transform" (str/dasherize "MozTransform")))
 
   (s/it "underscored"
     (s/should= nil (str/underscored nil))
