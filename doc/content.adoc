@@ -253,6 +253,42 @@ Alias: _rstrip_
 ----
 
 
+=== strip-prefix
+
+Remove prefix from string if it matches exactly or leave
+the string untouched.
+
+[source, clojure]
+----
+(str/strip-prefix nil nil)
+;; => nil
+
+(str/strip-prefix "a" nil)
+;; => "a"
+
+(str/strip-prefix "-=a" "-=")
+;; => "a"
+----
+
+
+=== strip-suffix
+
+Remove suffix from string if it matches exactly or leave
+the string untouched.
+
+[source, clojure]
+----
+(str/strip-suffix nil nil)
+;; => nil
+
+(str/strip-suffix "a" nil)
+;; => "a"
+
+(str/strip-suffix "a=-" "=-")
+;; => "a"
+----
+
+
 === collapse-whitespace
 
 Converts all adjacent whitespace characters to a single space.
