@@ -1,6 +1,8 @@
 = cuerdas
 :sectlinks:
 
+image:https://circleci.com/gh/funcool/cuerdas.svg?style=svg["Circle CI", link="https://circleci.com/gh/funcool/cuerdas"]
+
 == Introduction
 
 The missing clojure(script) string manipulation library.
