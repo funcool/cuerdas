@@ -460,8 +460,9 @@
   [s]
   (-> s
       (trim)
-      (replace #"([A-Z])" "-$1")
+      (replace #"([A-Z]+)" "-$1")
       (replace #"[-_\s]+" "-")
+      (strip-prefix "-")
       (lower)))
 
 (defn underscored
