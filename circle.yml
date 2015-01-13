@@ -1,0 +1,9 @@
+dependencies:
+  post:
+    - lein cljx
+    - lein cljsbuild once dev
+
+test:
+  override:
+    - lein spec
+    - lein cljsbuild test
