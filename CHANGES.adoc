@@ -2,9 +2,11 @@
 
 == Version 0.3.0
 
-Date: unreleased
+Date: 2015-01-13
 
-No changes.
+- Fixed bug on contains? function (thanks @podviaznikov for report)
+- Fixed bug on dasherize function (thanks to @NoamB for improved version)
+- Add strip-suffix and strip-prefix functions.
 
 
 == Version 0.2.0
