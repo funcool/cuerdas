@@ -35,7 +35,7 @@
   (when-not (nil? s)
     (cond
       (nil? subs) false
-      (>= 0 (.indexOf s subs)) true
+      (>= (.indexOf s subs) 0) true
       :else false)))
 
 (declare slice)

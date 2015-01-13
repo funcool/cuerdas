@@ -33,6 +33,7 @@
   (s/it "contains?"
     (s/should (str/contains? "abc" "ab"))
     (s/should (str/contains? "abc" ""))
+    (s/should-not (str/contains? "abc" "cba"))
     (s/should-not (str/contains? "abc" nil))
     (s/should-not (str/contains? nil nil)))
 
