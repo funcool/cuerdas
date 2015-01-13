@@ -206,6 +206,20 @@
 (def rstrip rtrim)
 (def lstrip ltrim)
 
+(defn strip-prefix
+  "Strip prefix in more efficient way."
+  [^String s ^String prefix]
+  (if (starts-with? s prefix)
+    (slice s (count prefix) (count s))
+    s))
+
+(defn strip-suffix
+  "Strip suffix in more efficient way."
+  [^String s ^String prefix]
+  (if (ends-with? s prefix)
+    (slice s 0 (- (count s) (count prefix)))
+    s))
+
 (defn prune
   "Truncates a string to a certain length and adds '...'
   if necessary."

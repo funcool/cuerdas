@@ -218,6 +218,14 @@
     (s/should= "Foo" (str/capitalize "foo"))
     (s/should= "FooBar" (str/capitalize "fooBar")))
 
+  (s/it "strip-prefix"
+    (s/should= "a" (str/strip-prefix "-=a" "-="))
+    (s/should= "=-a" (str/strip-prefix "=-a" "-=")))
+
+  (s/it "strip-suffix"
+    (s/should= "a" (str/strip-suffix "a=-" "=-"))
+    (s/should= "a-=" (str/strip-suffix "a-=" "=-")))
+
   (s/it "camelize"
     (s/should= nil (str/camelize nil))
     (s/should= "MozTransform" (str/camelize "-moz-transform"))
