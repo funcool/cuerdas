@@ -61,9 +61,10 @@
 (defn ends-with?
   "Check if the string ends with suffix."
   [s suffix]
-  (let [l (- (count s) (count suffix))]
-    (and (>= l 0)
-         (= (.indexOf s suffix l) l))))
+  (when-not (nil? s)
+    (let [l (- (count s) (count suffix))]
+      (and (>= l 0)
+           (= (.indexOf s suffix l) l)))))
 
 (def startswith? starts-with?)
 (def endswith? ends-with?)

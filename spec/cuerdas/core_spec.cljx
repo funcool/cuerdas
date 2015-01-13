@@ -219,10 +219,14 @@
     (s/should= "FooBar" (str/capitalize "fooBar")))
 
   (s/it "strip-prefix"
+    (s/should= "ab" (str/strip-prefix "ab" nil))
+    (s/should= nil (str/strip-prefix nil nil))
     (s/should= "a" (str/strip-prefix "-=a" "-="))
     (s/should= "=-a" (str/strip-prefix "=-a" "-=")))
 
   (s/it "strip-suffix"
+    (s/should= "ab" (str/strip-suffix "ab" nil))
+    (s/should= nil (str/strip-suffix nil nil))
     (s/should= "a" (str/strip-suffix "a=-" "=-"))
     (s/should= "a-=" (str/strip-suffix "a-=" "=-")))
 
