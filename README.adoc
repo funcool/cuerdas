@@ -30,7 +30,7 @@ vector on your *_project.clj_* file:
 
 [source,clojure]
 ----
-[cuerdas "0.2.0"]
+[cuerdas "0.3.0"]
 ----
 
 
