@@ -148,7 +148,8 @@
 
   (s/it "clean"
     (s/should= nil (str/clean nil))
-    (s/should= "a b" (str/clean " a   b  ")))
+    (s/should= "a b" (str/clean " a   b  "))
+    (s/should= "23.12.2014 10:09:19" (str/clean "23.12.2014    10:09:19")))
 
   #+cljs
   (s/it "escape-html"
