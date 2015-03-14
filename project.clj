@@ -5,11 +5,8 @@
   :license {:name "BSD (2-Clause)"
             :url "http://opensource.org/licenses/BSD-2-Clause"}
 
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2511"]]
-
+  :dependencies []
   :source-paths ["src/clj" "src/cljs"]
-
   :cljsbuild {:test-commands {"test" ["phantomjs"  "bin/speclj" "target/tests.js"]}
               :builds [{:id "dev"
                         :source-paths ["target/spec/cljs" "src/cljs"]
@@ -25,7 +22,9 @@
                    :output-path "target/spec/cljs"
                    :rules :cljs}]}
 
-  :profiles {:dev {:dependencies [[speclj "3.1.0"]]
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.6.0"]
+                                  [org.clojure/clojurescript "0.0-3058"]
+                                  [speclj "3.1.0"]]
                    :test-paths ["target/spec/clj"]
                    :plugins [[speclj "3.1.0"]
                              [com.keminglabs/cljx "0.5.0" :exclusions [org.clojure/clojure]]
