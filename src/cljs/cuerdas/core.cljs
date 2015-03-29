@@ -134,6 +134,13 @@
   [s]
   (split s #"\n|\r\n"))
 
+(defn unlines
+  "Returns a new string joining a list of strings with a newline char (\\n)."
+  [s]
+  (if (nil? s)
+    s
+    (str/join "\n" s)))
+
 (defn chars
   "Split a string in a seq of chars."
   [s]
