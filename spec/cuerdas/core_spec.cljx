@@ -267,4 +267,9 @@
   (s/it "lines"
     (s/should= nil (str/lines nil))
     (s/should= ["foo" "bar"] (str/lines "foo\nbar")))
+
+  (s/it "unlines"
+    (s/should= nil (str/unlines nil))
+    (s/should= "foo\nbar" (str/unlines ["foo" "bar"]))
+    (s/should= "" (str/unlines [])))
 )
