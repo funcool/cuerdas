@@ -405,6 +405,21 @@ Return a list of the lines in the string.
 ----
 
 
+=== unlines
+
+Joins a list of strings with a newline separator.  This operation is
+the opposite of lines.
+
+[source, clojure]
+----
+(str/unlines ["foo" "nbar"])
+;; => "foo\nbar"
+
+(str/unlines nil)
+;; => nil
+----
+
+
 === slice
 
 Extracts a section of a string and returns a new string.
