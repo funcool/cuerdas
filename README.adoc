@@ -30,7 +30,7 @@ vector on your *_project.clj_* file:
 
 [source,clojure]
 ----
-[cuerdas "0.3.1"]
+[funcool/cuerdas "0.4.0"]
 ----
 
 
@@ -59,12 +59,14 @@ vector on your *_project.clj_* file:
 - Stable version: https://funcool.github.io/cuerdas/latest/
 - Development version: http://funcool.github.io/cuerdas/devel/
 
+
 == How to Contribute?
 
 **cuerdas** unlike Clojure and other Clojure contrib libs, does not have many
 restrictions for contributions.
 
 *Pull requests are welcome!*
+
 
 == License
 
