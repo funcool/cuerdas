@@ -1,5 +1,12 @@
 = Changelog
 
+== Version 0.4.0
+
+Date: 2015-03-30
+
+- Changed the groupId of the package to funcool.
+
+
 == Version 0.3.2
 
 Date: 2015-03-30

@@ -5,6 +5,7 @@ Andrey Antukh, <niwi@niwi.be>
 :pygments-style: friendly
 :sectlinks:
 
+
 == Introduction
 
 The missing clojure(script) string manipulation library.
@@ -32,7 +33,7 @@ vector on your *_project.clj_* file:
 
 [source,clojure]
 ----
-[cuerdas "0.3.0"]
+[funcool/cuerdas "0.4.0"]
 ----
 
 
