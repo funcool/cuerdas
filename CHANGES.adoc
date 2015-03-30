@@ -1,5 +1,21 @@
 = Changelog
 
+== Version 0.3.2
+
+Date: 2015-03-30
+
+- Add unlines function (thanks to @pepegar)
+- Replace speclj with clojure.test.
+- Update dependencies.
+
+
+== Version 0.3.1
+
+Date: 2015-03-14
+
+- Remove clojure and clojurescript from required dependencies.
+- Add some additional testcases.
+
 == Version 0.3.0
 
 Date: 2015-01-13
