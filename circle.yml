@@ -3,7 +3,13 @@ dependencies:
     - lein cljx
     - lein cljsbuild once dev
 
+machine:
+  node:
+    version: 0.10.22
+  java:
+    version: openjdk7
+
 test:
   override:
-    - lein spec
+    - lein test
     - lein cljsbuild test
