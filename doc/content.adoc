@@ -1,5 +1,5 @@
 = cuerdas
-Andrey Antukh, <niwi@niwi.be>
+Andrey Antukh, <niwi@niwi.nz>
 :toc: left
 :source-highlighter: pygments
 :pygments-style: friendly
@@ -881,7 +881,7 @@ restrictions for contributions.
 _cuerdas_ is licensed under BSD (2-Clause) license:
 
 ----
-Copyright (c) 2014-2015, Andrey Antukh <niwi@niwi.be>
+Copyright (c) 2014-2015 Andrey Antukh <niwi@niwi.nz>
 
 All rights reserved.
 
