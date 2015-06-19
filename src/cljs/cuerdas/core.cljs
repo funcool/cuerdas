@@ -511,3 +511,19 @@
           (camelize)
           (replace #"\s" "")
           (capitalize)))
+
+(defn substr-between
+  "Find string that is nested in between two strings. Return first match"
+  [s prefix suffix]
+  (cond
+    (nil? s) nil
+    (nil? prefix) nil
+    (nil? suffix) nil
+    (not (contains? s prefix)) nil
+    (not (contains? s suffix)) nil
+    :else
+      (some-> s
+          (split prefix)
+          second
+          (split suffix)
+          first)))

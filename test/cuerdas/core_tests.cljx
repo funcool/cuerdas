@@ -267,6 +267,15 @@
     (t/is (= nil (str/unlines nil)))
     (t/is (= "foo\nbar" (str/unlines ["foo" "bar"])))
     (t/is (= "" (str/unlines []))))
+
+  (t/testing "substr-between"
+    (t/is (= nil (str/substr-between nil "" "")))
+    (t/is (= nil (str/substr-between "" nil "")))
+    (t/is (= nil (str/substr-between "" "" nil)))
+    (t/is (= nil (str/substr-between "---foo>>bar" "<<" ">>")))
+    (t/is (= nil (str/substr-between "---foo>>bar" "---" "<<")))
+    (t/is (= "foo" (str/substr-between "---foo>>bar" "---" ">>")))
+    (t/is (= "foo" (str/substr-between "---foo>>bar--foo1>>bar" "---" ">>"))))
   )
 
 #+cljs
