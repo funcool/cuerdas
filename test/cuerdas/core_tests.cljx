@@ -272,7 +272,10 @@
     (t/is (= nil (str/substr-between nil "" "")))
     (t/is (= nil (str/substr-between "" nil "")))
     (t/is (= nil (str/substr-between "" "" nil)))
-    (t/is (= "hello" (str/substr-between "---hello>>2" "---" ">>"))))
+    (t/is (= nil (str/substr-between "---foo>>bar" "<<" ">>")))
+    (t/is (= nil (str/substr-between "---foo>>bar" "---" "<<")))
+    (t/is (= "foo" (str/substr-between "---foo>>bar" "---" ">>")))
+    (t/is (= "foo" (str/substr-between "---foo>>bar--foo1>>bar" "---" ">>"))))
   )
 
 #+cljs
