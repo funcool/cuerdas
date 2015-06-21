@@ -29,10 +29,10 @@
                                    :optimizations :none
                                    :target :nodejs
                                    :pretty-print true}}]}
-
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.6.0"]
                                   [org.clojure/clojurescript "0.0-3126"]
                                   [funcool/cljs-testrunners "0.1.0-SNAPSHOT"]]
+                   :global-vars {*warn-on-reflection* true}
                    :test-paths ["output/test/clj"]
                    :plugins [[com.keminglabs/cljx "0.6.0"
                               :exclusions [org.clojure/clojure]]
