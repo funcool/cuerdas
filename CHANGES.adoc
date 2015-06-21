@@ -1,5 +1,13 @@
 = Changelog
 
+== Version 0.5.0
+
+Date: 2015-06-21
+
+- Add substr-between function (thanks to @podviaznikov)
+- Add some additional type hints on clojure code.
+
+
 == Version 0.4.0
 
 Date: 2015-03-30
