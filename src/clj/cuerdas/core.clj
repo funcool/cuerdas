@@ -27,7 +27,8 @@
   (:refer-clojure :exclude [contains? empty? repeat replace reverse chars unquote format])
   (:require [clojure.string :as str]
             [clojure.walk :refer [stringify-keys]])
-  (:import java.util.regex.Pattern))
+  (:import java.util.regex.Pattern
+           java.util.List))
 
 (defn contains?
   "Determines whether a string contains a substring."
@@ -72,7 +73,7 @@
   "Converts string to all upper-case."
   [s]
   (when-not (nil? s)
-    (.toUpperCase s)))
+    (.toUpperCase ^String s)))
 
 (defn empty?
   "Checks if a string is empty or contains only whitespaces."
@@ -214,7 +215,8 @@
      (let [tmpl (fn [c] (if (not= (upper c) (lower c)) "A" " "))
            template (-> (slice s 0 (inc (count s)))
                         (replace #".(?=\W*\w*$)" tmpl))
-           template (if (.matches (slice template (- (count template) 2)) "\\w\\w")
+           tmp (slice template (- (count template) 2))
+           template (if (.matches ^String tmp "\\w\\w")
                       (replace-first template #"\s*\S+$" "")
                       (rtrim (slice template 0 (dec (count template)))))]
        (if (> (count (str template subs)) (count s))
@@ -279,7 +281,7 @@
                (fn [match]
                  (let [substr (slice match 2 -2)]
                    (get params substr)))))
-    (let [params (java.util.ArrayList. args)]
+    (let [params (java.util.ArrayList. ^List args)]
       (replace s #"%s" (fn [_] (str (.remove params 0)))))))
 
 (defn join
@@ -332,11 +334,11 @@
 (defn slugify
   "Transform text into a URL slug."
   [s]
-  (let [from   "ąàáäâãåæăćčĉęèéëêĝĥìíïîĵłľńňòóöőôõðøśșšŝťțŭùúüűûñÿýçżźž"
-        to     "aaaaaaaaaccceeeeeghiiiijllnnoooooooossssttuuuuuunyyczzz",
-        regex  (re-pattern (str "[" (escape-regexp from) "]"))]
+  (let [^String from "ąàáäâãåæăćčĉęèéëêĝĥìíïîĵłľńňòóöőôõðøśșšŝťțŭùúüűûñÿýçżźž"
+        ^String to "aaaaaaaaaccceeeeeghiiiijllnnoooooooossssttuuuuuunyyczzz",
+        ^Pattern regex (re-pattern (str "[" (escape-regexp from) "]"))]
     (-> (lower s)
-        (replace regex (fn [c]
+        (replace regex (fn [^String c]
                          (let [index (.indexOf from c)
                                res   (.charAt to index)
                                res   (String/valueOf res)]
@@ -430,8 +432,8 @@
   [^String s]
   (cond
     (nil? s) Double/NaN
-    :else (let [r (Double/parseDouble s)]
-            (.longValue r))))
+    :else (let [r (Double. (Double/parseDouble s))]
+            (.longValue ^java.lang.Double r))))
 
 (defn pad
   "Pads the str with characters until the total string
