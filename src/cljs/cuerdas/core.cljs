@@ -95,9 +95,9 @@
   "Checks if a string is empty."
   [s]
   (cond
-   (nil? s) true
-   (= (count s) 0) true
-   :else false))
+    (nil? s) true
+    (= (count s) 0) true
+    :else false))
 
 (defn blank?
   "Checks if a string is empty or contains only whitespaces."
@@ -248,9 +248,9 @@
 (defn join
   "Joins strings together with given separator."
   ([coll]
-     (apply str coll))
+   (apply str coll))
   ([separator coll]
-     (apply str (interpose separator coll))))
+   (apply str (interpose separator coll))))
 
 (defn surround
   "Surround a string with another string."
@@ -279,7 +279,7 @@
   "Unquote a string."
   ([s] (unsurround s "\""))
   ([s qchar]
-    (unsurround s qchar)))
+   (unsurround s qchar)))
 
 (declare dasherize)
 
@@ -372,10 +372,10 @@
   "Converts entity characters to HTML equivalents."
   [s]
   (replace s #"\&(\w+);" (fn [x y]
-                             (cond
-                               (cljs.core/contains? html-escape-chars y)
-                               (get html-escape-chars y)
-                               :else y))))
+                           (cond
+                             (cljs.core/contains? html-escape-chars y)
+                             (get html-escape-chars y)
+                             :else y))))
 
 (defn reverse
   "Return string reversed."
@@ -522,8 +522,8 @@
     (not (contains? s prefix)) nil
     (not (contains? s suffix)) nil
     :else
-      (some-> s
-          (split prefix)
-          second
-          (split suffix)
-          first)))
+    (some-> s
+            (split prefix)
+            second
+            (split suffix)
+            first)))

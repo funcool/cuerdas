@@ -285,9 +285,9 @@
 (defn join
   "Joins strings together with given separator."
   ([coll]
-     (apply str coll))
+   (apply str coll))
   ([separator coll]
-     (apply str (interpose separator coll))))
+   (apply str (interpose separator coll))))
 
 (defn surround
   "Surround a string with another string."
@@ -316,7 +316,7 @@
   "Unquote a string."
   ([s] (unsurround s "\""))
   ([s qchar]
-    (unsurround s qchar)))
+   (unsurround s qchar)))
 
 (defn dasherize
   "Converts a underscored or camelized string
@@ -429,9 +429,9 @@
   "Return the long value from string."
   [^String s]
   (cond
-   (nil? s) Double/NaN
-   :else (let [r (Double/parseDouble s)]
-           (.longValue r))))
+    (nil? s) Double/NaN
+    :else (let [r (Double/parseDouble s)]
+            (.longValue r))))
 
 (defn pad
   "Pads the str with characters until the total string
@@ -503,8 +503,8 @@
     (not (contains? s prefix)) nil
     (not (contains? s suffix)) nil
     :else
-      (some-> s
-          (split prefix)
-          second
-          (split suffix)
-          first)))
+    (some-> s
+            (split prefix)
+            second
+            (split suffix)
+            first)))
