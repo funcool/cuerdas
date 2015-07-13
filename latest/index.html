@@ -80,73 +80,74 @@
 <h1>cuerdas</h1>
 <div class="details">
 <span id="author" class="author">Andrey Antukh, &lt;niwi@niwi.nz&gt;</span><br>
+<span id="revdate">0.5.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_introduction">Introduction</a></li>
-<li><a href="#_install">Install</a></li>
-<li><a href="#_quick_start">Quick start</a></li>
-<li><a href="#_reference">Reference</a>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#install">Install</a></li>
+<li><a href="#quick-start">Quick start</a></li>
+<li><a href="#reference">Reference</a>
 <ul class="sectlevel2">
-<li><a href="#_contains">contains?</a></li>
-<li><a href="#_starts_with">starts-with?</a></li>
-<li><a href="#_ends_with">ends-with?</a></li>
-<li><a href="#_empty">empty?</a></li>
-<li><a href="#_blank">blank?</a></li>
-<li><a href="#_upper">upper</a></li>
-<li><a href="#_lower">lower</a></li>
-<li><a href="#_repeat">repeat</a></li>
-<li><a href="#_trim">trim</a></li>
-<li><a href="#_ltrim">ltrim</a></li>
-<li><a href="#_rtrim">rtrim</a></li>
-<li><a href="#_strip_prefix">strip-prefix</a></li>
-<li><a href="#_strip_suffix">strip-suffix</a></li>
-<li><a href="#_collapse_whitespace">collapse-whitespace</a></li>
-<li><a href="#_prune">prune</a></li>
-<li><a href="#_join">join</a></li>
-<li><a href="#_split">split</a></li>
-<li><a href="#_reverse">reverse</a></li>
-<li><a href="#_chars">chars</a></li>
-<li><a href="#_lines">lines</a></li>
-<li><a href="#_unlines">unlines</a></li>
-<li><a href="#_slice">slice</a></li>
-<li><a href="#_replace">replace</a></li>
-<li><a href="#_replace_first">replace-first</a></li>
-<li><a href="#_surround">surround</a></li>
-<li><a href="#_unsurround">unsurround</a></li>
-<li><a href="#_quote">quote</a></li>
-<li><a href="#_unquote">unquote</a></li>
-<li><a href="#_slugify">slugify</a></li>
-<li><a href="#_strip_tags">strip-tags</a></li>
-<li><a href="#_clean">clean</a></li>
-<li><a href="#_strip_newlines">strip-newlines</a></li>
-<li><a href="#_parse_number">parse-number</a></li>
-<li><a href="#_parse_float">parse-float</a></li>
-<li><a href="#_parse_int">parse-int</a></li>
-<li><a href="#_parse_double">parse-double</a></li>
-<li><a href="#_parse_long">parse-long</a></li>
-<li><a href="#_format">format</a></li>
-<li><a href="#_pad">pad</a></li>
-<li><a href="#_capitalize">capitalize</a></li>
-<li><a href="#_camelize">camelize</a></li>
-<li><a href="#_dasherize">dasherize</a></li>
-<li><a href="#_underscored">underscored</a></li>
-<li><a href="#_titleize">titleize</a></li>
-<li><a href="#_classify">classify</a></li>
-<li><a href="#_humanize">humanize</a></li>
-<li><a href="#_escape_regexp">escape-regexp</a></li>
+<li><a href="#contains">contains?</a></li>
+<li><a href="#starts-with">starts-with?</a></li>
+<li><a href="#ends-with">ends-with?</a></li>
+<li><a href="#empty">empty?</a></li>
+<li><a href="#blank">blank?</a></li>
+<li><a href="#upper">upper</a></li>
+<li><a href="#lower">lower</a></li>
+<li><a href="#repeat">repeat</a></li>
+<li><a href="#trim">trim</a></li>
+<li><a href="#ltrim">ltrim</a></li>
+<li><a href="#rtrim">rtrim</a></li>
+<li><a href="#strip-prefix">strip-prefix</a></li>
+<li><a href="#strip-suffix">strip-suffix</a></li>
+<li><a href="#collapse-whitespace">collapse-whitespace</a></li>
+<li><a href="#prune">prune</a></li>
+<li><a href="#join">join</a></li>
+<li><a href="#split">split</a></li>
+<li><a href="#reverse">reverse</a></li>
+<li><a href="#chars">chars</a></li>
+<li><a href="#lines">lines</a></li>
+<li><a href="#unlines">unlines</a></li>
+<li><a href="#slice">slice</a></li>
+<li><a href="#replace">replace</a></li>
+<li><a href="#replace-first">replace-first</a></li>
+<li><a href="#surround">surround</a></li>
+<li><a href="#unsurround">unsurround</a></li>
+<li><a href="#quote">quote</a></li>
+<li><a href="#unquote">unquote</a></li>
+<li><a href="#slugify">slugify</a></li>
+<li><a href="#strip-tags">strip-tags</a></li>
+<li><a href="#clean">clean</a></li>
+<li><a href="#strip-newlines">strip-newlines</a></li>
+<li><a href="#parse-number">parse-number</a></li>
+<li><a href="#parse-float">parse-float</a></li>
+<li><a href="#parse-int">parse-int</a></li>
+<li><a href="#parse-double">parse-double</a></li>
+<li><a href="#parse-long">parse-long</a></li>
+<li><a href="#format">format</a></li>
+<li><a href="#pad">pad</a></li>
+<li><a href="#capitalize">capitalize</a></li>
+<li><a href="#camelize">camelize</a></li>
+<li><a href="#dasherize">dasherize</a></li>
+<li><a href="#underscored">underscored</a></li>
+<li><a href="#titleize">titleize</a></li>
+<li><a href="#classify">classify</a></li>
+<li><a href="#humanize">humanize</a></li>
+<li><a href="#escape-regexp">escape-regexp</a></li>
 </ul>
 </li>
-<li><a href="#_run_tests">Run tests</a></li>
-<li><a href="#_how_to_contribute">How to Contribute?</a></li>
-<li><a href="#_license">License</a></li>
+<li><a href="#run-tests">Run tests</a></li>
+<li><a href="#how-to-contribute">How to Contribute?</a></li>
+<li><a href="#license">License</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_introduction"><a class="link" href="#_introduction">Introduction</a></h2>
+<h2 id="introduction"><a class="link" href="#introduction">Introduction</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The missing clojure(script) string manipulation library.</p>
@@ -175,7 +176,7 @@ aljibe de madera.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_install"><a class="link" href="#_install">Install</a></h2>
+<h2 id="install"><a class="link" href="#install">Install</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The simplest way to use <em>cuerdas</em> in a clojure project, is by including it in the dependency
@@ -189,7 +190,7 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_quick_start"><a class="link" href="#_quick_start">Quick start</a></h2>
+<h2 id="quick-start"><a class="link" href="#quick-start">Quick start</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">Import the namespace</div>
@@ -211,10 +212,10 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_reference"><a class="link" href="#_reference">Reference</a></h2>
+<h2 id="reference"><a class="link" href="#reference">Reference</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_contains"><a class="link" href="#_contains">contains?</a></h3>
+<h3 id="contains"><a class="link" href="#contains">contains?</a></h3>
 <div class="paragraph">
 <p>Determines whether a string contains a substring.</p>
 </div>
@@ -232,7 +233,7 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_starts_with"><a class="link" href="#_starts_with">starts-with?</a></h3>
+<h3 id="starts-with"><a class="link" href="#starts-with">starts-with?</a></h3>
 <div class="paragraph">
 <p>Check if the string starts with prefix.</p>
 </div>
@@ -253,7 +254,7 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ends_with"><a class="link" href="#_ends_with">ends-with?</a></h3>
+<h3 id="ends-with"><a class="link" href="#ends-with">ends-with?</a></h3>
 <div class="paragraph">
 <p>Check if the string ends with suffix.</p>
 </div>
@@ -274,7 +275,7 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_empty"><a class="link" href="#_empty">empty?</a></h3>
+<h3 id="empty"><a class="link" href="#empty">empty?</a></h3>
 <div class="paragraph">
 <p>Check if the string is empty.</p>
 </div>
@@ -295,7 +296,7 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_blank"><a class="link" href="#_blank">blank?</a></h3>
+<h3 id="blank"><a class="link" href="#blank">blank?</a></h3>
 <div class="paragraph">
 <p>Check if the string is empty or contains only whitespaces.</p>
 </div>
@@ -316,7 +317,7 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_upper"><a class="link" href="#_upper">upper</a></h3>
+<h3 id="upper"><a class="link" href="#upper">upper</a></h3>
 <div class="paragraph">
 <p>Converts string to all upper-case.</p>
 </div>
@@ -331,7 +332,7 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_lower"><a class="link" href="#_lower">lower</a></h3>
+<h3 id="lower"><a class="link" href="#lower">lower</a></h3>
 <div class="paragraph">
 <p>Converts string to all lower-case.</p>
 </div>
@@ -346,7 +347,7 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_repeat"><a class="link" href="#_repeat">repeat</a></h3>
+<h3 id="repeat"><a class="link" href="#repeat">repeat</a></h3>
 <div class="paragraph">
 <p>Repeats string N times.</p>
 </div>
@@ -361,7 +362,7 @@ vector on your <strong><em>project.clj</em></strong> file:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_trim"><a class="link" href="#_trim">trim</a></h3>
+<h3 id="trim"><a class="link" href="#trim">trim</a></h3>
 <div class="paragraph">
 <p>Removes whitespace or specified characters from
 both ends of string.</p>
@@ -383,7 +384,7 @@ both ends of string.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ltrim"><a class="link" href="#_ltrim">ltrim</a></h3>
+<h3 id="ltrim"><a class="link" href="#ltrim">ltrim</a></h3>
 <div class="paragraph">
 <p>Removes whitespace or specified characters from
 left side of string.</p>
@@ -405,7 +406,7 @@ left side of string.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rtrim"><a class="link" href="#_rtrim">rtrim</a></h3>
+<h3 id="rtrim"><a class="link" href="#rtrim">rtrim</a></h3>
 <div class="paragraph">
 <p>Removes whitespace or specified characters from
 right side of string.</p>
@@ -427,7 +428,7 @@ right side of string.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_strip_prefix"><a class="link" href="#_strip_prefix">strip-prefix</a></h3>
+<h3 id="strip-prefix"><a class="link" href="#strip-prefix">strip-prefix</a></h3>
 <div class="paragraph">
 <p>Remove prefix from string if it matches exactly or leave
 the string untouched.</p>
@@ -446,7 +447,7 @@ the string untouched.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_strip_suffix"><a class="link" href="#_strip_suffix">strip-suffix</a></h3>
+<h3 id="strip-suffix"><a class="link" href="#strip-suffix">strip-suffix</a></h3>
 <div class="paragraph">
 <p>Remove suffix from string if it matches exactly or leave
 the string untouched.</p>
@@ -465,7 +466,7 @@ the string untouched.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_collapse_whitespace"><a class="link" href="#_collapse_whitespace">collapse-whitespace</a></h3>
+<h3 id="collapse-whitespace"><a class="link" href="#collapse-whitespace">collapse-whitespace</a></h3>
 <div class="paragraph">
 <p>Converts all adjacent whitespace characters to a single space.</p>
 </div>
@@ -480,7 +481,7 @@ the string untouched.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_prune"><a class="link" href="#_prune">prune</a></h3>
+<h3 id="prune"><a class="link" href="#prune">prune</a></h3>
 <div class="paragraph">
 <p>Truncates a string to certain left and adds "&#8230;&#8203;" if necesary. Making
 sure that the pruned string does not exceed the original length and avoid
@@ -503,7 +504,7 @@ half-chopped words when truncating.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_join"><a class="link" href="#_join">join</a></h3>
+<h3 id="join"><a class="link" href="#join">join</a></h3>
 <div class="paragraph">
 <p>Join strings together with given separator.</p>
 </div>
@@ -518,7 +519,7 @@ half-chopped words when truncating.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_split"><a class="link" href="#_split">split</a></h3>
+<h3 id="split"><a class="link" href="#split">split</a></h3>
 <div class="paragraph">
 <p>Splits a string on a separator a limited number of times.
 The separator can be a string or RegExp instance.</p>
@@ -543,7 +544,7 @@ The separator can be a string or RegExp instance.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_reverse"><a class="link" href="#_reverse">reverse</a></h3>
+<h3 id="reverse"><a class="link" href="#reverse">reverse</a></h3>
 <div class="paragraph">
 <p>Return strign reverted</p>
 </div>
@@ -558,7 +559,7 @@ The separator can be a string or RegExp instance.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_chars"><a class="link" href="#_chars">chars</a></h3>
+<h3 id="chars"><a class="link" href="#chars">chars</a></h3>
 <div class="paragraph">
 <p>Returns a seq of char strings from string.</p>
 </div>
@@ -573,7 +574,7 @@ The separator can be a string or RegExp instance.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_lines"><a class="link" href="#_lines">lines</a></h3>
+<h3 id="lines"><a class="link" href="#lines">lines</a></h3>
 <div class="paragraph">
 <p>Return a list of the lines in the string.</p>
 </div>
@@ -588,7 +589,7 @@ The separator can be a string or RegExp instance.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_unlines"><a class="link" href="#_unlines">unlines</a></h3>
+<h3 id="unlines"><a class="link" href="#unlines">unlines</a></h3>
 <div class="paragraph">
 <p>Joins a list of strings with a newline separator.  This operation is
 the opposite of lines.</p>
@@ -604,7 +605,7 @@ the opposite of lines.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_slice"><a class="link" href="#_slice">slice</a></h3>
+<h3 id="slice"><a class="link" href="#slice">slice</a></h3>
 <div class="paragraph">
 <p>Extracts a section of a string and returns a new string.</p>
 </div>
@@ -622,7 +623,7 @@ the opposite of lines.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_replace"><a class="link" href="#_replace">replace</a></h3>
+<h3 id="replace"><a class="link" href="#replace">replace</a></h3>
 <div class="paragraph">
 <p>Replaces all instance of match with replacement in s.</p>
 </div>
@@ -640,7 +641,7 @@ the opposite of lines.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_replace_first"><a class="link" href="#_replace_first">replace-first</a></h3>
+<h3 id="replace-first"><a class="link" href="#replace-first">replace-first</a></h3>
 <div class="paragraph">
 <p>Replaces first instance of match with replacement in s.</p>
 </div>
@@ -658,7 +659,7 @@ the opposite of lines.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_surround"><a class="link" href="#_surround">surround</a></h3>
+<h3 id="surround"><a class="link" href="#surround">surround</a></h3>
 <div class="paragraph">
 <p>Surround a string with another string.</p>
 </div>
@@ -676,7 +677,7 @@ the opposite of lines.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_unsurround"><a class="link" href="#_unsurround">unsurround</a></h3>
+<h3 id="unsurround"><a class="link" href="#unsurround">unsurround</a></h3>
 <div class="paragraph">
 <p>Unsurround a string surrounded by another.</p>
 </div>
@@ -694,7 +695,7 @@ the opposite of lines.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_quote"><a class="link" href="#_quote">quote</a></h3>
+<h3 id="quote"><a class="link" href="#quote">quote</a></h3>
 <div class="paragraph">
 <p>Quote a string.</p>
 </div>
@@ -709,7 +710,7 @@ the opposite of lines.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_unquote"><a class="link" href="#_unquote">unquote</a></h3>
+<h3 id="unquote"><a class="link" href="#unquote">unquote</a></h3>
 <div class="paragraph">
 <p>Unquote a string.</p>
 </div>
@@ -724,7 +725,7 @@ the opposite of lines.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_slugify"><a class="link" href="#_slugify">slugify</a></h3>
+<h3 id="slugify"><a class="link" href="#slugify">slugify</a></h3>
 <div class="paragraph">
 <p>Transforms string into URL slug.</p>
 </div>
@@ -739,7 +740,7 @@ the opposite of lines.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_strip_tags"><a class="link" href="#_strip_tags">strip-tags</a></h3>
+<h3 id="strip-tags"><a class="link" href="#strip-tags">strip-tags</a></h3>
 <div class="paragraph">
 <p>Remove html tags from string.</p>
 </div>
@@ -769,7 +770,7 @@ the opposite of lines.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_clean"><a class="link" href="#_clean">clean</a></h3>
+<h3 id="clean"><a class="link" href="#clean">clean</a></h3>
 <div class="paragraph">
 <p>Trim and replace multiple spaces with a single space.</p>
 </div>
@@ -784,7 +785,7 @@ the opposite of lines.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_strip_newlines"><a class="link" href="#_strip_newlines">strip-newlines</a></h3>
+<h3 id="strip-newlines"><a class="link" href="#strip-newlines">strip-newlines</a></h3>
 <div class="paragraph">
 <p>Takes a string and replaces newlines with a space. Multiple lines are
 replaced with a single space.</p>
@@ -800,7 +801,7 @@ replaced with a single space.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_parse_number"><a class="link" href="#_parse_number">parse-number</a></h3>
+<h3 id="parse-number"><a class="link" href="#parse-number">parse-number</a></h3>
 <div class="paragraph">
 <p>General purpose function for parse number like strings to number. It
 works with integers and floats.</p>
@@ -834,7 +835,7 @@ only on <strong>clojurescript</strong>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_parse_float"><a class="link" href="#_parse_float">parse-float</a></h3>
+<h3 id="parse-float"><a class="link" href="#parse-float">parse-float</a></h3>
 <div class="paragraph">
 <p>Returns a float value. Wraps parseFloat.</p>
 </div>
@@ -864,7 +865,7 @@ only on <strong>clojurescript</strong>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_parse_int"><a class="link" href="#_parse_int">parse-int</a></h3>
+<h3 id="parse-int"><a class="link" href="#parse-int">parse-int</a></h3>
 <div class="paragraph">
 <p>Returns a number value in integer form. Wraps parseInt.</p>
 </div>
@@ -891,7 +892,7 @@ only on <strong>clojurescript</strong>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_parse_double"><a class="link" href="#_parse_double">parse-double</a></h3>
+<h3 id="parse-double"><a class="link" href="#parse-double">parse-double</a></h3>
 <div class="paragraph">
 <p>Returns a number value in integer form. Wraps parseInt.</p>
 </div>
@@ -918,7 +919,7 @@ only on <strong>clojure</strong>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_parse_long"><a class="link" href="#_parse_long">parse-long</a></h3>
+<h3 id="parse-long"><a class="link" href="#parse-long">parse-long</a></h3>
 <div class="paragraph">
 <p>Returns a number value in integer form. Wraps parseInt.</p>
 </div>
@@ -945,7 +946,7 @@ only on <strong>clojure</strong>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_format"><a class="link" href="#_format">format</a></h3>
+<h3 id="format"><a class="link" href="#format">format</a></h3>
 <div class="paragraph">
 <p>Simple string interpolation.</p>
 </div>
@@ -960,7 +961,7 @@ only on <strong>clojure</strong>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_pad"><a class="link" href="#_pad">pad</a></h3>
+<h3 id="pad"><a class="link" href="#pad">pad</a></h3>
 <div class="paragraph">
 <p>Pads the str with characters until the total string length is equal to
 the passed length parameter.</p>
@@ -988,7 +989,7 @@ the passed length parameter.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_capitalize"><a class="link" href="#_capitalize">capitalize</a></h3>
+<h3 id="capitalize"><a class="link" href="#capitalize">capitalize</a></h3>
 <div class="paragraph">
 <p>Converts first letter of the string to uppercase.</p>
 </div>
@@ -1003,7 +1004,7 @@ the passed length parameter.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_camelize"><a class="link" href="#_camelize">camelize</a></h3>
+<h3 id="camelize"><a class="link" href="#camelize">camelize</a></h3>
 <div class="paragraph">
 <p>Converts a string from selector-case to camelCase.</p>
 </div>
@@ -1018,7 +1019,7 @@ the passed length parameter.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dasherize"><a class="link" href="#_dasherize">dasherize</a></h3>
+<h3 id="dasherize"><a class="link" href="#dasherize">dasherize</a></h3>
 <div class="paragraph">
 <p>Converts a underscored or camelized string into an dasherized one.</p>
 </div>
@@ -1033,7 +1034,7 @@ the passed length parameter.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_underscored"><a class="link" href="#_underscored">underscored</a></h3>
+<h3 id="underscored"><a class="link" href="#underscored">underscored</a></h3>
 <div class="paragraph">
 <p>Converts a camelized or dasherized string into an underscored one.</p>
 </div>
@@ -1048,7 +1049,7 @@ the passed length parameter.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_titleize"><a class="link" href="#_titleize">titleize</a></h3>
+<h3 id="titleize"><a class="link" href="#titleize">titleize</a></h3>
 <div class="paragraph">
 <p>Converts a string into TitleCase.</p>
 </div>
@@ -1063,7 +1064,7 @@ the passed length parameter.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_classify"><a class="link" href="#_classify">classify</a></h3>
+<h3 id="classify"><a class="link" href="#classify">classify</a></h3>
 <div class="paragraph">
 <p>Converts string to camelized class name. First letter is always upper case.</p>
 </div>
@@ -1078,7 +1079,7 @@ the passed length parameter.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_humanize"><a class="link" href="#_humanize">humanize</a></h3>
+<h3 id="humanize"><a class="link" href="#humanize">humanize</a></h3>
 <div class="paragraph">
 <p>Converts an underscored, camelized, or dasherized string into a humanized one.</p>
 </div>
@@ -1093,7 +1094,7 @@ the passed length parameter.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_escape_regexp"><a class="link" href="#_escape_regexp">escape-regexp</a></h3>
+<h3 id="escape-regexp"><a class="link" href="#escape-regexp">escape-regexp</a></h3>
 <div class="paragraph">
 <p>Escape characters on the string that are not safe to use in a RegExp.</p>
 </div>
@@ -1107,7 +1108,7 @@ the passed length parameter.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_run_tests"><a class="link" href="#_run_tests">Run tests</a></h2>
+<h2 id="run-tests"><a class="link" href="#run-tests">Run tests</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><em>cuerdas</em> has splitted implementation for clojure and clojurescript, but tests are build using
@@ -1140,7 +1141,7 @@ speclj and cljx for execute the same tests for both implementations.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_how_to_contribute"><a class="link" href="#_how_to_contribute">How to Contribute?</a></h2>
+<h2 id="how-to-contribute"><a class="link" href="#how-to-contribute">How to Contribute?</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><strong>cuerdas</strong> unlike Clojure and other Clojure contrib libs, does not have many
@@ -1152,7 +1153,7 @@ restrictions for contributions.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_license"><a class="link" href="#_license">License</a></h2>
+<h2 id="license"><a class="link" href="#license">License</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><em>cuerdas</em> is licensed under BSD (2-Clause) license:</p>
@@ -1190,7 +1191,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-13 15:25:57 EEST
+Last updated 2015-07-13 15:30:21 EEST
 </div>
 </div>
 </body>
