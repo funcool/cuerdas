@@ -83,13 +83,13 @@ Alias: startswith?
 
 [source, clojure]
 ----
-(str/startswith? "foobar" "foo")
+(str/starts-with? "foobar" "foo")
 ;; => true
 
-(str/startswith? "foobar" nil)
+(str/starts-with? "foobar" nil)
 ;; => false
 
-(str/startswith? nil "foo")
+(str/starts-with? nil "foo")
 ;; => false
 ----
 
@@ -102,13 +102,13 @@ Alias: endswith?
 
 [source, clojure]
 ----
-(str/endswith? "foobar" "bar")
+(str/ends-with? "foobar" "bar")
 ;; => true
 
-(str/endswith? "foobar" nil)
+(str/ends-with? "foobar" nil)
 ;; => false
 
-(str/endswith? nil "bar")
+(str/ends-with? nil "bar")
 ;; => false
 ----
 
