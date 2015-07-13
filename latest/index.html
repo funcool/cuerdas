@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.2">
+<meta name="author" content="Andrey Antukh, &lt;niwi@niwi.nz&gt;">
+<title>cuerdas</title>
+<style>
+.listingblock .pygments .hll { background-color: #ffffcc }
+.listingblock .pygments  { background: #f0f0f0; }
+.listingblock .pygments .tok-c { color: #60a0b0; font-style: italic } /* Comment */
+.listingblock .pygments .tok-err { border: 1px solid #FF0000 } /* Error */
+.listingblock .pygments .tok-k { color: #007020; font-weight: bold } /* Keyword */
+.listingblock .pygments .tok-o { color: #666666 } /* Operator */
+.listingblock .pygments .tok-cm { color: #60a0b0; font-style: italic } /* Comment.Multiline */
+.listingblock .pygments .tok-cp { color: #007020 } /* Comment.Preproc */
+.listingblock .pygments .tok-c1 { color: #60a0b0; font-style: italic } /* Comment.Single */
+.listingblock .pygments .tok-cs { color: #60a0b0; background-color: #fff0f0 } /* Comment.Special */
+.listingblock .pygments .tok-gd { color: #A00000 } /* Generic.Deleted */
+.listingblock .pygments .tok-ge { font-style: italic } /* Generic.Emph */
+.listingblock .pygments .tok-gr { color: #FF0000 } /* Generic.Error */
+.listingblock .pygments .tok-gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.listingblock .pygments .tok-gi { color: #00A000 } /* Generic.Inserted */
+.listingblock .pygments .tok-go { color: #888888 } /* Generic.Output */
+.listingblock .pygments .tok-gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+.listingblock .pygments .tok-gs { font-weight: bold } /* Generic.Strong */
+.listingblock .pygments .tok-gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.listingblock .pygments .tok-gt { color: #0044DD } /* Generic.Traceback */
+.listingblock .pygments .tok-kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.listingblock .pygments .tok-kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.listingblock .pygments .tok-kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.listingblock .pygments .tok-kp { color: #007020 } /* Keyword.Pseudo */
+.listingblock .pygments .tok-kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.listingblock .pygments .tok-kt { color: #902000 } /* Keyword.Type */
+.listingblock .pygments .tok-m { color: #40a070 } /* Literal.Number */
+.listingblock .pygments .tok-s { color: #4070a0 } /* Literal.String */
+.listingblock .pygments .tok-na { color: #4070a0 } /* Name.Attribute */
+.listingblock .pygments .tok-nb { color: #007020 } /* Name.Builtin */
+.listingblock .pygments .tok-nc { color: #0e84b5; font-weight: bold } /* Name.Class */
+.listingblock .pygments .tok-no { color: #60add5 } /* Name.Constant */
+.listingblock .pygments .tok-nd { color: #555555; font-weight: bold } /* Name.Decorator */
+.listingblock .pygments .tok-ni { color: #d55537; font-weight: bold } /* Name.Entity */
+.listingblock .pygments .tok-ne { color: #007020 } /* Name.Exception */
+.listingblock .pygments .tok-nf { color: #06287e } /* Name.Function */
+.listingblock .pygments .tok-nl { color: #002070; font-weight: bold } /* Name.Label */
+.listingblock .pygments .tok-nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+.listingblock .pygments .tok-nt { color: #062873; font-weight: bold } /* Name.Tag */
+.listingblock .pygments .tok-nv { color: #bb60d5 } /* Name.Variable */
+.listingblock .pygments .tok-ow { color: #007020; font-weight: bold } /* Operator.Word */
+.listingblock .pygments .tok-w { color: #bbbbbb } /* Text.Whitespace */
+.listingblock .pygments .tok-mb { color: #40a070 } /* Literal.Number.Bin */
+.listingblock .pygments .tok-mf { color: #40a070 } /* Literal.Number.Float */
+.listingblock .pygments .tok-mh { color: #40a070 } /* Literal.Number.Hex */
+.listingblock .pygments .tok-mi { color: #40a070 } /* Literal.Number.Integer */
+.listingblock .pygments .tok-mo { color: #40a070 } /* Literal.Number.Oct */
+.listingblock .pygments .tok-sb { color: #4070a0 } /* Literal.String.Backtick */
+.listingblock .pygments .tok-sc { color: #4070a0 } /* Literal.String.Char */
+.listingblock .pygments .tok-sd { color: #4070a0; font-style: italic } /* Literal.String.Doc */
+.listingblock .pygments .tok-s2 { color: #4070a0 } /* Literal.String.Double */
+.listingblock .pygments .tok-se { color: #4070a0; font-weight: bold } /* Literal.String.Escape */
+.listingblock .pygments .tok-sh { color: #4070a0 } /* Literal.String.Heredoc */
+.listingblock .pygments .tok-si { color: #70a0d0; font-style: italic } /* Literal.String.Interpol */
+.listingblock .pygments .tok-sx { color: #c65d09 } /* Literal.String.Other */
+.listingblock .pygments .tok-sr { color: #235388 } /* Literal.String.Regex */
+.listingblock .pygments .tok-s1 { color: #4070a0 } /* Literal.String.Single */
+.listingblock .pygments .tok-ss { color: #517918 } /* Literal.String.Symbol */
+.listingblock .pygments .tok-bp { color: #007020 } /* Name.Builtin.Pseudo */
+.listingblock .pygments .tok-vc { color: #bb60d5 } /* Name.Variable.Class */
+.listingblock .pygments .tok-vg { color: #bb60d5 } /* Name.Variable.Global */
+.listingblock .pygments .tok-vi { color: #bb60d5 } /* Name.Variable.Instance */
+.listingblock .pygments .tok-il { color: #40a070 } /* Literal.Number.Integer.Long */
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Liberation+Mono:400|Roboto+Slab:400,700"/>
+<link rel="stylesheet" href="https://www.niwi.nz/_assets/asciidoctor-styles/simple-red-titles/stylesheet.css"/>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>cuerdas</h1>
+<div class="details">
+<span id="author" class="author">Andrey Antukh, &lt;niwi@niwi.nz&gt;</span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_install">Install</a></li>
+<li><a href="#_quick_start">Quick start</a></li>
+<li><a href="#_reference">Reference</a>
+<ul class="sectlevel2">
+<li><a href="#_contains">contains?</a></li>
+<li><a href="#_starts_with">starts-with?</a></li>
+<li><a href="#_ends_with">ends-with?</a></li>
+<li><a href="#_empty">empty?</a></li>
+<li><a href="#_blank">blank?</a></li>
+<li><a href="#_upper">upper</a></li>
+<li><a href="#_lower">lower</a></li>
+<li><a href="#_repeat">repeat</a></li>
+<li><a href="#_trim">trim</a></li>
+<li><a href="#_ltrim">ltrim</a></li>
+<li><a href="#_rtrim">rtrim</a></li>
+<li><a href="#_strip_prefix">strip-prefix</a></li>
+<li><a href="#_strip_suffix">strip-suffix</a></li>
+<li><a href="#_collapse_whitespace">collapse-whitespace</a></li>
+<li><a href="#_prune">prune</a></li>
+<li><a href="#_join">join</a></li>
+<li><a href="#_split">split</a></li>
+<li><a href="#_reverse">reverse</a></li>
+<li><a href="#_chars">chars</a></li>
+<li><a href="#_lines">lines</a></li>
+<li><a href="#_unlines">unlines</a></li>
+<li><a href="#_slice">slice</a></li>
+<li><a href="#_replace">replace</a></li>
+<li><a href="#_replace_first">replace-first</a></li>
+<li><a href="#_surround">surround</a></li>
+<li><a href="#_unsurround">unsurround</a></li>
+<li><a href="#_quote">quote</a></li>
+<li><a href="#_unquote">unquote</a></li>
+<li><a href="#_slugify">slugify</a></li>
+<li><a href="#_strip_tags">strip-tags</a></li>
+<li><a href="#_clean">clean</a></li>
+<li><a href="#_strip_newlines">strip-newlines</a></li>
+<li><a href="#_parse_number">parse-number</a></li>
+<li><a href="#_parse_float">parse-float</a></li>
+<li><a href="#_parse_int">parse-int</a></li>
+<li><a href="#_parse_double">parse-double</a></li>
+<li><a href="#_parse_long">parse-long</a></li>
+<li><a href="#_format">format</a></li>
+<li><a href="#_pad">pad</a></li>
+<li><a href="#_capitalize">capitalize</a></li>
+<li><a href="#_camelize">camelize</a></li>
+<li><a href="#_dasherize">dasherize</a></li>
+<li><a href="#_underscored">underscored</a></li>
+<li><a href="#_titleize">titleize</a></li>
+<li><a href="#_classify">classify</a></li>
+<li><a href="#_humanize">humanize</a></li>
+<li><a href="#_escape_regexp">escape-regexp</a></li>
+</ul>
+</li>
+<li><a href="#_run_tests">Run tests</a></li>
+<li><a href="#_how_to_contribute">How to Contribute?</a></li>
+<li><a href="#_license">License</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction"><a class="link" href="#_introduction">Introduction</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The missing clojure(script) string manipulation library.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>La guitarra,<br>
+hace llorar a los sueños.<br>
+El sollozo de las almas<br>
+perdidas,<br>
+se escapa por su boca<br>
+redonda.<br>
+Y como la tarántula<br>
+teje una gran estrella<br>
+para cazar suspiros,<br>
+que flotan en su negro<br>
+aljibe de madera.</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; Federico García Lorca<br>
+<cite>Las Seis Cuerdas</cite>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_install"><a class="link" href="#_install">Install</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The simplest way to use <em>cuerdas</em> in a clojure project, is by including it in the dependency
+vector on your <strong><em>project.clj</em></strong> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">[</span><span class="tok-nv">funcool/cuerdas</span> <span class="tok-s">&quot;0.5.0&quot;</span><span class="tok-p">]</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_quick_start"><a class="link" href="#_quick_start">Quick start</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Import the namespace</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">my.namespace</span>
+  <span class="tok-p">(</span><span class="tok-ss">:require</span> <span class="tok-p">[</span><span class="tok-nv">cuerdas.core</span> <span class="tok-ss">:as</span> <span class="tok-nv">str</span><span class="tok-p">]))</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Use its functions</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;just some text&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;p&quot;</span><span class="tok-p">])</span>
+<span class="tok-c1">;; =&gt; &quot;just &lt;b&gt;some&lt;/b&gt; text&quot;</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference"><a class="link" href="#_reference">Reference</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_contains"><a class="link" href="#_contains">contains?</a></h3>
+<div class="paragraph">
+<p>Determines whether a string contains a substring.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/contains?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; true</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/contains?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; false</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/contains?</span> <span class="tok-nv">nil</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; false</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_starts_with"><a class="link" href="#_starts_with">starts-with?</a></h3>
+<div class="paragraph">
+<p>Check if the string starts with prefix.</p>
+</div>
+<div class="paragraph">
+<p>Alias: startswith?</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/startswith?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-s">&quot;foo&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; true</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/startswith?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; false</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/startswith?</span> <span class="tok-nv">nil</span> <span class="tok-s">&quot;foo&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; false</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ends_with"><a class="link" href="#_ends_with">ends-with?</a></h3>
+<div class="paragraph">
+<p>Check if the string ends with suffix.</p>
+</div>
+<div class="paragraph">
+<p>Alias: endswith?</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/endswith?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; true</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/endswith?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; false</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/endswith?</span> <span class="tok-nv">nil</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; false</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_empty"><a class="link" href="#_empty">empty?</a></h3>
+<div class="paragraph">
+<p>Check if the string is empty.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/empty?</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; false</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/empty?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; true</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/empty?</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; true</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/empty?</span> <span class="tok-s">&quot; &quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; false</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_blank"><a class="link" href="#_blank">blank?</a></h3>
+<div class="paragraph">
+<p>Check if the string is empty or contains only whitespaces.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/blank?</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; false</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/blank?</span> <span class="tok-s">&quot;   &quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; true</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/blank?</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; true</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/blank?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; true</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_upper"><a class="link" href="#_upper">upper</a></h3>
+<div class="paragraph">
+<p>Converts string to all upper-case.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/upper</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;FOOBAR&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/upper</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lower"><a class="link" href="#_lower">lower</a></h3>
+<div class="paragraph">
+<p>Converts string to all lower-case.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/lower</span> <span class="tok-s">&quot;FOO&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;foo&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/lower</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_repeat"><a class="link" href="#_repeat">repeat</a></h3>
+<div class="paragraph">
+<p>Repeats string N times.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/repeat</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-mi">3</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;aaa&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/repeat</span> <span class="tok-nv">nil</span> <span class="tok-mi">3</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_trim"><a class="link" href="#_trim">trim</a></h3>
+<div class="paragraph">
+<p>Removes whitespace or specified characters from
+both ends of string.</p>
+</div>
+<div class="paragraph">
+<p>Alias: <em>strip</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/trim</span> <span class="tok-s">&quot; foo &quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;foo&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/trim</span> <span class="tok-s">&quot;-foo-&quot;</span>, <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;foo&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/trim</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ltrim"><a class="link" href="#_ltrim">ltrim</a></h3>
+<div class="paragraph">
+<p>Removes whitespace or specified characters from
+left side of string.</p>
+</div>
+<div class="paragraph">
+<p>Alias: <em>lstrip</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/ltrim</span> <span class="tok-s">&quot; foo &quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;foo &quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/ltrim</span> <span class="tok-s">&quot;-foo-&quot;</span>, <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;foo-&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/ltrim</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rtrim"><a class="link" href="#_rtrim">rtrim</a></h3>
+<div class="paragraph">
+<p>Removes whitespace or specified characters from
+right side of string.</p>
+</div>
+<div class="paragraph">
+<p>Alias: <em>rstrip</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/rtrim</span> <span class="tok-s">&quot; foo &quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot; foo&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/rtrim</span> <span class="tok-s">&quot;-foo-&quot;</span>, <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;-foo&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/rtrim</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_strip_prefix"><a class="link" href="#_strip_prefix">strip-prefix</a></h3>
+<div class="paragraph">
+<p>Remove prefix from string if it matches exactly or leave
+the string untouched.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-prefix</span> <span class="tok-nv">nil</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/strip-prefix</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;a&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/strip-prefix</span> <span class="tok-s">&quot;-=a&quot;</span> <span class="tok-s">&quot;-=&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;a&quot;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_strip_suffix"><a class="link" href="#_strip_suffix">strip-suffix</a></h3>
+<div class="paragraph">
+<p>Remove suffix from string if it matches exactly or leave
+the string untouched.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-suffix</span> <span class="tok-nv">nil</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/strip-suffix</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;a&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/strip-suffix</span> <span class="tok-s">&quot;a=-&quot;</span> <span class="tok-s">&quot;=-&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;a&quot;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_collapse_whitespace"><a class="link" href="#_collapse_whitespace">collapse-whitespace</a></h3>
+<div class="paragraph">
+<p>Converts all adjacent whitespace characters to a single space.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/collapse-whitespace</span> <span class="tok-s">&quot;a\n\nb&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;a b&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/collapse-whitespace</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prune"><a class="link" href="#_prune">prune</a></h3>
+<div class="paragraph">
+<p>Truncates a string to certain left and adds "&#8230;&#8203;" if necesary. Making
+sure that the pruned string does not exceed the original length and avoid
+half-chopped words when truncating.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/prune</span> <span class="tok-s">&quot;Hello World&quot;</span> <span class="tok-mi">5</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;Hello...&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/prune</span> <span class="tok-s">&quot;Hello World&quot;</span> <span class="tok-mi">8</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;Hello...&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/prune</span> <span class="tok-s">&quot;Hello World&quot;</span> <span class="tok-mi">11</span> <span class="tok-s">&quot; (...)&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;Hello (...)&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/prune</span> <span class="tok-nv">nil</span> <span class="tok-mi">5</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_join"><a class="link" href="#_join">join</a></h3>
+<div class="paragraph">
+<p>Join strings together with given separator.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/join</span> <span class="tok-p">[</span><span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">])</span>
+<span class="tok-c1">;; =&gt; &quot;foobar&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/join</span> <span class="tok-s">&quot;,&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">])</span>
+<span class="tok-c1">;; =&gt; &quot;foo,bar&quot;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_split"><a class="link" href="#_split">split</a></h3>
+<div class="paragraph">
+<p>Splits a string on a separator a limited number of times.
+The separator can be a string or RegExp instance.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/split</span> <span class="tok-s">&quot;1 2 3&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; [&quot;1&quot; &quot;2&quot; &quot;3&quot;]</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/split</span> <span class="tok-s">&quot;1 2 3&quot;</span> <span class="tok-s">&quot; &quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; [&quot;1&quot; &quot;2&quot; &quot;3&quot;])</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/split</span> <span class="tok-s">&quot;1 2 3&quot;</span> <span class="tok-o">#</span><span class="tok-s">&quot;\s&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; [&quot;1&quot; &quot;2&quot; &quot;3&quot;]</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/split</span> <span class="tok-s">&quot;1 2 3&quot;</span> <span class="tok-o">#</span><span class="tok-s">&quot;\s&quot;</span> <span class="tok-mi">2</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; [&quot;1&quot; &quot;2 3&quot;]</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/split</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reverse"><a class="link" href="#_reverse">reverse</a></h3>
+<div class="paragraph">
+<p>Return strign reverted</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/reverse</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;rab&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/reverse</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_chars"><a class="link" href="#_chars">chars</a></h3>
+<div class="paragraph">
+<p>Returns a seq of char strings from string.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/chars</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; [&quot;b&quot; &quot;a&quot; &quot;r&quot;]</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/chars</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lines"><a class="link" href="#_lines">lines</a></h3>
+<div class="paragraph">
+<p>Return a list of the lines in the string.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/lines</span> <span class="tok-s">&quot;foo\nbar&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; [&quot;foo&quot; &quot;bar&quot;]</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/lines</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unlines"><a class="link" href="#_unlines">unlines</a></h3>
+<div class="paragraph">
+<p>Joins a list of strings with a newline separator.  This operation is
+the opposite of lines.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/unlines</span> <span class="tok-p">[</span><span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;nbar&quot;</span><span class="tok-p">])</span>
+<span class="tok-c1">;; =&gt; &quot;foo\nbar&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/unlines</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_slice"><a class="link" href="#_slice">slice</a></h3>
+<div class="paragraph">
+<p>Extracts a section of a string and returns a new string.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/slice</span> <span class="tok-s">&quot;123&quot;</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;23&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/slice</span> <span class="tok-s">&quot;1234&quot;</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;23&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/slice</span> <span class="tok-nv">nil</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_replace"><a class="link" href="#_replace">replace</a></h3>
+<div class="paragraph">
+<p>Replaces all instance of match with replacement in s.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/replace</span> <span class="tok-s">&quot;aa bb aa&quot;</span> <span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;kk bb kk&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/replace</span> <span class="tok-s">&quot;aa bb aa&quot;</span> <span class="tok-o">#</span><span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;kk bb kk&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/replace</span> <span class="tok-nv">nil</span> <span class="tok-o">#</span><span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_replace_first"><a class="link" href="#_replace_first">replace-first</a></h3>
+<div class="paragraph">
+<p>Replaces first instance of match with replacement in s.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/replace-first</span> <span class="tok-s">&quot;aa bb aa&quot;</span> <span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;kk bb aa&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/replace-first</span> <span class="tok-s">&quot;aa bb aa&quot;</span> <span class="tok-o">#</span><span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;kk bb aa&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/replace-first</span> <span class="tok-nv">nil</span> <span class="tok-o">#</span><span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_surround"><a class="link" href="#_surround">surround</a></h3>
+<div class="paragraph">
+<p>Surround a string with another string.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/surround</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;-a-&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/surround</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-s">&quot;-^-&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;-^-a-^-&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/surround</span> <span class="tok-nv">nil</span> <span class="tok-s">&quot;-^-&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unsurround"><a class="link" href="#_unsurround">unsurround</a></h3>
+<div class="paragraph">
+<p>Unsurround a string surrounded by another.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/unsurround</span> <span class="tok-s">&quot;-a-&quot;</span> <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;a&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/unsurround</span> <span class="tok-s">&quot;-^-a-^-&quot;</span> <span class="tok-s">&quot;-^-&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;a&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/unsurround</span> <span class="tok-nv">nil</span> <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quote"><a class="link" href="#_quote">quote</a></h3>
+<div class="paragraph">
+<p>Quote a string.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/quote</span> <span class="tok-s">&quot;a&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;\&quot;a\&quot;&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/quote</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unquote"><a class="link" href="#_unquote">unquote</a></h3>
+<div class="paragraph">
+<p>Unquote a string.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/unquote</span> <span class="tok-s">&quot;\&quot;a\&quot;&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;a&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/unquote</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_slugify"><a class="link" href="#_slugify">slugify</a></h3>
+<div class="paragraph">
+<p>Transforms string into URL slug.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/slugify</span> <span class="tok-s">&quot;Un éléphant à l&#39;orée du bois&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;un-elephant-a-loree-du-bois&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/slugify</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_strip_tags"><a class="link" href="#_strip_tags">strip-tags</a></h3>
+<div class="paragraph">
+<p>Remove html tags from string.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;just some text&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;p&quot;</span><span class="tok-p">])</span>
+<span class="tok-c1">;; =&gt; &quot;just &lt;b&gt;some&lt;/b&gt; text&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It also allows arbitrary replacements:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just&lt;br&gt;text&lt;/p&gt;&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:br</span> <span class="tok-s">&quot;\n&quot;</span><span class="tok-p">})</span>
+<span class="tok-c1">;; =&gt; &quot;just\ntext&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just&lt;br&gt;text&lt;/p&gt;&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;br&quot;</span><span class="tok-p">]</span> <span class="tok-p">{</span><span class="tok-ss">:br</span> <span class="tok-s">&quot;\n&quot;</span><span class="tok-p">})</span>
+<span class="tok-c1">;; =&gt; &quot;&lt;p&gt;just\ntext&lt;/p&gt;&quot;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_clean"><a class="link" href="#_clean">clean</a></h3>
+<div class="paragraph">
+<p>Trim and replace multiple spaces with a single space.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/clean</span> <span class="tok-s">&quot;  a   b   &quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;a b&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/clean</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_strip_newlines"><a class="link" href="#_strip_newlines">strip-newlines</a></h3>
+<div class="paragraph">
+<p>Takes a string and replaces newlines with a space. Multiple lines are
+replaced with a single space.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-newlines</span> <span class="tok-s">&quot;a\n\nb&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;a b&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/strip-newlines</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parse_number"><a class="link" href="#_parse_number">parse-number</a></h3>
+<div class="paragraph">
+<p>General purpose function for parse number like strings to number. It
+works with integers and floats.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/parse-number</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 1</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/parse-number</span> <span class="tok-s">&quot;1.4&quot;</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 1.4</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/parse-number</span> <span class="tok-s">&quot;1&quot;</span> <span class="tok-mi">2</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 1</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/parse-number</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; NaN</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+only on <strong>clojurescript</strong>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parse_float"><a class="link" href="#_parse_float">parse-float</a></h3>
+<div class="paragraph">
+<p>Returns a float value. Wraps parseFloat.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/parse-float</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 1.4</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/parse-float</span> <span class="tok-s">&quot;1&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 1.0</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/parse-float</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; NaN</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+only on <strong>clojurescript</strong>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parse_int"><a class="link" href="#_parse_int">parse-int</a></h3>
+<div class="paragraph">
+<p>Returns a number value in integer form. Wraps parseInt.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/parse-int</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 1</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/parse-int</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; NaN</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+only on <strong>clojurescript</strong>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parse_double"><a class="link" href="#_parse_double">parse-double</a></h3>
+<div class="paragraph">
+<p>Returns a number value in integer form. Wraps parseInt.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/parse-double</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 1.4</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/parse-double</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; NaN</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+only on <strong>clojure</strong>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parse_long"><a class="link" href="#_parse_long">parse-long</a></h3>
+<div class="paragraph">
+<p>Returns a number value in integer form. Wraps parseInt.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/parse-long</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 1</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/parse-long</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; NaN</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+only on <strong>clojure</strong>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_format"><a class="link" href="#_format">format</a></h3>
+<div class="paragraph">
+<p>Simple string interpolation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello %s&quot;</span> <span class="tok-s">&quot;yen&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;hello yen&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello %(name)s&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:name</span> <span class="tok-s">&quot;yen&quot;</span><span class="tok-p">})</span>
+<span class="tok-c1">;; =&gt; &quot;hello yen&quot;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pad"><a class="link" href="#_pad">pad</a></h3>
+<div class="paragraph">
+<p>Pads the str with characters until the total string length is equal to
+the passed length parameter.</p>
+</div>
+<div class="paragraph">
+<p>By default, pads on the left with the space char.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/pad</span> <span class="tok-s">&quot;1&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:length</span> <span class="tok-mi">8</span><span class="tok-p">})</span>
+<span class="tok-c1">;; =&gt; &quot;       1&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/pad</span> <span class="tok-nv">nil</span> <span class="tok-p">{</span><span class="tok-ss">:length</span> <span class="tok-mi">8</span><span class="tok-p">})</span>
+<span class="tok-c1">;; =&gt; nil</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/pad</span> <span class="tok-s">&quot;1&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:length</span> <span class="tok-mi">8</span> <span class="tok-ss">:padding</span> <span class="tok-s">&quot;0&quot;</span><span class="tok-p">})</span>
+<span class="tok-c1">;; =&gt; &quot;00000001&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/pad</span> <span class="tok-s">&quot;1&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:length</span> <span class="tok-mi">8</span> <span class="tok-ss">:padding</span> <span class="tok-s">&quot;0&quot;</span> <span class="tok-ss">:type</span> <span class="tok-ss">:right</span><span class="tok-p">})</span>
+<span class="tok-c1">;; =&gt; &quot;10000000&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/pad</span> <span class="tok-s">&quot;1&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:length</span> <span class="tok-mi">8</span> <span class="tok-ss">:padding</span> <span class="tok-s">&quot;0&quot;</span> <span class="tok-ss">:type</span> <span class="tok-ss">:both</span><span class="tok-p">})</span>
+<span class="tok-c1">;; =&gt; &quot;00001000&quot;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_capitalize"><a class="link" href="#_capitalize">capitalize</a></h3>
+<div class="paragraph">
+<p>Converts first letter of the string to uppercase.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/capitalize</span> <span class="tok-s">&quot;foo&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;Foo&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/capitalize</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_camelize"><a class="link" href="#_camelize">camelize</a></h3>
+<div class="paragraph">
+<p>Converts a string from selector-case to camelCase.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/camelize</span> <span class="tok-s">&quot;foo bar&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;fooBar&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/camelize</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dasherize"><a class="link" href="#_dasherize">dasherize</a></h3>
+<div class="paragraph">
+<p>Converts a underscored or camelized string into an dasherized one.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/dasherize</span> <span class="tok-s">&quot;MozTransform&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;-moz-transform&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/dasherize</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_underscored"><a class="link" href="#_underscored">underscored</a></h3>
+<div class="paragraph">
+<p>Converts a camelized or dasherized string into an underscored one.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/underscored</span> <span class="tok-s">&quot;MozTransform&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;moz_transform&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/underscored</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_titleize"><a class="link" href="#_titleize">titleize</a></h3>
+<div class="paragraph">
+<p>Converts a string into TitleCase.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/titleize</span> <span class="tok-s">&quot;my name is epeli&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;My Name Is Epeli&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/titleize</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_classify"><a class="link" href="#_classify">classify</a></h3>
+<div class="paragraph">
+<p>Converts string to camelized class name. First letter is always upper case.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/classify</span> <span class="tok-s">&quot;some_class_name&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;SomeClassName&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/classify</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_humanize"><a class="link" href="#_humanize">humanize</a></h3>
+<div class="paragraph">
+<p>Converts an underscored, camelized, or dasherized string into a humanized one.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/humanize</span> <span class="tok-s">&quot;  capitalize dash-CamelCase_underscore trim  &quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;Capitalize dash camel case underscore trim&quot;</span>
+
+<span class="tok-p">(</span><span class="tok-nf">str/humanize</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; nil</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_escape_regexp"><a class="link" href="#_escape_regexp">escape-regexp</a></h3>
+<div class="paragraph">
+<p>Escape characters on the string that are not safe to use in a RegExp.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/escape-regexp</span> <span class="tok-s">&quot;\s&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;\\s&quot;</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_run_tests"><a class="link" href="#_run_tests">Run tests</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>cuerdas</em> has splitted implementation for clojure and clojurescript, but tests are build using
+speclj and cljx for execute the same tests for both implementations.</p>
+</div>
+<div class="paragraph">
+<p>For run tests, cljx source should be compiled.</p>
+</div>
+<div class="paragraph">
+<p>Additional note for run clojurescript tests: you should have instaled phantomjs.</p>
+</div>
+<div class="listingblock">
+<div class="title">Compile cljx source, and keep watching changes.</div>
+<div class="content">
+<pre>$ lein cljx auto</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Run tests for clojure and keep watching changes.</div>
+<div class="content">
+<pre>$ lein spec -a</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Compile clojurescript and run test on successful build.</div>
+<div class="content">
+<pre>$ lein cljsbuild auto dev</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_how_to_contribute"><a class="link" href="#_how_to_contribute">How to Contribute?</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>cuerdas</strong> unlike Clojure and other Clojure contrib libs, does not have many
+restrictions for contributions.</p>
+</div>
+<div class="paragraph">
+<p><strong>Pull requests are welcome!</strong></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_license"><a class="link" href="#_license">License</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>cuerdas</em> is licensed under BSD (2-Clause) license:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Copyright (c) 2014-2015 Andrey Antukh &lt;niwi@niwi.nz&gt;
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2015-06-21 17:41:24 EEST
+</div>
+</div>
+</body>
+</html>
