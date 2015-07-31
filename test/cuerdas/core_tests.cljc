@@ -1,16 +1,11 @@
 (ns cuerdas.core-tests
-  #+cljs
-  (:require [cljs-testrunners.node :as node]
-            [cljs.test :as t]
-            [cuerdas.core :as str])
-  #+clj
-  (:require [clojure.test :as t]
+  (:require #?(:cljs [cljs.test :as t]
+               :clj [clojure.test :as t])
             [cuerdas.core :as str]))
 
 (defn nan?
   [s]
-  #+cljs (js/isNaN s)
-  #+clj (Double/isNaN s))
+  #?(:cljs (js/isNaN s) :clj (Double/isNaN s)))
 
 (t/deftest cuerdas-tests
   (t/testing "lower"
@@ -146,15 +141,15 @@
     (t/is (= "a b" (str/clean " a   b  ")))
     (t/is (= "23.12.2014 10:09:19" (str/clean "23.12.2014    10:09:19"))))
 
-  #+cljs
-  (t/testing "escape-html"
-    (t/is (= "&lt;div&gt;Blah blah blah&lt;/div&gt;"
-             (str/escape-html "<div>Blah blah blah</div>"))))
+  #?(:cljs
+     (t/testing "escape-html"
+       (t/is (= "&lt;div&gt;Blah blah blah&lt;/div&gt;"
+                (str/escape-html "<div>Blah blah blah</div>")))))
 
-  #+cljs
-  (t/testing "unescape-html"
-    (t/is (= "<div>Blah blah blah</div>"
-             (str/unescape-html "&lt;div&gt;Blah blah blah&lt;/div&gt;"))))
+  #?(:cljs
+     (t/testing "unescape-html"
+       (t/is (= "<div>Blah blah blah</div>"
+                (str/unescape-html "&lt;div&gt;Blah blah blah&lt;/div&gt;")))))
 
   (t/testing "strip-tags"
     (t/is (= nil (str/strip-tags nil)))
@@ -168,34 +163,34 @@
              (str/strip-tags "<p>just <b>some</b> text</p>" "P"))))
 
 
-  #+cljs
-  (t/testing "parse-number"
-    (t/is (= 0 (str/parse-number nil)))
-    (t/is (= 1 (str/parse-number "1.4")))
-    (t/is (= 1.4 (str/parse-number "1.4" 1)))
-    (t/is (= 1 (str/parse-number "1" 2))))
+  #?(:cljs
+     (t/testing "parse-number"
+       (t/is (= 0 (str/parse-number nil)))
+       (t/is (= 1 (str/parse-number "1.4")))
+       (t/is (= 1.4 (str/parse-number "1.4" 1)))
+       (t/is (= 1 (str/parse-number "1" 2)))))
 
-  #+cljs
-  (t/testing "parse-float"
-    (t/is (nan? (str/parse-float nil)))
-    (t/is (= 1.4 (str/parse-float "1.4")))
-    (t/is (= 1.0 (str/parse-float "1"))))
+  #?(:cljs
+     (t/testing "parse-float"
+       (t/is (nan? (str/parse-float nil)))
+       (t/is (= 1.4 (str/parse-float "1.4")))
+       (t/is (= 1.0 (str/parse-float "1")))))
 
-  #+clj
-  (t/testing "parse-double"
-    (t/is (nan? (str/parse-double nil)))
-    (t/is (= 1.4 (str/parse-double "1.4")))
-    (t/is (= 1.0 (str/parse-double "1"))))
+  #?(:clj
+     (t/testing "parse-double"
+       (t/is (nan? (str/parse-double nil)))
+       (t/is (= 1.4 (str/parse-double "1.4")))
+       (t/is (= 1.0 (str/parse-double "1")))))
 
-  #+cljs
-  (t/testing "parse-int"
-    (t/is (nan? (str/parse-int nil)))
-    (t/is (= 1 (str/parse-int "1.4"))))
+  #?(:cljs
+     (t/testing "parse-int"
+       (t/is (nan? (str/parse-int nil)))
+       (t/is (= 1 (str/parse-int "1.4")))))
 
-  #+clj
-  (t/testing "parse-long"
-    (t/is (nan? (str/parse-long nil)))
-    (t/is (= 1 (str/parse-long "1.4"))))
+  #?(:clj
+     (t/testing "parse-long"
+       (t/is (nan? (str/parse-long nil)))
+       (t/is (= 1 (str/parse-long "1.4")))))
 
   (t/testing "format"
     (t/is (= nil (str/format nil "pepe")))
@@ -232,10 +227,10 @@
     (t/is (= "mozTransform" (str/camelize "moz-transform")))
     (t/is (= "mozTransform" (str/camelize "moz transform"))))
 
-  #+clj
-  (t/testing "strip-suffix"
-    (t/is (= nil (str/strip-suffix nil "foo")))
-    (t/is (= "foobar" (str/strip-suffix "foobar-" "-"))))
+  #?(:clj
+     (t/testing "strip-suffix"
+       (t/is (= nil (str/strip-suffix nil "foo")))
+       (t/is (= "foobar" (str/strip-suffix "foobar-" "-")))))
 
   (t/testing "dasherize"
     (t/is (= nil (str/dasherize nil)))
@@ -278,5 +273,14 @@
     (t/is (= "foo" (str/substr-between "---foo>>bar--foo1>>bar" "---" ">>"))))
   )
 
-#+cljs
-(set! *main-cli-fn* #(node/run-tests))
+#?(:cljs
+   (do
+     (enable-console-print!)
+     (set! *main-cli-fn* #(t/run-tests))))
+
+#?(:cljs
+   (defmethod t/report [:cljs.test/default :end-run-tests]
+     [m]
+     (if (t/successful? m)
+       (set! (.-exitCode js/process) 0)
+       (set! (.-exitCode js/process) 1))))
