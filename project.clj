@@ -1,4 +1,4 @@
-(defproject funcool/cuerdas "0.6.0-SNAPSHOT"
+(defproject funcool/cuerdas "0.6.0"
   :description "The missing string manipulation library for clojure"
   :url "https://github.com/funcool/cuerdas"
 
@@ -7,7 +7,6 @@
 
   :dependencies [[org.clojure/clojure "1.7.0" :scope "provided"]
                  [org.clojure/clojurescript "1.7.28" :scope "provided"]]
-
   :source-paths ["src/clj" "src/cljs"]
   :jar-exclusions [#"\.swp|\.swo|user.clj"])
 
