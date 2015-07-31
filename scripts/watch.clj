@@ -1,6 +1,6 @@
 (require '[cljs.build.api :as b])
 
-(b/watch (b/inputs "test" "src/cljs")
+(b/watch (b/inputs "test" "src")
   {:main 'cuerdas.core-tests
    :target :nodejs
    :output-to "out/tests.js"

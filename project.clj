@@ -7,6 +7,6 @@
 
   :dependencies [[org.clojure/clojure "1.7.0" :scope "provided"]
                  [org.clojure/clojurescript "1.7.28" :scope "provided"]]
-  :source-paths ["src/clj" "src/cljs"]
+  :source-paths ["src"]
   :jar-exclusions [#"\.swp|\.swo|user.clj"])
 
