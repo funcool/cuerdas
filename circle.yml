@@ -1,15 +1,14 @@
 dependencies:
   post:
-    - lein cljx
-    - lein cljsbuild once dev
+    - ./scripts/build
 
 machine:
   node:
-    version: 0.10.22
+    version: iojs-v2.5.0
   java:
-    version: openjdk7
+    version: oraclejdk8
 
 test:
   override:
-    - lein test
-    - lein cljsbuild test
+    - lein test cuerdas.core-tests
+    - node ./out/tests.js
