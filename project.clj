@@ -1,40 +1,13 @@
-(defproject funcool/cuerdas "0.5.0"
+(defproject funcool/cuerdas "0.6.0-SNAPSHOT"
   :description "The missing string manipulation library for clojure"
   :url "https://github.com/funcool/cuerdas"
 
   :license {:name "BSD (2-Clause)"
             :url "http://opensource.org/licenses/BSD-2-Clause"}
 
-  :dependencies []
+  :dependencies [[org.clojure/clojure "1.7.0" :scope "provided"]
+                 [org.clojure/clojurescript "1.7.28" :scope "provided"]]
+
   :source-paths ["src/clj" "src/cljs"]
-  :jar-exclusions [#"\.cljx|\.swp|\.swo|user.clj"]
-
-  :cljx {:builds [{:source-paths ["test"]
-                   :output-path "output/test/clj"
-                   :rules :clj}
-                  {:source-paths ["test"]
-                   :output-path "output/test/cljs"
-                   :rules :cljs}]}
-
-  :cljsbuild {:test-commands {"test" ["node" "output/tests.js"]}
-              :builds [{:id "dev"
-                        :source-paths ["output/test/cljs" "src/cljs"]
-                        :notify-command ["node" "output/tests.js"]
-                        :compiler {:output-to "output/tests.js"
-                                   :output-dir "output/"
-                                   :source-map true
-                                   :static-fns true
-                                   :cache-analysis false
-                                   :main cuerdas.core-tests
-                                   :optimizations :none
-                                   :target :nodejs
-                                   :pretty-print true}}]}
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.6.0"]
-                                  [org.clojure/clojurescript "0.0-3126"]
-                                  [funcool/cljs-testrunners "0.1.0-SNAPSHOT"]]
-                   :global-vars {*warn-on-reflection* true}
-                   :test-paths ["output/test/clj"]
-                   :plugins [[com.keminglabs/cljx "0.6.0"
-                              :exclusions [org.clojure/clojure]]
-                             [lein-cljsbuild "1.0.4"]]}})
+  :jar-exclusions [#"\.swp|\.swo|user.clj"])
 
