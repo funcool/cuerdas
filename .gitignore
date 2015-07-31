@@ -13,4 +13,4 @@ pom.xml.asc
 *~
 .\#*
 /*init.clj
-/output
+/out
