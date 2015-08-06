@@ -356,17 +356,18 @@
 (defn slugify
   "Transform text into a URL slug."
   [s]
-  (let [from  "ąàáäâãåæăćčĉęèéëêĝĥìíïîĵłľńňòóöőôõðøśșšŝťțŭùúüűûñÿýçżźž"
-        to    "aaaaaaaaaccceeeeeghiiiijllnnoooooooossssttuuuuuunyyczzz"
-        regex (#?(:clj re-pattern) (str "[" (escape-regexp from) "]"))]
-    (-> (lower s)
-        (replace regex (fn [^String c]
-                         (let [index (.indexOf from c)
-                               res   #?(:clj  (String/valueOf (.charAt to index))
-                                        :cljs (.charAt to index))]
-                           (if (empty? res) "-" res))))
-        (replace #"[^\w\s-]" "")
-        (dasherize))))
+  (when s
+    (let [from  "ąàáäâãåæăćčĉęèéëêĝĥìíïîĵłľńňòóöőôõðøśșšŝťțŭùúüűûñÿýçżźž"
+          to    "aaaaaaaaaccceeeeeghiiiijllnnoooooooossssttuuuuuunyyczzz"
+          regex (#?(:clj re-pattern) (str "[" (escape-regexp from) "]"))]
+      (-> (lower s)
+          (replace regex (fn [^String c]
+                           (let [index (.indexOf from c)
+                                 res   #?(:clj  (String/valueOf (.charAt to index))
+                                          :cljs (.charAt to index))]
+                             (if (empty? res) "-" res))))
+          (replace #"[^\w\s-]" "")
+          (dasherize)))))
 
 ;; (defn pad
 ;;   "Pads the str with characters until the total string
