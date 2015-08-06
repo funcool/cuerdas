@@ -103,8 +103,9 @@
    (when-not (nil? s)
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
            rxstr (str "^" rxstr "+|" rxstr "+$")]
-       (#?@(:clj [as-> (re-pattern rxstr) rx])
-         (replace s rx ""))))))
+       #?(:clj  (as-> (re-pattern rxstr) rx
+                      (replace s rx ""))
+          :cljs (replace s rx ""))))))
 
 (defn rtrim
   "Removes whitespace or specified characters
@@ -114,8 +115,9 @@
    (when-not (nil? s)
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
            rxstr (str rxstr "+$")]
-       (#?@(:clj [as-> (re-pattern rxstr) rx])
-         (replace s rx ""))))))
+       #?(:clj  (as-> (re-pattern rxstr) rx
+                      (replace s rx ""))
+          :cljs (replace s rx ""))))))
 
 (defn ltrim
   "Removes whitespace or specified characters
@@ -125,8 +127,9 @@
    (when-not (nil? s)
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
            rxstr (str "^" rxstr)]
-       (#?@(:clj [as-> (re-pattern rxstr) rx])
-         (replace s rx ""))))))
+       #?(:clj  (as-> (re-pattern rxstr) rx
+                      (replace s rx ""))
+          :cljs (replace s rx ""))))))
 
 (def strip trim)
 (def rstrip rtrim)
