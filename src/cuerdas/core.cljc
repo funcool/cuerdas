@@ -126,7 +126,7 @@
   ([s chs]
    (when-not (nil? s)
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
-           rx    (str "^" rxstr)]
+           rx    (str "^" rxstr #?(:cljs "+"))]
        #?(:clj  (as-> (re-pattern rxstr) rx
                       (replace s rx ""))
           :cljs (replace s rx ""))))))
