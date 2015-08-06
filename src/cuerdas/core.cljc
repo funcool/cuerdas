@@ -362,7 +362,8 @@
     (-> (lower s)
         (replace regex (fn [^String c]
                          (let [index (.indexOf from c)
-                               res   (#?(:clj String/valueOf) (.charAt to index))]
+                               res   #?(:clj  (String/valueOf (.charAt to index))
+                                        :cljs (.charAt to index))]
                            (if (empty? res) "-" res))))
         (replace #"[^\w\s-]" "")
         (dasherize))))
