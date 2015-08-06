@@ -102,7 +102,7 @@
   ([s chs]
    (when-not (nil? s)
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
-           rxstr (str "^" rxstr "+|" rxstr "+$")]
+           rx    (str "^" rxstr "+|" rxstr "+$")]
        #?(:clj  (as-> (re-pattern rxstr) rx
                       (replace s rx ""))
           :cljs (replace s rx ""))))))
@@ -114,7 +114,7 @@
   ([s chs]
    (when-not (nil? s)
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
-           rxstr (str rxstr "+$")]
+           rx    (str rxstr "+$")]
        #?(:clj  (as-> (re-pattern rxstr) rx
                       (replace s rx ""))
           :cljs (replace s rx ""))))))
@@ -126,7 +126,7 @@
   ([s chs]
    (when-not (nil? s)
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
-           rxstr (str "^" rxstr)]
+           rx    (str "^" rxstr)]
        #?(:clj  (as-> (re-pattern rxstr) rx
                       (replace s rx ""))
           :cljs (replace s rx ""))))))
