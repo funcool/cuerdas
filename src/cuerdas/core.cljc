@@ -603,10 +603,10 @@
                (sequential? tags) (set (map kwdize tags)))
         rx   (re-pattern "<\\/?([^<>]*)>")
         replacer (if (nil? tags)
-                   (fn [[match tag]]
+                   (fn #?(:clj [[match tag]] :cljs [match tag])
                      (let [tag (kwdize tag)]
                        (get mappings tag "")))
-                   (fn [[match tag]]
+                   (fn #?(:clj [[match tag]] :cljs [match tag])
                      (let [tag (kwdize tag)]
                        (if (tags tag)
                          (get mappings tag "")
@@ -615,12 +615,12 @@
 
 (defn strip-tags
   "Remove html tags from string."
-  ([ s] (strip-tags-impl s nil {}))
-  ([ s tags]
+  ([s] (strip-tags-impl s nil {}))
+  ([s tags]
    (if (map? tags)
-     (strip-tags-impl s nil tags)
-     (strip-tags-impl s tags {})))
-  ([ s tags mapping]
+       (strip-tags-impl s nil  tags)
+       (strip-tags-impl s tags {}  )))
+  ([s tags mapping]
    (strip-tags-impl s tags mapping)))
 
 (defn clean
