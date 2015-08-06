@@ -359,7 +359,7 @@
   (when s
     (let [from  "ąàáäâãåæăćčĉęèéëêĝĥìíïîĵłľńňòóöőôõðøśșšŝťțŭùúüűûñÿýçżźž"
           to    "aaaaaaaaaccceeeeeghiiiijllnnoooooooossssttuuuuuunyyczzz"
-          regex (#?(:clj re-pattern) (str "[" (escape-regexp from) "]"))]
+          regex (re-pattern (str "[" (escape-regexp from) "]"))]
       (-> (lower s)
           (replace regex (fn [^String c]
                            (let [index (.indexOf from c)
