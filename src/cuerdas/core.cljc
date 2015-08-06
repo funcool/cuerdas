@@ -3,10 +3,10 @@
     #?@(:clj [unquote format])])
   (:require [clojure.string :as str]
             #?(:cljs [goog.string :as gstr])
-            [clojure.set :refer [map-invert]]
+            [clojure.set  :refer [map-invert]]
             [clojure.walk :refer [stringify-keys]])
-  (:import java.util.regex.Pattern
-           java.util.List))
+  #?(:clj (:import java.util.regex.Pattern
+                   java.util.List)))
 
 (defn contains?
   "Determines whether a string contains a substring."
