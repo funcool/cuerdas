@@ -24,20 +24,24 @@
     (t/is (str/contains? "abc" "ab"))
     (t/is (str/contains? "abc" ""))
     (t/is (not (str/contains? "abc" "cba")))
-    (t/is (not (str/contains? "abc" nil)))
+    (t/is (str/contains? "abc" nil))
     (t/is (not (str/contains? nil nil))))
 
   (t/testing "startswith?"
     (t/is (str/startswith? "abc" "ab"))
     (t/is (not (str/startswith? "abc" "cab")))
     (t/is (not (str/startswith? nil "ab")))
-    (t/is (not (str/startswith? "abc" nil))))
+    (t/is (str/startswith? "abc" nil))
+    (t/is (str/startswith? "abc" ""))
+    (t/is (str/startswith? nil nil)))
 
   (t/testing "endswith?"
     (t/is (str/endswith? "abc" "bc"))
     (t/is (not (str/endswith? "abc" "bca")))
     (t/is (not (str/endswith? nil "bc")))
-    (t/is (not (str/endswith? "abc" nil))))
+    (t/is (str/endswith? "abc" nil))
+    (t/is (str/endswith? "abc" ""))
+    (t/is (str/endswith? nil nil)))
 
   (t/testing "trim"
     (t/is (= "a" (str/trim " a ")))

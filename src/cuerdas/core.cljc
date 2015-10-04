@@ -8,12 +8,17 @@
   #?(:clj (:import java.util.regex.Pattern
                    java.util.List)))
 
+(defn empty?
+  "Checks if a string is empty."
+  [^String s]
+  (= (count s) 0))
+
 (defn contains?
   "Determines whether a string contains a substring."
   [s subs]
   (when-not (nil? s)
     #?(:clj  (cond
-               (nil? subs) false
+               (empty? subs) true
                (>= (.indexOf ^String s ^String subs) 0) true
                :else false)
        :cljs (not= (.indexOf s subs) -1))))
@@ -36,8 +41,8 @@
   "Check if the string starts with prefix."
   [s prefix]
   #?(:clj (cond
-            (nil? s) false
-            (nil? prefix) false
+            (nil? s) (nil? prefix)
+            (empty? prefix) true
             :else (let [region (slice s 0 (count prefix))]
                     (= region prefix)))
      :cljs (when-not (nil? s)
@@ -47,8 +52,8 @@
   "Check if the string ends with suffix."
   [s suffix]
   #?(:clj (cond
-            (nil? s) false
-            (nil? suffix) false
+            (nil? s) (nil? suffix)
+            (empty? suffix) true
             :else (let [len (count s)
                         region (slice s (- len (count suffix)) len)]
                     (= region suffix)))
@@ -71,14 +76,6 @@
   [s]
   (when-not (nil? s)
     (.toUpperCase #?(:clj ^String s :cljs s))))
-
-(defn empty?
-  "Checks if a string is empty."
-  [^String s]
-  (cond
-    (nil? s) true
-    (= (count s) 0) true
-    :else false))
 
 (defn blank?
   "Checks if a string is empty or contains only whitespace."
