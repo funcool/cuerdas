@@ -20,6 +20,7 @@
   [s subs]
   (when-not (nil? s)
     #?(:clj  (cond
+               (nil? subs) false
                (empty? subs) true
                (>= (.indexOf ^String s ^String subs) 0) true
                :else false)
