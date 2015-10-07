@@ -11,7 +11,9 @@
 (defn empty?
   "Checks if a string is empty."
   [^String s]
-  (= (count s) 0))
+  (if (nil? s)
+    false
+    (= (count s) 0)))
 
 (defn contains?
   "Determines whether a string contains a substring."
