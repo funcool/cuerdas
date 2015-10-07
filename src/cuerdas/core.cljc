@@ -411,16 +411,16 @@
        :cljs (when-not (nil? s)
                (gstr/toTitleCase s))))
   ([s delimeters]
-    #?(:clj
-        (when-not (nil? s)
-          (let [delimeters (if delimeters
-                             (escape-regexp delimeters)
-                             "\\s")
-                delimeters (str "|[" delimeters "]+")
-                rx         (re-pattern (str "(^" delimeters ")([a-z])"))]
-            (replace s rx (fn [[c1 _]]
-                            (upper c1)))))
-       :cljs (gstr/toTitleCase s delimiters))))
+   #?(:clj
+       (when-not (nil? s)
+         (let [delimeters (if delimeters
+                            (escape-regexp delimeters)
+                            "\\s")
+               delimeters (str "|[" delimeters "]+")
+               rx         (re-pattern (str "(^" delimeters ")([a-z])"))]
+           (replace s rx (fn [[c1 _]]
+                           (upper c1)))))
+       :cljs (gstr/toTitleCase s delimeters))))
 
 (defn classify
   "Converts string to camelized class name. First letter is always upper case."
