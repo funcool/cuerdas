@@ -364,38 +364,6 @@
           (replace #"[^\w\s-]" "")
           (dasherize)))))
 
-;; (defn pad
-;;   "Pads the str with characters until the total string
-;;   length is equal to the passed length parameter. By
-;;   default, pads on the left with the space char."
-;;   [s & [{:keys [length padding type]
-;;          :or {length 0 padding " " type :left}}]]
-;;   (let [padding (aget padding 0)
-;;         padlen  (- length (count s))]
-;;     (condp = type
-;;       :right (str s (repeat padding padlen))
-;;       :both  (let [first (repeat padding (js/Math.ceil (/ padlen 2)))
-;;                    second (repeat padding (js/Math.floor (/ padlen 2)))]
-;;                (str first s second))
-;;       :left  (str (repeat padding padlen) s))))
-
-#?(:cljs
-(defn pad
-  "Pads the str with characters until the total string
-  length is equal to the passed length parameter. By
-  default, pads on the left with the space char."
-  [s & [{:keys [length padding type]
-         :or {length 0 padding " " type :left}}]]
-  (when-not (nil? s)
-    (let [padding (aget padding 0)
-          padlen  (- length (count s))]
-      (condp = type
-        :right (str s (repeat padding padlen))
-        :both  (let [first (repeat padding (js/Math.ceil (/ padlen 2)))
-                     second (repeat padding (js/Math.floor (/ padlen 2)))]
-                 (str first s second))
-        :left  (str (repeat padding padlen) s))))))
-
 (defn capitalize
   "Converts first letter of the string to uppercase."
   [s]
