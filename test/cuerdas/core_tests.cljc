@@ -61,7 +61,7 @@
 
   (t/testing "empty?"
     (t/is (str/empty? ""))
-    (t/is (str/empty? nil))
+    (t/is (not (str/empty? nil)))
     (t/is (not (str/empty? " ")))
     (t/is (not (str/empty? " s "))))
 
