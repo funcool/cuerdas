@@ -463,12 +463,14 @@
          (.toFixed precision)
          (js/parseFloat))))))
 
+#?(:clj
 (defn parse-double
   "Return the double value from string."
   [^String s]
   (cond
     (nil? s) Double/NaN
     :else (Double/parseDouble s)))
+)
 
 #?(:cljs
 (defn parse-int
@@ -479,6 +481,7 @@
       (js/parseInt s 16)
       (js/parseInt s 10)))))
 
+#?(:clj
 (defn parse-long
   "Return the long value from string."
   [^String s]
@@ -486,6 +489,7 @@
     (nil? s) Double/NaN
     :else (let [r (Double. (Double/parseDouble s))]
             (.longValue ^java.lang.Double r))))
+)
 
 (defn pad
   "Pads the str with characters until the total string
