@@ -14,3 +14,5 @@ pom.xml.asc
 .\#*
 /*init.clj
 /out
+/node_modules
+/nashorn_code_cache
