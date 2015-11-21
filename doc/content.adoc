@@ -156,6 +156,57 @@ Check if the string is empty or contains only whitespaces.
 ----
 
 
+=== alpha?
+
+Checks if a string contains only alpha characters.
+
+[source, clojure]
+----
+(str/alpha? nil)
+;; => false
+
+(str/alpha? " ")
+;; => false
+
+(str/alpha? "Test")
+;; => true
+----
+
+
+=== numeric?
+
+Checks if a string contains only numeric characters.
+
+[source, clojure]
+----
+(str/numeric? nil)
+;; => false
+
+(str/numeric? "1.1")
+;; => false
+
+(str/numeric? "0123")
+;; => true
+----
+
+
+=== alpha-numeric?
+
+Checks if a string contains only alphanumeric characters.
+
+[source, clojure]
+----
+(str/alpha-numeric? nil)
+;; => false
+
+(str/alpha-numeric? "")
+;; => false
+
+(str/alpha-numeric? "Test123")
+;; => true
+----
+
+
 === upper
 
 Converts string to all upper-case.

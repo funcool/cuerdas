@@ -7,6 +7,10 @@
   [s]
   #?(:cljs (js/isNaN s) :clj (Double/isNaN s)))
 
+(defn empty-tests
+  [fn?]
+  (not (or (fn? nil) (fn? "") (fn? " "))))
+
 (t/deftest cuerdas-tests
   (t/testing "lower"
     (t/is (= nil (str/lower nil)))
@@ -70,6 +74,27 @@
     (t/is (str/blank? " "))
     (t/is (str/blank? nil))
     (t/is (not (str/blank? " s "))))
+
+  (t/testing "alpha?"
+    (t/is (empty-tests str/alpha?))
+    (t/is (not (str/alpha? "test1")))
+    (t/is (not (str/alpha? "test.")))
+    (t/is (not (str/alpha? "test\ntest")))
+    (t/is (str/alpha? "Test")))
+
+  (t/testing "numeric?"
+    (t/is (empty-tests str/alpha?))
+    (t/is (not (str/numeric? "test1")))
+    (t/is (not (str/numeric? "1.1")))
+    (t/is (not (str/numeric? "1\n1")))
+    (t/is (str/numeric? "0123")))
+
+  (t/testing "alpha-numeric?"
+    (t/is (empty-tests str/alpha-numeric?))
+    (t/is (str/alpha-numeric? "test1"))
+    (t/is (not (str/alpha-numeric? "test.1")))
+    (t/is (not (str/alpha-numeric? "test\n1")))
+    (t/is (str/alpha-numeric? "0A1B2C")))
 
   (t/testing "repeat"
     (t/is (= "a" (str/repeat "a")))

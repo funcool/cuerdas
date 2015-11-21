@@ -111,6 +111,25 @@
                       false)))
      :cljs (gstr/isEmptySafe s)))
 
+(defn- char-range-check
+  [re]
+  (fn [^String s]
+    (if (nil? s)
+      false
+      (re-matches re s))))
+
+(def alpha?
+  "Checks if a string contains only alpha characters."
+  (char-range-check #"^[a-zA-Z]+$"))
+
+(def numeric?
+  "Checks if a string contains only numeric characters."
+  (char-range-check #"^[0-9]+$"))
+
+(def alpha-numeric?
+  "Checks if a string contains only alphanumeric characters."
+  (char-range-check #"^[a-zA-Z0-9]+$"))
+
 (declare escape-regexp)
 (declare replace)
 
