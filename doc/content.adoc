@@ -424,6 +424,24 @@ the opposite of lines.
 ----
 
 
+=== words
+
+Returns a vector of the words in the string. Can be provided with a regular
+expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
+
+[source, clojure]
+----
+(str/words "foo, bar")
+;; => ["foo" "bar"]
+
+(str/lines nil)
+;; => nil
+
+(str/lines "foo, bar." #"[^, ]")
+;; => ["foo" "bar."]
+----
+
+
 === slice
 
 Extracts a section of a string and returns a new string.

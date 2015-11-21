@@ -292,6 +292,15 @@
     s
     (str/join "\n" s)))
 
+(defn words
+  "Returns a vector of the words in the string."
+  ([^String s word-re]
+   (if (nil? s)
+     []
+     (vec (re-seq word-re s))))
+  ([^String s]
+   (words s #"[a-zA-Z0-9_-]+")))
+
 (defn format
   "Simple string interpolation."
   [s & args]

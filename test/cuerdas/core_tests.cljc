@@ -267,6 +267,13 @@
     (t/is (= "foo\nbar" (str/unlines ["foo" "bar"])))
     (t/is (= "" (str/unlines []))))
 
+  (t/testing "words"
+    (t/is (= [] (str/words nil)))
+    (t/is (= [] (str/words "")))
+    (t/is (= ["test"] (str/words "test")))
+    (t/is (= ["one" "two" "3"] (str/words "  one, two 3.  ")))
+    (t/is (= ["re" "test."] (str/words " re,  test." #"[^, ]+"))))
+
   (t/testing "substr-between"
     (t/is (= nil (str/substr-between nil "" "")))
     (t/is (= nil (str/substr-between "" nil "")))
