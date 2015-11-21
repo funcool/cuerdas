@@ -866,26 +866,22 @@ Escape characters on the string that are not safe to use in a RegExp.
 
 == Run tests
 
-_cuerdas_ has splitted implementation for clojure and clojurescript, but tests are build using
-speclj and cljx for execute the same tests for both implementations.
+_cuerdas_ has targeted some parts of implementation for Clojure and
+ClojureScript using Reader Conditionals.
 
-For run tests, cljx source should be compiled.
-
-Additional note for run clojurescript tests: you should have instaled phantomjs.
-
-.Compile cljx source, and keep watching changes.
+.Run tests in the Clojure environment using Leiningen.
 ----
-$ lein cljx auto
+$ lein test cuerdas.core-tests
 ----
 
-.Run tests for clojure and keep watching changes.
+.Compile ClojureScript to JavaScript.
 ----
-$ lein spec -a
+$ ./scripts/build
 ----
 
-.Compile clojurescript and run test on successful build.
+.Run tests on compiled ClojureScript using node.
 ----
-$ lein cljsbuild auto dev
+$ node ./out/tests.js
 ----
 
 
