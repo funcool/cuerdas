@@ -766,6 +766,20 @@ Returns a number value in integer form. Wraps parseInt.
 WARNING: only on *clojure*
 
 
+=== to-bool
+
+Returns true for 1/on/true/yes string values (case-insensitive), false otherwise.
+
+[source, clojure]
+----
+(str/to-bool "hello")
+;; => false
+
+(str/to-bool "on")
+;; => true
+----
+
+
 === format
 
 Simple string interpolation.

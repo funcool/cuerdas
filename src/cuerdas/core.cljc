@@ -523,6 +523,17 @@
             (.longValue ^java.lang.Double r))))
 )
 
+(defn one-of?
+  "Returns true if s can be found in coll."
+  [coll ^String s]
+  (boolean (some #(= % s) coll)))
+
+(defn to-bool
+  "Returns true for 1/on/true/yes string values (case-insensitive),
+  false otherwise."
+  [^String s]
+  (one-of? ["1" "on" "true" "yes"] (lower s)))
+
 (defn pad
   "Pads the str with characters until the total string
   length is equal to the passed length parameter. By

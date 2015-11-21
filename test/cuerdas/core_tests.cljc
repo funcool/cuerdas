@@ -221,6 +221,22 @@
        (t/is (nan? (str/parse-long nil)))
        (t/is (= 1 (str/parse-long "1.4")))))
 
+  (t/testing "one-of?"
+    (t/is (str/one-of? ["test" "test2" "test3"] "test3"))
+    (t/is (str/one-of? '("test" "test2") "test2"))
+    (t/is (not (str/one-of? ["test" "test2"] "test3")))
+    (t/is (not (str/one-of? ["test" "test2"] nil))))
+
+  (t/testing "to-bool"
+    (t/is (empty-tests str/to-bool))
+    (t/is (str/to-bool "1"))
+    (t/is (str/to-bool "yes"))
+    (t/is (str/to-bool "True"))
+    (t/is (str/to-bool "on"))
+    (t/is (str/to-bool "ON"))
+    (t/is (not (str/to-bool "false")))
+    (t/is (not (str/to-bool "hello"))))
+
   (t/testing "format"
     (t/is (= nil (str/format nil "pepe")))
     (t/is (= "hello pepe" (str/format "hello %s" "pepe")))
