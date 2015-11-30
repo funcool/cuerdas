@@ -1,5 +1,16 @@
 = Changelog
 
+== Version 0.7.0
+
+Date: 2015-11-30
+
+- Start using reader conditionals (clojure >= 1.7 required now)
+- starts-with? and ends-with? and contains? return true for empty sub-string
+- General bugfixing
+- Add varios new functions such as `to-bool`, `words`, `alpha?`, among
+  others (thanks to @jelz).
+
+
 == Version 0.6.0
 
 Date: 2015-08-01
