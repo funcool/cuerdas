@@ -111,6 +111,25 @@
                       false)))
      :cljs (gstr/isEmptySafe s)))
 
+(defn- char-range-check
+  [re]
+  (fn [^String s]
+    (if (nil? s)
+      false
+      (re-matches re s))))
+
+(def alpha?
+  "Checks if a string contains only alpha characters."
+  (char-range-check #"^[a-zA-Z]+$"))
+
+(def numeric?
+  "Checks if a string contains only numeric characters."
+  (char-range-check #"^[0-9]+$"))
+
+(def alpha-numeric?
+  "Checks if a string contains only alphanumeric characters."
+  (char-range-check #"^[a-zA-Z0-9]+$"))
+
 (declare escape-regexp)
 (declare replace)
 
@@ -291,6 +310,15 @@
   (if (nil? s)
     s
     (str/join "\n" s)))
+
+(defn words
+  "Returns a vector of the words in the string."
+  ([^String s word-re]
+   (if (nil? s)
+     []
+     (vec (re-seq word-re s))))
+  ([^String s]
+   (words s #"[a-zA-Z0-9_-]+")))
 
 (defn format
   "Simple string interpolation."
@@ -494,6 +522,17 @@
     :else (let [r (Double. (Double/parseDouble s))]
             (.longValue ^java.lang.Double r))))
 )
+
+(defn one-of?
+  "Returns true if s can be found in coll."
+  [coll ^String s]
+  (boolean (some #(= % s) coll)))
+
+(defn to-bool
+  "Returns true for 1/on/true/yes string values (case-insensitive),
+  false otherwise."
+  [^String s]
+  (one-of? ["1" "on" "true" "yes"] (lower s)))
 
 (defn pad
   "Pads the str with characters until the total string

@@ -7,6 +7,10 @@
   [s]
   #?(:cljs (js/isNaN s) :clj (Double/isNaN s)))
 
+(defn empty-tests
+  [fn?]
+  (not (or (fn? nil) (fn? "") (fn? " "))))
+
 (t/deftest cuerdas-tests
   (t/testing "lower"
     (t/is (= nil (str/lower nil)))
@@ -70,6 +74,27 @@
     (t/is (str/blank? " "))
     (t/is (str/blank? nil))
     (t/is (not (str/blank? " s "))))
+
+  (t/testing "alpha?"
+    (t/is (empty-tests str/alpha?))
+    (t/is (not (str/alpha? "test1")))
+    (t/is (not (str/alpha? "test.")))
+    (t/is (not (str/alpha? "test\ntest")))
+    (t/is (str/alpha? "Test")))
+
+  (t/testing "numeric?"
+    (t/is (empty-tests str/alpha?))
+    (t/is (not (str/numeric? "test1")))
+    (t/is (not (str/numeric? "1.1")))
+    (t/is (not (str/numeric? "1\n1")))
+    (t/is (str/numeric? "0123")))
+
+  (t/testing "alpha-numeric?"
+    (t/is (empty-tests str/alpha-numeric?))
+    (t/is (str/alpha-numeric? "test1"))
+    (t/is (not (str/alpha-numeric? "test.1")))
+    (t/is (not (str/alpha-numeric? "test\n1")))
+    (t/is (str/alpha-numeric? "0A1B2C")))
 
   (t/testing "repeat"
     (t/is (= "a" (str/repeat "a")))
@@ -196,6 +221,22 @@
        (t/is (nan? (str/parse-long nil)))
        (t/is (= 1 (str/parse-long "1.4")))))
 
+  (t/testing "one-of?"
+    (t/is (str/one-of? ["test" "test2" "test3"] "test3"))
+    (t/is (str/one-of? '("test" "test2") "test2"))
+    (t/is (not (str/one-of? ["test" "test2"] "test3")))
+    (t/is (not (str/one-of? ["test" "test2"] nil))))
+
+  (t/testing "to-bool"
+    (t/is (empty-tests str/to-bool))
+    (t/is (str/to-bool "1"))
+    (t/is (str/to-bool "yes"))
+    (t/is (str/to-bool "True"))
+    (t/is (str/to-bool "on"))
+    (t/is (str/to-bool "ON"))
+    (t/is (not (str/to-bool "false")))
+    (t/is (not (str/to-bool "hello"))))
+
   (t/testing "format"
     (t/is (= nil (str/format nil "pepe")))
     (t/is (= "hello pepe" (str/format "hello %s" "pepe")))
@@ -266,6 +307,13 @@
     (t/is (= nil (str/unlines nil)))
     (t/is (= "foo\nbar" (str/unlines ["foo" "bar"])))
     (t/is (= "" (str/unlines []))))
+
+  (t/testing "words"
+    (t/is (= [] (str/words nil)))
+    (t/is (= [] (str/words "")))
+    (t/is (= ["test"] (str/words "test")))
+    (t/is (= ["one" "two" "3"] (str/words "  one, two 3.  ")))
+    (t/is (= ["re" "test."] (str/words " re,  test." #"[^, ]+"))))
 
   (t/testing "substr-between"
     (t/is (= nil (str/substr-between nil "" "")))

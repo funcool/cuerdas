@@ -156,6 +156,57 @@ Check if the string is empty or contains only whitespaces.
 ----
 
 
+=== alpha?
+
+Checks if a string contains only alpha characters.
+
+[source, clojure]
+----
+(str/alpha? nil)
+;; => false
+
+(str/alpha? " ")
+;; => false
+
+(str/alpha? "Test")
+;; => true
+----
+
+
+=== numeric?
+
+Checks if a string contains only numeric characters.
+
+[source, clojure]
+----
+(str/numeric? nil)
+;; => false
+
+(str/numeric? "1.1")
+;; => false
+
+(str/numeric? "0123")
+;; => true
+----
+
+
+=== alpha-numeric?
+
+Checks if a string contains only alphanumeric characters.
+
+[source, clojure]
+----
+(str/alpha-numeric? nil)
+;; => false
+
+(str/alpha-numeric? "")
+;; => false
+
+(str/alpha-numeric? "Test123")
+;; => true
+----
+
+
 === upper
 
 Converts string to all upper-case.
@@ -421,6 +472,24 @@ the opposite of lines.
 
 (str/unlines nil)
 ;; => nil
+----
+
+
+=== words
+
+Returns a vector of the words in the string. Can be provided with a regular
+expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
+
+[source, clojure]
+----
+(str/words "foo, bar")
+;; => ["foo" "bar"]
+
+(str/lines nil)
+;; => nil
+
+(str/lines "foo, bar." #"[^, ]")
+;; => ["foo" "bar."]
 ----
 
 
@@ -697,6 +766,20 @@ Returns a number value in integer form. Wraps parseInt.
 WARNING: only on *clojure*
 
 
+=== to-bool
+
+Returns true for 1/on/true/yes string values (case-insensitive), false otherwise.
+
+[source, clojure]
+----
+(str/to-bool "hello")
+;; => false
+
+(str/to-bool "on")
+;; => true
+----
+
+
 === format
 
 Simple string interpolation.
@@ -848,26 +931,22 @@ Escape characters on the string that are not safe to use in a RegExp.
 
 == Run tests
 
-_cuerdas_ has splitted implementation for clojure and clojurescript, but tests are build using
-speclj and cljx for execute the same tests for both implementations.
+_cuerdas_ has targeted some parts of implementation for Clojure and
+ClojureScript using Reader Conditionals.
 
-For run tests, cljx source should be compiled.
-
-Additional note for run clojurescript tests: you should have instaled phantomjs.
-
-.Compile cljx source, and keep watching changes.
+.Run tests in the Clojure environment using Leiningen.
 ----
-$ lein cljx auto
+$ lein test cuerdas.core-tests
 ----
 
-.Run tests for clojure and keep watching changes.
+.Compile ClojureScript to JavaScript.
 ----
-$ lein spec -a
+$ ./scripts/build
 ----
 
-.Compile clojurescript and run test on successful build.
+.Run tests on compiled ClojureScript using node.
 ----
-$ lein cljsbuild auto dev
+$ node ./out/tests.js
 ----
 
 
