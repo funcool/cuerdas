@@ -147,8 +147,8 @@
     (t/is (= "Hello..." (str/prune "Hello World" 8)))
     (t/is (= "Hello (...)"
              (str/prune "Hello World" 10 " (...)")))
-    (t/is (= "Hello World"
-             (str/prune "Hello World" 11 " (...)")))
+    (t/is (= "Hello world"
+             (str/prune "Hello world" 11 " (...)")))
     (t/is (= "Hello World, I'm pruning..."
              (str/prune "Hello World, I'm pruning strings today!" 25))))
 

@@ -234,26 +234,26 @@
        :cljs (.replace s (regexp match) replacement))))
 
 #?(:cljs
-(defn ireplace-first
-  "Replaces first instance of match with replacement in s."
-  [s match replacement]
-  (when-not (nil? s)
-    (.replace s (regexp match "i") replacement))))
-
+   (defn ireplace-first
+     "Replaces first instance of match with replacement in s."
+     [s match replacement]
+     (when-not (nil? s)
+       (.replace s (regexp match "i") replacement))))
 
 (defn prune
   "Truncates a string to a certain length and adds '...'
   if necessary."
   ([s num] (prune s num "..."))
   ([s num subs]
-   (if (< (count s) num)
+   (if (<= (count s) num)
      s
-     (let [tmpl (fn [c] (if (not= (upper c) (lower c)) "A" " "))
-           template (-> (slice s 0 (inc (count s)))
+     (let [tmpl (fn [c]
+                  (if (not= (upper c) (lower c)) "A" " "))
+           template (-> (slice s 0 (inc num))
                         (replace #".(?=\W*\w*$)" tmpl))
            tmp (slice template (- (count template) 2))
            template (if #?(:clj  (.matches ^String tmp "\\w\\w")
-                           :cljs (.match (slice template (- (count template) 2)) #"\w\w"))
+                           :cljs (.match tmp #"\w\w"))
                       (replace-first template #"\s*\S+$" "")
                       (rtrim (slice template 0 (dec (count template)))))]
        (if (> (count (str template subs)) (count s))
