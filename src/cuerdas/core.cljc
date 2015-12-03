@@ -1,6 +1,6 @@
 (ns cuerdas.core
   (:refer-clojure :exclude [contains? empty? repeat replace reverse chars
-    #?@(:clj [unquote format])])
+                            #?@(:clj [unquote format])])
   (:require [clojure.string :as str]
             #?(:cljs [goog.string :as gstr])
             [clojure.set  :refer [map-invert]]
@@ -29,34 +29,34 @@
 (defn slice
   "Extracts a section of a string and returns a new string."
   ([s begin]
-    #?(:clj  (slice s begin (count s))
-       :cljs (when-not (nil? s)
-               (.slice s begin))))
+   #?(:clj  (slice s begin (count s))
+      :cljs (when-not (nil? s)
+              (.slice s begin))))
   ([s #?@(:clj [^long begin ^long end] :cljs [begin end])]
    #?(:clj (if (nil? s)
-               s
-               (let [end   (if (< end 0) (+ (count s) end) end)
-                     begin (if (< begin 0) (+ (count s) begin) begin)
-                     end   (if (> end (count s)) (count s) end)]
-                 (if (> begin end)
-                   ""
-                   (let [begin (if (< begin 0) 0 begin)
-                         end (if (< end 0) 0 end)]
-                     (.substring ^String s begin end)))))
+             s
+             (let [end   (if (< end 0) (+ (count s) end) end)
+                   begin (if (< begin 0) (+ (count s) begin) begin)
+                   end   (if (> end (count s)) (count s) end)]
+               (if (> begin end)
+                 ""
+                 (let [begin (if (< begin 0) 0 begin)
+                       end (if (< end 0) 0 end)]
+                   (.substring ^String s begin end)))))
       :cljs (when-not (nil? s)
               (.slice s begin end)))))
 
 #?(:cljs
-(defn- regexp
-  "Build or derive regexp instance."
-  ([s]
-   (if (regexp? s)
-     s
-     (js/RegExp. s)))
-  ([s flags]
-   (if (regexp? s)
-     (js/RegExp. (.-source s) flags)
-     (js/RegExp. s flags)))))
+   (defn- regexp
+     "Build or derive regexp instance."
+     ([s]
+      (if (regexp? s)
+        s
+        (js/RegExp. s)))
+     ([s flags]
+      (if (regexp? s)
+        (js/RegExp. (.-source s) flags)
+        (js/RegExp. s flags)))))
 
 (defn starts-with?
   "Check if the string starts with prefix."
@@ -142,7 +142,7 @@
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
            rxstr (str "^" rxstr "+|" rxstr "+$")]
        (as-> (re-pattern rxstr) rx
-             (replace s rx ""))))))
+         (replace s rx ""))))))
 
 (defn rtrim
   "Removes whitespace or specified characters
@@ -153,7 +153,7 @@
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
            rxstr (str rxstr "+$")]
        (as-> (re-pattern rxstr) rx
-             (replace s rx ""))))))
+         (replace s rx ""))))))
 
 (defn ltrim
   "Removes whitespace or specified characters
@@ -164,7 +164,7 @@
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
            rxstr (str "^" rxstr "+")]
        (as-> (re-pattern rxstr) rx
-             (replace s rx ""))))))
+         (replace s rx ""))))))
 
 (def strip trim)
 (def rstrip rtrim)
@@ -220,11 +220,11 @@
        :cljs (.replace s (regexp match "g") replacement))))
 
 #?(:cljs
-(defn ireplace
-  "Replaces all instance of match with replacement in s."
-  [s match replacement]
-  (when-not (nil? s)
-    (.replace s (regexp match "ig") replacement))))
+   (defn ireplace
+     "Replaces all instance of match with replacement in s."
+     [s match replacement]
+     (when-not (nil? s)
+       (.replace s (regexp match "ig") replacement))))
 
 (defn replace-first
   "Replaces first instance of match with replacement in s."
@@ -330,8 +330,8 @@
                  (str (#?(:clj get :cljs aget) params (slice match 2 -2))))))
     (let [params #?(:clj (java.util.ArrayList. ^List args) :cljs (clj->js args))]
       (replace s #?(:clj #"%s" :cljs (regexp "%s" "g"))
-        (fn [_] (str #?(:clj  (.remove params 0)
-                        :cljs (.shift  params))))))))
+               (fn [_] (str #?(:clj  (.remove params 0)
+                               :cljs (.shift  params))))))))
 
 (defn join
   "Joins strings together with given separator."
@@ -412,7 +412,7 @@
           (trim)
           (replace #?(:clj  #"[-_\s]+(.)?"
                       :cljs (regexp #"[-_\s]+(.)?" "g"))
-            (fn [[match c]] (if c (upper c) "")))))
+                   (fn [[match c]] (if c (upper c) "")))))
 
 (defn underscored
   "Converts a camelized or dasherized string
@@ -439,20 +439,20 @@
 (defn titleize
   "Converts a string into TitleCase."
   ([s]
-    #?(:clj  (titleize s nil)
-       :cljs (when-not (nil? s)
-               (gstr/toTitleCase s))))
+   #?(:clj  (titleize s nil)
+      :cljs (when-not (nil? s)
+              (gstr/toTitleCase s))))
   ([s delimeters]
    #?(:clj
-       (when-not (nil? s)
-         (let [delimeters (if delimeters
-                            (escape-regexp delimeters)
-                            "\\s")
-               delimeters (str "|[" delimeters "]+")
-               rx         (re-pattern (str "(^" delimeters ")([a-z])"))]
-           (replace s rx (fn [[c1 _]]
-                           (upper c1)))))
-       :cljs (gstr/toTitleCase s delimeters))))
+      (when-not (nil? s)
+        (let [delimeters (if delimeters
+                           (escape-regexp delimeters)
+                           "\\s")
+              delimeters (str "|[" delimeters "]+")
+              rx         (re-pattern (str "(^" delimeters ")([a-z])"))]
+          (replace s rx (fn [[c1 _]]
+                          (upper c1)))))
+      :cljs (gstr/toTitleCase s delimeters))))
 
 (defn classify
   "Converts string to camelized class name. First letter is always upper case."
@@ -465,63 +465,63 @@
           (capitalize)))
 
 #?(:cljs
-(defn- parse-number-impl
-  [source]
-  (or (* source 1) 0)))
+   (defn- parse-number-impl
+     [source]
+     (or (* source 1) 0)))
 
 #?(:cljs
-(defn parse-number
-  "General purpose function for parse number like
+   (defn parse-number
+     "General purpose function for parse number like
   string to number. It works with both integers
   and floats."
-  ([s] (parse-number s 0))
-  ([s precision]
-   (if (nil? s)
-     0
-     (let [s  (trim s)
-           rx #"^-?\d+(?:\.\d+)?$"]
-       (if (.match s rx)
-         (parse-number-impl (.toFixed (parse-number-impl s) precision))
-         NaN))))))
+     ([s] (parse-number s 0))
+     ([s precision]
+      (if (nil? s)
+        0
+        (let [s  (trim s)
+              rx #"^-?\d+(?:\.\d+)?$"]
+          (if (.match s rx)
+            (parse-number-impl (.toFixed (parse-number-impl s) precision))
+            NaN))))))
 
 #?(:cljs
-(defn parse-float
-  "Return the float value, wraps parseFloat."
-  ([s] (js/parseFloat s))
-  ([s precision]
-   (if (nil? precision)
-     (js/parseFloat s)
-     (-> (js/parseFloat s)
-         (.toFixed precision)
-         (js/parseFloat))))))
+   (defn parse-float
+     "Return the float value, wraps parseFloat."
+     ([s] (js/parseFloat s))
+     ([s precision]
+      (if (nil? precision)
+        (js/parseFloat s)
+        (-> (js/parseFloat s)
+            (.toFixed precision)
+            (js/parseFloat))))))
 
 #?(:clj
-(defn parse-double
-  "Return the double value from string."
-  [^String s]
-  (cond
-    (nil? s) Double/NaN
-    :else (Double/parseDouble s)))
-)
+   (defn parse-double
+     "Return the double value from string."
+     [^String s]
+     (cond
+       (nil? s) Double/NaN
+       :else (Double/parseDouble s)))
+   )
 
 #?(:cljs
-(defn parse-int
-  "Return the number value in integer form."
-  [s]
-  (let [rx (regexp "^\\s*-?0x" "i")]
-    (if (.test rx s)
-      (js/parseInt s 16)
-      (js/parseInt s 10)))))
+   (defn parse-int
+     "Return the number value in integer form."
+     [s]
+     (let [rx (regexp "^\\s*-?0x" "i")]
+       (if (.test rx s)
+         (js/parseInt s 16)
+         (js/parseInt s 10)))))
 
 #?(:clj
-(defn parse-long
-  "Return the long value from string."
-  [^String s]
-  (cond
-    (nil? s) Double/NaN
-    :else (let [r (Double. (Double/parseDouble s))]
-            (.longValue ^java.lang.Double r))))
-)
+   (defn parse-long
+     "Return the long value from string."
+     [^String s]
+     (cond
+       (nil? s) Double/NaN
+       :else (let [r (Double. (Double/parseDouble s))]
+               (.longValue ^java.lang.Double r))))
+   )
 
 (defn one-of?
   "Returns true if s can be found in coll."
@@ -559,27 +559,27 @@
           (replace #"^\s+|\s+$" "")))
 
 #?(:cljs
-(def html-escape-chars
-  {"lt" "<"
-   "gt" ">"
-   "quot" "\""
-   "amp" "&"
-   "apos" "'"}))
+   (def html-escape-chars
+     {"lt" "<"
+      "gt" ">"
+      "quot" "\""
+      "amp" "&"
+      "apos" "'"}))
 
 #?(:cljs
-(def reversed-html-escape-chars
-  (map-invert html-escape-chars)))
+   (def reversed-html-escape-chars
+     (map-invert html-escape-chars)))
 
 ;; reversedEscapeChars["'"] = '#39';
 
 #?(:cljs
-(defn escape-html
-  [s]
-  "Converts HTML special characters to their entity equivalents."
-  (let [escapechars (assoc reversed-html-escape-chars "'" "#39")
-        rx (re-pattern "[&<>\"']")]
-    (replace s rx (fn [x]
-                    (str "&" (get escapechars x) ";"))))))
+   (defn escape-html
+     [s]
+     "Converts HTML special characters to their entity equivalents."
+     (let [escapechars (assoc reversed-html-escape-chars "'" "#39")
+           rx (re-pattern "[&<>\"']")]
+       (replace s rx (fn [x]
+                       (str "&" (get escapechars x) ";"))))))
 
 ;; Complete logic for unescape-html
 ;;   if (entityCode in escapeChars) {
@@ -595,14 +595,14 @@
 ;; TODO: basic implementation
 
 #?(:cljs
-(defn unescape-html
-  "Converts entity characters to HTML equivalents."
-  [s]
-  (replace s #"\&(\w+);" (fn [x y]
-                           (cond
-                             (cljs.core/contains? html-escape-chars y)
-                             (get html-escape-chars y)
-                             :else y)))))
+   (defn unescape-html
+     "Converts entity characters to HTML equivalents."
+     [s]
+     (replace s #"\&(\w+);" (fn [x y]
+                              (cond
+                                (cljs.core/contains? html-escape-chars y)
+                                (get html-escape-chars y)
+                                :else y)))))
 
 (defn- strip-tags-impl
   [s tags mappings]
@@ -628,8 +628,8 @@
   ([s] (strip-tags-impl s nil {}))
   ([s tags]
    (if (map? tags)
-       (strip-tags-impl s nil  tags)
-       (strip-tags-impl s tags {}  )))
+     (strip-tags-impl s nil  tags)
+     (strip-tags-impl s tags {}  )))
   ([s tags mapping]
    (strip-tags-impl s tags mapping)))
 
