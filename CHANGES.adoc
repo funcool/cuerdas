@@ -1,5 +1,14 @@
 = Changelog
 
+== Version 0.7.1
+
+Date: 2015-12-03
+
+- Fix unexpected behavior of prune.
+- Update cljs compiler version.
+- Minor cosmetic fixes to code.
+
+
 == Version 0.7.0
 
 Date: 2015-11-30
