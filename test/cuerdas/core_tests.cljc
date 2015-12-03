@@ -146,7 +146,11 @@
     (t/is (= nil (str/prune nil 8)))
     (t/is (= "Hello..." (str/prune "Hello World" 8)))
     (t/is (= "Hello (...)"
-             (str/prune "Hello World" 11 " (...)"))))
+             (str/prune "Hello World" 10 " (...)")))
+    (t/is (= "Hello World"
+             (str/prune "Hello World" 11 " (...)")))
+    (t/is (= "Hello World, I'm pruning..."
+             (str/prune "Hello World, I'm pruning strings today!" 25))))
 
   (t/testing "join"
     (t/is (= "ab" (str/join ["a" "b"]))))
