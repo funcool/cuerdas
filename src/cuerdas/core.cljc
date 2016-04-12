@@ -328,7 +328,8 @@
       (replace s #"%\(\w+\)s"
                (fn [match]
                  (str (#?(:clj get :cljs aget) params (slice match 2 -2))))))
-    (let [params #?(:clj (java.util.ArrayList. ^List args) :cljs (clj->js args))]
+    (let [params #?(:clj (java.util.ArrayList. ^List (into [] args))
+                    :cljs (clj->js args))]
       (replace s #?(:clj #"%s" :cljs (regexp "%s" "g"))
                (fn [_] (str #?(:clj  (.remove params 0)
                                :cljs (.shift  params))))))))
