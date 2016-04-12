@@ -1,6 +1,6 @@
 = cuerdas
 Andrey Antukh, <niwi@niwi.nz>
-0.7.1
+0.7.2
 :toc: left
 :source-highlighter: pygments
 :pygments-style: friendly
@@ -36,7 +36,7 @@ vector on your *_project.clj_* file:
 
 [source,clojure]
 ----
-[funcool/cuerdas "0.7.1"]
+[funcool/cuerdas "0.7.2"]
 ----
 
 
