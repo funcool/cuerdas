@@ -1,5 +1,12 @@
 = Changelog
 
+== Version 0.7.2
+
+Date: 2016-04-12
+
+- Fix null pointer exception on format function without arguments (clj only).
+
+
 == Version 0.7.1
 
 Date: 2015-12-03
