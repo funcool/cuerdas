@@ -3,7 +3,9 @@
                             #?@(:clj [unquote format])])
   (:require [clojure.string :as str]
             #?(:cljs [goog.string :as gstr])
-            [clojure.set  :refer [map-invert]]
+            [clojure.set :refer [map-invert]]
+            #?(:cljs [cljs.reader :as edn]
+               :clj  [clojure.edn :as edn])
             [clojure.walk :refer [stringify-keys]])
   #?(:clj (:import java.util.regex.Pattern
                    java.util.List)))
@@ -320,19 +322,37 @@
   ([^String s]
    (words s #"[a-zA-Z0-9_-]+")))
 
+(defn- interpolate-format
+  [s params]
+  (letfn [(on-match [match]
+            (let [val (edn/read-string
+                       (if (= (subs match 0 1) "$")
+                         (subs match 1)
+                         (slice match 2 -2)))
+                  val (if (symbol? val) (keyword val) val)]
+              (str (get params val ""))))]
+    (as-> #"(?:%\([\d\w\:\_\-]+\)s|\$[\w\d\:\_\-]+)" $
+      (replace s $ on-match))))
+
+(defn- indexed-format
+  [s params]
+  (let [params #?(:clj (java.util.ArrayList. ^List (vec params))
+                  :cljs (clj->js (or params [])))]
+    (replace s #?(:clj #"%s" :cljs (regexp "%s" "g"))
+             (fn [_] (str #?(:clj (if (.isEmpty params)
+                                    "%s"
+                                    (.remove params 0))
+                             :cljs (if (zero? (count params))
+                                     "%s"
+                                     (.shift params))))))))
+
 (defn format
   "Simple string interpolation."
-  [s & args]
-  (if (and (= (count args) 1) (map? (first args)))
-    (let [params (#?(:clj stringify-keys :cljs clj->js) (first args))]
-      (replace s #"%\(\w+\)s"
-               (fn [match]
-                 (str (#?(:clj get :cljs aget) params (slice match 2 -2))))))
-    (let [params #?(:clj (java.util.ArrayList. ^List (into [] args))
-                    :cljs (clj->js args))]
-      (replace s #?(:clj #"%s" :cljs (regexp "%s" "g"))
-               (fn [_] (str #?(:clj  (.remove params 0)
-                               :cljs (.shift  params))))))))
+  [s & more]
+  (when (string? s)
+    (if (and (= (count more) 1) (associative? (first more)))
+      (interpolate-format s (first more))
+      (indexed-format s more))))
 
 (defn join
   "Joins strings together with given separator."
