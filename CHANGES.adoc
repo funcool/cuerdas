@@ -1,5 +1,13 @@
 = Changelog
 
+== Version 0.8.0
+
+Date: 2016-06-25
+
+- Fix NPE on `format` function.
+- Improve string interpolation on `format` function making it more flexible.
+
+
 == Version 0.7.2
 
 Date: 2016-04-12
