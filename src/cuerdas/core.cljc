@@ -525,14 +525,18 @@
        :else (Double/parseDouble s)))
    )
 
-#?(:cljs
-   (defn parse-int
-     "Return the number value in integer form."
-     [s]
-     (let [rx (regexp "^\\s*-?0x" "i")]
-       (if (.test rx s)
-         (js/parseInt s 16)
-         (js/parseInt s 10)))))
+(defn parse-int
+  "Return the number value in integer form."
+  [s]
+  #?(:cljs
+    (let [rx (regexp "^\\s*-?0x" "i")]
+      (if (.test rx s)
+        (js/parseInt s 16)
+        (js/parseInt s 10)))
+    :clj
+    (if (and (string? s) (re-matches #"-?\d+(\.\d+)?" s))
+      (.longValue (Double. s))
+      Double/NaN)))
 
 #?(:clj
    (defn parse-long
