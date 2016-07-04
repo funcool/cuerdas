@@ -9,7 +9,17 @@
             #?(:cljs [cljs.reader :as edn]
                :clj  [clojure.edn :as edn]))
   #?(:clj (:import java.util.regex.Pattern
-                   java.util.List)))
+                   java.util.List
+                   java.util.Locale)))
+
+(def ^:dynamic *unicode*
+  "Bind to truthy value to make cuerdas behave locale specifically
+  for unicode acknowledgement, bind to a truthy value, like :yes or true
+
+  To respect locale bind a map with it's :locale value set to
+  an instance of java.util.Locale on the jvm or
+  TODO: locale handling for JS"
+  nil)
 
 #?(:cljs (def ^:private keyword* cljs.core/keyword)
    :clj  (def ^:private keyword* clojure.core/keyword))
@@ -98,13 +108,32 @@
   "Converts string to all lower-case."
   [s]
   (when-not (nil? s)
-    (.toLowerCase #?(:clj ^String s :cljs s))))
+    (if *unicode*
+      #?(:clj ^String (if (instance? Locale (:locale *unicode*))
+                        (.toLowerCase s (:locale *unicode*))
+                        (.toLowerCase s))
+         :cljs (.toLocaleLowerCase s))
+      (.toLowerCase #?(:clj ^String s :cljs s)))))
 
 (defn upper
   "Converts string to all upper-case."
   [s]
   (when-not (nil? s)
-    (.toUpperCase #?(:clj ^String s :cljs s))))
+    (if *unicode*
+      #?(:clj ^String (if (instance? Locale (:locale *unicode*))
+                        (.toUpperCase s (:locale *unicode*))
+                        (.toUpperCase s))
+         :cljs (.toLocaleUpperCase s))
+      (.toUpperCase #?(:clj ^String s :cljs s)))))
+
+(defn caseless=
+  "compares strings case-insensitively"
+  [s1 s2]
+  (when-not (and (string? s1) (string? s2))
+    (if *unicode*
+      (= (lower s1) (lower s2))
+      #?(:clj  (.equalsIgnoreCase s1 s2)
+         :cljs (= (lower s1) (lower s2))))))
 
 (defn blank?
   "Checks if a string is empty or contains only whitespace."
@@ -125,17 +154,59 @@
       false
       (re-matches re s))))
 
-(def alpha?
-  "Checks if a string contains only alpha characters."
+(def posix-alphas?
+  "Checks if a string contains only characters matched by [:alpha:]"
   (char-range-check #"^[a-zA-Z]+$"))
 
-(def numeric?
-  "Checks if a string contains only numeric characters."
+(def posix-digits?
+  "Checks if a string contains only characters matched by [:digit:]"
   (char-range-check #"^[0-9]+$"))
 
-(def alpha-numeric?
-  "Checks if a string contains only alphanumeric characters."
+(def posix-alnums?
+  "Checks if a string contains only characters matched by [:alnum:]"
   (char-range-check #"^[a-zA-Z0-9]+$"))
+
+(def posix-word?
+  "Checks if a string contains only the
+  (unofficial) posix [:word:] characters"
+  (char-range-check #"^[a-zA-Z0-9_]+$"))
+
+(def posix-digits?
+  "Checks if a string contains only characters matched by [:digit:]"
+  (char-range-check #"^[0-9]+$"))
+
+(defn digits?
+  "Checks if the string contains only digits
+
+  This won't match unicode digits because clojure
+  doesn't do arithmetic on unicode digits."
+  [s]
+  (when (string? s)
+    (re-matches #"^[0-9]+$" s))) ;;TODO: clojure won't do math on other digits, should this identify them?
+
+(defn letters?
+  "Checks if string contains only letters"
+  [s]
+  (when (string? s)
+    (if *unicode*
+      #?(:clj  (re-matches #"^\p{L}+$" s)
+         :cljs (re-matches #"^[a-zA-Z]+$" s)) ;; TODO: match unicode
+      (re-matches #"^[a-zA-Z]+$" s))))
+
+(defn word?
+  "Checks if string represents a word"
+  [s]
+  (when (string? s)
+    (if *unicode*
+      #?(:clj  (re-matches #"^[\p{L}_-]+$" s)
+         :cljs (re-matches #"^[a-zA-Z]_-+$" s)) ;; TODO: match unicode
+      (re-matches #"^[a-zA-Z]+$" s))))
+
+(defn numeric?
+  "is the string a a number"
+  [s]
+  (and (string? s)
+       (re-matches #"^-?\d+\.?\d*$" s))) ;;TODO: should this identify 1/3 1M and 1N?
 
 (declare escape-regexp)
 (declare replace)
