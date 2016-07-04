@@ -329,6 +329,16 @@
     (t/is (= "foo" (str/substr-between "---foo>>bar--foo1>>bar" "---" ">>"))))
   )
 
+  (t/testing "<<"
+    (t/is (= "first line\n  indented two\n\n    indented four\n"
+             (str/<< "first line
+                        indented two
+
+                          indented four
+                      ")))
+    (t/is (= "first\nsecond\n  third"
+             (str/<< #"\t" "first\n\tsecond\n\t  third"))))
+
 #?(:cljs
    (do
      (enable-console-print!)

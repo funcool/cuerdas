@@ -676,3 +676,17 @@
             second
             (split suffix)
             first)))
+
+(defn <<
+  "Unindent multiline text.
+  Uses either a supplied regex or the shortest
+  beginning-of-line to non-whitespace distance"
+  ([s]
+   (let [all-indents (->> (rest (lines s)) ;; ignore the first line
+                          (remove blank?)
+                          (concat [(last (lines s))]) ;; in case all lines are indented
+                          (map #(->> % (re-find #"^( +)") second count)))
+         min-indent  (re-pattern (format "^ {%s}"
+                                         (apply min all-indents)))]
+     (<< min-indent s)))
+  ([r s] (->> s lines (map #(replace % r "")) unlines)))
