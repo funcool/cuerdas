@@ -966,6 +966,31 @@ Escape characters on the string that are not safe to use in a RegExp.
 ----
 
 
+=== <<
+
+Unindent lines. Either strip preceeding whitespace automatically or
+with a user supplied regex.
+
+[source, clojure]
+----
+(str/<< "first line
+
+           second line (indented)
+
+         another line")
+----
+
+yields the string
+
+----
+first line
+
+  second line (indented)
+
+another line
+----
+
+
 == Run tests
 
 _cuerdas_ has targeted some parts of implementation for Clojure and
