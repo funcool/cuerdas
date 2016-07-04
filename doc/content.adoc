@@ -782,7 +782,7 @@ Returns true for 1/on/true/yes string values (case-insensitive), false otherwise
 
 === format
 
-Simple string formatting function. 
+Simple string formatting function.
 
 The string formating works in two main modes: indexed and associative.
 
@@ -963,6 +963,31 @@ Escape characters on the string that are not safe to use in a RegExp.
 ----
 (str/escape-regexp "\s")
 ;; => "\\s"
+----
+
+
+=== <<
+
+Unindent lines. Either strip preceeding whitespace automatically or
+with a user supplied regex.
+
+[source, clojure]
+----
+(str/<< "first line
+
+           second line (indented)
+
+         another line")
+----
+
+yields the string
+
+----
+first line
+
+  second line (indented)
+
+another line
 ----
 
 
