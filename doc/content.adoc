@@ -485,10 +485,10 @@ expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
 (str/words "foo, bar")
 ;; => ["foo" "bar"]
 
-(str/lines nil)
+(str/words nil)
 ;; => nil
 
-(str/lines "foo, bar." #"[^, ]")
+(str/words "foo, bar." #"[^, ]")
 ;; => ["foo" "bar."]
 ----
 
@@ -782,7 +782,7 @@ Returns true for 1/on/true/yes string values (case-insensitive), false otherwise
 
 === format
 
-Simple string formatting function. 
+Simple string formatting function.
 
 The string formating works in two main modes: indexed and associative.
 
