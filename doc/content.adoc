@@ -209,7 +209,7 @@ Checks if a string contains only alphanumeric characters.
 
 === upper
 
-Converts string to all upper-case.
+Convert a string to all upper-case.
 
 [source, clojure]
 ----
@@ -223,7 +223,7 @@ Converts string to all upper-case.
 
 === lower
 
-Converts string to all lower-case.
+Convert a string to all lower-case.
 
 [source, clojure]
 ----
@@ -346,7 +346,7 @@ the string untouched.
 
 === collapse-whitespace
 
-Converts all adjacent whitespace characters to a single space.
+Converts any adjacent whitespace characters to a single space.
 
 [source, clojure]
 ----
@@ -606,20 +606,6 @@ Unquote a string.
 ----
 
 
-=== slugify
-
-Transforms string into URL slug.
-
-[source, clojure]
-----
-(str/slugify "Un éléphant à l'orée du bois")
-;; => "un-elephant-a-loree-du-bois"
-
-(str/slugify nil)
-;; => nil
-----
-
-
 === strip-tags
 
 Remove html tags from string.
@@ -857,9 +843,23 @@ By default, pads on the left with the space char.
 ----
 
 
+=== slug
+
+Transforms string or keyword into URL slug.
+
+[source, clojure]
+----
+(str/slug "Un éléphant à l'orée du bois")
+;; => "un-elephant-a-loree-du-bois"
+
+(str/slug nil)
+;; => nil
+----
+
+
 === capitalize
 
-Converts first letter of the string to uppercase.
+Uppercases the first character of a string.
 
 [source, clojure]
 ----
@@ -871,86 +871,178 @@ Converts first letter of the string to uppercase.
 ----
 
 
-=== camelize
+=== camel
 
-Converts a string from selector-case to camelCase.
+Convert a string or keyword to a camelCased string.
 
 [source, clojure]
 ----
-(str/camelize "foo bar")
+(str/camel "foo bar")
 ;; => "fooBar"
 
-(str/camelize nil)
+(str/camel :foo_barBaz)
+;; => "fooBarBaz"
+
+(str/camel nil)
 ;; => nil
 ----
 
 
-=== dasherize
+=== kebab
 
-Converts a underscored or camelized string into an dasherized one.
+Convert a string or keyword into a kebab-cased-string.
 
 [source, clojure]
 ----
-(str/dasherize "MozTransform")
-;; => "-moz-transform"
+(str/kebab "Favorite BBQ food")
+;; => "favorite-bbq-food"
 
-(str/dasherize nil)
+(str/kebab :favorite-bbq-food)
+;; => "favorite-bbq-food"
+
+(str/kebab nil)
 ;; => nil
 ----
 
 
-=== underscored
+=== snake
 
-Converts a camelized or dasherized string into an underscored one.
+Convert a string or keyword to a snake_cased_string.
 
 [source, clojure]
 ----
-(str/underscored "MozTransform")
-;; => "moz_transform"
+(str/snake "Slither-sliter Slither")
+;; => "slither_slither_slither"
 
-(str/underscored nil)
+(str/snake :slither-slither)
+;; => "slither_slither"
+
+(str/snake nil)
 ;; => nil
 ----
 
 
-=== titleize
+=== pascal
 
-Converts a string into TitleCase.
+Convert a string or keyword into a PascalCasedString
+(aka, UpperCamelCase and ClassCase).
 
 [source, clojure]
 ----
-(str/titleize "my name is epeli")
-;; => "My Name Is Epeli"
+(str/pascal "my name is epeli")
+;; => "MyNameIsEpeli"
 
-(str/titleize nil)
+(str/pascal :some-record)
+;; => "SomeRecord"
+
+(str/pascal nil)
 ;; => nil
 ----
 
 
-=== classify
+=== human
 
-Converts string to camelized class name. First letter is always upper case.
+Convert a string or keyword to a human friendly string
+(lower case and spaces).
 
 [source, clojure]
 ----
-(str/classify "some_class_name")
-;; => "SomeClassName"
+(str/human "JustNiceForReading")
+;; => "just nice for reading"
 
-(str/classify nil)
+(str/human :great-for-csv-headers
+;; => "great for csv headers"
+
+(str/human nil)
 ;; => nil
 ----
 
+=== title
 
-=== humanize
-
-Converts an underscored, camelized, or dasherized string into a humanized one.
+Convert a string or keyword into a space separated string
+with each word capitalized.
 
 [source, clojure]
 ----
-(str/humanize "  capitalize dash-CamelCase_underscore trim  ")
+(str/title "a tale of two cities")
+;; => "A Tale Of Two Cities"
+
+(str/title :title-case
+;; => "Title Case"
+
+(str/title nil)
+;; => nil
+----
+
+=== phrase
+
+Convert a potentially mixed string or keyword into a
+capitalized, spaced string
+
+[source, clojure]
+----
+(str/phrase "  capitalize dash-CamelCase_underscore trim  ")
 ;; => "Capitalize dash camel case underscore trim"
 
-(str/humanize nil)
+(str/phrase :nobody-uses-keywords-this-long-but-it-still-works
+;; => "Nobody uses keywords this long but it still works"
+
+(str/phrase nil)
+;; => nil
+----
+
+
+=== css-selector
+
+Convert a JavaScript style selector to CSS style selector
+
+[source, clojure]
+----
+(str/css-selector "PrependedWithDash")
+;; => "-prepended-with-dash"
+
+(str/css-selector "noPrependedWithDash")
+;; => "no-prepended-with-dash"
+
+(str/css-selector nil)
+;; => nil
+----
+
+
+=== js-selector
+
+Convert a CSS style selector to JavaScript style selector.
+
+[source, clojure]
+----
+(str/js-selector "-pascal-case-me")
+;; => "PascalCaseMe"
+
+(str/js-selector "camel-case-me")
+;; => "camelCaseMe"
+
+(str/js-selector nil)
+;; => nil
+----
+
+
+=== keyword
+
+A more helpful and forigiving version of `clojure.core/keyword`.
+
+[source, clojure]
+----
+(str/keyword "just_doIt Right")
+;; => :just-do-it-right
+
+(str/keyword "foo" "auto namespace me")
+;; => :foo/auto-namespace-me
+
+;; and assuming the user namespace
+(str/keyword *ns* "auto namespace me")
+;; => :user/auto-namespace-me
+
+(str/keyword nil)
 ;; => nil
 ----
 
@@ -1014,7 +1106,9 @@ $ node ./out/tests.js
 
 == How to Contribute?
 
-**cuerdas** unlike Clojure and other Clojure contrib libs, does not have many
+**cuerdas**' source is on https://github.com/funcool/cuerdas[github].
+
+Unlike Clojure and other Clojure contrib libs, cuerdas does not have many
 restrictions for contributions.
 
 *Pull requests are welcome!*

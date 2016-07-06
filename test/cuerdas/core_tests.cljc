@@ -164,10 +164,10 @@
     (t/is (= "\"" (str/unquote "\"\"\"")))
     (t/is (= "a" (str/unquote "\"a\""))))
 
-  (t/testing "slugify"
-    (t/is (= nil (str/slugify nil)))
+  (t/testing "slug"
+    (t/is (= nil (str/slug nil)))
     (t/is (= "un-elephant-a-loree-du-bois"
-             (str/slugify "Un éléphant à l'orée du bois"))))
+             (str/slug "Un éléphant à l'orée du bois"))))
 
   (t/testing "clean"
     (t/is (= nil (str/clean nil)))
@@ -270,38 +270,67 @@
     (t/is (= "a" (str/strip-suffix "a=-" "=-")))
     (t/is (= "a-=" (str/strip-suffix "a-=" "=-"))))
 
-  (t/testing "camelize"
-    (t/is (= nil (str/camelize nil)))
-    (t/is (= "MozTransform" (str/camelize "-moz-transform")))
-    (t/is (= "mozTransform" (str/camelize "moz-transform")))
-    (t/is (= "mozTransform" (str/camelize "moz transform"))))
-
   #?(:clj
      (t/testing "strip-suffix"
        (t/is (= nil (str/strip-suffix nil "foo")))
        (t/is (= "foobar" (str/strip-suffix "foobar-" "-")))))
 
-  (t/testing "dasherize"
-    (t/is (= nil (str/dasherize nil)))
-    (t/is (= "moz" (str/dasherize "MOZ")))
-    (t/is (= "moz-transform" (str/dasherize "MozTransform"))))
+  (t/testing "camel"
+    (t/is (= nil (str/camel nil)))
+    (t/is (= "mozTransform" (str/camel :-moz-transform)))
+    (t/is (= "mozTransform" (str/camel :moz-transform)))
+    (t/is (= "mozTransform" (str/camel "moz_transform")))
+    (t/is (= "mozTransform" (str/camel "moz transform"))))
 
-  (t/testing "underscored"
-    (t/is (= nil (str/underscored nil)))
-    (t/is (= "moz_transform" (str/underscored "MozTransform"))))
+  (t/testing "kebab"
+   (t/is (= nil (str/kebab nil)))
+   (t/is (= "moz" (str/kebab "MOZ")))
+   (t/is (= "dasherized-keyword" (str/kebab :dasherized-keyword)))
+   (t/is (= "moz-transform" (str/kebab "MozTransform"))))
 
-  (t/testing "humanize"
-    (t/is (= nil (str/humanize nil)))
+
+  (t/testing "snake"
+    (t/is (= nil (str/snake nil)))
+    (t/is (= "user_table" (str/snake :user-table)))
+    (t/is (= "moz_transform" (str/snake "MozTransform"))))
+
+  (t/testing "phrase"
+    (t/is (= nil (str/phrase nil)))
+    (t/is (= "A short phrase" (str/phrase :a-short-phrase)))
     (t/is (= "Capitalize dash camel case underscore trim"
-             (str/humanize "  capitalize dash-CamelCase_underscore trim  "))))
+             (str/phrase "  capitalize dash-CamelCase_underscore trim  "))))
 
-  (t/testing "titleize"
-    (t/is (= nil (str/titleize nil)))
-    (t/is (= "My Name Is Epeli" (str/titleize "my name is epeli"))))
+  (t/testing "human"
+    (t/is (= nil (str/human nil)))
+    (t/is (= "human friendly" (str/human :human-friendly)))
+    (t/is (= "nice for people to read" (str/human "NiceForPeopleToRead"))))
 
-  (t/testing "classify"
-    (t/is (= nil (str/classify nil)))
-    (t/is (= "SomeClassName" (str/classify "some_class_name"))))
+  (t/testing "title"
+    (t/is (= nil (str/title nil)))
+    (t/is (= "My Name Is Epeli" (str/title "my name is epeli")))
+    (t/is (= "Regular Keyword" (str/title :regular-keyword))))
+
+  (t/testing "pascal"
+    (t/is (= nil (str/pascal nil)))
+    (t/is (= "SomeKeywordName" (str/pascal :*some-keyword-name*)))
+    (t/is (= "SomeClassName" (str/pascal "_some_class_name_"))))
+
+  (t/testing "js-selector"
+    (t/is (= nil (str/js-selector nil)))
+    (t/is (= "SomeKeywordName" (str/js-selector :-some-keyword-name)))
+    (t/is (= "SomeClassName" (str/js-selector "_some_class_name"))))
+
+  (t/testing "css-selector"
+    (t/is (= nil (str/css-selector nil)))
+    (t/is (= "-some-keyword-name" (str/css-selector :SomeKeywordName)))
+    (t/is (= "-some-keyword-name" (str/css-selector "SomeKeywordName"))))
+
+  (t/testing "keyword"
+    (t/is (= nil (str/css-selector nil)))
+    (t/is (= :keyword-this (str/keyword " keyword this")))
+    (t/is (= :bar-foo/key-this (str/keyword "bar-foo" " Key_This")))
+    (let [n "foo-bar"]
+      (t/is (= :foo-bar/key-that (str/keyword n "KeyThat")))))
 
   (t/testing "lines"
     (t/is (= nil (str/lines nil)))
