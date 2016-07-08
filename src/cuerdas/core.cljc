@@ -138,7 +138,7 @@
 (defn trim
   "Removes whitespace or specified characters
   from both ends of string."
-  ([s] (trim s " "))
+  ([s] (trim s "\\s"))
   ([s chs]
    (when-not (nil? s)
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
@@ -149,7 +149,7 @@
 (defn rtrim
   "Removes whitespace or specified characters
   from right side of string."
-  ([s] (rtrim s " "))
+  ([s] (rtrim s "\\s"))
   ([s chs]
    (when-not (nil? s)
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
@@ -160,7 +160,7 @@
 (defn ltrim
   "Removes whitespace or specified characters
   from left side of string."
-  ([s] (ltrim s " "))
+  ([s] (ltrim s "\\s"))
   ([s chs]
    (when-not (nil? s)
      (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
