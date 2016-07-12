@@ -3,11 +3,11 @@
                             replace reverse chars keyword
                             #?@(:clj [unquote format])])
   (:require [clojure.string :as str]
-            #?(:cljs [goog.string :as gstr])
             [clojure.set :refer [map-invert]]
+            [clojure.walk :refer [stringify-keys]]
+            #?(:cljs [goog.string :as gstr])
             #?(:cljs [cljs.reader :as edn]
-               :clj  [clojure.edn :as edn])
-            [clojure.walk :refer [stringify-keys]])
+               :clj  [clojure.edn :as edn]))
   #?(:clj (:import java.util.regex.Pattern
                    java.util.List)))
 
