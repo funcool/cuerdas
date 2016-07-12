@@ -11,6 +11,9 @@
   #?(:clj (:import java.util.regex.Pattern
                    java.util.List)))
 
+#?(:cljs (def ^:private keyword* cljs.core/keyword)
+   :clj  (def ^:private keyword* clojure.core/keyword))
+
 (defn empty?
   "Checks if a string is empty."
   [^String s]
@@ -147,13 +150,6 @@
        (as-> (re-pattern rxstr) rx
          (replace s rx ""))))))
 
-(defn clean
-  "Trim and replace multiple spaces with
-  a single space."
-  [s]
-  (-> (trim s)
-      (replace #"\s+" " ")))
-
 (defn rtrim
   "Removes whitespace or specified characters
   from right side of string."
@@ -175,6 +171,13 @@
            rxstr (str "^" rxstr "+")]
        (as-> (re-pattern rxstr) rx
          (replace s rx ""))))))
+
+(defn clean
+  "Trim and replace multiple spaces with
+  a single space."
+  [s]
+  (-> (trim s)
+      (replace #"\s+" " ")))
 
 (def strip trim)
 (def rstrip rtrim)
