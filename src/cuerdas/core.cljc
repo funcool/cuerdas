@@ -1,14 +1,18 @@
 (ns cuerdas.core
-  (:refer-clojure :exclude [contains? empty? repeat replace reverse chars
+  (:refer-clojure :exclude [contains? empty? repeat
+                            replace reverse chars keyword
                             #?@(:clj [unquote format])])
   (:require [clojure.string :as str]
-            #?(:cljs [goog.string :as gstr])
             [clojure.set :refer [map-invert]]
+            [clojure.walk :refer [stringify-keys]]
+            #?(:cljs [goog.string :as gstr])
             #?(:cljs [cljs.reader :as edn]
-               :clj  [clojure.edn :as edn])
-            [clojure.walk :refer [stringify-keys]])
+               :clj  [clojure.edn :as edn]))
   #?(:clj (:import java.util.regex.Pattern
                    java.util.List)))
+
+#?(:cljs (def ^:private keyword* cljs.core/keyword)
+   :clj  (def ^:private keyword* clojure.core/keyword))
 
 (defn empty?
   "Checks if a string is empty."
@@ -138,10 +142,10 @@
 (defn trim
   "Removes whitespace or specified characters
   from both ends of string."
-  ([s] (trim s "\\s"))
+  ([s] (trim s " "))
   ([s chs]
    (when-not (nil? s)
-     (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
+     (let [rxstr (str "[" (escape-regexp chs) "]")
            rxstr (str "^" rxstr "+|" rxstr "+$")]
        (as-> (re-pattern rxstr) rx
          (replace s rx ""))))))
@@ -149,10 +153,10 @@
 (defn rtrim
   "Removes whitespace or specified characters
   from right side of string."
-  ([s] (rtrim s "\\s"))
+  ([s] (rtrim s " "))
   ([s chs]
    (when-not (nil? s)
-     (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
+     (let [rxstr (str "[" (escape-regexp chs) "]")
            rxstr (str rxstr "+$")]
        (as-> (re-pattern rxstr) rx
          (replace s rx ""))))))
@@ -160,13 +164,20 @@
 (defn ltrim
   "Removes whitespace or specified characters
   from left side of string."
-  ([s] (ltrim s "\\s"))
+  ([s] (ltrim s " "))
   ([s chs]
    (when-not (nil? s)
-     (let [rxstr (str "[" #?(:clj chs :cljs (escape-regexp chs)) "]")
+     (let [rxstr (str "[" (escape-regexp chs) "]")
            rxstr (str "^" rxstr "+")]
        (as-> (re-pattern rxstr) rx
          (replace s rx ""))))))
+
+(defn clean
+  "Trim and replace multiple spaces with
+  a single space."
+  [s]
+  (-> (trim s)
+      (replace #"\s+" " ")))
 
 (def strip trim)
 (def rstrip rtrim)
@@ -329,7 +340,7 @@
                        (if (= (subs match 0 1) "$")
                          (subs match 1)
                          (slice match 2 -2)))
-                  val (if (symbol? val) (keyword val) val)]
+                  val (if (symbol? val) (keyword* val) val)]
               (str (get params val ""))))]
     (as-> #"(?:%\([\d\w\:\_\-]+\)s|\$[\w\d\:\_\-]+)" $
       (replace s $ on-match))))
@@ -386,104 +397,134 @@
 
 (defn unquote
   "Unquote a string."
-  ([s] (unsurround s "\""))
+  ([s]
+   (unsurround s "\""))
   ([s qchar]
    (unsurround s qchar)))
 
-(defn dasherize
-  "Converts a underscored or camelized string
-  into an dasherized one."
+(defn- stylize-split
   [s]
   (some-> s
-          (trim)
-          (replace #"([A-Z]+)" "-$1")
-          (replace #"[-_\s]+" "-")
-          (strip-prefix "-")
-          (lower)))
+          (name)
+          (replace #"[A-Z]+[a-z]*" #(str "-" %))
+          (lower)
+          (split #"[^a-zA-Z]+")
+          (seq)))
 
-(defn slugify
+(defn- stylize-join
+  ([coll every-fn join-with] (stylize-join coll every-fn every-fn join-with))
+  ([[fst & rst] first-fn rest-fn join-with]
+    (when-not (nil? fst)
+      (join join-with
+            (into [(first-fn fst)] (map rest-fn rst))))))
+
+(defn stylize
+  ([s every-fn join-with] (stylize s every-fn every-fn join-with))
+  ([s first-fn rest-fn join-with]
+    (let [remove-empty #(seq (remove (partial = "") %))]
+      (some-> s
+              (stylize-split)
+              (remove-empty)
+              (stylize-join first-fn rest-fn join-with)))))
+
+(defn- update-range
+  [s [lower upper] update-fn]
+  (when (and (string? s) (not-empty s))
+    (let [length (count s)
+          start  (max 0 lower)
+          end    (min length upper)]
+      (str (subs s 0 start)
+           (update-fn (subs s start end))
+           (subs s end)))))
+
+(defn capitalize
+  "Uppercases the first character of a string or keyword"
+  [s]
+  (when s
+    (update-range (name s) [0 1] upper)))
+
+(defn camel
+  "Output will be: lowerUpperUpperNoSpaces
+  accepts strings and keywords"
+  [s]
+  (stylize s lower capitalize ""))
+
+(defn snake
+  "Output will be: lower_cased_and_underscore_separated
+  accepts strings and keywords"
+  [s]
+  (stylize s lower "_"))
+
+(defn phrase
+  "Output will be: Space separated with the first letter capitalized.
+  accepts strings and keywords"
+  [s]
+  (stylize s capitalize lower " "))
+
+(defn human
+  "Output will be: lower cased and space separated
+  accepts strings and keywords"
+  [s]
+  (stylize s lower " "))
+
+(defn title
+  "Output will be: Each Word Capitalized And Separated With Spaces
+  accepts strings and keywords"
+  [s]
+  (stylize s capitalize " "))
+
+(defn pascal
+  "Output will be: CapitalizedAndTouchingTheNext
+  accepts strings and keywords"
+  [s]
+  (stylize s capitalize ""))
+
+(defn kebab
+  "Output will be: lower-cased-and-separated-with-dashes
+  accepts strings and keywords"
+  [s]
+  (stylize s lower "-"))
+
+(defn js-selector
+  "Output will be either:
+     (js-selector \"-pascal-case-me\") ;; => PascalCaseMe
+     (js-selector \"camel-case-me\") ;; => camelCaseMe
+
+  accepts keywords and strings, with any standard delimiter"
+  [s]
+  (some-> s
+          (stylize-split)
+          (stylize-join capitalize "")))
+
+(defn css-selector
+  "Output will be either:
+     (js-selector \"LeadingDash\") ;; => -leading-dash
+     (js-selector \"noLeadingDash\") ;; => no-leading-dash
+
+  accepts keywords and strings, with any standard delimiter"
+  [s]
+  (some-> s
+          (stylize-split)
+          (stylize-join lower "-")))
+
+(defn slug
   "Transform text into a URL slug."
   [s]
   (when s
-    (let [from  "ąàáäâãåæăćčĉęèéëêĝĥìíïîĵłľńňòóöőôõðøśșšŝťțŭùúüűûñÿýçżźž"
-          to    "aaaaaaaaaccceeeeeghiiiijllnnoooooooossssttuuuuuunyyczzz"
-          regex (re-pattern (str "[" (escape-regexp from) "]"))]
-      (-> (lower s)
-          (replace regex (fn [^String c]
-                           (let [index (.indexOf from c)
-                                 res   #?(:clj  (String/valueOf (.charAt to index))
-                                          :cljs (.charAt to index))]
-                             (if (empty? res) "-" res))))
-          (replace #"[^\w\s-]" "")
-          (dasherize)))))
+    (-> (lower s)
+        (name)
+        (str/escape (zipmap "ąàáäâãåæăćčĉęèéëêĝĥìíïîĵłľńňòóöőôõðøśșšŝťțŭùúüűûñÿýçżźž"
+                            "aaaaaaaaaccceeeeeghiiiijllnnoooooooossssttuuuuuunyyczzz"))
+        (replace #"[^\w\s]+" "")
+        (kebab))))
 
-(defn capitalize
-  "Converts first letter of the string to uppercase."
-  [s]
-  (when-not (nil? s)
-    (-> (.charAt ^String s 0)
-        #?(:clj (String/valueOf))
-        (upper)
-        (str (slice s 1)))))
-
-(defn camelize
-  "Converts a string from selector-case to camelCase."
-  [s]
-  (some-> s
-          (trim)
-          (replace #?(:clj  #"[-_\s]+(.)?"
-                      :cljs (regexp #"[-_\s]+(.)?" "g"))
-                   (fn [[match c]] (if c (upper c) "")))))
-
-(defn underscored
-  "Converts a camelized or dasherized string
-  into an underscored one."
-  [s]
-  (some-> s
-          (trim)
-          (replace #?(:clj  #"([a-z\d])([A-Z]+)"
-                      :cljs (regexp #"([a-z\d])([A-Z]+)" "g"))"$1_$2")
-          (replace #?(:clj  #"[-\s]+"
-                      :cljs (regexp #"[-\s]+", "g")) "_")
-          (lower)))
-
-(defn humanize
-  "Converts an underscored, camelized, or
-  dasherized string into a humanized one."
-  [s]
-  (some-> s
-          (underscored)
-          (replace #"_id$", "")
-          (replace #?(:clj "_" :cljs (regexp "_" "g")) " ")
-          (capitalize)))
-
-(defn titleize
-  "Converts a string into TitleCase."
-  ([s]
-   #?(:clj  (titleize s nil)
-      :cljs (when-not (nil? s)
-              (gstr/toTitleCase s))))
-  ([s delimeters]
-   #?(:clj
-      (when-not (nil? s)
-        (let [delimeters (if delimeters
-                           (escape-regexp delimeters)
-                           "\\s")
-              delimeters (str "|[" delimeters "]+")
-              rx         (re-pattern (str "(^" delimeters ")([a-z])"))]
-          (replace s rx (fn [[c1 _]]
-                          (upper c1)))))
-      :cljs (gstr/toTitleCase s delimeters))))
-
-(defn classify
-  "Converts string to camelized class name. First letter is always upper case."
-  [s]
-  (some-> s
-          (str)
-          (replace #"[\W_]" " ")
-          (camelize)
-          (replace #"\s" "")
-          (capitalize)))
+(defn keyword
+  "Safer version of clojure keyword, accepting a
+  symbol for the namespace and kebab-casing the key"
+  ([k]
+   (keyword* (kebab k)))
+  ([n k]
+   (keyword* (str n) (kebab k))))
 
 #?(:cljs
    (defn- parse-number-impl
@@ -653,13 +694,6 @@
      (strip-tags-impl s tags {}  )))
   ([s tags mapping]
    (strip-tags-impl s tags mapping)))
-
-(defn clean
-  "Trim and replace multiple spaces with
-  a single space."
-  [s]
-  (-> (trim s)
-      (replace #"\s+" " ")))
 
 (defn substr-between
   "Find string that is nested in between two strings. Return first match"
