@@ -1,6 +1,6 @@
 (ns cuerdas.core-tests
   (:require #?(:cljs [cljs.test :as t]
-               :clj [clojure.test :as t])
+               :clj  [clojure.test :as t])
             [cuerdas.core :as str]))
 
 (defn nan?
@@ -356,7 +356,6 @@
     (t/is (= nil (str/substr-between "---foo>>bar" "---" "<<")))
     (t/is (= "foo" (str/substr-between "---foo>>bar" "---" ">>")))
     (t/is (= "foo" (str/substr-between "---foo>>bar--foo1>>bar" "---" ">>"))))
-  )
 
   (t/testing "<<"
     (t/is (= "first line\n  indented two\n\n    indented four\n"
@@ -366,7 +365,7 @@
                           indented four
                       ")))
     (t/is (= "first\nsecond\n  third"
-             (str/<< #"\t" "first\n\tsecond\n\t  third"))))
+             (str/<< #"\t" "first\n\tsecond\n\t  third")))))
 
 #?(:cljs
    (do
