@@ -1,5 +1,19 @@
 = Changelog
 
+== Version 1.0.0
+
+Date: Unreleased
+
+Important: this is a major release and includes many *breaking changes*
+among other fixes and improvements. This is a complete list of changes:
+
+- Rename old functions such as `dasherize`, `underscore`, and `classify` with more
+  consistent with clojure naming: `kebab`, `snake` and `pascal`. The new `kebab`
+  function is no longer deals with css selectors transformations, the `js-selector`
+  and `css-selector` functions are added for this purpose.
+  (Please, see more info in PR #33)
+
+
 == Version 0.8.0
 
 Date: 2016-06-25
