@@ -340,7 +340,7 @@
                        (if (= (subs match 0 1) "$")
                          (subs match 1)
                          (slice match 2 -2)))
-                  val (if (symbol? val) (clojure.core/keyword val) val)]
+                  val (if (symbol? val) (keyword* val) val)]
               (str (get params val ""))))]
     (as-> #"(?:%\([\d\w\:\_\-]+\)s|\$[\w\d\:\_\-]+)" $
       (replace s $ on-match))))
