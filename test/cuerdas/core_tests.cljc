@@ -215,10 +215,13 @@
        (t/is (= 1.4 (str/parse-double "1.4")))
        (t/is (= 1.0 (str/parse-double "1")))))
 
-  #?(:cljs
-     (t/testing "parse-int"
-       (t/is (nan? (str/parse-int nil)))
-       (t/is (= 1 (str/parse-int "1.4")))))
+ (t/testing "parse-int"
+   (t/is (nan? (str/parse-int nil)))
+   #?(:cljs
+      (t/is (= 1 (str/parse-int "1.4")))
+      :clj
+      (t/is (= (Integer. "1")
+               (str/parse-int "1.4")))))
 
   #?(:clj
      (t/testing "parse-long"
