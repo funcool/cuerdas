@@ -397,7 +397,8 @@
 
 (defn unquote
   "Unquote a string."
-  ([s] (unsurround s "\""))
+  ([s]
+   (unsurround s "\""))
   ([s qchar]
    (unsurround s qchar)))
 
