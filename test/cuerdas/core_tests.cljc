@@ -196,34 +196,19 @@
              (str/strip-tags "<p>just <b>some</b> text</p>" "P"))))
 
 
-  #?(:cljs
-     (t/testing "parse-number"
-       (t/is (= 0 (str/parse-number nil)))
-       (t/is (= 1 (str/parse-number "1.4")))
-       (t/is (= 1.4 (str/parse-number "1.4" 1)))
-       (t/is (= 1 (str/parse-number "1" 2)))))
+  (t/testing "parse-number"
+    (t/is (nan? (str/parse-number nil)))
+    (t/is (= 1.4 (str/parse-number "1.4")))
+    (t/is (= 1 (str/parse-number "1"))))
 
-  #?(:cljs
-     (t/testing "parse-float"
-       (t/is (nan? (str/parse-float nil)))
-       (t/is (= 1.4 (str/parse-float "1.4")))
-       (t/is (= 1.0 (str/parse-float "1")))))
+  (t/testing "parse-double"
+    (t/is (nan? (str/parse-double nil)))
+    (t/is (= 1.4 (str/parse-double "1.4")))
+    (t/is (= 1.0 (str/parse-double "1"))))
 
-  #?(:clj
-     (t/testing "parse-double"
-       (t/is (nan? (str/parse-double nil)))
-       (t/is (= 1.4 (str/parse-double "1.4")))
-       (t/is (= 1.0 (str/parse-double "1")))))
-
-  #?(:cljs
-     (t/testing "parse-int"
-       (t/is (nan? (str/parse-int nil)))
-       (t/is (= 1 (str/parse-int "1.4")))))
-
-  #?(:clj
-     (t/testing "parse-long"
-       (t/is (nan? (str/parse-long nil)))
-       (t/is (= 1 (str/parse-long "1.4")))))
+  (t/testing "parse-int"
+    (t/is (nan? (str/parse-int nil)))
+    (t/is (= 1 (str/parse-int "1.4"))))
 
   (t/testing "one-of?"
     (t/is (str/one-of? ["test" "test2" "test3"] "test3"))

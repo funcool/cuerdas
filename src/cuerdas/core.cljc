@@ -526,64 +526,39 @@
   ([n k]
    (keyword* (str n) (kebab k))))
 
-#?(:cljs
-   (defn- parse-number-impl
-     [source]
-     (or (* source 1) 0)))
-
-#?(:cljs
-   (defn parse-number
-     "General purpose function for parse number like
+(defn parse-number
+  "General purpose function for parse number like
   string to number. It works with both integers
   and floats."
-     ([s] (parse-number s 0))
-     ([s precision]
-      (if (nil? s)
-        0
-        (let [s  (trim s)
-              rx #"^-?\d+(?:\.\d+)?$"]
-          (if (.match s rx)
-            (parse-number-impl (.toFixed (parse-number-impl s) precision))
-            NaN))))))
+  [s]
+  (if (nil? s)
+    #?(:cljs NaN :clj Double/NaN)
+    (let [s (trim s)
+          rx #"^-?\d+(?:\.\d+)?$"]
+      (if (re-matches rx s)
+        (edn/read-string s)
+        #?(:cljs NaN :clj Double/NaN)))))
 
-#?(:cljs
-   (defn parse-float
-     "Return the float value, wraps parseFloat."
-     ([s] (js/parseFloat s))
-     ([s precision]
-      (if (nil? precision)
-        (js/parseFloat s)
-        (-> (js/parseFloat s)
-            (.toFixed precision)
-            (js/parseFloat))))))
+(defn parse-double
+  "Return the double value from string."
+  [^String s]
+  #?(:cljs (js/parseFloat s)
+     :clj  (cond
+             (nil? s) Double/NaN
+             :else (Double/parseDouble s))))
 
-#?(:clj
-   (defn parse-double
-     "Return the double value from string."
-     [^String s]
-     (cond
-       (nil? s) Double/NaN
-       :else (Double/parseDouble s)))
-   )
-
-#?(:cljs
-   (defn parse-int
-     "Return the number value in integer form."
-     [s]
-     (let [rx (regexp "^\\s*-?0x" "i")]
-       (if (.test rx s)
-         (js/parseInt s 16)
-         (js/parseInt s 10)))))
-
-#?(:clj
-   (defn parse-long
-     "Return the long value from string."
-     [^String s]
-     (cond
-       (nil? s) Double/NaN
-       :else (let [r (Double. (Double/parseDouble s))]
-               (.longValue ^java.lang.Double r))))
-   )
+(defn parse-int
+  "Return the number value in integer form."
+  [s]
+  #?(:cljs
+    (let [rx (regexp "^\\s*-?0x" "i")]
+      (if (.test rx s)
+        (js/parseInt s 16)
+        (js/parseInt s 10)))
+    :clj
+    (if (and (string? s) (re-matches #"-?\d+(\.\d+)?" s))
+      (.longValue (Double. s))
+      Double/NaN)))
 
 (defn one-of?
   "Returns true if s can be found in coll."
