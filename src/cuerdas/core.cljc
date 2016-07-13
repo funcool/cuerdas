@@ -518,12 +518,12 @@
         (kebab))))
 
 (defn keyword
-  "Safer version of clojure.core/keyword, accepting a
+  "Safer version of clojure keyword, accepting a
   symbol for the namespace and kebab-casing the key"
   ([k]
-    (clojure.core/keyword (kebab k)))
+   (keyword* (kebab k)))
   ([n k]
-    (clojure.core/keyword (str n) (kebab k))))
+   (keyword* (str n) (kebab k))))
 
 #?(:cljs
    (defn- parse-number-impl
