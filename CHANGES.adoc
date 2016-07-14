@@ -10,8 +10,17 @@ among other fixes and improvements. This is a complete list of changes:
 - Rename old functions such as `dasherize`, `underscore`, and `classify` with more
   consistent with clojure naming: `kebab`, `snake` and `pascal`. The new `kebab`
   function is no longer deals with css selectors transformations, the `js-selector`
-  and `css-selector` functions are added for this purpose.
-  (Please, see more info in PR #33)
+  and `css-selector` functions are added for this purpose.  (Please, see more info
+  in PR #33)
+
+- Rename `parse-long` to `parse-int` in jvm impl (make the clj and cljs impl
+  equivalent).
+
+- Rename `parse-float` to `parse-double` in cljs impl (the second arity is removed
+  and now clj and cljs impl are equivalent).
+
+- Make `parse-number` cross-platform (and remove the second arity that used for
+  specify the precision).
 
 
 == Version 0.8.0
