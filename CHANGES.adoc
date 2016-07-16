@@ -22,6 +22,12 @@ among other fixes and improvements. This is a complete list of changes:
 - Make `parse-number` cross-platform (and remove the second arity that used for
   specify the precision).
 
+- Fix wrong behavior on `replace` function in cljs.
+
+- Remove ireplace function (it was only on the cljs).
+
+- Enable `escape-html` and `unescape-html` for clj.
+
 
 == Version 0.8.0
 
