@@ -239,8 +239,7 @@
   "Replaces first instance of match with replacement in s."
   [^String s match replacement]
   (when-not (nil? s)
-    #?(:clj  (str/replace-first s match replacement)
-       :cljs (.replace s (regexp match) replacement))))
+    (str/replace-first s match replacement)))
 
 #?(:cljs
    (defn ireplace-first
