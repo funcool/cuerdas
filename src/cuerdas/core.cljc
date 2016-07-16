@@ -590,51 +590,25 @@
           (replace #"[\s\xa0]+" " ")
           (replace #"^\s+|\s+$" "")))
 
-#?(:cljs
-   (def html-escape-chars
-     {"lt" "<"
-      "gt" ">"
-      "quot" "\""
-      "amp" "&"
-      "apos" "'"}))
+(defn escape-html
+  [s]
+  "Converts HTML special characters to their entity equivalents."
+  (when s
+    (-> s
+        (replace "&"  "&amp;")
+        (replace "<"  "&lt;")
+        (replace ">"  "&gt;")
+        (replace "\"" "&quot;"))))
 
-#?(:cljs
-   (def reversed-html-escape-chars
-     (map-invert html-escape-chars)))
-
-;; reversedEscapeChars["'"] = '#39';
-
-#?(:cljs
-   (defn escape-html
-     [s]
-     "Converts HTML special characters to their entity equivalents."
-     (let [escapechars (assoc reversed-html-escape-chars "'" "#39")
-           rx (re-pattern "[&<>\"']")]
-       (replace s rx (fn [x]
-                       (str "&" (get escapechars x) ";"))))))
-
-;; Complete logic for unescape-html
-;;   if (entityCode in escapeChars) {
-;;     return escapeChars[entityCode];
-;;   } else if (match = entityCode.match(/^#x([\da-fA-F]+)$/)) {
-;;     return String.fromCharCode(parseInt(match[1], 16));
-;;   } else if (match = entityCode.match(/^#(\d+)$/)) {
-;;     return String.fromCharCode(~~match[1]);
-;;   } else {
-;;     return entity;
-;;   }
-
-;; TODO: basic implementation
-
-#?(:cljs
-   (defn unescape-html
-     "Converts entity characters to HTML equivalents."
-     [s]
-     (replace s #"\&(\w+);" (fn [x y]
-                              (cond
-                                (cljs.core/contains? html-escape-chars y)
-                                (get html-escape-chars y)
-                                :else y)))))
+(defn unescape-html
+  "Converts entity characters to HTML equivalents."
+  [s]
+  (when s
+    (-> s
+        (replace "&amp;"  "&")
+        (replace "&lt;" "<")
+        (replace "&gt;" ">")
+        (replace "&quot;" "\""))))
 
 (defn- strip-tags-impl
   [s tags mappings]
