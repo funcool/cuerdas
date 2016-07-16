@@ -233,15 +233,7 @@
   "
   [s match replacement]
   (when-not (nil? s)
-    #?(:clj  (str/replace s match replacement)
-       :cljs (.replace s (regexp match "g") replacement))))
-
-#?(:cljs
-   (defn ireplace
-     "Replaces all instance of match with replacement in s."
-     [s match replacement]
-     (when-not (nil? s)
-       (.replace s (regexp match "ig") replacement))))
+    (str/replace s match replacement)))
 
 (defn replace-first
   "Replaces first instance of match with replacement in s."
