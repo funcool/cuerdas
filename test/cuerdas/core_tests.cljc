@@ -140,7 +140,10 @@
     (t/is (= "cba" (str/reverse "abc"))))
 
   (t/testing "replace"
-    (t/is (= (str/replace "aa bb aa" #"aa" "kk") "kk bb kk")))
+    (t/is (= "kk bb kk" (str/replace "aa bb aa" #"aa" "kk")))
+    (t/is (= "aa bb cc" (str/replace "aa bb cc" "(?:aa|bb)" "kk")))
+    (t/is (= "kk kk cc" (str/replace "aa bb cc" #"(?:aa|bb)" "kk")))
+    )
 
   (t/testing "prune"
     (t/is (= nil (str/prune nil 8)))
@@ -174,15 +177,13 @@
     (t/is (= "a b" (str/clean " a   b  ")))
     (t/is (= "23.12.2014 10:09:19" (str/clean "23.12.2014    10:09:19"))))
 
-  #?(:cljs
-     (t/testing "escape-html"
-       (t/is (= "&lt;div&gt;Blah blah blah&lt;/div&gt;"
-                (str/escape-html "<div>Blah blah blah</div>")))))
+  (t/testing "escape-html"
+    (t/is (= "&lt;div&gt;Blah blah blah&lt;/div&gt;"
+             (str/escape-html "<div>Blah blah blah</div>"))))
 
-  #?(:cljs
-     (t/testing "unescape-html"
-       (t/is (= "<div>Blah blah blah</div>"
-                (str/unescape-html "&lt;div&gt;Blah blah blah&lt;/div&gt;")))))
+  (t/testing "unescape-html"
+    (t/is (= "<div>Blah blah blah</div>"
+             (str/unescape-html "&lt;div&gt;Blah blah blah&lt;/div&gt;"))))
 
   (t/testing "strip-tags"
     (t/is (= nil (str/strip-tags nil)))
@@ -194,7 +195,6 @@
              (str/strip-tags "<p>just <b>some</b> text</p>" ["p"])))
     (t/is (= "just <b>some</b> text"
              (str/strip-tags "<p>just <b>some</b> text</p>" "P"))))
-
 
   (t/testing "parse-number"
     (t/is (nan? (str/parse-number nil)))
