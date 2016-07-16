@@ -617,17 +617,16 @@
                (nil? tags) tags
                (string? tags) (hash-set (kwdize tags))
                (sequential? tags) (set (map kwdize tags)))
-        rx   (re-pattern "<\\/?([^<>]*)>")
-        replacer (if (nil? tags)
-                   (fn #?(:clj [[match tag]] :cljs [match tag])
-                     (let [tag (kwdize tag)]
-                       (get mappings tag "")))
-                   (fn #?(:clj [[match tag]] :cljs [match tag])
-                     (let [tag (kwdize tag)]
-                       (if (tags tag)
-                         (get mappings tag "")
-                         match))))]
-    (replace s rx replacer)))
+        rx   (re-pattern "<\\/?([^<>]*)>")]
+    (replace s rx (if (nil? tags)
+                    (fn [[match tag]]
+                      (let [tag (kwdize tag)]
+                        (get mappings tag "")))
+                    (fn [[match tag]]
+                      (let [tag (kwdize tag)]
+                        (if (tags tag)
+                          (get mappings tag "")
+                          match)))))))
 
 (defn strip-tags
   "Remove html tags from string."
