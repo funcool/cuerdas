@@ -142,7 +142,7 @@
 (defn trim
   "Removes whitespace or specified characters
   from both ends of string."
-  ([s] (trim s " "))
+  ([s] (trim s "\n\t\f\r "))
   ([s chs]
    (when-not (nil? s)
      (let [rxstr (str "[" (escape-regexp chs) "]")
