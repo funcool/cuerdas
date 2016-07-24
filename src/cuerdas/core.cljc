@@ -153,7 +153,7 @@
 (defn rtrim
   "Removes whitespace or specified characters
   from right side of string."
-  ([s] (rtrim s " "))
+  ([s] (rtrim s "\n\t\f\r "))
   ([s chs]
    (when-not (nil? s)
      (let [rxstr (str "[" (escape-regexp chs) "]")
@@ -164,7 +164,7 @@
 (defn ltrim
   "Removes whitespace or specified characters
   from left side of string."
-  ([s] (ltrim s " "))
+  ([s] (ltrim s "\b\t\f\r "))
   ([s chs]
    (when-not (nil? s)
      (let [rxstr (str "[" (escape-regexp chs) "]")
