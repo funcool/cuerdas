@@ -326,7 +326,7 @@
   "Split a string in a seq of chars."
   [s]
   (when-not (nil? s)
-    #?(:clj  (into [] (.split ^String s "(?!^)"))
+    #?(:clj  (vec (.split ^String s "(?!^)"))
        :cljs (js->clj (.split s "")))))
 
 (defn lines
