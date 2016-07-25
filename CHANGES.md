@@ -1,6 +1,6 @@
-= Changelog
+# Changelog
 
-== Version 1.0.0
+## Version 1.0.0
 
 Date: Unreleased
 
@@ -12,24 +12,20 @@ among other fixes and improvements. This is a complete list of changes:
   function is no longer deals with css selectors transformations, the `js-selector`
   and `css-selector` functions are added for this purpose.  (Please, see more info
   in PR #33)
-
 - Rename `parse-long` to `parse-int` in jvm impl (make the clj and cljs impl
   equivalent).
-
 - Rename `parse-float` to `parse-double` in cljs impl (the second arity is removed
   and now clj and cljs impl are equivalent).
-
 - Make `parse-number` cross-platform (and remove the second arity that used for
   specify the precision).
-
 - Fix wrong behavior on `replace` function in cljs.
-
 - Remove ireplace function (it was only on the cljs).
-
+- Remove ireplace-first function (it was only on the cljs).
+- Fix `replace` impl on cljs and make it consistent with clj version.
 - Enable `escape-html` and `unescape-html` for clj.
 
 
-== Version 0.8.0
+## Version 0.8.0
 
 Date: 2016-06-25
 
@@ -37,14 +33,14 @@ Date: 2016-06-25
 - Improve string interpolation on `format` function making it more flexible.
 
 
-== Version 0.7.2
+## Version 0.7.2
 
 Date: 2016-04-12
 
 - Fix null pointer exception on format function without arguments (clj only).
 
 
-== Version 0.7.1
+## Version 0.7.1
 
 Date: 2015-12-03
 
@@ -53,7 +49,7 @@ Date: 2015-12-03
 - Minor cosmetic fixes to code.
 
 
-== Version 0.7.0
+## Version 0.7.0
 
 Date: 2015-11-30
 
@@ -64,7 +60,7 @@ Date: 2015-11-30
   others (thanks to @jelz).
 
 
-== Version 0.6.0
+## Version 0.6.0
 
 Date: 2015-08-01
 
@@ -74,7 +70,7 @@ Date: 2015-08-01
 - Unify the source under one directory (instead of have two: cljs and clj).
 
 
-== Version 0.5.0
+## Version 0.5.0
 
 Date: 2015-06-21
 
@@ -82,14 +78,14 @@ Date: 2015-06-21
 - Add some additional type hints on clojure code.
 
 
-== Version 0.4.0
+## Version 0.4.0
 
 Date: 2015-03-30
 
 - Changed the groupId of the package to funcool.
 
 
-== Version 0.3.2
+## Version 0.3.2
 
 Date: 2015-03-30
 
@@ -98,14 +94,14 @@ Date: 2015-03-30
 - Update dependencies.
 
 
-== Version 0.3.1
+## Version 0.3.1
 
 Date: 2015-03-14
 
 - Remove clojure and clojurescript from required dependencies.
 - Add some additional testcases.
 
-== Version 0.3.0
+## Version 0.3.0
 
 Date: 2015-01-13
 
@@ -114,7 +110,7 @@ Date: 2015-01-13
 - Add strip-suffix and strip-prefix functions.
 
 
-== Version 0.2.0
+## Version 0.2.0
 
 Date: 2015-01-05
 
@@ -126,7 +122,7 @@ Date: 2015-01-05
 - Add the ability of arbitrary replacements to strip-tags function.
 
 
-== Version 0.1.0
+## Version 0.1.0
 
 Date: 2014-12-23
 
