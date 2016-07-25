@@ -1,5 +1,5 @@
 (ns cuerdas.core
-  (:refer-clojure :exclude [contains? empty? repeat
+  (:refer-clojure :exclude [contains? empty? repeat regexp?
                             replace reverse chars keyword
                             #?@(:clj [unquote format])])
   (:require [clojure.string :as str]
@@ -13,6 +13,13 @@
 
 #?(:cljs (def ^:private keyword* cljs.core/keyword)
    :clj  (def ^:private keyword* clojure.core/keyword))
+
+(defn- regexp?
+  "Return `true` if `x` is a regexp pattern
+  instance."
+  [x]
+  #?(:cljs (cljs.core/regexp? x)
+     :clj (instance? Pattern x)))
 
 (defn empty?
   "Checks if a string is empty."
@@ -280,17 +287,17 @@
   or Pattern (clj) / RegExp (cljs) instance."
   ([s] (split s #"\s" #?(:cljs nil)))
   ([s sep]
-   #?(:clj  (cond
-              (nil? s) s
-              (instance? Pattern sep) (str/split s sep)
-              :else (str/split s (re-pattern sep)))
-      :cljs (split s sep nil)))
+   (cond
+     (nil? s) s
+     (regexp? sep) (str/split s sep)
+     (string? sep) (str/split s (re-pattern (escape-regexp sep)))
+     :else (throw (ex-info "Invalid arguments" {:sep sep}))))
   ([s sep num]
    (cond
      (nil? s) s
-     #?(:clj  (instance? Pattern sep)
-        :cljs (regexp?           sep)) (str/split s sep num)
-     :else (str/split s (re-pattern sep) num))))
+     (regexp? sep) (str/split s sep num)
+     (string? sep) (str/split s (re-pattern (escape-regexp sep)) num)
+     :else (throw (ex-info "Invalid arguments" {:sep sep})))))
 
 (defn reverse
   "Return string reversed."
