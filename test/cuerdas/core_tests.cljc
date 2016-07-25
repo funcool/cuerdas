@@ -117,8 +117,16 @@
     (t/is (= ["1" "2" "3"] (str/split "1 2 3" #"\s")))
     (t/is (= ["1" "2 3"] (str/split "1 2 3" #"\s" 2))))
 
+  (t/testing "replace"
+    (t/is (= nil (str/replace nil #"aa" "kk")))
+    (t/is (= "kk bb kk" (str/replace "aa bb aa" #"aa" "kk")))
+    (t/is (= "kk bb kk" (str/replace "AA bb aa" #"(?i)aa" "kk")))
+    (t/is (= "aa bb cc" (str/replace "aa bb cc" "(?:aa|bb)" "kk")))
+    (t/is (= "kk kk cc" (str/replace "aa bb cc" #"(?:aa|bb)" "kk"))))
+
   (t/testing "replace-first"
     (t/is (= nil (str/replace-first nil #"aa" "kk")))
+    (t/is (= "kk bb cc" (str/replace-first "AA bb cc" #"(?i)aa" "kk")))
     (t/is (= "kk bb cc" (str/replace-first "aa bb cc" #"aa" "kk"))))
 
   (t/testing "surround"
@@ -138,12 +146,6 @@
   (t/testing "reverse"
     (t/is (= nil (str/reverse nil)))
     (t/is (= "cba" (str/reverse "abc"))))
-
-  (t/testing "replace"
-    (t/is (= "kk bb kk" (str/replace "aa bb aa" #"aa" "kk")))
-    (t/is (= "aa bb cc" (str/replace "aa bb cc" "(?:aa|bb)" "kk")))
-    (t/is (= "kk kk cc" (str/replace "aa bb cc" #"(?:aa|bb)" "kk")))
-    )
 
   (t/testing "prune"
     (t/is (= nil (str/prune nil 8)))

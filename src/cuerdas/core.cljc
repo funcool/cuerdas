@@ -368,17 +368,23 @@
     (as-> #"(?:%\([\d\w\:\_\-]+\)s|\$[\w\d\:\_\-]+)" $
       (replace s $ on-match))))
 
-(defn- indexed-format
-  [s params]
-  (let [params #?(:clj (java.util.ArrayList. ^List (vec params))
-                  :cljs (clj->js (or params [])))]
-    (replace s #?(:clj #"%s" :cljs (regexp "%s" "g"))
-             (fn [_] (str #?(:clj (if (.isEmpty params)
-                                    "%s"
-                                    (.remove params 0))
-                             :cljs (if (zero? (count params))
-                                     "%s"
-                                     (.shift params))))))))
+#?(:cljs
+   (defn- indexed-format
+     [s params]
+     (let [params (clj->js (or params []))
+           rx (js/RegExp. "%s" "g")]
+       (replace s rx (fn [_]
+                       (str (if (zero? (count params))
+                              "%s"
+                              (.shift params)))))))
+   :clj
+   (defn- indexed-format
+     [s params]
+     (let [params (java.util.ArrayList. ^List (vec params))]
+       (replace s #"%s" (fn [_]
+                          (str (if (.isEmpty params)
+                                 "%s"
+                                 (.remove params 0))))))))
 
 (defn format
   "Simple string interpolation."
