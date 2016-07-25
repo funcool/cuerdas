@@ -579,15 +579,12 @@
 (defn parse-int
   "Return the number value in integer form."
   [s]
-  #?(:cljs
-    (let [rx (regexp "^\\s*-?0x" "i")]
-      (if (.test rx s)
-        (js/parseInt s 16)
-        (js/parseInt s 10)))
-    :clj
-    (if (and (string? s) (re-matches #"-?\d+(\.\d+)?" s))
-      (.longValue (Double. s))
-      Double/NaN)))
+  (if (and (string? s)
+           (re-matches #"-?\d+(\.\d+)?" s))
+    #?(:clj (.longValue (Double. s))
+       :cljs (js/parseInt s 10))
+    #?(:clj Double/NaN
+       :cljs js/NaN)))
 
 (defn one-of?
   "Returns true if s can be found in coll."
