@@ -221,6 +221,11 @@
   #?(:clj  (Pattern/quote ^String s)
      :cljs (gstr/regExpEscape s)))
 
+(defn includes?
+  [s v]
+  (when-not (nil? s)
+    (str/includes? s v)))
+
 (defn replace
   "Replaces all instance of match with replacement in s.
 
