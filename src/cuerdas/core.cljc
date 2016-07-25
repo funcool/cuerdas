@@ -39,25 +39,31 @@
                :else false)
        :cljs (not= (.indexOf s subs) -1))))
 
-(defn slice
-  "Extracts a section of a string and returns a new string."
-  ([s begin]
-   #?(:clj  (slice s begin (count s))
-      :cljs (when-not (nil? s)
-              (.slice s begin))))
-  ([s #?@(:clj [^long begin ^long end] :cljs [begin end])]
-   #?(:clj (if (nil? s)
-             s
-             (let [end   (if (< end 0) (+ (count s) end) end)
-                   begin (if (< begin 0) (+ (count s) begin) begin)
-                   end   (if (> end (count s)) (count s) end)]
-               (if (> begin end)
-                 ""
-                 (let [begin (if (< begin 0) 0 begin)
-                       end (if (< end 0) 0 end)]
-                   (.substring ^String s begin end)))))
-      :cljs (when-not (nil? s)
-              (.slice s begin end)))))
+#?(:clj
+   (defn slice
+     "Extracts a section of a string and returns a new string."
+     ([s begin]
+      (slice s begin (count s)))
+     ([s ^long begin ^long end]
+      (if (nil? s)
+        s
+        (let [end   (if (< end 0) (+ (count s) end) end)
+              begin (if (< begin 0) (+ (count s) begin) begin)
+              end   (if (> end (count s)) (count s) end)]
+          (if (> begin end)
+            ""
+            (let [begin (if (< begin 0) 0 begin)
+                  end (if (< end 0) 0 end)]
+              (.substring ^String s begin end)))))))
+   :cljs
+   (defn slice
+     "Extracts a section of a string and returns a new string."
+     ([s begin]
+      (when-not (nil? s)
+        (.slice s begin)))
+     ([s begin end]
+      (when-not (nil? s)
+        (.slice s begin end)))))
 
 (defn starts-with?
   "Check if the string starts with prefix."
