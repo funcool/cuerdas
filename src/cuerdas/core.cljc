@@ -226,6 +226,29 @@
   (when-not (nil? s)
     (str/includes? s v)))
 
+#?(:cljs
+   (defn- replace-all
+     [s re replacement]
+     (let [flags (.-flags re)
+           flags (if (includes? flags "g")
+                   flags
+                   (str flags "g"))
+           rx (js/RegExp. (.-source re) flags)]
+       (.replace s rx replacement))))
+
+(defn- replace*
+  [s match replacement]
+  #?(:clj (str/replace s match replacement)
+     :cljs (cond
+             (string? match)
+             (str/replace s match replacement)
+
+             (regexp? match)
+             (if (string? replacement)
+               (replace-all s match replacement)
+               (replace-all s match (str/replace-with replacement))))))
+
+
 (defn replace
   "Replaces all instance of match with replacement in s.
 
@@ -245,20 +268,13 @@
   "
   [s match replacement]
   (when-not (nil? s)
-    (str/replace s match replacement)))
+    (replace* s match replacement)))
 
 (defn replace-first
   "Replaces first instance of match with replacement in s."
-  [^String s match replacement]
+  [s match replacement]
   (when-not (nil? s)
     (str/replace-first s match replacement)))
-
-#?(:cljs
-   (defn ireplace-first
-     "Replaces first instance of match with replacement in s."
-     [s match replacement]
-     (when-not (nil? s)
-       (.replace s (regexp match "i") replacement))))
 
 (defn prune
   "Truncates a string to a certain length and adds '...'
