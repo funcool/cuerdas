@@ -59,18 +59,6 @@
       :cljs (when-not (nil? s)
               (.slice s begin end)))))
 
-#?(:cljs
-   (defn- regexp
-     "Build or derive regexp instance."
-     ([s]
-      (if (regexp? s)
-        s
-        (js/RegExp. s)))
-     ([s flags]
-      (if (regexp? s)
-        (js/RegExp. (.-source s) flags)
-        (js/RegExp. s flags)))))
-
 (defn starts-with?
   "Check if the string starts with prefix."
   [s prefix]
