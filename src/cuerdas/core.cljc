@@ -314,13 +314,22 @@
      (string? sep) (str/split s (re-pattern (escape-regexp sep)) num)
      :else (throw (ex-info "Invalid arguments" {:sep sep})))))
 
+#?(:cljs
+   (def ^:private reverse*
+     (js* "function reverse(s) {
+             var o = '';
+             for (var i = s.length - 1; i >= 0; i--)
+               o += s[i];
+             return o;
+           }")))
+
 (defn reverse
   "Return string reversed."
   [s]
   (when-not (nil? s)
     #?(:clj (let [sb (StringBuilder. ^String s)]
               (.toString (.reverse sb)))
-       :cljs (-> s (.split "") (.reverse) (.join "")))))
+       :cljs (reverse* s))))
 
 (defn chars
   "Split a string in a seq of chars."
