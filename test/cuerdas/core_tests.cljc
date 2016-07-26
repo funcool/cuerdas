@@ -145,7 +145,9 @@
 
   (t/testing "reverse"
     (t/is (= nil (str/reverse nil)))
-    (t/is (= "cba" (str/reverse "abc"))))
+    (t/is (= "cba" (str/reverse "abc")))
+    (t/is (= "anañam anañam rab 𝌆 oof"
+             (str/reverse "foo 𝌆 bar mañana mañana"))))
 
   (t/testing "prune"
     (t/is (= nil (str/prune nil 8)))

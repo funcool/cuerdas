@@ -242,7 +242,6 @@
                (replace-all s match replacement)
                (replace-all s match (str/replace-with replacement))))))
 
-
 (defn replace
   "Replaces all instance of match with replacement in s.
 
@@ -314,22 +313,11 @@
      (string? sep) (str/split s (re-pattern (escape-regexp sep)) num)
      :else (throw (ex-info "Invalid arguments" {:sep sep})))))
 
-#?(:cljs
-   (def ^:private reverse*
-     (js* "function reverse(s) {
-             var o = '';
-             for (var i = s.length - 1; i >= 0; i--)
-               o += s[i];
-             return o;
-           }")))
-
 (defn reverse
   "Return string reversed."
   [s]
   (when-not (nil? s)
-    #?(:clj (let [sb (StringBuilder. ^String s)]
-              (.toString (.reverse sb)))
-       :cljs (reverse* s))))
+    (str/reverse s)))
 
 (defn chars
   "Split a string in a seq of chars."
