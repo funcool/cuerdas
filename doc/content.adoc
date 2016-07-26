@@ -62,77 +62,62 @@ vector on your *_project.clj_* file:
 
 == Reference
 
-=== contains?
+=== <<
 
-Determines whether a string contains a substring.
-
-[source, clojure]
-----
-(str/contains? "foobar" "bar")
-;; => true
-
-(str/contains? "foobar" nil)
-;; => false
-
-(str/contains? nil nil)
-;; => false
-----
-
-=== starts-with?
-
-Check if the string starts with prefix.
-
-Alias: startswith?
+Unindent lines. Either strip preceeding whitespace automatically or
+with a user supplied regex.
 
 [source, clojure]
 ----
-(str/starts-with? "foobar" "foo")
-;; => true
+(str/<< "first line
 
-(str/starts-with? "foobar" nil)
-;; => false
+           second line (indented)
 
-(str/starts-with? nil "foo")
-;; => false
+         another line")
+----
+
+yields the string
+
+----
+first line
+
+  second line (indented)
+
+another line
 ----
 
 
-=== ends-with?
+=== alpha-numeric?
 
-Check if the string ends with suffix.
-
-Alias: endswith?
+Checks if a string contains only alphanumeric characters.
 
 [source, clojure]
 ----
-(str/ends-with? "foobar" "bar")
+(str/alpha-numeric? nil)
+;; => false
+
+(str/alpha-numeric? "")
+;; => false
+
+(str/alpha-numeric? "Test123")
 ;; => true
-
-(str/ends-with? "foobar" nil)
-;; => false
-
-(str/ends-with? nil "bar")
-;; => false
 ----
 
 
-=== empty?
+=== alpha?
 
-Check if the string is empty.
+Checks if a string contains only alpha characters.
 
 [source, clojure]
 ----
-(str/empty? "foobar")
+(str/alpha? nil)
 ;; => false
 
-(str/empty? nil)
-;; => true
-
-(str/empty? "")
-;; => true
-
-(str/empty? " ")
+(str/alpha? " ")
 ;; => false
+
+(str/alpha? "Test")
+;; => true
 ----
 
 
@@ -156,278 +141,33 @@ Check if the string is empty or contains only whitespaces.
 ----
 
 
-=== alpha?
+=== camel
 
-Checks if a string contains only alpha characters.
-
-[source, clojure]
-----
-(str/alpha? nil)
-;; => false
-
-(str/alpha? " ")
-;; => false
-
-(str/alpha? "Test")
-;; => true
-----
-
-
-=== numeric?
-
-Checks if a string contains only numeric characters.
+Convert a string or keyword to a camelCased string.
 
 [source, clojure]
 ----
-(str/numeric? nil)
-;; => false
+(str/camel "foo bar")
+;; => "fooBar"
 
-(str/numeric? "1.1")
-;; => false
+(str/camel :foo_barBaz)
+;; => "fooBarBaz"
 
-(str/numeric? "0123")
-;; => true
-----
-
-
-=== alpha-numeric?
-
-Checks if a string contains only alphanumeric characters.
-
-[source, clojure]
-----
-(str/alpha-numeric? nil)
-;; => false
-
-(str/alpha-numeric? "")
-;; => false
-
-(str/alpha-numeric? "Test123")
-;; => true
-----
-
-
-=== upper
-
-Convert a string to all upper-case.
-
-[source, clojure]
-----
-(str/upper "foobar")
-;; => "FOOBAR"
-
-(str/upper nil)
+(str/camel nil)
 ;; => nil
 ----
 
 
-=== lower
+=== capitalize
 
-Convert a string to all lower-case.
-
-[source, clojure]
-----
-(str/lower "FOO")
-;; => "foo"
-
-(str/lower nil)
-;; => nil
-----
-
-=== repeat
-
-Repeats string N times.
+Uppercases the first character of a string.
 
 [source, clojure]
 ----
-(str/repeat "a" 3)
-;; => "aaa"
+(str/capitalize "foo")
+;; => "Foo"
 
-(str/repeat nil 3)
-;; => nil
-----
-
-
-=== trim
-
-Removes whitespace or specified characters from
-both ends of string.
-
-Alias: _strip_
-
-[source, clojure]
-----
-(str/trim " foo ")
-;; => "foo"
-
-(str/trim "-foo-", "-")
-;; => "foo"
-
-(str/trim nil)
-;; => nil
-----
-
-
-=== ltrim
-
-Removes whitespace or specified characters from
-left side of string.
-
-Alias: _lstrip_
-
-[source, clojure]
-----
-(str/ltrim " foo ")
-;; => "foo "
-
-(str/ltrim "-foo-", "-")
-;; => "foo-"
-
-(str/ltrim nil)
-;; => nil
-----
-
-
-=== rtrim
-
-Removes whitespace or specified characters from
-right side of string.
-
-Alias: _rstrip_
-
-[source, clojure]
-----
-(str/rtrim " foo ")
-;; => " foo"
-
-(str/rtrim "-foo-", "-")
-;; => "-foo"
-
-(str/rtrim nil)
-;; => nil
-----
-
-
-=== strip-prefix
-
-Remove prefix from string if it matches exactly or leave
-the string untouched.
-
-[source, clojure]
-----
-(str/strip-prefix nil nil)
-;; => nil
-
-(str/strip-prefix "a" nil)
-;; => "a"
-
-(str/strip-prefix "-=a" "-=")
-;; => "a"
-----
-
-
-=== strip-suffix
-
-Remove suffix from string if it matches exactly or leave
-the string untouched.
-
-[source, clojure]
-----
-(str/strip-suffix nil nil)
-;; => nil
-
-(str/strip-suffix "a" nil)
-;; => "a"
-
-(str/strip-suffix "a=-" "=-")
-;; => "a"
-----
-
-
-=== collapse-whitespace
-
-Converts any adjacent whitespace characters to a single space.
-
-[source, clojure]
-----
-(str/collapse-whitespace "a\n\nb")
-;; => "a b"
-
-(str/collapse-whitespace nil)
-;; => nil
-----
-
-
-=== prune
-
-Truncates a string to certain left and adds "..." if necesary. Making
-sure that the pruned string does not exceed the original length and avoid
-half-chopped words when truncating.
-
-[source, clojure]
-----
-(str/prune "Hello World" 5)
-;; => "Hello..."
-
-(str/prune "Hello World" 8)
-;; => "Hello..."
-
-(str/prune "Hello World" 11 " (...)")
-;; => "Hello (...)"
-
-(str/prune nil 5)
-;; => nil
-----
-
-
-=== join
-
-Join strings together with given separator.
-
-[source, clojure]
-----
-(str/join ["foo" "bar"])
-;; => "foobar"
-
-(str/join "," ["foo" "bar"])
-;; => "foo,bar"
-----
-
-
-=== split
-
-Splits a string on a separator a limited number of times.
-The separator can be a string or RegExp instance.
-
-[source, clojure]
-----
-(str/split "1 2 3")
-;; => ["1" "2" "3"]
-
-(str/split "1 2 3" " ")
-;; => ["1" "2" "3"])
-
-(str/split "1 2 3" #"\s")
-;; => ["1" "2" "3"]
-
-(str/split "1 2 3" #"\s" 2)
-;; => ["1" "2 3"]
-
-(str/split nil)
-;; => nil
-----
-
-
-=== reverse
-
-Return strign reverted
-
-[source, clojure]
-----
-(str/reverse "bar")
-;; => "rab"
-
-(str/reverse nil)
+(str/capitalize nil)
 ;; => nil
 ----
 
@@ -446,193 +186,6 @@ Returns a seq of char strings from string.
 ----
 
 
-=== lines
-
-Return a list of the lines in the string.
-
-[source, clojure]
-----
-(str/lines "foo\nbar")
-;; => ["foo" "bar"]
-
-(str/lines nil)
-;; => nil
-----
-
-
-=== unlines
-
-Joins a list of strings with a newline separator.  This operation is
-the opposite of lines.
-
-[source, clojure]
-----
-(str/unlines ["foo" "nbar"])
-;; => "foo\nbar"
-
-(str/unlines nil)
-;; => nil
-----
-
-
-=== words
-
-Returns a vector of the words in the string. Can be provided with a regular
-expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
-
-[source, clojure]
-----
-(str/words "foo, bar")
-;; => ["foo" "bar"]
-
-(str/words nil)
-;; => nil
-
-(str/words "foo, bar." #"[^, ]")
-;; => ["foo" "bar."]
-----
-
-
-=== slice
-
-Extracts a section of a string and returns a new string.
-
-[source, clojure]
-----
-(str/slice "123" 1)
-;; => "23"
-
-(str/slice "1234" 1 3)
-;; => "23"
-
-(str/slice nil 1 3)
-;; => nil
-----
-
-
-=== replace
-
-Replaces all instance of match with replacement in s.
-
-[source, clojure]
-----
-(str/replace "aa bb aa" "aa" "kk")
-;; => "kk bb kk"
-
-(str/replace "aa bb aa" #"aa" "kk")
-;; => "kk bb kk"
-
-(str/replace nil #"aa" "kk")
-;; => nil
-----
-
-
-=== replace-first
-
-Replaces first instance of match with replacement in s.
-
-[source, clojure]
-----
-(str/replace-first "aa bb aa" "aa" "kk")
-;; => "kk bb aa"
-
-(str/replace-first "aa bb aa" #"aa" "kk")
-;; => "kk bb aa"
-
-(str/replace-first nil #"aa" "kk")
-;; => nil
-----
-
-
-=== surround
-
-Surround a string with another string.
-
-[source, clojure]
-----
-(str/surround "a" "-")
-;; => "-a-"
-
-(str/surround "a" "-^-")
-;; => "-^-a-^-"
-
-(str/surround nil "-^-")
-;; => nil
-----
-
-
-=== unsurround
-
-Unsurround a string surrounded by another.
-
-[source, clojure]
-----
-(str/unsurround "-a-" "-")
-;; => "a"
-
-(str/unsurround "-^-a-^-" "-^-")
-;; => "a"
-
-(str/unsurround nil "-")
-;; => nil
-----
-
-
-=== quote
-
-Quote a string.
-
-[source, clojure]
-----
-(str/quote "a")
-;; => "\"a\""
-
-(str/quote nil)
-;; => nil
-----
-
-
-=== unquote
-
-Unquote a string.
-
-[source, clojure]
-----
-(str/unquote "\"a\"")
-;; => "a"
-
-(str/unquote nil)
-;; => nil
-----
-
-
-=== strip-tags
-
-Remove html tags from string.
-
-[source, clojure]
-----
-(str/strip-tags "<p>just <b>some</b> text</p>")
-;; => "just some text"
-
-(str/strip-tags "<p>just <b>some</b> text</p>" ["p"])
-;; => "just <b>some</b> text"
-
-(str/strip-tags nil)
-;; => nil
-----
-
-It also allows arbitrary replacements:
-
-[source, clojure]
-----
-(str/strip-tags "<p>just<br>text</p>" {:br "\n"})
-;; => "just\ntext"
-
-(str/strip-tags "<p>just<br>text</p>" ["br"] {:br "\n"})
-;; => "<p>just\ntext</p>"
-----
-
 === clean
 
 Trim and replace multiple spaces with a single space.
@@ -647,122 +200,101 @@ Trim and replace multiple spaces with a single space.
 ----
 
 
-=== strip-newlines
+=== collapse-whitespace
 
-Takes a string and replaces newlines with a space. Multiple lines are
-replaced with a single space.
+Converts any adjacent whitespace characters to a single space.
 
 [source, clojure]
 ----
-(str/strip-newlines "a\n\nb")
+(str/collapse-whitespace "a\n\nb")
 ;; => "a b"
 
-(str/strip-newlines nil)
+(str/collapse-whitespace nil)
 ;; => nil
 ----
 
 
-=== parse-number
+=== contains?
 
-General purpose function for parse number like strings to number. It
-works with integers and floats.
-
-[source, clojure]
-----
-(str/parse-number "1.4")
-;; => 1
-
-(str/parse-number "1.4" 1)
-;; => 1.4
-
-(str/parse-number "1" 2)
-;; => 1
-
-(str/parse-number "")
-;; => NaN
-----
-
-WARNING: only on *clojurescript*
-
-
-=== parse-float
-
-Returns a float value. Wraps parseFloat.
+Determines whether a string contains a substring.
 
 [source, clojure]
 ----
-(str/parse-float "1.4")
-;; => 1.4
+(str/contains? "foobar" "bar")
+;; => true
 
-(str/parse-float "1")
-;; => 1.0
-
-(str/parse-float nil)
-;; => NaN
-----
-
-WARNING: only on *clojurescript*
-
-
-=== parse-int
-
-Returns a number value in integer form. Wraps parseInt.
-
-[source, clojure]
-----
-(str/parse-int "1.4")
-;; => 1
-
-(str/parse-int nil)
-;; => NaN
-----
-
-WARNING: only on *clojurescript*
-
-
-=== parse-double
-
-Returns a number value in integer form. Wraps parseInt.
-
-[source, clojure]
-----
-(str/parse-double "1.4")
-;; => 1.4
-
-(str/parse-double nil)
-;; => NaN
-----
-
-WARNING: only on *clojure*
-
-
-=== parse-long
-
-Returns a number value in integer form. Wraps parseInt.
-
-[source, clojure]
-----
-(str/parse-long "1.4")
-;; => 1
-
-(str/parse-long nil)
-;; => NaN
-----
-
-WARNING: only on *clojure*
-
-
-=== to-bool
-
-Returns true for 1/on/true/yes string values (case-insensitive), false otherwise.
-
-[source, clojure]
-----
-(str/to-bool "hello")
+(str/contains? "foobar" nil)
 ;; => false
 
-(str/to-bool "on")
+(str/contains? nil nil)
+;; => false
+----
+
+
+=== css-selector
+
+Convert a JavaScript style selector to CSS style selector
+
+[source, clojure]
+----
+(str/css-selector "PrependedWithDash")
+;; => "-prepended-with-dash"
+
+(str/css-selector "noPrependedWithDash")
+;; => "no-prepended-with-dash"
+
+(str/css-selector nil)
+;; => nil
+----
+
+
+=== empty?
+
+Check if the string is empty.
+
+[source, clojure]
+----
+(str/empty? "foobar")
+;; => false
+
+(str/empty? nil)
 ;; => true
+
+(str/empty? "")
+;; => true
+
+(str/empty? " ")
+;; => false
+----
+
+
+=== ends-with?
+
+Check if the string ends with suffix.
+
+Alias: endswith?
+
+[source, clojure]
+----
+(str/ends-with? "foobar" "bar")
+;; => true
+
+(str/ends-with? "foobar" nil)
+;; => false
+
+(str/ends-with? nil "bar")
+;; => false
+----
+
+
+=== escape-regexp
+
+Escape characters on the string that are not safe to use in a RegExp.
+
+[source, clojure]
+----
+(str/escape-regexp "\s")
+;; => "\\s"
 ----
 
 
@@ -817,6 +349,158 @@ And you can access to indexed positions of an vector using `$0`, `$1`, `$N` synt
 ----
 
 
+=== human
+
+Convert a string or keyword to a human friendly string
+(lower case and spaces).
+
+[source, clojure]
+----
+(str/human "JustNiceForReading")
+;; => "just nice for reading"
+
+(str/human :great-for-csv-headers
+;; => "great for csv headers"
+
+(str/human nil)
+;; => nil
+----
+
+
+=== join
+
+Join strings together with given separator.
+
+[source, clojure]
+----
+(str/join ["foo" "bar"])
+;; => "foobar"
+
+(str/join "," ["foo" "bar"])
+;; => "foo,bar"
+----
+
+
+=== js-selector
+
+Convert a CSS style selector to JavaScript style selector.
+
+[source, clojure]
+----
+(str/js-selector "-pascal-case-me")
+;; => "PascalCaseMe"
+
+(str/js-selector "camel-case-me")
+;; => "camelCaseMe"
+
+(str/js-selector nil)
+;; => nil
+----
+
+
+=== kebab
+
+Convert a string or keyword into a kebab-cased-string.
+
+[source, clojure]
+----
+(str/kebab "Favorite BBQ food")
+;; => "favorite-bbq-food"
+
+(str/kebab :favorite-bbq-food)
+;; => "favorite-bbq-food"
+
+(str/kebab nil)
+;; => nil
+----
+
+
+=== keyword
+
+A more helpful and forigiving version of `clojure.core/keyword`.
+
+[source, clojure]
+----
+(str/keyword "just_doIt Right")
+;; => :just-do-it-right
+
+(str/keyword "foo" "auto namespace me")
+;; => :foo/auto-namespace-me
+
+;; and assuming the user namespace
+(str/keyword *ns* "auto namespace me")
+;; => :user/auto-namespace-me
+
+(str/keyword nil)
+;; => nil
+----
+
+
+=== lines
+
+Return a list of the lines in the string.
+
+[source, clojure]
+----
+(str/lines "foo\nbar")
+;; => ["foo" "bar"]
+
+(str/lines nil)
+;; => nil
+----
+
+
+=== lower
+
+Convert a string to all lower-case.
+
+[source, clojure]
+----
+(str/lower "FOO")
+;; => "foo"
+
+(str/lower nil)
+;; => nil
+----
+
+
+=== ltrim
+
+Removes whitespace or specified characters from
+left side of string.
+
+Alias: _lstrip_
+
+[source, clojure]
+----
+(str/ltrim " foo ")
+;; => "foo "
+
+(str/ltrim "-foo-", "-")
+;; => "foo-"
+
+(str/ltrim nil)
+;; => nil
+----
+
+
+=== numeric?
+
+Checks if a string contains only numeric characters.
+
+[source, clojure]
+----
+(str/numeric? nil)
+;; => false
+
+(str/numeric? "1.1")
+;; => false
+
+(str/numeric? "0123")
+;; => true
+----
+
+
 === pad
 
 Pads the str with characters until the total string length is equal to
@@ -843,82 +527,93 @@ By default, pads on the left with the space char.
 ----
 
 
-=== slug
+=== parse-double
 
-Transforms string or keyword into URL slug.
+WARNING: only on *clojure*
 
-[source, clojure]
-----
-(str/slug "Un Ã©lÃ©phant Ã  l'orÃ©e du bois")
-;; => "un-elephant-a-loree-du-bois"
-
-(str/slug nil)
-;; => nil
-----
-
-
-=== capitalize
-
-Uppercases the first character of a string.
+Returns a number value in integer form. Wraps parseInt.
 
 [source, clojure]
 ----
-(str/capitalize "foo")
-;; => "Foo"
+(str/parse-double "1.4")
+;; => 1.4
 
-(str/capitalize nil)
-;; => nil
+(str/parse-double nil)
+;; => NaN
 ----
 
 
-=== camel
+=== parse-float
 
-Convert a string or keyword to a camelCased string.
+WARNING: only on *clojurescript*
+
+Returns a float value. Wraps parseFloat.
 
 [source, clojure]
 ----
-(str/camel "foo bar")
-;; => "fooBar"
+(str/parse-float "1.4")
+;; => 1.4
 
-(str/camel :foo_barBaz)
-;; => "fooBarBaz"
+(str/parse-float "1")
+;; => 1.0
 
-(str/camel nil)
-;; => nil
+(str/parse-float nil)
+;; => NaN
 ----
 
 
-=== kebab
+=== parse-int
 
-Convert a string or keyword into a kebab-cased-string.
+WARNING: only on *clojurescript*
+
+Returns a number value in integer form. Wraps parseInt.
 
 [source, clojure]
 ----
-(str/kebab "Favorite BBQ food")
-;; => "favorite-bbq-food"
+(str/parse-int "1.4")
+;; => 1
 
-(str/kebab :favorite-bbq-food)
-;; => "favorite-bbq-food"
-
-(str/kebab nil)
-;; => nil
+(str/parse-int nil)
+;; => NaN
 ----
 
 
-=== snake
+=== parse-long
 
-Convert a string or keyword to a snake_cased_string.
+WARNING: only on *clojure*
+
+Returns a number value in integer form. Wraps parseInt.
 
 [source, clojure]
 ----
-(str/snake "Slither-sliter Slither")
-;; => "slither_slither_slither"
+(str/parse-long "1.4")
+;; => 1
 
-(str/snake :slither-slither)
-;; => "slither_slither"
+(str/parse-long nil)
+;; => NaN
+----
 
-(str/snake nil)
-;; => nil
+
+=== parse-number
+
+WARNING: only on *clojurescript*
+
+General purpose function for parse number like strings to number. It
+works with integers and floats.
+
+[source, clojure]
+----
+(str/parse-number "1.4")
+;; => 1
+
+(str/parse-number "1.4" 1)
+;; => 1.4
+
+(str/parse-number "1" 2)
+;; => 1
+
+(str/parse-number "")
+;; => NaN
 ----
 
 
@@ -940,40 +635,6 @@ Convert a string or keyword into a PascalCasedString
 ----
 
 
-=== human
-
-Convert a string or keyword to a human friendly string
-(lower case and spaces).
-
-[source, clojure]
-----
-(str/human "JustNiceForReading")
-;; => "just nice for reading"
-
-(str/human :great-for-csv-headers
-;; => "great for csv headers"
-
-(str/human nil)
-;; => nil
-----
-
-=== title
-
-Convert a string or keyword into a space separated string
-with each word capitalized.
-
-[source, clojure]
-----
-(str/title "a tale of two cities")
-;; => "A Tale Of Two Cities"
-
-(str/title :title-case
-;; => "Title Case"
-
-(str/title nil)
-;; => nil
-----
-
 === phrase
 
 Convert a potentially mixed string or keyword into a
@@ -992,94 +653,438 @@ capitalized, spaced string
 ----
 
 
-=== css-selector
+=== prune
 
-Convert a JavaScript style selector to CSS style selector
+Truncates a string to certain left and adds "..." if necesary. Making
+sure that the pruned string does not exceed the original length and avoid
+half-chopped words when truncating.
 
 [source, clojure]
 ----
-(str/css-selector "PrependedWithDash")
-;; => "-prepended-with-dash"
+(str/prune "Hello World" 5)
+;; => "Hello..."
 
-(str/css-selector "noPrependedWithDash")
-;; => "no-prepended-with-dash"
+(str/prune "Hello World" 8)
+;; => "Hello..."
 
-(str/css-selector nil)
+(str/prune "Hello World" 11 " (...)")
+;; => "Hello (...)"
+
+(str/prune nil 5)
 ;; => nil
 ----
 
 
-=== js-selector
+=== quote
 
-Convert a CSS style selector to JavaScript style selector.
+Quote a string.
 
 [source, clojure]
 ----
-(str/js-selector "-pascal-case-me")
-;; => "PascalCaseMe"
+(str/quote "a")
+;; => "\"a\""
 
-(str/js-selector "camel-case-me")
-;; => "camelCaseMe"
-
-(str/js-selector nil)
+(str/quote nil)
 ;; => nil
 ----
 
 
-=== keyword
+=== repeat
 
-A more helpful and forigiving version of `clojure.core/keyword`.
+Repeats string N times.
 
 [source, clojure]
 ----
-(str/keyword "just_doIt Right")
-;; => :just-do-it-right
+(str/repeat "a" 3)
+;; => "aaa"
 
-(str/keyword "foo" "auto namespace me")
-;; => :foo/auto-namespace-me
-
-;; and assuming the user namespace
-(str/keyword *ns* "auto namespace me")
-;; => :user/auto-namespace-me
-
-(str/keyword nil)
+(str/repeat nil 3)
 ;; => nil
 ----
 
 
-=== escape-regexp
+=== replace
 
-Escape characters on the string that are not safe to use in a RegExp.
-
-[source, clojure]
-----
-(str/escape-regexp "\s")
-;; => "\\s"
-----
-
-
-=== <<
-
-Unindent lines. Either strip preceeding whitespace automatically or
-with a user supplied regex.
+Replaces all instance of match with replacement in s.
 
 [source, clojure]
 ----
-(str/<< "first line
+(str/replace "aa bb aa" "aa" "kk")
+;; => "kk bb kk"
 
-           second line (indented)
+(str/replace "aa bb aa" #"aa" "kk")
+;; => "kk bb kk"
 
-         another line")
+(str/replace nil #"aa" "kk")
+;; => nil
 ----
 
-yields the string
 
+=== replace-first
+
+Replaces first instance of match with replacement in s.
+
+[source, clojure]
 ----
-first line
+(str/replace-first "aa bb aa" "aa" "kk")
+;; => "kk bb aa"
 
-  second line (indented)
+(str/replace-first "aa bb aa" #"aa" "kk")
+;; => "kk bb aa"
 
-another line
+(str/replace-first nil #"aa" "kk")
+;; => nil
+----
+
+
+=== reverse
+
+Return strign reverted
+
+[source, clojure]
+----
+(str/reverse "bar")
+;; => "rab"
+
+(str/reverse nil)
+;; => nil
+----
+
+
+=== rtrim
+
+Removes whitespace or specified characters from
+right side of string.
+
+Alias: _rstrip_
+
+[source, clojure]
+----
+(str/rtrim " foo ")
+;; => " foo"
+
+(str/rtrim "-foo-", "-")
+;; => "-foo"
+
+(str/rtrim nil)
+;; => nil
+----
+
+
+=== slice
+
+Extracts a section of a string and returns a new string.
+
+[source, clojure]
+----
+(str/slice "123" 1)
+;; => "23"
+
+(str/slice "1234" 1 3)
+;; => "23"
+
+(str/slice nil 1 3)
+;; => nil
+----
+
+
+=== slug
+
+Transforms string or keyword into URL slug.
+
+[source, clojure]
+----
+(str/slug "Un éléphant à l'orée du bois")
+;; => "un-elephant-a-loree-du-bois"
+
+(str/slug nil)
+;; => nil
+----
+
+
+=== snake
+
+Convert a string or keyword to a snake_cased_string.
+
+[source, clojure]
+----
+(str/snake "Slither-sliter Slither")
+;; => "slither_slither_slither"
+
+(str/snake :slither-slither)
+;; => "slither_slither"
+
+(str/snake nil)
+;; => nil
+----
+
+
+=== split
+
+Splits a string on a separator a limited number of times.
+The separator can be a string or RegExp instance.
+
+[source, clojure]
+----
+(str/split "1 2 3")
+;; => ["1" "2" "3"]
+
+(str/split "1 2 3" " ")
+;; => ["1" "2" "3"])
+
+(str/split "1 2 3" #"\s")
+;; => ["1" "2" "3"]
+
+(str/split "1 2 3" #"\s" 2)
+;; => ["1" "2 3"]
+
+(str/split nil)
+;; => nil
+----
+
+
+=== starts-with?
+
+Check if the string starts with prefix.
+
+Alias: startswith?
+
+[source, clojure]
+----
+(str/starts-with? "foobar" "foo")
+;; => true
+
+(str/starts-with? "foobar" nil)
+;; => false
+
+(str/starts-with? nil "foo")
+;; => false
+----
+
+
+=== strip-newlines
+
+Takes a string and replaces newlines with a space. Multiple lines are
+replaced with a single space.
+
+[source, clojure]
+----
+(str/strip-newlines "a\n\nb")
+;; => "a b"
+
+(str/strip-newlines nil)
+;; => nil
+----
+
+
+=== strip-prefix
+
+Remove prefix from string if it matches exactly or leave
+the string untouched.
+
+[source, clojure]
+----
+(str/strip-prefix nil nil)
+;; => nil
+
+(str/strip-prefix "a" nil)
+;; => "a"
+
+(str/strip-prefix "-=a" "-=")
+;; => "a"
+----
+
+
+=== strip-suffix
+
+Remove suffix from string if it matches exactly or leave
+the string untouched.
+
+[source, clojure]
+----
+(str/strip-suffix nil nil)
+;; => nil
+
+(str/strip-suffix "a" nil)
+;; => "a"
+
+(str/strip-suffix "a=-" "=-")
+;; => "a"
+----
+
+
+=== strip-tags
+
+Remove html tags from string.
+
+[source, clojure]
+----
+(str/strip-tags "<p>just <b>some</b> text</p>")
+;; => "just some text"
+
+(str/strip-tags "<p>just <b>some</b> text</p>" ["p"])
+;; => "just <b>some</b> text"
+
+(str/strip-tags nil)
+;; => nil
+----
+
+It also allows arbitrary replacements:
+
+[source, clojure]
+----
+(str/strip-tags "<p>just<br>text</p>" {:br "\n"})
+;; => "just\ntext"
+
+(str/strip-tags "<p>just<br>text</p>" ["br"] {:br "\n"})
+;; => "<p>just\ntext</p>"
+----
+
+
+=== surround
+
+Surround a string with another string.
+
+[source, clojure]
+----
+(str/surround "a" "-")
+;; => "-a-"
+
+(str/surround "a" "-^-")
+;; => "-^-a-^-"
+
+(str/surround nil "-^-")
+;; => nil
+----
+
+
+=== title
+
+Convert a string or keyword into a space separated string
+with each word capitalized.
+
+[source, clojure]
+----
+(str/title "a tale of two cities")
+;; => "A Tale Of Two Cities"
+
+(str/title :title-case
+;; => "Title Case"
+
+(str/title nil)
+;; => nil
+----
+
+
+=== to-bool
+
+Returns true for 1/on/true/yes string values (case-insensitive), false otherwise.
+
+[source, clojure]
+----
+(str/to-bool "hello")
+;; => false
+
+(str/to-bool "on")
+;; => true
+----
+
+
+=== trim
+
+Removes whitespace or specified characters from
+both ends of string.
+
+Alias: _strip_
+
+[source, clojure]
+----
+(str/trim " foo ")
+;; => "foo"
+
+(str/trim "-foo-", "-")
+;; => "foo"
+
+(str/trim nil)
+;; => nil
+----
+
+
+=== unlines
+
+Joins a list of strings with a newline separator.  This operation is
+the opposite of lines.
+
+[source, clojure]
+----
+(str/unlines ["foo" "nbar"])
+;; => "foo\nbar"
+
+(str/unlines nil)
+;; => nil
+----
+
+
+=== unquote
+
+Unquote a string.
+
+[source, clojure]
+----
+(str/unquote "\"a\"")
+;; => "a"
+
+(str/unquote nil)
+;; => nil
+----
+
+
+=== unsurround
+
+Unsurround a string surrounded by another.
+
+[source, clojure]
+----
+(str/unsurround "-a-" "-")
+;; => "a"
+
+(str/unsurround "-^-a-^-" "-^-")
+;; => "a"
+
+(str/unsurround nil "-")
+;; => nil
+----
+
+
+=== upper
+
+Convert a string to all upper-case.
+
+[source, clojure]
+----
+(str/upper "foobar")
+;; => "FOOBAR"
+
+(str/upper nil)
+;; => nil
+----
+
+
+=== words
+
+Returns a vector of the words in the string. Can be provided with a regular
+expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
+
+[source, clojure]
+----
+(str/words "foo, bar")
+;; => ["foo" "bar"]
+
+(str/words nil)
+;; => nil
+
+(str/words "foo, bar." #"[^, ]")
+;; => ["foo" "bar."]
 ----
 
 
