@@ -60,8 +60,108 @@ vector on your *_project.clj_* file:
 ----
 
 
+== Functions by Use
+
+=== Cleaning
+
+Remove unwanted characters and substrings.
+
+<<unindent,`<<`>>,
+<<clean,`clean`>>,
+<<collapse-whitespace,`collapse-whitespace`>>,
+<<ltrim,`ltrim`>>,
+<<prune,`prune`>>,
+<<rtrim,`rtrim`>>,
+<<strip-newlines,`strip-newlines`>>,
+<<strip-prefix,`strip-prefix`>>,
+<<strip-suffix,`strip-suffix`>>,
+<<strip-tags,`strip-tags`>>,
+<<trim,`trim`>>,
+<<unquote,`unquote`>>,
+<<unsurround,`unsurround`>>
+
+=== Dressing
+
+Add onto or compose strings.
+
+<<format,`format`>>,
+<<join,`join`>>,
+<<pad,`pad`>>,
+<<quote,`quote`>>,
+<<surround,`surround`>>
+
+=== Casing
+
+Convert to and from different casing systems.
+
+<<camel,`camel`>>,
+<<capitalize,`capitalize`>>,
+<<human,`human`>>,
+<<kebab,`kebab`>>,
+<<pascal,`pascal`>>,
+<<phrase,`phrase`>>,
+<<slug,`slug`>>,
+<<snake,`snake`>>,
+<<title,`title`>>
+
+The next two convert between ,`-moz-transform` and `MozTransform`, respecting
+leading capitals and dashes; they're more discriminating than ,`kebab`, `camel`,
+and ,`pascal`.
+
+<<css-selector,`css-selector`>>,
+<<js-selector,`js-selector`>>
+
+For casing extremes.
+
+<<lower,`lower`>>,
+<<upper,`upper`>>
+
+=== Identification
+
+Identify strings with these boolean returning functions.
+
+<<alpha-numeric,`alpha-numeric?`>>,
+<<alpha,`alpha?`>>,
+<<blank,`blank?`>>,
+<<contains,`contains?`>>,
+<<empty,`empty?`>>,
+<<ends-with,`ends-with?`>>,
+<<numeric,`numeric?`>>,
+<<starts-with,`starts-with?`>>
+
+=== Parsing
+
+Convert from strings to other Clojure types.
+
+<<keyword,`keyword`>>,
+<<parse-double,`parse-double`>>,
+<<parse-float,`parse-float`>>,
+<<parse-int,`parse-int`>>,
+<<parse-long,`parse-long`>>,
+<<parse-number,`parse-number`>>,
+<<to-bool,`to-bool`>>
+
+=== Low Level
+
+String processing building blocks.
+
+<<chars,`chars`>>,
+<<escape-regexp,`escape-regexp`>>,
+<<join,`join`>>,
+<<lines,`lines`>>,
+<<repeat,`repeat`>>,
+<<replace-first,`replace-first`>>,
+<<replace,`replace`>>,
+<<reverse,`reverse`>>,
+<<slice,`slice`>>,
+<<split,`split`>>,
+<<unlines,`unlines`>>,
+<<words,`words`>>
+
+
 == Reference
 
+[[unindent]]
 === <<
 
 Unindent lines. Either strip preceeding whitespace automatically or
