@@ -66,7 +66,7 @@ vector on your *_project.clj_* file:
 
 Remove unwanted characters and substrings.
 
-<<unindent,`<<`>>,
+<<unindent,`<<-`>>,
 <<clean,`clean`>>,
 <<collapse-whitespace,`collapse-whitespace`>>,
 <<ltrim,`ltrim`>>,
@@ -162,18 +162,18 @@ String processing building blocks.
 == Reference
 
 [[unindent]]
-=== <<
+=== <<-
 
 Unindent lines. Either strip preceeding whitespace automatically or
 with a user supplied regex.
 
 [source, clojure]
 ----
-(str/<< "first line
+(str/<<- "first line
 
-           second line (indented)
+            second line (indented)
 
-         another line")
+          another line")
 ----
 
 yields the string
@@ -448,8 +448,10 @@ And you can access to indexed positions of an vector using `$0`, `$1`, `$N` synt
 ;; => "hello yen"
 ----
 
+You can use `str/fmt` as shorter alias to `str/format` function.
 
-=== fmt
+
+=== <<
 
 String interpolation macro. Enables easy string formating allowing
 symbol substitutions and simple expression evaluation.
