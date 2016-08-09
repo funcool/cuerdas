@@ -386,6 +386,10 @@
       (interpolate-format s (first more))
       (indexed-format s more))))
 
+(def fmt
+  "A shorter alias to `format` function."
+  format)
+
 (defn join
   "Joins strings together with given separator."
   ([coll]
