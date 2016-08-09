@@ -230,17 +230,17 @@
            rx (js/RegExp. (.-source re) flags)]
        (.replace s rx replacement))))
 
-(defn- replace*
-  [s match replacement]
-  #?(:clj (str/replace s match replacement)
-     :cljs (cond
-             (string? match)
-             (str/replace s match replacement)
+#?(:cljs
+   (defn- replace*
+     [s match replacement]
+     (cond
+       (string? match)
+       (str/replace s match replacement)
 
-             (regexp? match)
-             (if (string? replacement)
-               (replace-all s match replacement)
-               (replace-all s match (str/replace-with replacement))))))
+       (regexp? match)
+       (if (string? replacement)
+         (replace-all s match replacement)
+         (replace-all s match (str/replace-with replacement))))))
 
 (defn replace
   "Replaces all instance of match with replacement in s.
@@ -261,7 +261,8 @@
   "
   [s match replacement]
   (when-not (nil? s)
-    (replace* s match replacement)))
+    #?(:clj (str/replace s match replacement)
+       :cljs (replace* s match replacement))))
 
 (defn replace-first
   "Replaces first instance of match with replacement in s."
