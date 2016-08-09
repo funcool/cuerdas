@@ -23,6 +23,7 @@ among other fixes and improvements. This is a complete list of changes:
 - Remove ireplace function (it was only on the cljs).
 - Enable `escape-html` and `unescape-html` for clj.
 - Fix `replace` impl on cljs and make it consistent with clj version.
+- Add string interpolation support.
 
 
 ## Version 0.8.0
