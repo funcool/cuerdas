@@ -573,7 +573,7 @@
   [s]
   (if (and (string? s)
            (re-matches #"-?\d+(\.\d+)?" s))
-    #?(:clj (.longValue (Double. s))
+    #?(:clj (.longValue (Double. ^String s))
        :cljs (js/parseInt s 10))
     #?(:clj Double/NaN
        :cljs js/NaN)))
@@ -744,7 +744,7 @@
          (cons (subs s 0 2) (interpolate (subs s 2))))))
      ([^String s]
       (if-let [start (->> ["~{" "~("]
-                          (map #(.indexOf s %))
+                          (map #(.indexOf s ^String %))
                           (remove #(== -1 %))
                           sort
                           first)]
