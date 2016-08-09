@@ -677,7 +677,7 @@
             (split suffix)
             first)))
 
-(defn <<
+(defn <<-
   "Unindent multiline text.
   Uses either a supplied regex or the shortest
   beginning-of-line to non-whitespace distance"
@@ -688,7 +688,7 @@
                           (map #(->> % (re-find #"^( +)") second count)))
          min-indent  (re-pattern (format "^ {%s}"
                                          (apply min all-indents)))]
-     (<< min-indent s)))
+     (<<- min-indent s)))
   ([r s] (->> s lines (map #(replace % r "")) unlines)))
 
 ;; --- String Interpolation
