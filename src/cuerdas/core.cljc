@@ -722,10 +722,10 @@
 
 #?(:clj
    (defn- silent-read
-     "Attempts to clojure.core/read a single form from the provided String, returning
-     a vector containing the read form and a String containing the unread remainder
-     of the provided String. Returns nil if no valid form can be read from the
-     head of the String."
+     "Attempts to clojure.core/read a single form from the provided
+     String, returning a vector containing the read form and a String
+     containing the unread remainder of the provided String. Returns nil
+     if no valid form can be read from the head of the String."
      [s]
      (try
        (let [r (-> s java.io.StringReader. java.io.PushbackReader.)]
@@ -754,11 +754,12 @@
 
 #?(:clj
    (defmacro fmt
-     "Accepts one or more strings; emits a `str` invocation that concatenates
-     the string data and evaluated expressions contained within that argument.
-     Evaluation is controlled using ~{} and ~() forms. The former is used for
-     simple value replacement using clojure.core/str; the latter can be used to
-     embed the results of arbitrary function invocation into the produced string.
+     "Accepts one or more strings; emits a `str` invocation that
+     concatenates the string data and evaluated expressions contained
+     within that argument.  Evaluation is controlled using ~{} and ~()
+     forms. The former is used for simple value replacement using
+     clojure.core/str; the latter can be used to embed the results of
+     arbitrary function invocation into the produced string.
 
      Examples:
 
