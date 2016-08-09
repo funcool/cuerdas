@@ -4,7 +4,7 @@ dependencies:
 
 machine:
   node:
-    version: iojs-v2.5.0
+    version: 6.3.1
   java:
     version: oraclejdk8
 

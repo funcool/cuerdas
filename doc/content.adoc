@@ -449,6 +449,32 @@ And you can access to indexed positions of an vector using `$0`, `$1`, `$N` synt
 ----
 
 
+=== fmt
+
+String interpolation macro. Enables easy string formating allowing
+symbol substitutions and simple expression evaluation.
+
+[source, clojure]
+----
+(def value 30)
+
+(str/fmt "value = ~{value}")
+;; => "value = 30"
+
+(str/fmt "value = ~(inc value)")
+;; => "value = 31"
+----
+
+The `fmt` macro is variadic and allows arbitrary number of arguments
+that will be concatenated on the final return value:
+
+----
+(str/fmt "the value "
+         "is ~{v}")
+;; => "the value is 30"
+----
+
+
 === human
 
 Convert a string or keyword to a human friendly string

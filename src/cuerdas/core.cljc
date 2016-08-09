@@ -230,17 +230,17 @@
            rx (js/RegExp. (.-source re) flags)]
        (.replace s rx replacement))))
 
-(defn- replace*
-  [s match replacement]
-  #?(:clj (str/replace s match replacement)
-     :cljs (cond
-             (string? match)
-             (str/replace s match replacement)
+#?(:cljs
+   (defn- replace*
+     [s match replacement]
+     (cond
+       (string? match)
+       (str/replace s match replacement)
 
-             (regexp? match)
-             (if (string? replacement)
-               (replace-all s match replacement)
-               (replace-all s match (str/replace-with replacement))))))
+       (regexp? match)
+       (if (string? replacement)
+         (replace-all s match replacement)
+         (replace-all s match (str/replace-with replacement))))))
 
 (defn replace
   "Replaces all instance of match with replacement in s.
@@ -261,7 +261,8 @@
   "
   [s match replacement]
   (when-not (nil? s)
-    (replace* s match replacement)))
+    #?(:clj (str/replace s match replacement)
+       :cljs (replace* s match replacement))))
 
 (defn replace-first
   "Replaces first instance of match with replacement in s."
@@ -689,3 +690,99 @@
                                          (apply min all-indents)))]
      (<< min-indent s)))
   ([r s] (->> s lines (map #(replace % r "")) unlines)))
+
+;; --- String Interpolation
+
+;; Copyright (c) 2009, 2016 Chas Emerick <chas@cemerick.com>
+;; All rights reserved.
+;;
+;; Redistribution and use in source and binary forms, with or without
+;; modification, are permitted provided that the following conditions are met:
+;;
+;; * Redistributions of source code must retain the above copyright notice, this
+;;   list of conditions and the following disclaimer.
+;;
+;; * Redistributions in binary form must reproduce the above copyright notice,
+;;   this list of conditions and the following disclaimer in the documentation
+;;   and/or other materials provided with the distribution.
+;;
+;; THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+;; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+;; IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+;; DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+;; FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+;; DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+;; SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+;; CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+;; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+;; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+;; Originally proposed/published at http://cemerick.com/2009/12/04/string-interpolation-in-clojure/
+;; BSD Licensed version from https://gist.github.com/cemerick/116c56b9504152d59d3e60fff6d57ea7
+;; Contains minor adaptations for make it work in cljs.
+
+#?(:clj
+   (defn- silent-read
+     "Attempts to clojure.core/read a single form from the provided
+     String, returning a vector containing the read form and a String
+     containing the unread remainder of the provided String. Returns nil
+     if no valid form can be read from the head of the String."
+     [s]
+     (try
+       (let [r (-> s java.io.StringReader. java.io.PushbackReader.)]
+         [(read r) (slurp r)])
+       ;; this indicates an invalid form -- the head of s is just string data
+       (catch Exception e))))
+
+#?(:clj
+   (defn- interpolate
+     "Yields a seq of Strings and read forms."
+     ([s atom?]
+      (lazy-seq
+       (if-let [[form rest] (silent-read (subs s (if atom? 2 1)))]
+         (cons form (interpolate (if atom? (subs rest 1) rest)))
+         (cons (subs s 0 2) (interpolate (subs s 2))))))
+     ([^String s]
+      (if-let [start (->> ["~{" "~("]
+                          (map #(.indexOf s %))
+                          (remove #(== -1 %))
+                          sort
+                          first)]
+        (lazy-seq (cons
+                   (subs s 0 start)
+                   (interpolate (subs s start) (= \{ (.charAt s (inc start))))))
+        [s]))))
+
+#?(:clj
+   (defmacro fmt
+     "Accepts one or more strings; emits a `str` invocation that
+     concatenates the string data and evaluated expressions contained
+     within that argument.  Evaluation is controlled using ~{} and ~()
+     forms. The former is used for simple value replacement using
+     clojure.core/str; the latter can be used to embed the results of
+     arbitrary function invocation into the produced string.
+
+     Examples:
+
+         user=> (def v 30.5)
+         #'user/v
+         user=> (fmt \"This trial required ~{v}ml of solution.\")
+         \"This trial required 30.5ml of solution.\"
+         user=> (fmt \"There are ~(int v) days in November.\")
+         \"There are 30 days in November.\"
+         user=> (def m {:a [1 2 3]})
+         #'user/m
+         user=> (fmt \"The total for your order is $~(->> m :a (apply +)).\")
+         \"The total for your order is $6.\"
+         user=> (fmt \"Just split a long interpolated string up into ~(-> m :a (get 0)), \"
+                  \"~(-> m :a (get 1)), or even ~(-> m :a (get 2)) separate strings \"
+                  \"if you don't want a fmt expression to end up being e.g. ~(* 4 (int v)) \"
+                  \"columns wide.\")
+         \"Just split a long interpolated string up into 1, 2, or even 3 separate strings if you don't want a fmt expression to end up being e.g. 120 columns wide.\"
+
+     Note that quotes surrounding string literals within ~() forms must be
+     escaped."
+     [& strings]
+     `(str ~@(interpolate (apply str strings)))))
+
+;; --- End String Interpolation
