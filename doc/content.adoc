@@ -36,7 +36,7 @@ vector on your *_project.clj_* file:
 
 [source,clojure]
 ----
-[funcool/cuerdas "0.8.0"]
+[funcool/cuerdas "1.0.0"]
 ----
 
 
