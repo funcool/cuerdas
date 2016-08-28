@@ -439,8 +439,7 @@
   ([coll every-fn join-with] (stylize-join coll every-fn every-fn join-with))
   ([[fst & rst] first-fn rest-fn join-with]
     (when-not (nil? fst)
-      (join join-with
-            (into [(first-fn fst)] (map rest-fn rst))))))
+      (join join-with (cons (first-fn fst) (map rest-fn rst))))))
 
 (defn stylize
   ([s every-fn join-with] (stylize s every-fn every-fn join-with))
