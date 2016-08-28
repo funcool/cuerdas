@@ -431,9 +431,8 @@
   [s]
   (some-> s
           (name)
-          (replace #"[A-Z]+[a-z]*" #(str "-" %))
-          (lower)
-          (split #"[^a-zA-Z]+")
+          (replace #"([A-Z]+[a-z]*)" "-$1")
+          (split #"[^a-zA-Z0-9]+")
           (seq)))
 
 (defn- stylize-join
