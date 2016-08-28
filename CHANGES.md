@@ -26,6 +26,7 @@ among other fixes and improvements. This is a complete list of changes:
 - Add string interpolation support (`<<` macro)
 - Add string unindentation support (`<<-` function)
 - Add `fmt` alias to `format` function.
+- Improve performance of `capitalize` function.
 
 
 ## Version 0.8.0
