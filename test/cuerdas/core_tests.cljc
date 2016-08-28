@@ -173,6 +173,7 @@
 
   (t/testing "slug"
     (t/is (= nil (str/slug nil)))
+    (t/is (= "page-0001" (str/slug "page 0001")))
     (t/is (= "un-elephant-a-loree-du-bois"
              (str/slug "Un éléphant à l'orée du bois"))))
 
