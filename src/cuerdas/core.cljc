@@ -451,21 +451,11 @@
               (remove-empty)
               (stylize-join first-fn rest-fn join-with)))))
 
-(defn- update-range
-  [s [lower upper] update-fn]
-  (when (and (string? s) (not-empty s))
-    (let [length (count s)
-          start  (max 0 lower)
-          end    (min length upper)]
-      (str (subs s 0 start)
-           (update-fn (subs s start end))
-           (subs s end)))))
-
 (defn capitalize
   "Uppercases the first character of a string or keyword"
   [s]
   (when s
-    (update-range (name s) [0 1] upper)))
+    (str (upper (subs s 0 1)) (subs s 1 (count s)))))
 
 (defn camel
   "Output will be: lowerUpperUpperNoSpaces
