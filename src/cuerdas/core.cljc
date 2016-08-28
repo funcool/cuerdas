@@ -442,7 +442,8 @@
       (join join-with (cons (first-fn fst) (map rest-fn rst))))))
 
 (defn stylize
-  ([s every-fn join-with] (stylize s every-fn every-fn join-with))
+  ([s every-fn join-with]
+   (stylize s every-fn every-fn join-with))
   ([s first-fn rest-fn join-with]
     (let [remove-empty #(seq (remove (partial = "") %))]
       (some-> s
