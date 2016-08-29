@@ -582,8 +582,7 @@
 
   accepts keywords and strings, with any standard delimiter"
   [s]
-  (some-> s
-          (stylize-split)
+  (some-> (stylize-split s)
           (stylize-join capitalize "")))
 
 (defn css-selector
@@ -593,8 +592,7 @@
 
   accepts keywords and strings, with any standard delimiter"
   [s]
-  (some-> s
-          (stylize-split)
+  (some-> (stylize-split s)
           (stylize-join lower "-")))
 
 (defn slug
