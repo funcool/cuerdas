@@ -417,12 +417,11 @@
 
 (defn words
   "Returns a vector of the words in the string."
-  ([^String s word-re]
-   (if (nil? s)
-     []
-     (vec (re-seq word-re s))))
-  ([^String s]
-   (words s #"[a-zA-Z0-9_-]+")))
+  ([s]
+   (words s (rx/enhace #"[\p{N}\p{L}_-]+")))
+  ([s re]
+   (when (string? s)
+     (vec (re-seq re s)))))
 
 (defn- interpolate-format
   [s params]
