@@ -377,7 +377,7 @@
   "Splits a string on a separator a limited
   number of times. The separator can be a string
   or Pattern (clj) / RegExp (cljs) instance."
-  ([s] (split s #"\s" #?(:cljs nil)))
+  ([s] (split s #"\s+" #?(:cljs nil)))
   ([s sep]
    (cond
      (nil? s) s
