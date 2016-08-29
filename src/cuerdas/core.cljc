@@ -40,10 +40,9 @@
 
 (defn empty?
   "Checks if a string is empty."
-  [^String s]
-  (if (nil? s)
-    false
-    (= (count s) 0)))
+  [s]
+  (when (string? s)
+    (zero? (count s))))
 
 (defn contains?
   "Determines whether a string contains a substring."
