@@ -25,12 +25,11 @@ ____
 
 == Install
 
-The simplest way to use _cuerdas_ in a clojure project, is by including it in the dependency
-vector on your *_project.clj_* file:
+Add the following dependency to your project.clj file:
 
 [source,clojure]
 ----
-[funcool/cuerdas "0.8.0"]
+[funcool/cuerdas "1.0.0"]
 ----
 
 
