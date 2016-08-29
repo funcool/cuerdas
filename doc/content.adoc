@@ -31,8 +31,8 @@ ____
 
 == Install
 
-The simplest way to use _cuerdas_ in a clojure project, is by including it in the dependency
-vector on your *_project.clj_* file:
+The simplest way to use _cuerdas_ in a clojure project, is by
+including it in the dependency vector on your *_project.clj_* file:
 
 [source,clojure]
 ----
@@ -64,9 +64,9 @@ vector on your *_project.clj_* file:
 
 === Cleaning
 
-Remove unwanted characters and substrings.
+Remove unwanted characters and substrings:
 
-<<unindent,`<<-`>>,
+<<unindent,`<<+++-+++`>>,
 <<clean,`clean`>>,
 <<collapse-whitespace,`collapse-whitespace`>>,
 <<ltrim,`ltrim`>>,
@@ -80,53 +80,66 @@ Remove unwanted characters and substrings.
 <<unquote,`unquote`>>,
 <<unsurround,`unsurround`>>
 
+
 === Dressing
 
-Add onto or compose strings.
+Add onto or compose strings:
 
 <<format,`format`>>,
 <<join,`join`>>,
 <<pad,`pad`>>,
 <<quote,`quote`>>,
 <<surround,`surround`>>
+<<interpolate,`<<`>>
 
 === Casing
 
-Convert to and from different casing systems.
+Convert to and from different casing systems:
 
 <<camel,`camel`>>,
-<<capitalize,`capitalize`>>,
+<<capital,`capital`>>,
 <<human,`human`>>,
 <<kebab,`kebab`>>,
 <<pascal,`pascal`>>,
 <<phrase,`phrase`>>,
 <<slug,`slug`>>,
+<<uslug,`uslug`>>,
 <<snake,`snake`>>,
 <<title,`title`>>
 
 The next two convert between ,`-moz-transform` and `MozTransform`, respecting
-leading capitals and dashes; they're more discriminating than ,`kebab`, `camel`,
-and ,`pascal`.
+leading capitals and dashes:
 
 <<css-selector,`css-selector`>>,
 <<js-selector,`js-selector`>>
 
-For casing extremes.
+For casing extremes:
 
-<<lower,`lower`>>,
-<<upper,`upper`>>
+<<lower, `lower`>>,
+<<upper, `upper`>>
+<<caseless-equal, `caseless=`>>
+
+And their locale aware alternatives:
+
+<<lower, `locale-lower`>>,
+<<upper, `locale-upper`>>
+<<caseless-equal, `locale-caseless=`>>
+
 
 === Identification
 
 Identify strings with these boolean returning functions.
 
-<<alpha-numeric,`alpha-numeric?`>>,
+<<alnum,`alnum?`>>,
 <<alpha,`alpha?`>>,
+<<digits,`digits?`>>,
+<<numeric, `numeric?`>>,
+<<letters,`letters?`>>,
+<<word,`word?`>>,
 <<blank,`blank?`>>,
 <<contains,`contains?`>>,
 <<empty,`empty?`>>,
 <<ends-with,`ends-with?`>>,
-<<numeric,`numeric?`>>,
 <<starts-with,`starts-with?`>>
 
 === Parsing
@@ -135,9 +148,7 @@ Convert from strings to other Clojure types.
 
 <<keyword,`keyword`>>,
 <<parse-double,`parse-double`>>,
-<<parse-float,`parse-float`>>,
 <<parse-int,`parse-int`>>,
-<<parse-long,`parse-long`>>,
 <<parse-number,`parse-number`>>,
 <<to-bool,`to-bool`>>
 
@@ -146,7 +157,6 @@ Convert from strings to other Clojure types.
 String processing building blocks.
 
 <<chars,`chars`>>,
-<<escape-regexp,`escape-regexp`>>,
 <<join,`join`>>,
 <<lines,`lines`>>,
 <<repeat,`repeat`>>,
@@ -186,24 +196,42 @@ first line
 another line
 ----
 
-
-=== alpha-numeric?
+[[alnum]]
+=== alnum?
 
 Checks if a string contains only alphanumeric characters.
 
 [source, clojure]
 ----
-(str/alpha-numeric? nil)
+(str/alnum? nil)
 ;; => false
 
-(str/alpha-numeric? "")
+(str/alnum? "")
 ;; => false
 
-(str/alpha-numeric? "Test123")
+(str/alnum? "Test123")
+;; => true
+----
+
+[[word]]
+=== word?
+
+This is a unicode aware version of `alnum?`.
+
+[source, clojure]
+----
+(str/word? nil)
+;; => false
+
+(str/word? "")
+;; => false
+
+(str/word? "Русский222")
 ;; => true
 ----
 
 
+[[alpha]]
 === alpha?
 
 Checks if a string contains only alpha characters.
@@ -221,6 +249,28 @@ Checks if a string contains only alpha characters.
 ----
 
 
+[[letters]]
+=== letters?
+
+This is an unicode aware version of `alpha?`.
+
+[source, clojure]
+----
+(str/letters? nil)
+;; => false
+
+(str/letters? " ")
+;; => false
+
+(str/letters? "Test")
+;; => true
+
+(str/letters? "Русский")
+;; => true
+----
+
+
+[[blank]]
 === blank?
 
 Check if the string is empty or contains only whitespaces.
@@ -241,6 +291,7 @@ Check if the string is empty or contains only whitespaces.
 ----
 
 
+[[camel]]
 === camel
 
 Convert a string or keyword to a camelCased string.
@@ -257,17 +308,17 @@ Convert a string or keyword to a camelCased string.
 ;; => nil
 ----
 
-
-=== capitalize
+[[capital]]
+=== capital
 
 Uppercases the first character of a string.
 
 [source, clojure]
 ----
-(str/capitalize "foo")
+(str/capital "foo")
 ;; => "Foo"
 
-(str/capitalize nil)
+(str/capital nil)
 ;; => nil
 ----
 
@@ -450,7 +501,7 @@ And you can access to indexed positions of an vector using `$0`, `$1`, `$N` synt
 
 You can use `str/fmt` as shorter alias to `str/format` function.
 
-
+[[interpolate]]
 === <<
 
 String interpolation macro. Enables easy string formating allowing
@@ -577,10 +628,10 @@ Return a list of the lines in the string.
 ;; => nil
 ----
 
-
+[[lower]]
 === lower
 
-Convert a string to all lower-case.
+Convert a string to all lower-case in a locale independent manner:
 
 [source, clojure]
 ----
@@ -590,6 +641,38 @@ Convert a string to all lower-case.
 (str/lower nil)
 ;; => nil
 ----
+
+For locale awareness, use `locale-lower` alternative function.
+
+[[upper]]
+=== upper
+
+Convert a string to all upper-case in a locale independent manner:
+
+[source, clojure]
+----
+(str/upper "foobar")
+;; => "FOOBAR"
+
+(str/upper nil)
+;; => nil
+----
+
+For locale awareness, use `locale-upper` alternative function.
+
+
+[[caseless-equal]]
+=== caseless=
+
+Case insensitive `=` operator for strings:
+
+[source, clojure]
+----
+(str/caseless= "hello" "HELLO")
+;; => true
+----
+
+For locale awareness, use `locale-caseless=` alternative function.
 
 
 === ltrim
@@ -612,6 +695,7 @@ Alias: _lstrip_
 ----
 
 
+[[numeric]]
 === numeric?
 
 Checks if a string contains only numeric characters.
@@ -622,9 +706,27 @@ Checks if a string contains only numeric characters.
 ;; => false
 
 (str/numeric? "1.1")
+;; => true
+
+(str/numeric? "2e10")
+;; => true
+----
+
+
+[[digits]]
+=== digits?
+
+Checks if a string contains only digits.
+
+[source, clojure]
+----
+(str/digits? nil)
 ;; => false
 
-(str/numeric? "0123")
+(str/digits? "1.1")
+;; => false
+
+(str/digits? "210")
 ;; => true
 ----
 
@@ -916,6 +1018,7 @@ Extracts a section of a string and returns a new string.
 ----
 
 
+[[slug]]
 === slug
 
 Transforms string or keyword into URL slug.
@@ -929,7 +1032,12 @@ Transforms string or keyword into URL slug.
 ;; => nil
 ----
 
+Traditionally, slug is consisted in ascii characters, but in modern ages,
+the URL and domain names already supports unicode characters. The `uslug` is
+more modern version of slug function that respects the unicode characters.
 
+
+[[snake]]
 === snake
 
 Convert a string or keyword to a snake_cased_string.
@@ -1184,20 +1292,6 @@ Unsurround a string surrounded by another.
 ----
 
 
-=== upper
-
-Convert a string to all upper-case.
-
-[source, clojure]
-----
-(str/upper "foobar")
-;; => "FOOBAR"
-
-(str/upper nil)
-;; => nil
-----
-
-
 === words
 
 Returns a vector of the words in the string. Can be provided with a regular
@@ -1205,11 +1299,11 @@ expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
 
 [source, clojure]
 ----
-(str/words "foo, bar")
-;; => ["foo" "bar"]
-
 (str/words nil)
 ;; => nil
+
+(str/words "foo, bar")
+;; => ["foo" "bar"]
 
 (str/words "foo, bar." #"[^, ]")
 ;; => ["foo" "bar."]
