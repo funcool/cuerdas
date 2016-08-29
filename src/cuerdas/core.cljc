@@ -511,7 +511,9 @@
           (seq)))
 
 (defn- stylize-join
-  ([coll every-fn join-with] (stylize-join coll every-fn every-fn join-with))
+  ([coll every-fn join-with]
+   (when (seq coll)
+     (join join-with (map every-fn coll))))
   ([[fst & rst] first-fn rest-fn join-with]
     (when-not (nil? fst)
       (join join-with (cons (first-fn fst) (map rest-fn rst))))))
@@ -520,9 +522,8 @@
   ([s every-fn join-with]
    (stylize s every-fn every-fn join-with))
   ([s first-fn rest-fn join-with]
-    (let [remove-empty #(seq (remove (partial = "") %))]
-      (some-> s
-              (stylize-split)
+    (let [remove-empty #(seq (remove empty? %))]
+      (some-> (stylize-split s)
               (remove-empty)
               (stylize-join first-fn rest-fn join-with)))))
 
