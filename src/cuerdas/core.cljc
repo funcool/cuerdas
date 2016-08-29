@@ -110,13 +110,19 @@
 (def endswith? ends-with?)
 
 (defn lower
-  "Converts string to all lower-case."
+  "Converts string to all lower-case.
+
+  This function works in strictly locale independent way,
+  if you want a localized version, just use `locale-lower`"
   [s]
   (when-not (nil? s)
     (.toLowerCase #?(:clj ^String s :cljs s))))
 
 (defn upper
-  "Converts string to all upper-case."
+  "Converts string to all upper-case.
+
+  This function works in strictly locale independent way,
+  if you want a localized version, just use `locale-upper`"
   [s]
   (when-not (nil? s)
     (.toUpperCase #?(:clj ^String s :cljs s))))
