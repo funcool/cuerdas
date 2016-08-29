@@ -178,15 +178,11 @@
 (defn blank?
   "Checks if a string is empty or contains only whitespace."
   [^String s]
-  #?(:clj (cond
-            (nil? s) true
-            (= (count s) 0) true
-            :else (let [rx #"^[\s\n]+$"]
-                    (if (re-matches rx s)
-                      true
-                      false)))
-     :cljs (gstr/isEmptySafe s)))
-
+  (or (nil? s)
+      (and (string? s)
+           (or (zero? (count s))
+               (-> (rx/enhace #"^[\s\p{Z}]+$")
+                   (re-matches s))))))
 (defn- char-range-check
   [re]
   (fn [^String s]
