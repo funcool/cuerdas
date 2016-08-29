@@ -527,7 +527,7 @@
               (remove-empty)
               (stylize-join first-fn rest-fn join-with)))))
 
-(defn capitalize
+(defn capital
   "Uppercases the first character of a string or keyword"
   [s]
   (when (and (string? s) (not-empty s))
@@ -537,7 +537,7 @@
   "Output will be: lowerUpperUpperNoSpaces
   accepts strings and keywords"
   [s]
-  (stylize s lower capitalize ""))
+  (stylize s lower capital ""))
 
 (defn snake
   "Output will be: lower_cased_and_underscore_separated
@@ -549,7 +549,7 @@
   "Output will be: Space separated with the first letter capitalized.
   accepts strings and keywords"
   [s]
-  (stylize s capitalize lower " "))
+  (stylize s capital lower " "))
 
 (defn human
   "Output will be: lower cased and space separated
@@ -561,13 +561,13 @@
   "Output will be: Each Word Capitalized And Separated With Spaces
   accepts strings and keywords"
   [s]
-  (stylize s capitalize " "))
+  (stylize s capital " "))
 
 (defn pascal
   "Output will be: CapitalizedAndTouchingTheNext
   accepts strings and keywords"
   [s]
-  (stylize s capitalize ""))
+  (stylize s capital ""))
 
 (defn kebab
   "Output will be: lower-cased-and-separated-with-dashes
@@ -583,7 +583,7 @@
   accepts keywords and strings, with any standard delimiter"
   [s]
   (some-> (stylize-split s)
-          (stylize-join capitalize "")))
+          (stylize-join capital "")))
 
 (defn css-selector
   "Output will be either:
