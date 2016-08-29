@@ -262,7 +262,7 @@
   a single space."
   [s]
   (-> (trim s)
-      (replace #"\s+" " ")))
+      (replace (rx/enhace #"[\s\p{Z}]+") " ")))
 
 (def strip trim)
 (def rstrip rtrim)
