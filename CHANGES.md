@@ -22,13 +22,14 @@ This is a complete list of changes:
   equivalent).
 - Rename `parse-float` to `parse-double` in cljs impl (the second arity is
   removed and now clj and cljs impl are equivalent).
+- Rename `capitalize` to `capital`.
 - Make `parse-number` cross-platform (and remove the second arity that used for
   specify the precision).
 - Make `words` function unicode aware.
 - Make `blank?` predicate unicode aware.
 - Make `clean` function unicode aware.
 - Make `collapse-whitespace` function unicode aware.
-- Improve performance of `capitalize` function.
+- Improve performance of `capital` function.
 - Fix inconsistency issue in `words` function in terms of nil safety.
 - Fix wrong behavior of `replace` function in cljs.
 - Remove ireplace-first function (it was only on the cljs).
@@ -44,6 +45,7 @@ This is a complete list of changes:
 - Add string interpolation support (`<<` macro)
 - Add string unindentation support (`<<-` function)
 - Add enhaced support for regular expressions thanks to xregexp (cljs only).
+
 
 ## Version 0.8.0
 
