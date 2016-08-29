@@ -29,21 +29,14 @@
   (:require [clojure.string :as str]
             [clojure.set :refer [map-invert]]
             [clojure.walk :refer [stringify-keys]]
+            [cuerdas.regexp :as rx]
             #?(:cljs [goog.string :as gstr])
             #?(:cljs [cljs.reader :as edn]
                :clj  [clojure.edn :as edn]))
-  #?(:clj (:import java.util.regex.Pattern
-                   java.util.List)))
+  #?(:clj (:import (java.util List Locale))))
 
 #?(:cljs (def ^:private keyword* cljs.core/keyword)
    :clj  (def ^:private keyword* clojure.core/keyword))
-
-(defn- regexp?
-  "Return `true` if `x` is a regexp pattern
-  instance."
-  [x]
-  #?(:cljs (cljs.core/regexp? x)
-     :clj (instance? Pattern x)))
 
 (defn empty?
   "Checks if a string is empty."
@@ -161,7 +154,6 @@
   "Checks if a string contains only alphanumeric characters."
   (char-range-check #"^[a-zA-Z0-9]+$"))
 
-(declare escape-regexp)
 (declare replace)
 
 (defn trim
@@ -170,7 +162,7 @@
   ([s] (trim s "\n\t\f\r "))
   ([s chs]
    (when-not (nil? s)
-     (let [rxstr (str "[" (escape-regexp chs) "]")
+     (let [rxstr (str "[" (rx/escape chs) "]")
            rxstr (str "^" rxstr "+|" rxstr "+$")]
        (as-> (re-pattern rxstr) rx
          (replace s rx ""))))))
@@ -181,7 +173,7 @@
   ([s] (rtrim s "\n\t\f\r "))
   ([s chs]
    (when-not (nil? s)
-     (let [rxstr (str "[" (escape-regexp chs) "]")
+     (let [rxstr (str "[" (rx/escape chs) "]")
            rxstr (str rxstr "+$")]
        (as-> (re-pattern rxstr) rx
          (replace s rx ""))))))
@@ -192,7 +184,7 @@
   ([s] (ltrim s "\b\t\f\r "))
   ([s chs]
    (when-not (nil? s)
-     (let [rxstr (str "[" (escape-regexp chs) "]")
+     (let [rxstr (str "[" (rx/escape chs) "]")
            rxstr (str "^" rxstr "+")]
        (as-> (re-pattern rxstr) rx
          (replace s rx ""))))))
@@ -232,13 +224,6 @@
      #?(:clj  (join (clojure.core/repeat n s))
         :cljs (gstr/repeat s n)))))
 
-(defn escape-regexp
-  "Escapes characters in the string that are not safe
-   to use in a RegExp."
-  [s]
-  #?(:clj  (Pattern/quote ^String s)
-     :cljs (gstr/regExpEscape s)))
-
 (defn includes?
   [s v]
   (when-not (nil? s)
@@ -261,7 +246,7 @@
        (string? match)
        (str/replace s match replacement)
 
-       (regexp? match)
+       (rx/regexp? match)
        (if (string? replacement)
          (replace-all s match replacement)
          (replace-all s match (str/replace-with replacement))))))
@@ -277,7 +262,7 @@
   parenthesized group in pattern.
 
   If you wish your replacement string to be used literary,
-  use `(escape-regexp replacement)`.
+  use `(cuerdas.regexp/escape replacement)`.
 
   Example:
     (replace \"Almost Pig Latin\" #\"\\b(\\w)(\\w+)\\b\" \"$2$1ay\")
@@ -328,14 +313,14 @@
   ([s sep]
    (cond
      (nil? s) s
-     (regexp? sep) (str/split s sep)
-     (string? sep) (str/split s (re-pattern (escape-regexp sep)))
+     (rx/regexp? sep) (str/split s sep)
+     (string? sep) (str/split s (re-pattern (rx/escape sep)))
      :else (throw (ex-info "Invalid arguments" {:sep sep}))))
   ([s sep num]
    (cond
      (nil? s) s
-     (regexp? sep) (str/split s sep num)
-     (string? sep) (str/split s (re-pattern (escape-regexp sep)) num)
+     (rx/regexp? sep) (str/split s sep num)
+     (string? sep) (str/split s (re-pattern (rx/escape sep)) num)
      :else (throw (ex-info "Invalid arguments" {:sep sep})))))
 
 (defn reverse
