@@ -61,8 +61,7 @@
      ([s begin]
       (slice s begin (count s)))
      ([s ^long begin ^long end]
-      (if (nil? s)
-        s
+      (when (string? s)
         (let [end   (if (< end 0) (+ (count s) end) end)
               begin (if (< begin 0) (+ (count s) begin) begin)
               end   (if (> end (count s)) (count s) end)]
