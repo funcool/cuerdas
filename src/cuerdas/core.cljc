@@ -629,11 +629,9 @@
   [s]
   (if (nil? s)
     #?(:cljs NaN :clj Double/NaN)
-    (let [s (trim s)
-          rx #"^-?\d+(?:\.\d+)?$"]
-      (if (re-matches rx s)
-        (edn/read-string s)
-        #?(:cljs NaN :clj Double/NaN)))))
+    (if (numeric? s)
+      (edn/read-string s)
+      #?(:cljs NaN :clj Double/NaN))))
 
 (defn parse-double
   "Return the double value from string."
