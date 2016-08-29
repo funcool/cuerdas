@@ -683,7 +683,7 @@
   to a single space."
   [s]
   (some-> s
-          (replace #"[\s\xa0]+" " ")
+          (replace (rx/enhace #"[\p{Z}\s]+") " ")
           (replace #"^\s+|\s+$" "")))
 
 (defn escape-html
