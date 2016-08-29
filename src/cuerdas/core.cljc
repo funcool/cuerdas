@@ -868,7 +868,7 @@
 (def ^:deprecated classify pascal)
 (def ^:deprecated humanize human)
 (def ^:deprecated titleize title)
+(def ^:deprecated capitalize capital)
 (def ^:deprecated alpha-numeric? alnum?)
 (def ^:deprecated parse-long parse-int)
 (def ^:deprecated parse-float parse-double)
-
