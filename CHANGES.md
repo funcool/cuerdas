@@ -5,29 +5,45 @@
 Date: Unreleased
 
 Important: this is a major release and includes many *breaking changes*
-among other fixes and improvements. This is a complete list of changes:
+among other fixes and improvements. A proper backward compatibility aliases
+are maintained but not all conserves the exactly same behavior.
 
-- Rename old functions such as `dasherize`, `underscore`, and `classify` with
-  more consistent with clojure naming: `kebab`, `snake` and `pascal`. The new
-  `kebab` function is no longer deals with css selectors transformations, the
-  `js-selector` and `css-selector` functions are added for this purpose.
-  (Please, see more info in PR #33)
+This is a complete list of changes:
+
+- Rename `alpha-numeric?` to `alnums?`.
+- Rename existing `numeric?` to `digits?`.
+- Rename old functions such as `dasherize`, `underscore`, `classify`, `titleize`,
+  `humanize` with more consistent with clojure naming: `kebab`, `snake`, `pascal`,
+  `title` and `human`. Backward compatibility aliases are maintained.
+  BREAKING CHANGE: `-moz-transition` <-> `MozTransition` transformations
+  and similar stuff related to css/js are now handled by new functions:
+  `js-selector` and `css-selector`. (Please, see more info in PR #33).
 - Rename `parse-long` to `parse-int` in jvm impl (make the clj and cljs impl
   equivalent).
 - Rename `parse-float` to `parse-double` in cljs impl (the second arity is
   removed and now clj and cljs impl are equivalent).
 - Make `parse-number` cross-platform (and remove the second arity that used for
   specify the precision).
-- Fix wrong behavior on `replace` function in cljs.
+- Make `words` function unicode aware.
+- Make `blank?` predicate unicode aware.
+- Make `clean` function unicode aware.
+- Make `collapse-whitespace` function unicode aware.
+- Improve performance of `capitalize` function.
+- Fix inconsistency issue in `words` function in terms of nil safety.
+- Fix wrong behavior of `replace` function in cljs.
 - Remove ireplace-first function (it was only on the cljs).
 - Remove ireplace function (it was only on the cljs).
-- Enable `escape-html` and `unescape-html` for clj.
-- Fix `replace` impl on cljs and make it consistent with clj version.
+- Add `escape-html` and `unescape-html` for clj.
+- Add `word?` predicate (unicode aware).
+- Add `letters?` predicate (unicode aware).
+- Add `numeric?` predicate.
+- Add `locale-upper` and `locale-lower` functions.
+- Add `caseless=` and `locale-caseless=` functions.
+- Add `fmt` alias to `format` function.
+- Add `uslug` function (unicode friendly version of `slug`).
 - Add string interpolation support (`<<` macro)
 - Add string unindentation support (`<<-` function)
-- Add `fmt` alias to `format` function.
-- Improve performance of `capitalize` function.
-
+- Add enhaced support for regular expressions thanks to xregexp (cljs only).
 
 ## Version 0.8.0
 
