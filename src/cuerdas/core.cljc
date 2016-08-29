@@ -607,6 +607,12 @@
           (replace #"[^\w\s]+" "")
           (replace #"\s+" "-")))
 
+(defn uslug
+  "Unicode friendly version of `slug` function."
+  [s]
+  (some-> (lower s)
+          (replace (rx/enhace #"[^\p{L}\p{N}]+") " ")
+          (replace (rx/enhace #"[\p{Z}\s]+") "-")))
 
 (defn keyword
   "Safer version of clojure keyword, accepting a
