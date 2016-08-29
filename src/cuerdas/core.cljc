@@ -530,7 +530,7 @@
 (defn capitalize
   "Uppercases the first character of a string or keyword"
   [s]
-  (when s
+  (when (and (string? s) (not-empty s))
     (str (upper (subs s 0 1)) (subs s 1 (count s)))))
 
 (defn camel
