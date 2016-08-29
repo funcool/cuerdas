@@ -171,7 +171,7 @@ String processing building blocks.
 == Reference
 
 [[unindent]]
-=== <<-
+=== +++<<-+++
 
 Unindent lines. Either strip preceeding whitespace automatically or
 with a user supplied regex.
@@ -195,6 +195,34 @@ first line
 another line
 ----
 
+
+[[interpolate]]
+=== <<
+
+String interpolation macro. Enables easy string formating allowing
+symbol substitutions and simple expression evaluation.
+
+[source, clojure]
+----
+(def value 30)
+
+(str/fmt "value = ~{value}")
+;; => "value = 30"
+
+(str/fmt "value = ~(inc value)")
+;; => "value = 31"
+----
+
+The `fmt` macro is variadic and allows arbitrary number of arguments
+that will be concatenated on the final return value:
+
+----
+(str/fmt "the value "
+         "is ~{v}")
+;; => "the value is 30"
+----
+
+
 [[alnum]]
 === alnum?
 
@@ -209,23 +237,6 @@ Checks if a string contains only alphanumeric characters.
 ;; => false
 
 (str/alnum? "Test123")
-;; => true
-----
-
-[[word]]
-=== word?
-
-This is a unicode aware version of `alnum?`.
-
-[source, clojure]
-----
-(str/word? nil)
-;; => false
-
-(str/word? "")
-;; => false
-
-(str/word? "Русский222")
 ;; => true
 ----
 
@@ -244,27 +255,6 @@ Checks if a string contains only alpha characters.
 ;; => false
 
 (str/alpha? "Test")
-;; => true
-----
-
-
-[[letters]]
-=== letters?
-
-This is an unicode aware version of `alpha?`.
-
-[source, clojure]
-----
-(str/letters? nil)
-;; => false
-
-(str/letters? " ")
-;; => false
-
-(str/letters? "Test")
-;; => true
-
-(str/letters? "Русский")
 ;; => true
 ----
 
@@ -307,6 +297,7 @@ Convert a string or keyword to a camelCased string.
 ;; => nil
 ----
 
+
 [[capital]]
 === capital
 
@@ -320,6 +311,20 @@ Uppercases the first character of a string.
 (str/capital nil)
 ;; => nil
 ----
+
+
+[[caseless-equal]]
+=== caseless=
+
+Case insensitive `=` operator for strings:
+
+[source, clojure]
+----
+(str/caseless= "hello" "HELLO")
+;; => true
+----
+
+For locale awareness, use `locale-caseless=` alternative function.
 
 
 === chars
@@ -398,6 +403,25 @@ Convert a JavaScript style selector to CSS style selector
 ----
 
 
+[[digits]]
+=== digits?
+
+Checks if a string contains only digits.
+
+[source, clojure]
+----
+(str/digits? nil)
+;; => false
+
+(str/digits? "1.1")
+;; => false
+
+(str/digits? "210")
+;; => true
+----
+
+
+[[empty]]
 === empty?
 
 Check if the string is empty.
@@ -434,17 +458,6 @@ Alias: endswith?
 
 (str/ends-with? nil "bar")
 ;; => false
-----
-
-
-=== escape-regexp
-
-Escape characters on the string that are not safe to use in a RegExp.
-
-[source, clojure]
-----
-(str/escape-regexp "\s")
-;; => "\\s"
 ----
 
 
@@ -499,32 +512,6 @@ And you can access to indexed positions of an vector using `$0`, `$1`, `$N` synt
 ----
 
 You can use `str/fmt` as shorter alias to `str/format` function.
-
-[[interpolate]]
-=== <<
-
-String interpolation macro. Enables easy string formating allowing
-symbol substitutions and simple expression evaluation.
-
-[source, clojure]
-----
-(def value 30)
-
-(str/fmt "value = ~{value}")
-;; => "value = 30"
-
-(str/fmt "value = ~(inc value)")
-;; => "value = 31"
-----
-
-The `fmt` macro is variadic and allows arbitrary number of arguments
-that will be concatenated on the final return value:
-
-----
-(str/fmt "the value "
-         "is ~{v}")
-;; => "the value is 30"
-----
 
 
 === human
@@ -614,6 +601,28 @@ A more helpful and forigiving version of `clojure.core/keyword`.
 ----
 
 
+[[letters]]
+=== letters?
+
+This is an unicode aware version of `alpha?`.
+
+[source, clojure]
+----
+(str/letters? nil)
+;; => false
+
+(str/letters? " ")
+;; => false
+
+(str/letters? "Test")
+;; => true
+
+(str/letters? "Русский")
+;; => true
+----
+
+
+[[lines]]
 === lines
 
 Return a list of the lines in the string.
@@ -642,36 +651,6 @@ Convert a string to all lower-case in a locale independent manner:
 ----
 
 For locale awareness, use `locale-lower` alternative function.
-
-[[upper]]
-=== upper
-
-Convert a string to all upper-case in a locale independent manner:
-
-[source, clojure]
-----
-(str/upper "foobar")
-;; => "FOOBAR"
-
-(str/upper nil)
-;; => nil
-----
-
-For locale awareness, use `locale-upper` alternative function.
-
-
-[[caseless-equal]]
-=== caseless=
-
-Case insensitive `=` operator for strings:
-
-[source, clojure]
-----
-(str/caseless= "hello" "HELLO")
-;; => true
-----
-
-For locale awareness, use `locale-caseless=` alternative function.
 
 
 === ltrim
@@ -712,24 +691,6 @@ Checks if a string contains only numeric characters.
 ----
 
 
-[[digits]]
-=== digits?
-
-Checks if a string contains only digits.
-
-[source, clojure]
-----
-(str/digits? nil)
-;; => false
-
-(str/digits? "1.1")
-;; => false
-
-(str/digits? "210")
-;; => true
-----
-
-
 === pad
 
 Pads the str with characters until the total string length is equal to
@@ -756,11 +717,10 @@ By default, pads on the left with the space char.
 ----
 
 
+[[parse-double]]
 === parse-double
 
-WARNING: only on *clojure*
-
-Returns a number value in integer form. Wraps parseInt.
+Parses string into a double:
 
 [source, clojure]
 ----
@@ -772,30 +732,10 @@ Returns a number value in integer form. Wraps parseInt.
 ----
 
 
-=== parse-float
-
-WARNING: only on *clojurescript*
-
-Returns a float value. Wraps parseFloat.
-
-[source, clojure]
-----
-(str/parse-float "1.4")
-;; => 1.4
-
-(str/parse-float "1")
-;; => 1.0
-
-(str/parse-float nil)
-;; => NaN
-----
-
-
+[[parse-int]]
 === parse-int
 
-WARNING: only on *clojurescript*
-
-Returns a number value in integer form. Wraps parseInt.
+Parses string into a integer:
 
 [source, clojure]
 ----
@@ -807,25 +747,7 @@ Returns a number value in integer form. Wraps parseInt.
 ----
 
 
-=== parse-long
-
-WARNING: only on *clojure*
-
-Returns a number value in integer form. Wraps parseInt.
-
-[source, clojure]
-----
-(str/parse-long "1.4")
-;; => 1
-
-(str/parse-long nil)
-;; => NaN
-----
-
-
 === parse-number
-
-WARNING: only on *clojurescript*
 
 General purpose function for parse number like strings to number. It
 works with integers and floats.
@@ -835,10 +757,10 @@ works with integers and floats.
 (str/parse-number "1.4")
 ;; => 1
 
-(str/parse-number "1.4" 1)
+(str/parse-number "1.4")
 ;; => 1.4
 
-(str/parse-number "1" 2)
+(str/parse-number "1")
 ;; => 1
 
 (str/parse-number "")
@@ -1291,6 +1213,42 @@ Unsurround a string surrounded by another.
 ----
 
 
+[[upper]]
+=== upper
+
+Convert a string to all upper-case in a locale independent manner:
+
+[source, clojure]
+----
+(str/upper "foobar")
+;; => "FOOBAR"
+
+(str/upper nil)
+;; => nil
+----
+
+For locale awareness, use `locale-upper` alternative function.
+
+
+[[word]]
+=== word?
+
+This is a unicode aware version of `alnum?`.
+
+[source, clojure]
+----
+(str/word? nil)
+;; => false
+
+(str/word? "")
+;; => false
+
+(str/word? "Русский222")
+;; => true
+----
+
+
+[[words]]
 === words
 
 Returns a vector of the words in the string. Can be provided with a regular
