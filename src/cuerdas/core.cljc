@@ -595,16 +595,18 @@
   (some-> (stylize-split s)
           (stylize-join lower "-")))
 
+(def ^:private +slug-tr-map+
+  (zipmap "ąàáäâãåæăćčĉęèéëêĝĥìíïîĵłľńňòóöőôõðøśșšŝťțŭùúüűûñÿýçżźž"
+          "aaaaaaaaaccceeeeeghiiiijllnnoooooooossssttuuuuuunyyczzz"))
+
 (defn slug
   "Transform text into a URL slug."
   [s]
-  (when s
-    (-> (lower s)
-        (name)
-        (str/escape (zipmap "ąàáäâãåæăćčĉęèéëêĝĥìíïîĵłľńňòóöőôõðøśșšŝťțŭùúüűûñÿýçżźž"
-                            "aaaaaaaaaccceeeeeghiiiijllnnoooooooossssttuuuuuunyyczzz"))
-        (replace #"[^\w\s]+" "")
-        (kebab))))
+  (some-> (lower s)
+          (str/escape +slug-tr-map+)
+          (replace #"[^\w\s]+" "")
+          (replace #"\s+" "-")))
+
 
 (defn keyword
   "Safer version of clojure keyword, accepting a
