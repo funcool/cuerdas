@@ -2,7 +2,7 @@
 
 ## Version 1.0.0
 
-Date: Unreleased
+Date: 2016-08-29
 
 Important: this is a major release and includes many *breaking changes*
 among other fixes and improvements. A proper backward compatibility aliases
