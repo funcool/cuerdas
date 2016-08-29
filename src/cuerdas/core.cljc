@@ -127,6 +127,54 @@
   (when-not (nil? s)
     (.toUpperCase #?(:clj ^String s :cljs s))))
 
+(defn locale-lower
+  "Converts string to all lower-case respecting
+  the current system locale.
+
+  In the jvm you can provide a concrete locale to
+  use as the second optional argument."
+  ([s]
+   (.toLocaleLowerCase #?(:clj ^String s :cljs s)))
+  #?(:clj
+     ([s locale]
+      {:pre [(instance? Locale locale)]}
+      (.toLocaleLowerCase ^String s ^Locale locale))))
+
+(defn locale-upper
+  "Converts string to all upper-case respecting
+  the current system locale.
+
+  In the jvm you can provide a concrete locale to
+  use as the second optional argument."
+  ([s]
+   (.toLocaleUpperCase #?(:clj ^String s :cljs s)))
+  #?(:clj
+     ([s locale]
+      {:pre [(instance? Locale locale)]}
+      (.toLocaleUpperCase ^String s ^Locale locale))))
+
+(defn caseless=
+  "Compare strings in a case-insensitive manner.
+
+  This function is locale independent."
+  [s1 s2]
+  (when (and (string? s1) (string? s2))
+    #?(:clj  (.equalsIgnoreCase ^String s1 ^String s2)
+       :cljs (= (lower s1) (lower s2)))))
+
+(defn locale-caseless=
+  "Compare strings in a case-insensitive manner
+  respecting the current locale.
+
+  An optional locale can be passed as third
+  argument (only on JVM)."
+  ([s1 s2]
+   (when (and (string? s1) (string? s2))
+     (= (locale-lower s1) (locale-lower s2))))
+  #?(:clj
+     ([s1 s2 locale]
+      (= (locale-lower s1 locale) (locale-lower s2 locale)))))
+
 (defn blank?
   "Checks if a string is empty or contains only whitespace."
   [^String s]
