@@ -859,3 +859,16 @@
      `(str ~@(interpolate (apply str strings)))))
 
 ;; --- End String Interpolation
+
+;; Backward compatibility aliases.
+
+(def ^:deprecated slugify slug)
+(def ^:deprecated dasherize kebab)
+(def ^:deprecated underscore snake)
+(def ^:deprecated classify pascal)
+(def ^:deprecated humanize human)
+(def ^:deprecated titleize title)
+(def ^:deprecated alpha-numeric? alnum?)
+(def ^:deprecated parse-long parse-int)
+(def ^:deprecated parse-float parse-double)
+
