@@ -22,6 +22,8 @@
 
   (t/testing "collapse-whitespace"
     (t/is (= nil (str/collapse-whitespace nil)))
+    (t/is (= "a b" (str/collapse-whitespace "a\u2003b")))
+    (t/is (= "a b" (str/collapse-whitespace "a\u3000b")))
     (t/is (= "a b c" (str/collapse-whitespace "a  b\n c"))))
 
   (t/testing "contains?"
@@ -82,19 +84,47 @@
     (t/is (not (str/alpha? "test\ntest")))
     (t/is (str/alpha? "Test")))
 
-  (t/testing "numeric?"
-    (t/is (empty-tests str/alpha?))
-    (t/is (not (str/numeric? "test1")))
-    (t/is (not (str/numeric? "1.1")))
-    (t/is (not (str/numeric? "1\n1")))
-    (t/is (str/numeric? "0123")))
+  (t/testing "digits?"
+    (t/is (empty-tests str/digits?))
+    (t/is (not (str/digits? "test1")))
+    (t/is (not (str/digits? "1.1")))
+    (t/is (not (str/digits? "1\n1")))
+    (t/is (str/digits? "0123")))
 
-  (t/testing "alpha-numeric?"
-    (t/is (empty-tests str/alpha-numeric?))
-    (t/is (str/alpha-numeric? "test1"))
-    (t/is (not (str/alpha-numeric? "test.1")))
-    (t/is (not (str/alpha-numeric? "test\n1")))
-    (t/is (str/alpha-numeric? "0A1B2C")))
+  (t/testing "numeric?"
+    (t/is (str/numeric? "1"))
+    (t/is (str/numeric? "+1"))
+    (t/is (str/numeric? "-1"))
+    (t/is (str/numeric? "1.1"))
+    (t/is (str/numeric? "+1.1"))
+    (t/is (str/numeric? "+1.1e2"))
+    (t/is (not (str/numeric? "_1.1")))
+    (t/is (not (str/numeric? "test"))))
+
+  (t/testing "letters?"
+    (t/is (str/letters? "hello"))
+    (t/is (str/letters? "Русский"))
+    (t/is (str/letters? "日本語"))
+    (t/is (str/letters? "العربية")))
+
+  (t/testing "word?"
+    (t/is (str/word? "world2000"))
+    (t/is (str/word? "world⑤"))
+    (t/is (str/word? "he_ll-o"))
+    (t/is (str/word? "Русс_кий"))
+    (t/is (str/word? "日_本-語"))
+    (t/is (str/word? "ال-ع_ربية")))
+
+  (t/testing "uslug"
+    (t/is (nil? (str/uslug nil)))
+    (t/is (= "русский-001-foobar" (str/uslug "Русский 001   foobar"))))
+
+  (t/testing "alnum?"
+    (t/is (empty-tests str/alnum?))
+    (t/is (str/alnum? "test1"))
+    (t/is (not (str/alnum? "test.1")))
+    (t/is (not (str/alnum? "test\n1")))
+    (t/is (str/alnum? "0A1B2C")))
 
   (t/testing "repeat"
     (t/is (= "a" (str/repeat "a")))
@@ -104,6 +134,7 @@
   (t/testing "slice"
     (t/is (= "bc" (str/slice "abc" 1)))
     (t/is (= "bc" (str/slice "abcd" 1 3)))
+    (t/is (= "morning is upon u" (str/slice "The morning is upon us." 4 -2)))
     (t/is (= nil (str/slice nil 1))))
 
   (t/testing "strip-newlines"
@@ -332,7 +363,7 @@
     (t/is (= "" (str/unlines []))))
 
   (t/testing "words"
-    (t/is (= [] (str/words nil)))
+    (t/is (= nil (str/words nil)))
     (t/is (= [] (str/words "")))
     (t/is (= ["test"] (str/words "test")))
     (t/is (= ["one" "two" "3"] (str/words "  one, two 3.  ")))
