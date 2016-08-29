@@ -4,7 +4,7 @@
 
 (let [start (System/nanoTime)]
   (b/build
-   (b/inputs "test" "src")
+   (b/inputs "test" "src" "assets")
    {:main 'cuerdas.core-tests
     :output-to "out/tests.js"
     :output-dir "out"
