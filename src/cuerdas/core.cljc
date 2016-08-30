@@ -732,8 +732,8 @@
     (nil? s) nil
     (nil? prefix) nil
     (nil? suffix) nil
-    (not (contains? s prefix)) nil
-    (not (contains? s suffix)) nil
+    (not (includes? s prefix)) nil
+    (not (includes? s suffix)) nil
     :else
     (some-> s
             (split prefix)
