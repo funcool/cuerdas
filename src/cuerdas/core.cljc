@@ -863,3 +863,4 @@
 (def ^:deprecated alpha-numeric? alnum?)
 (def ^:deprecated parse-long parse-int)
 (def ^:deprecated parse-float parse-double)
+(def ^:deprecated contains? includes?)
