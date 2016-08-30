@@ -288,11 +288,6 @@
      #?(:clj  (join (clojure.core/repeat n s))
         :cljs (gstr/repeat s n)))))
 
-(defn includes?
-  [s v]
-  (when-not (nil? s)
-    (str/includes? s v)))
-
 #?(:cljs
    (defn- replace-all
      [s re replacement]
