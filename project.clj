@@ -9,5 +9,11 @@
   :source-paths ["src" "assets"]
   :test-paths ["test"]
 
-  :jar-exclusions [#"\.swp|\.swo|user.clj"])
+  :jar-exclusions [#"\.swp|\.swo|user.clj"]
+
+  :profiles
+  {:dev {:aliases {"test-all" ["with-profile" "dev,1.9:dev,1.7:dev" "test"]}}
+   :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha11"]]}
+   :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}})
+
 

@@ -3,6 +3,7 @@ sudo: false
 lein: lein
 
 script:
+  lein test-all
   - ./scripts/build
   - nvm install v6.4.0
   - node --version
