@@ -136,7 +136,7 @@ Identify strings with these boolean returning functions.
 <<letters,`letters?`>>,
 <<word,`word?`>>,
 <<blank,`blank?`>>,
-<<contains,`contains?`>>,
+<<includes,`includes?`>>,
 <<empty,`empty?`>>,
 <<ends-with,`ends-with?`>>,
 <<starts-with,`starts-with?`>>
@@ -369,23 +369,6 @@ Converts any adjacent whitespace characters to a single space.
 ----
 
 
-=== contains?
-
-Determines whether a string contains a substring.
-
-[source, clojure]
-----
-(str/contains? "foobar" "bar")
-;; => true
-
-(str/contains? "foobar" nil)
-;; => false
-
-(str/contains? nil nil)
-;; => false
-----
-
-
 === css-selector
 
 Convert a JavaScript style selector to CSS style selector
@@ -529,6 +512,24 @@ Convert a string or keyword to a human friendly string
 
 (str/human nil)
 ;; => nil
+----
+
+
+[[includes]]
+=== includes?
+
+Determines whether a string includes a substring.
+
+[source, clojure]
+----
+(str/includes? "foobar" "bar")
+;; => true
+
+(str/includes? "foobar" nil)
+;; => false
+
+(str/includes? nil nil)
+;; => false
 ----
 
 
