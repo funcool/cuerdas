@@ -1,6 +1,6 @@
 = cuerdas
 Andrey Antukh, <niwi@niwi.nz>
-0.8.0
+1.0.0
 :toc: left
 :source-highlighter: pygments
 :pygments-style: friendly
