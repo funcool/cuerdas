@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 1.0.1
+
+Date: 2016-08-30
+
+- Fix compatibility issue with clojure 1.7 due to the internal
+  usage of clojure.string/includes? that has been introduced in 1.8.
+- Mark deprecated the `contains?` predicate because it is identical to
+  `includes?`.
+  
+
 ## Version 1.0.0
 
 Date: 2016-08-29
