@@ -26,12 +26,12 @@
     (t/is (= "a b" (str/collapse-whitespace "a\u3000b")))
     (t/is (= "a b c" (str/collapse-whitespace "a  b\n c"))))
 
-  (t/testing "contains?"
-    (t/is (str/contains? "abc" "ab"))
-    (t/is (str/contains? "abc" ""))
-    (t/is (not (str/contains? "abc" "cba")))
-    (t/is (not (str/contains? "abc" nil)))
-    (t/is (not (str/contains? nil nil))))
+  (t/testing "includes?"
+    (t/is (str/includes? "abc" "ab"))
+    (t/is (str/includes? "abc" ""))
+    (t/is (not (str/includes? "abc" "cba")))
+    (t/is (not (str/includes? "abc" nil)))
+    (t/is (not (str/includes? nil nil))))
 
   (t/testing "startswith?"
     (t/is (str/startswith? "abc" "ab"))
