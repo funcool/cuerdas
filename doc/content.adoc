@@ -1264,7 +1264,7 @@ expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
 (str/words "foo, bar")
 ;; => ["foo" "bar"]
 
-(str/words "foo, bar." #"[^, ]")
+(str/words "foo, bar." #"[^, ]+")
 ;; => ["foo" "bar."]
 ----
 
