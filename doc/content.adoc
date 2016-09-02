@@ -206,18 +206,18 @@ symbol substitutions and simple expression evaluation.
 ----
 (def value 30)
 
-(str/fmt "value = ~{value}")
+(str/<< "value = ~{value}")
 ;; => "value = 30"
 
-(str/fmt "value = ~(inc value)")
+(str/<< "value = ~(inc value)")
 ;; => "value = 31"
 ----
 
-The `fmt` macro is variadic and allows arbitrary number of arguments
+The `<<` macro is variadic and allows arbitrary number of arguments
 that will be concatenated on the final return value:
 
 ----
-(str/fmt "the value "
+(str/<< "the value "
          "is ~{v}")
 ;; => "the value is 30"
 ----
