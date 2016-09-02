@@ -216,6 +216,7 @@ symbol substitutions and simple expression evaluation.
 The `<<` macro is variadic and allows arbitrary number of arguments
 that will be concatenated on the final return value:
 
+[source, clojure]
 ----
 (str/<< "the value "
         "is ~{value}")
