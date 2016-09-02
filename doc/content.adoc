@@ -430,7 +430,7 @@ Check if the string is empty.
 
 Check if the string ends with suffix.
 
-Alias: endswith?
+Alias: `endswith?`
 
 [source, clojure]
 ----
