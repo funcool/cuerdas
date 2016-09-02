@@ -173,7 +173,7 @@ String processing building blocks.
 [[unindent]]
 === +++<<-+++
 
-Unindent lines. Either strip preceeding whitespace automatically or
+Unindent lines. Either strip preceding whitespace automatically or
 with a user supplied regex.
 
 [source, clojure]
@@ -453,7 +453,7 @@ The string formating works in two main modes: indexed and associative.
 
 The indexed mode is the most simple and consists in using `%s` tokens in the string
 indicating the position where interpolation should be done and an arbitrary number
-of non associate arguments. Format will replace all `%s` occurences with the
+of non associate arguments. Format will replace all `%s` occurrences with the
 provided values in ordered mode:
 
 [source, clojure]
@@ -462,7 +462,7 @@ provided values in ordered mode:
 ;; => "hello yen and ciri"
 ----
 
-If you don't provide enough values, the `%s` tokens will be keeped intouched:
+If you don't provide enough values, the `%s` tokens won't be changed:
 
 [source, clojure]
 ----
@@ -584,7 +584,7 @@ Convert a string or keyword into a kebab-cased-string.
 
 === keyword
 
-A more helpful and forigiving version of `clojure.core/keyword`.
+A more helpful and forgiving version of `clojure.core/keyword`.
 
 [source, clojure]
 ----
@@ -808,7 +808,7 @@ capitalized, spaced string
 
 === prune
 
-Truncates a string to certain width and adds "..." if necesary. Making
+Truncates a string to certain width and adds "..." if necessary. Making
 sure that the pruned string does not exceed the original length and avoid
 half-chopped words when truncating.
 
@@ -858,7 +858,7 @@ Repeats string N times.
 
 === replace
 
-Replaces all instance of match with replacement in s.
+Replaces all instances of match with replacement in s.
 
 [source, clojure]
 ----
@@ -892,7 +892,7 @@ Replaces first instance of match with replacement in s.
 
 === reverse
 
-Return strign reverted
+Return string reverted
 
 [source, clojure]
 ----
