@@ -218,7 +218,7 @@ that will be concatenated on the final return value:
 
 ----
 (str/<< "the value "
-         "is ~{v}")
+        "is ~{value}")
 ;; => "the value is 30"
 ----
 
