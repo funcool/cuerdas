@@ -508,7 +508,7 @@ Convert a string or keyword to a human friendly string
 (str/human "JustNiceForReading")
 ;; => "just nice for reading"
 
-(str/human :great-for-csv-headers
+(str/human :great-for-csv-headers)
 ;; => "great for csv headers"
 
 (str/human nil)
