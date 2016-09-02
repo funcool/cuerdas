@@ -808,7 +808,7 @@ capitalized, spaced string
 
 === prune
 
-Truncates a string to certain left and adds "..." if necesary. Making
+Truncates a string to certain width and adds "..." if necesary. Making
 sure that the pruned string does not exceed the original length and avoid
 half-chopped words when truncating.
 
