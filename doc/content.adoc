@@ -660,7 +660,7 @@ For locale awareness, use `locale-lower` alternative function.
 Removes whitespace or specified characters from
 left side of string.
 
-Alias: _lstrip_
+Alias: `lstrip`
 
 [source, clojure]
 ----
@@ -909,7 +909,7 @@ Return strign reverted
 Removes whitespace or specified characters from
 right side of string.
 
-Alias: _rstrip_
+Alias: `rstrip`
 
 [source, clojure]
 ----
@@ -1006,7 +1006,7 @@ The separator can be a string or RegExp instance.
 
 Check if the string starts with prefix.
 
-Alias: startswith?
+Alias: `startswith?`
 
 [source, clojure]
 ----
@@ -1154,7 +1154,7 @@ Returns true for 1/on/true/yes string values (case-insensitive), false otherwise
 Removes whitespace or specified characters from
 both ends of string.
 
-Alias: _strip_
+Alias: `strip`
 
 [source, clojure]
 ----
