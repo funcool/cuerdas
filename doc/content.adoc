@@ -695,7 +695,7 @@ Checks if a string contains only numeric characters.
 
 === pad
 
-Pads the str with characters until the total string length is equal to
+Pads the string with characters until the total string length is equal to
 the passed length parameter.
 
 By default, pads on the left with the space char.
