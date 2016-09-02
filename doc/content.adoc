@@ -798,7 +798,7 @@ capitalized, spaced string
 (str/phrase "  capitalize dash-CamelCase_underscore trim  ")
 ;; => "Capitalize dash camel case underscore trim"
 
-(str/phrase :nobody-uses-keywords-this-long-but-it-still-works
+(str/phrase :nobody-uses-keywords-this-long-but-it-still-works)
 ;; => "Nobody uses keywords this long but it still works"
 
 (str/phrase nil)
