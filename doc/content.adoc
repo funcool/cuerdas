@@ -1127,7 +1127,7 @@ with each word capitalized.
 (str/title "a tale of two cities")
 ;; => "A Tale Of Two Cities"
 
-(str/title :title-case
+(str/title :title-case)
 ;; => "Title Case"
 
 (str/title nil)
