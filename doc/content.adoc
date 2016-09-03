@@ -173,7 +173,7 @@ String processing building blocks.
 [[unindent]]
 === +++<<-+++
 
-Unindent lines. Either strip preceeding whitespace automatically or
+Unindent lines. Either strip preceding whitespace automatically or
 with a user supplied regex.
 
 [source, clojure]
@@ -206,19 +206,20 @@ symbol substitutions and simple expression evaluation.
 ----
 (def value 30)
 
-(str/fmt "value = ~{value}")
+(str/<< "value = ~{value}")
 ;; => "value = 30"
 
-(str/fmt "value = ~(inc value)")
+(str/<< "value = ~(inc value)")
 ;; => "value = 31"
 ----
 
-The `fmt` macro is variadic and allows arbitrary number of arguments
+The `<<` macro is variadic and allows arbitrary number of arguments
 that will be concatenated on the final return value:
 
+[source, clojure]
 ----
-(str/fmt "the value "
-         "is ~{v}")
+(str/<< "the value "
+        "is ~{value}")
 ;; => "the value is 30"
 ----
 
@@ -429,7 +430,7 @@ Check if the string is empty.
 
 Check if the string ends with suffix.
 
-Alias: endswith?
+Alias: `endswith?`
 
 [source, clojure]
 ----
@@ -452,7 +453,7 @@ The string formating works in two main modes: indexed and associative.
 
 The indexed mode is the most simple and consists in using `%s` tokens in the string
 indicating the position where interpolation should be done and an arbitrary number
-of non associate arguments. Format will replace all `%s` occurences with the
+of non associate arguments. Format will replace all `%s` occurrences with the
 provided values in ordered mode:
 
 [source, clojure]
@@ -461,7 +462,7 @@ provided values in ordered mode:
 ;; => "hello yen and ciri"
 ----
 
-If you don't provide enough values, the `%s` tokens will be keeped intouched:
+If you don't provide enough values, the `%s` tokens won't be changed:
 
 [source, clojure]
 ----
@@ -507,7 +508,7 @@ Convert a string or keyword to a human friendly string
 (str/human "JustNiceForReading")
 ;; => "just nice for reading"
 
-(str/human :great-for-csv-headers
+(str/human :great-for-csv-headers)
 ;; => "great for csv headers"
 
 (str/human nil)
@@ -583,7 +584,7 @@ Convert a string or keyword into a kebab-cased-string.
 
 === keyword
 
-A more helpful and forigiving version of `clojure.core/keyword`.
+A more helpful and forgiving version of `clojure.core/keyword`.
 
 [source, clojure]
 ----
@@ -659,7 +660,7 @@ For locale awareness, use `locale-lower` alternative function.
 Removes whitespace or specified characters from
 left side of string.
 
-Alias: _lstrip_
+Alias: `lstrip`
 
 [source, clojure]
 ----
@@ -694,7 +695,7 @@ Checks if a string contains only numeric characters.
 
 === pad
 
-Pads the str with characters until the total string length is equal to
+Pads the string with characters until the total string length is equal to
 the passed length parameter.
 
 By default, pads on the left with the space char.
@@ -797,7 +798,7 @@ capitalized, spaced string
 (str/phrase "  capitalize dash-CamelCase_underscore trim  ")
 ;; => "Capitalize dash camel case underscore trim"
 
-(str/phrase :nobody-uses-keywords-this-long-but-it-still-works
+(str/phrase :nobody-uses-keywords-this-long-but-it-still-works)
 ;; => "Nobody uses keywords this long but it still works"
 
 (str/phrase nil)
@@ -807,7 +808,7 @@ capitalized, spaced string
 
 === prune
 
-Truncates a string to certain left and adds "..." if necesary. Making
+Truncates a string to certain width and adds "..." if necessary. Making
 sure that the pruned string does not exceed the original length and avoid
 half-chopped words when truncating.
 
@@ -857,7 +858,7 @@ Repeats string N times.
 
 === replace
 
-Replaces all instance of match with replacement in s.
+Replaces all instances of match with replacement in s.
 
 [source, clojure]
 ----
@@ -891,7 +892,7 @@ Replaces first instance of match with replacement in s.
 
 === reverse
 
-Return strign reverted
+Return string reverted
 
 [source, clojure]
 ----
@@ -908,7 +909,7 @@ Return strign reverted
 Removes whitespace or specified characters from
 right side of string.
 
-Alias: _rstrip_
+Alias: `rstrip`
 
 [source, clojure]
 ----
@@ -1005,7 +1006,7 @@ The separator can be a string or RegExp instance.
 
 Check if the string starts with prefix.
 
-Alias: startswith?
+Alias: `startswith?`
 
 [source, clojure]
 ----
@@ -1126,7 +1127,7 @@ with each word capitalized.
 (str/title "a tale of two cities")
 ;; => "A Tale Of Two Cities"
 
-(str/title :title-case
+(str/title :title-case)
 ;; => "Title Case"
 
 (str/title nil)
@@ -1153,7 +1154,7 @@ Returns true for 1/on/true/yes string values (case-insensitive), false otherwise
 Removes whitespace or specified characters from
 both ends of string.
 
-Alias: _strip_
+Alias: `strip`
 
 [source, clojure]
 ----
@@ -1263,7 +1264,7 @@ expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
 (str/words "foo, bar")
 ;; => ["foo" "bar"]
 
-(str/words "foo, bar." #"[^, ]")
+(str/words "foo, bar." #"[^, ]+")
 ;; => ["foo" "bar."]
 ----
 
