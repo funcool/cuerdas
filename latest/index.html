@@ -373,7 +373,7 @@ leading capitals and dashes:</p>
 <div class="sect2">
 <h3 id="unindent"><a class="link" href="#unindent"><<-</a></h3>
 <div class="paragraph">
-<p>Unindent lines. Either strip preceeding whitespace automatically or
+<p>Unindent lines. Either strip preceding whitespace automatically or
 with a user supplied regex.</p>
 </div>
 <div class="listingblock">
@@ -408,22 +408,22 @@ symbol substitutions and simple expression evaluation.</p>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">value</span> <span class="tok-mi">30</span><span class="tok-p">)</span>
 
-<span class="tok-p">(</span><span class="tok-nf">str/fmt</span> <span class="tok-s">&quot;value = ~{value}&quot;</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nf">str/&lt;&lt;</span> <span class="tok-s">&quot;value = ~{value}&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;value = 30&quot;</span>
 
-<span class="tok-p">(</span><span class="tok-nf">str/fmt</span> <span class="tok-s">&quot;value = ~(inc value)&quot;</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nf">str/&lt;&lt;</span> <span class="tok-s">&quot;value = ~(inc value)&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;value = 31&quot;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>fmt</code> macro is variadic and allows arbitrary number of arguments
+<p>The <code>&lt;&lt;</code> macro is variadic and allows arbitrary number of arguments
 that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>(str/fmt "the value "
-         "is ~{v}")
-;; =&gt; "the value is 30"</pre>
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/&lt;&lt;</span> <span class="tok-s">&quot;the value &quot;</span>
+        <span class="tok-s">&quot;is ~{value}&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;the value is 30&quot;</span></code></pre>
 </div>
 </div>
 </div>
@@ -640,7 +640,7 @@ that will be concatenated on the final return value:</p>
 <p>Check if the string ends with suffix.</p>
 </div>
 <div class="paragraph">
-<p>Alias: endswith?</p>
+<p>Alias: <code>endswith?</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -666,7 +666,7 @@ that will be concatenated on the final return value:</p>
 <div class="paragraph">
 <p>The indexed mode is the most simple and consists in using <code>%s</code> tokens in the string
 indicating the position where interpolation should be done and an arbitrary number
-of non associate arguments. Format will replace all <code>%s</code> occurences with the
+of non associate arguments. Format will replace all <code>%s</code> occurrences with the
 provided values in ordered mode:</p>
 </div>
 <div class="listingblock">
@@ -676,7 +676,7 @@ provided values in ordered mode:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>If you don&#8217;t provide enough values, the <code>%s</code> tokens will be keeped intouched:</p>
+<p>If you don&#8217;t provide enough values, the <code>%s</code> tokens won&#8217;t be changed:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -727,7 +727,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/human</span> <span class="tok-s">&quot;JustNiceForReading&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;just nice for reading&quot;</span>
 
-<span class="tok-p">(</span><span class="tok-nf">str/human</span> <span class="tok-ss">:great-for-csv-headers</span>
+<span class="tok-p">(</span><span class="tok-nf">str/human</span> <span class="tok-ss">:great-for-csv-headers</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;great for csv headers&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/human</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -807,7 +807,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 <div class="sect2">
 <h3 id="keyword"><a class="link" href="#keyword">keyword</a></h3>
 <div class="paragraph">
-<p>A more helpful and forigiving version of <code>clojure.core/keyword</code>.</p>
+<p>A more helpful and forgiving version of <code>clojure.core/keyword</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -887,7 +887,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 left side of string.</p>
 </div>
 <div class="paragraph">
-<p>Alias: <em>lstrip</em></p>
+<p>Alias: <code>lstrip</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -923,7 +923,7 @@ left side of string.</p>
 <div class="sect2">
 <h3 id="pad"><a class="link" href="#pad">pad</a></h3>
 <div class="paragraph">
-<p>Pads the str with characters until the total string length is equal to
+<p>Pads the string with characters until the total string length is equal to
 the passed length parameter.</p>
 </div>
 <div class="paragraph">
@@ -1030,7 +1030,7 @@ capitalized, spaced string</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/phrase</span> <span class="tok-s">&quot;  capitalize dash-CamelCase_underscore trim  &quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;Capitalize dash camel case underscore trim&quot;</span>
 
-<span class="tok-p">(</span><span class="tok-nf">str/phrase</span> <span class="tok-ss">:nobody-uses-keywords-this-long-but-it-still-works</span>
+<span class="tok-p">(</span><span class="tok-nf">str/phrase</span> <span class="tok-ss">:nobody-uses-keywords-this-long-but-it-still-works</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;Nobody uses keywords this long but it still works&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/phrase</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1041,7 +1041,7 @@ capitalized, spaced string</p>
 <div class="sect2">
 <h3 id="prune"><a class="link" href="#prune">prune</a></h3>
 <div class="paragraph">
-<p>Truncates a string to certain left and adds "&#8230;&#8203;" if necesary. Making
+<p>Truncates a string to certain width and adds "&#8230;&#8203;" if necessary. Making
 sure that the pruned string does not exceed the original length and avoid
 half-chopped words when truncating.</p>
 </div>
@@ -1094,7 +1094,7 @@ half-chopped words when truncating.</p>
 <div class="sect2">
 <h3 id="replace"><a class="link" href="#replace">replace</a></h3>
 <div class="paragraph">
-<p>Replaces all instance of match with replacement in s.</p>
+<p>Replaces all instances of match with replacement in s.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1130,7 +1130,7 @@ half-chopped words when truncating.</p>
 <div class="sect2">
 <h3 id="reverse"><a class="link" href="#reverse">reverse</a></h3>
 <div class="paragraph">
-<p>Return strign reverted</p>
+<p>Return string reverted</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1149,7 +1149,7 @@ half-chopped words when truncating.</p>
 right side of string.</p>
 </div>
 <div class="paragraph">
-<p>Alias: <em>rstrip</em></p>
+<p>Alias: <code>rstrip</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1251,7 +1251,7 @@ The separator can be a string or RegExp instance.</p>
 <p>Check if the string starts with prefix.</p>
 </div>
 <div class="paragraph">
-<p>Alias: startswith?</p>
+<p>Alias: <code>startswith?</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1379,7 +1379,7 @@ with each word capitalized.</p>
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/title</span> <span class="tok-s">&quot;a tale of two cities&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;A Tale Of Two Cities&quot;</span>
 
-<span class="tok-p">(</span><span class="tok-nf">str/title</span> <span class="tok-ss">:title-case</span>
+<span class="tok-p">(</span><span class="tok-nf">str/title</span> <span class="tok-ss">:title-case</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;Title Case&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/title</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1409,7 +1409,7 @@ with each word capitalized.</p>
 both ends of string.</p>
 </div>
 <div class="paragraph">
-<p>Alias: <em>strip</em></p>
+<p>Alias: <code>strip</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1523,7 +1523,7 @@ expression that matches a single word (defaults to <code>[a-zA-Z0-9_-]+</code>).
 <span class="tok-p">(</span><span class="tok-nf">str/words</span> <span class="tok-s">&quot;foo, bar&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; [&quot;foo&quot; &quot;bar&quot;]</span>
 
-<span class="tok-p">(</span><span class="tok-nf">str/words</span> <span class="tok-s">&quot;foo, bar.&quot;</span> <span class="tok-o">#</span><span class="tok-s">&quot;[^, ]&quot;</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nf">str/words</span> <span class="tok-s">&quot;foo, bar.&quot;</span> <span class="tok-o">#</span><span class="tok-s">&quot;[^, ]+&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; [&quot;foo&quot; &quot;bar.&quot;]</span></code></pre>
 </div>
 </div>
@@ -1611,7 +1611,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-08-30 18:35:20 EEST
+Last updated 2016-09-03 11:03:19 EEST
 </div>
 </div>
 </body>
