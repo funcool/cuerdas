@@ -174,11 +174,11 @@
 (defn blank?
   "Checks if a string is empty or contains only whitespace."
   [^String s]
-  (or (nil? s)
-      (and (string? s)
-           (or (zero? (count s))
-               (boolean (-> (rx/enhace #"^[\s\p{Z}]+$")
-                            (re-matches s)))))))
+  (when-not (nil? s)
+    (and (string? s)
+         (or (zero? (count s))
+             (boolean (-> (rx/enhace #"^[\s\p{Z}]+$")
+                          (re-matches s)))))))
 
 (defn alpha?
   "Checks if a string contains only alpha characters."
