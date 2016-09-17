@@ -16,7 +16,7 @@ Date: 2016-08-30
   usage of clojure.string/includes? that has been introduced in 1.8.
 - Mark deprecated the `contains?` predicate because it is identical to
   `includes?`.
-  
+
 
 ## Version 1.0.0
 
