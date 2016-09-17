@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 1.0.2
+
+Date: 2016-09-17
+
+- Return boolean type instead logical boolean from `blank?`, `alpha?`, `alnum?`
+  `digits?`, `word?`, `letters?` and `numeric?` predicates.
+
+
 ## Version 1.0.1
 
 Date: 2016-08-30
