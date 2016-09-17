@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.0.0-SNAPSHOT
+
+Date: unreleased
+
+- The `blank?` predicate now properly returns `nil` if `nil` value is provided.
+  (BREAKING CHANGE).
+
+
 ## Version 1.0.2
 
 Date: 2016-09-17
