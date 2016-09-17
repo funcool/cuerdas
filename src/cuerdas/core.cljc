@@ -177,46 +177,46 @@
   (or (nil? s)
       (and (string? s)
            (or (zero? (count s))
-               (-> (rx/enhace #"^[\s\p{Z}]+$")
-                   (re-matches s))))))
+               (boolean (-> (rx/enhace #"^[\s\p{Z}]+$")
+                            (re-matches s)))))))
 
 (defn alpha?
   "Checks if a string contains only alpha characters."
   [s]
   (when (string? s)
-    (re-matches #"^[a-zA-Z]+$" s)))
+    (boolean (re-matches #"^[a-zA-Z]+$" s))))
 
 (defn digits?
   "Checks if a string contains only digit characters."
   [s]
   (when (string? s)
-    (re-matches #"^[0-9]+$" s)))
+    (boolean (re-matches #"^[0-9]+$" s))))
 
 (defn alnum?
   "Checks if a string contains only alphanumeric characters."
   [s]
   (when (string? s)
-    (re-matches #"^[a-zA-Z0-9]+$" s)))
+    (boolean (re-matches #"^[a-zA-Z0-9]+$" s))))
 
 (defn word?
   "Checks if a string contains only the word characters.
   This function will use all the unicode range."
   [s]
   (when (string? s)
-    (re-matches (rx/enhace #"^[\p{N}\p{L}_-]+$") s)))
+    (boolean (re-matches (rx/enhace #"^[\p{N}\p{L}_-]+$") s))))
 
 (defn letters?
   "Checks if string contains only letters.
   This function will use all the unicode range."
   [s]
   (when (string? s)
-    (re-matches (rx/enhace #"^\p{L}+$") s)))
+    (boolean (re-matches (rx/enhace #"^\p{L}+$") s))))
 
 (defn numeric?
   "Check if a string contains only numeric values."
   [s]
   (when (string? s)
-    (re-matches #"^[+-]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+-]?[0-9]+)?$" s)))
+    (boolean (re-matches #"^[+-]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+-]?[0-9]+)?$" s))))
 
 (declare replace)
 
