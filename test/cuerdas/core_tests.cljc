@@ -74,7 +74,7 @@
   (t/testing "blank?"
     (t/is (str/blank? ""))
     (t/is (str/blank? " "))
-    (t/is (str/blank? nil))
+    (t/is (not (str/blank? nil)))
     (t/is (not (str/blank? " s "))))
 
   (t/testing "alpha?"
