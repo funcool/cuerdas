@@ -1,4 +1,4 @@
-(defproject funcool/cuerdas "1.0.1"
+(defproject funcool/cuerdas "1.0.2"
   :description "The missing string manipulation library for clojure"
   :url "https://github.com/funcool/cuerdas"
   :license {:name "BSD (2-Clause)"
@@ -13,7 +13,7 @@
 
   :profiles
   {:dev {:aliases {"test-all" ["with-profile" "dev,1.9:dev,1.7:dev" "test"]}}
-   :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha11"]]}
+   :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha12"]]}
    :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}})
 
 
