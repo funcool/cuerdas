@@ -856,6 +856,7 @@
 (def ^:deprecated slugify slug)
 (def ^:deprecated dasherize kebab)
 (def ^:deprecated underscore snake)
+(def ^:deprecated underscored snake)
 (def ^:deprecated classify pascal)
 (def ^:deprecated humanize human)
 (def ^:deprecated titleize title)

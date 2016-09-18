@@ -6,6 +6,7 @@ Date: unreleased
 
 - The `blank?` predicate now properly returns `nil` if `nil` value is provided.
   (BREAKING CHANGE).
+- Add missing `underscored` deprecated alias.
 
 
 ## Version 1.0.2
