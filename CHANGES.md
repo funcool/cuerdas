@@ -7,6 +7,10 @@ Date: unreleased
 - The `blank?` predicate now properly returns `nil` if `nil` value is provided.
   (BREAKING CHANGE).
 - Add missing `underscored` deprecated alias.
+- Fix some bugs in `ends-with?` predicate.
+- Improve NPE handling in many functions.
+- Fix wrong impl in `locale-lower` and `locale-upper` functions.
+- Fix inconsistencies on `caseless=` and `locale-caseless=` functions.
 
 
 ## Version 1.0.2
