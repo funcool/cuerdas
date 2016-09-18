@@ -93,16 +93,17 @@
 (defn ends-with?
   "Check if the string ends with suffix."
   [s suffix]
-  #?(:clj (when-not (nil? s)
-            (nil? s) false
-            (empty? suffix) true
-            :else (let [len (count s)
-                        region (slice s (- len (count suffix)) len)]
-                    (= region suffix)))
-     :cljs (when-not (nil? s)
-             (let [l (- (count s) (count suffix))]
-               (and (>= l 0)
-                    (= (.indexOf s suffix l) l))))))
+  (when (string? s)
+    (cond
+      (nil? s) false
+      (empty? suffix) true
+      :else
+      #?(:clj  (let [len (count s)
+                    region (slice s (- len (count suffix)) len)]
+                (= region suffix))
+         :cljs (let [l (- (count s) (count suffix))]
+                 (and (>= l 0)
+                      (= (.indexOf s suffix l) l)))))))
 
 (def startswith? starts-with?)
 (def endswith? ends-with?)
