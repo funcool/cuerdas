@@ -81,14 +81,14 @@
 (defn starts-with?
   "Check if the string starts with prefix."
   [s prefix]
-  #?(:clj (when-not (nil? s)
-            (cond
-              (nil? prefix) false
-              (empty? prefix) true
-              :else (let [region (slice s 0 (count prefix))]
-                      (= region prefix))))
-     :cljs (when-not (nil? s)
-             (= (.lastIndexOf s prefix 0) 0))))
+  (when (string? s)
+    (cond
+      (nil? prefix) false
+      (empty? prefix) true
+      :else
+      #?(:clj (let [region (slice s 0 (count prefix))]
+                (= region prefix))
+         :cljs (= (.lastIndexOf s prefix 0) 0)))))
 
 (defn ends-with?
   "Check if the string ends with suffix."
