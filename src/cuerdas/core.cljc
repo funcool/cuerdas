@@ -47,9 +47,11 @@
 (defn includes?
   "Determines whether a string contains a substring."
   [s subs]
-  (when (and (string? s) (string? subs))
-    #?(:clj (.contains (.toString ^String s) subs)
-       :cljs (gstr/contains s subs))))
+  (when (string? s)
+    (if (nil? subs)
+      false
+      #?(:clj (.contains (.toString ^String s) subs)
+         :cljs (gstr/contains s subs)))))
 
 #?(:clj
    (defn slice
