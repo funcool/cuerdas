@@ -1,6 +1,6 @@
 = cuerdas
 Andrey Antukh, <niwi@niwi.nz>
-1.0.1
+1.0.2
 :toc: left
 :source-highlighter: pygments
 :pygments-style: friendly
@@ -35,7 +35,7 @@ Add the following dependency to your project.clj file:
 
 [source,clojure]
 ----
-[funcool/cuerdas "1.0.1"]
+[funcool/cuerdas "1.0.2"]
 ----
 
 

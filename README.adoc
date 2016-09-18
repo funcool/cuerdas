@@ -28,7 +28,7 @@ Add the following dependency to your project.clj file:
 
 [source,clojure]
 ----
-[funcool/cuerdas "1.0.1"]
+[funcool/cuerdas "1.0.2"]
 ----
 
 
