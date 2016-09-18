@@ -174,20 +174,21 @@
   An optional locale can be passed as third
   argument (only on JVM)."
   ([s1 s2]
-   (when (and (string? s1) (string? s2))
+   (when (string? s1)
      (= (locale-lower s1) (locale-lower s2))))
   #?(:clj
      ([s1 s2 locale]
-      (= (locale-lower s1 locale) (locale-lower s2 locale)))))
+      {:pre [(instance? Locale locale)]}
+      (when (string? s1)
+        (= (locale-lower s1 locale) (locale-lower s2 locale))))))
 
 (defn blank?
   "Checks if a string is empty or contains only whitespace."
   [^String s]
-  (when-not (nil? s)
-    (and (string? s)
-         (or (zero? (count s))
-             (boolean (-> (rx/enhace #"^[\s\p{Z}]+$")
-                          (re-matches s)))))))
+  (when (string? s)
+    (or (zero? (count s))
+        (boolean (-> (rx/enhace #"^[\s\p{Z}]+$")
+                     (re-matches s))))))
 
 (defn alpha?
   "Checks if a string contains only alpha characters."
@@ -234,7 +235,7 @@
   from both ends of string."
   ([s] (trim s "\n\t\f\r "))
   ([s chs]
-   (when-not (nil? s)
+   (when (string? s)
      (let [rxstr (str "[" (rx/escape chs) "]")
            rxstr (str "^" rxstr "+|" rxstr "+$")]
        (as-> (re-pattern rxstr) rx
@@ -245,7 +246,7 @@
   from right side of string."
   ([s] (rtrim s "\n\t\f\r "))
   ([s chs]
-   (when-not (nil? s)
+   (when (string? s)
      (let [rxstr (str "[" (rx/escape chs) "]")
            rxstr (str rxstr "+$")]
        (as-> (re-pattern rxstr) rx
@@ -256,7 +257,7 @@
   from left side of string."
   ([s] (ltrim s "\b\t\f\r "))
   ([s chs]
-   (when-not (nil? s)
+   (when (string? s)
      (let [rxstr (str "[" (rx/escape chs) "]")
            rxstr (str "^" rxstr "+")]
        (as-> (re-pattern rxstr) rx
@@ -293,7 +294,7 @@
   "Repeats string n times."
   ([s] (repeat s 1))
   ([s n]
-   (when-not (nil? s)
+   (when (string? s)
      #?(:clj  (join (clojure.core/repeat n s))
         :cljs (gstr/repeat s n)))))
 
@@ -337,14 +338,14 @@
     ;; => \"lmostAay igPay atinLay\"
   "
   [s match replacement]
-  (when-not (nil? s)
+  (when (string? s)
     #?(:clj (str/replace s match replacement)
        :cljs (replace* s match replacement))))
 
 (defn replace-first
   "Replaces first instance of match with replacement in s."
   [s match replacement]
-  (when-not (nil? s)
+  (when (string? s)
     (str/replace-first s match replacement)))
 
 (defn prune
@@ -394,13 +395,13 @@
 (defn reverse
   "Return string reversed."
   [s]
-  (when-not (nil? s)
+  (when (string? s)
     (str/reverse s)))
 
 (defn chars
   "Split a string in a seq of chars."
   [s]
-  (when-not (nil? s)
+  (when (string? s)
     #?(:clj  (vec (.split ^String s "(?!^)"))
        :cljs (js->clj (.split s "")))))
 
@@ -475,7 +476,7 @@
 (defn surround
   "Surround a string with another string."
   [s wrap]
-  (when-not (nil? s)
+  (when (string? s)
     (join #?(:cljs "") [wrap s wrap])))
 
 (defn unsurround
@@ -515,7 +516,7 @@
    (when (seq coll)
      (join join-with (map every-fn coll))))
   ([[fst & rst] first-fn rest-fn join-with]
-    (when-not (nil? fst)
+    (when (string? fst)
       (join join-with (cons (first-fn fst) (map rest-fn rst))))))
 
 (defn stylize
@@ -668,7 +669,7 @@
   default, pads on the left with the space char."
   [s & [{:keys [length padding type]
          :or {length 0 padding " " type :left}}]]
-  (when-not (nil? s)
+  (when (string? s)
     (let [padding (slice padding 0 1)
           padlen  (- length (count s))]
       (condp = type
