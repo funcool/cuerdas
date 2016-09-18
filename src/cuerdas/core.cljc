@@ -133,11 +133,14 @@
   In the jvm you can provide a concrete locale to
   use as the second optional argument."
   ([s]
-   (.toLocaleLowerCase #?(:clj ^String s :cljs s)))
+   (when (string? s)
+     #?(:cljs (.toLocaleLowerCase s)
+        :clj (.toLowerCase ^String s))))
   #?(:clj
      ([s locale]
       {:pre [(instance? Locale locale)]}
-      (.toLocaleLowerCase ^String s ^Locale locale))))
+      (when (string? s)
+        (.toLowerCase ^String s ^Locale locale)))))
 
 (defn locale-upper
   "Converts string to all upper-case respecting
@@ -146,18 +149,21 @@
   In the jvm you can provide a concrete locale to
   use as the second optional argument."
   ([s]
-   (.toLocaleUpperCase #?(:clj ^String s :cljs s)))
+   (when (string? s)
+     #?(:cljs (.toLocaleUpperCase s)
+        :clj (.toUpperCase s))))
   #?(:clj
      ([s locale]
       {:pre [(instance? Locale locale)]}
-      (.toLocaleUpperCase ^String s ^Locale locale))))
+      (when (string? s)
+        (.toUpperCase ^String s ^Locale locale)))))
 
 (defn caseless=
   "Compare strings in a case-insensitive manner.
 
   This function is locale independent."
   [s1 s2]
-  (when (and (string? s1) (string? s2))
+  (when (string? s1)
     #?(:clj  (.equalsIgnoreCase ^String s1 ^String s2)
        :cljs (= (lower s1) (lower s2)))))
 
