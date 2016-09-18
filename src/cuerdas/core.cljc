@@ -114,7 +114,7 @@
   This function works in strictly locale independent way,
   if you want a localized version, just use `locale-lower`"
   [s]
-  (when-not (nil? s)
+  (when (string? s)
     (.toLowerCase #?(:clj ^String s :cljs s))))
 
 (defn upper
@@ -123,7 +123,7 @@
   This function works in strictly locale independent way,
   if you want a localized version, just use `locale-upper`"
   [s]
-  (when-not (nil? s)
+  (when (string? s)
     (.toUpperCase #?(:clj ^String s :cljs s))))
 
 (defn locale-lower
