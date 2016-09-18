@@ -72,10 +72,10 @@
    (defn slice
      "Extracts a section of a string and returns a new string."
      ([s begin]
-      (when-not (nil? s)
+      (when (string? s)
         (.slice s begin)))
      ([s begin end]
-      (when-not (nil? s)
+      (when (string? s)
         (.slice s begin end)))))
 
 (defn starts-with?
