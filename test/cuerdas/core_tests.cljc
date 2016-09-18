@@ -1,7 +1,8 @@
 (ns cuerdas.core-tests
   (:require #?(:cljs [cljs.test :as t]
                :clj  [clojure.test :as t])
-            [cuerdas.core :as str :include-macros true]))
+            [cuerdas.core :as str :include-macros true])
+  #?(:clj (:import (java.util Locale))))
 
 (defn nan?
   [s]
@@ -26,28 +27,53 @@
     (t/is (= "a b" (str/collapse-whitespace "a\u3000b")))
     (t/is (= "a b c" (str/collapse-whitespace "a  b\n c"))))
 
+  (t/testing "locale-lower"
+    (t/is (= nil (str/locale-lower nil)))
+    (t/is (= "foobar" (str/locale-lower "foobar")))
+    (t/is (= "foobar" (str/locale-lower "FOOBAR")))
+    #?(:clj (t/is (= "foobar" (str/locale-lower "FOOBAR" Locale/UK)))))
+
+  (t/testing "locale-upper"
+    (t/is (= nil (str/locale-upper nil)))
+    (t/is (= "FOOBAR" (str/locale-upper "foobar")))
+    (t/is (= "FOOBAR" (str/locale-upper "FOOBAR")))
+    #?(:clj (t/is (= "FOOBAR" (str/locale-upper "FOOBAR" Locale/UK)))))
+
+  (t/testing "caseless="
+    (t/is (= nil (str/caseless= nil "foobar")))
+    (t/is (= nil (str/caseless= nil nil)))
+    (t/is (= true (str/caseless= "foo" "Foo"))))
+
+  (t/testing "locale-caseless="
+    (t/is (= nil (str/locale-caseless= nil "foobar")))
+    (t/is (= nil (str/locale-caseless= nil nil)))
+    (t/is (= false (str/locale-caseless= "foo" nil)))
+    (t/is (= true (str/locale-caseless= "foo" "Foo")))
+    #?(:clj
+       (t/is (= true (str/locale-caseless= "foo" "Foo" Locale/UK)))))
+
   (t/testing "includes?"
-    (t/is (str/includes? "abc" "ab"))
-    (t/is (str/includes? "abc" ""))
-    (t/is (not (str/includes? "abc" "cba")))
-    (t/is (not (str/includes? "abc" nil)))
-    (t/is (not (str/includes? nil nil))))
+    (t/is (= true (str/includes? "abc" "ab")))
+    (t/is (= true (str/includes? "abc" "")))
+    (t/is (= false (str/includes? "abc" "cba")))
+    (t/is (= false (str/includes? "abc" nil)))
+    (t/is (= nil (str/includes? nil nil))))
 
   (t/testing "startswith?"
-    (t/is (str/startswith? "abc" "ab"))
-    (t/is (not (str/startswith? "abc" "cab")))
-    (t/is (not (str/startswith? nil "ab")))
-    (t/is (not (str/startswith? "abc" nil)))
-    (t/is (str/startswith? "abc" ""))
-    (t/is (not (str/startswith? nil nil))))
+    (t/is (= nil (str/startswith? nil "ab")))
+    (t/is (= nil (str/startswith? nil nil)))
+    (t/is (= true (str/startswith? "abc" "ab")))
+    (t/is (= false (str/startswith? "abc" "cab")))
+    (t/is (= false (str/startswith? "abc" nil)))
+    (t/is (= true (str/startswith? "abc" ""))))
 
   (t/testing "endswith?"
-    (t/is (str/endswith? "abc" "bc"))
-    (t/is (not (str/endswith? "abc" "bca")))
-    (t/is (not (str/endswith? nil "bc")))
-    (t/is (not (str/endswith? "abc" nil)))
-    (t/is (str/endswith? "abc" ""))
-    (t/is (not (str/endswith? nil nil))))
+    (t/is (= nil (str/endswith? nil nil)))
+    (t/is (= nil (str/endswith? nil "bc")))
+    (t/is (= false (str/endswith? "abc" nil)))
+    (t/is (= false (str/endswith? "abc" "bca")))
+    (t/is (= true (str/endswith? "abc" "bc")))
+    (t/is (= true (str/endswith? "abc" ""))))
 
   (t/testing "trim"
     (t/is (= "a" (str/trim " a ")))
@@ -274,10 +300,10 @@
     (t/is (= "10000000" (str/pad "1" {:length 8 :padding "0" :type :right})))
     (t/is (= "00001000" (str/pad "1" {:length 8 :padding "0" :type :both}))))
 
-  (t/testing "capitalize"
-    (t/is (= nil (str/capitalize nil)))
-    (t/is (= "Foo" (str/capitalize "foo")))
-    (t/is (= "FooBar" (str/capitalize "fooBar"))))
+  (t/testing "capital"
+    (t/is (= nil (str/capital nil)))
+    (t/is (= "Foo" (str/capital "foo")))
+    (t/is (= "FooBar" (str/capital "fooBar"))))
 
   (t/testing "strip-prefix"
     (t/is (= "ab" (str/strip-prefix "ab" nil)))
