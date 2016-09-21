@@ -1,8 +1,5 @@
-= cuerdas
+= cuerdas - string manipulation library
 :sectlinks:
-
-
-== Introduction
 
 The missing clojure(script) string manipulation library.
 
@@ -22,47 +19,9 @@ aljibe de madera.
 ____
 
 
-== Install
-
-Add the following dependency to your project.clj file:
-
-[source,clojure]
-----
-[funcool/cuerdas "1.0.2"]
-----
-
-
-== Quick start
-
-.Import the namespace
-[source, clojure]
-----
-(ns my.namespace
-  (:require [cuerdas.core :as str]))
-----
-
-.Use its functions
-[source, clojure]
-----
-(str/strip-tags "<p>just <b>some</b> text</p>")
-;; => "just some text"
-
-(str/strip-tags "<p>just <b>some</b> text</p>" "p")
-;; => "just <b>some</b> text"
-----
-
-
 == Documentation
 
 https://funcool.github.io/cuerdas/latest/
-
-
-== How to Contribute?
-
-**cuerdas** unlike Clojure and other Clojure contrib libs, does not have many
-restrictions for contributions.
-
-*Pull requests are welcome!*
 
 
 == License
