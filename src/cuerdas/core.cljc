@@ -105,9 +105,6 @@
                  (and (>= l 0)
                       (= (.indexOf s suffix l) l)))))))
 
-(def startswith? starts-with?)
-(def endswith? ends-with?)
-
 (defn lower
   "Converts string to all lower-case.
 
@@ -875,3 +872,5 @@
 (def ^:deprecated parse-long parse-int)
 (def ^:deprecated parse-float parse-double)
 (def ^:deprecated contains? includes?)
+(def ^:deprecated startswith? starts-with?)
+(def ^:deprecated endswith? ends-with?)

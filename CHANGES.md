@@ -11,6 +11,7 @@ Date: unreleased
 - Improve NPE handling in many functions.
 - Fix wrong impl in `locale-lower` and `locale-upper` functions.
 - Fix inconsistencies on `caseless=` and `locale-caseless=` functions.
+- Depreacate `startswith?` and `endswith?` predicate aliases.
 
 
 ## Version 1.0.2
