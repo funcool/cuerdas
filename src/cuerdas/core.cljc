@@ -380,12 +380,14 @@
    (cond
      (nil? s) s
      (rx/regexp? sep) (str/split s sep)
+     (char? sep) (str/split s (re-pattern (rx/escape (str sep))))
      (string? sep) (str/split s (re-pattern (rx/escape sep)))
      :else (throw (ex-info "Invalid arguments" {:sep sep}))))
   ([s sep num]
    (cond
      (nil? s) s
      (rx/regexp? sep) (str/split s sep num)
+     (char? sep) (str/split s (re-pattern (rx/escape (str sep))) num)
      (string? sep) (str/split s (re-pattern (rx/escape sep)) num)
      :else (throw (ex-info "Invalid arguments" {:sep sep})))))
 

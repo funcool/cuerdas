@@ -172,6 +172,8 @@
     (t/is (= ["1" "2" "3"] (str/split "1 2 3")))
     (t/is (= ["1" "2" "3"] (str/split "1 2 3" " ")))
     (t/is (= ["1" "2" "3"] (str/split "1 2 3" #"\s")))
+    (t/is (= ["1" "2" "3"] (str/split "1\n2\n3" \newline)))
+    (t/is (= ["1" "2\n3"] (str/split "1\n2\n3" \newline 2)))
     (t/is (= ["1" "2 3"] (str/split "1 2 3" #"\s" 2))))
 
   (t/testing "replace"
