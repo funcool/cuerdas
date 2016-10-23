@@ -360,6 +360,10 @@
 
   (t/testing "title"
     (t/is (= nil (str/title nil)))
+    (t/is (= "Mini²" (str/title "mini²")))
+    (t/is (= "Mini's" (str/title "mini's")))
+    (t/is (= "Mini S" (str/title "mini-s")))
+    (t/is (= "Mini(s)" (str/title "mini(s)")))
     (t/is (= "My Name Is Epeli" (str/title "my name is epeli")))
     (t/is (= "Regular Keyword" (str/title :regular-keyword))))
 

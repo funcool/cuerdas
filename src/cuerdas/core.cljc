@@ -508,11 +508,13 @@
 
 (defn- stylize-split
   [s]
-  (some-> s
-          (name)
-          (replace #"([A-Z]+[a-z]*)" "-$1")
-          (split #"[^a-zA-Z0-9]+")
-          (seq)))
+  (let [re1 (rx/enhace #"(\p{Lu}+[\p{Ll}\u0027\p{Ps}\p{Pe}]*)")
+        re2 (rx/enhace #"[^\p{L}\p{N}\u0027\p{Ps}\p{Pe}]+")]
+    (some-> s
+            (name)
+            (replace re1 "-$1")
+            (split re2)
+            (seq))))
 
 (defn- stylize-join
   ([coll every-fn join-with]
