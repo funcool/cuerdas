@@ -44,6 +44,12 @@
   (when (string? s)
     (zero? (count s))))
 
+(defn empty-or-nil?
+  "Convenient helper for check emptines or if value is nil."
+  [s]
+  (or (nil? s)
+      (empty? s)))
+
 (defn includes?
   "Determines whether a string contains a substring."
   [s subs]

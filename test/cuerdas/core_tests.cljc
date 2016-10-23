@@ -97,6 +97,12 @@
     (t/is (not (str/empty? " ")))
     (t/is (not (str/empty? " s "))))
 
+  (t/testing "empty-or-nil?"
+    (t/is (str/empty-or-nil? ""))
+    (t/is (str/empty-or-nil? nil))
+    (t/is (not (str/empty-or-nil? " ")))
+    (t/is (not (str/empty-or-nil? " s "))))
+
   (t/testing "blank?"
     (t/is (str/blank? ""))
     (t/is (str/blank? " "))

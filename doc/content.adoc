@@ -138,6 +138,7 @@ Identify strings with these boolean returning functions.
 <<blank,`blank?`>>,
 <<includes,`includes?`>>,
 <<empty,`empty?`>>,
+<<empty-or-nil,`empty-or-nil?`>>,
 <<ends-with,`ends-with?`>>,
 <<starts-with,`starts-with?`>>
 
@@ -415,7 +416,28 @@ Check if the string is empty.
 (str/empty? "foobar")
 ;; => false
 
+(str/empty? "")
+;; => true
+
+(str/empty? " ")
+;; => false
+
 (str/empty? nil)
+;; => nil
+----
+
+
+[[empty-or-nil]]
+=== empty-or-nil?
+
+Check if the string is empty or is nil.
+
+[source, clojure]
+----
+(str/empty-or-nil? "foobar")
+;; => false
+
+(str/empty-or-nil? nil)
 ;; => true
 
 (str/empty? "")
