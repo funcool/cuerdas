@@ -1,8 +1,8 @@
 # Changelog
 
-## Version 2.0.0-SNAPSHOT
+## Version 2.0.0
 
-Date: unreleased
+Date: 2016-10-23
 
 - The `blank?` predicate now properly returns `nil` if `nil` value is provided.
   (BREAKING CHANGE).
@@ -12,6 +12,10 @@ Date: unreleased
 - Fix wrong impl in `locale-lower` and `locale-upper` functions.
 - Fix inconsistencies on `caseless=` and `locale-caseless=` functions.
 - Depreacate `startswith?` and `endswith?` predicate aliases.
+- Rename `<<` interpolation macro to `istr` (an alias for the old name
+  is maintained for backward compatibility)
+- Improve unicode support for `title` and similar functions.
+- Add `empty-or-nil?` predicate.
 
 
 ## Version 1.0.2
