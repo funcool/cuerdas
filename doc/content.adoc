@@ -198,7 +198,7 @@ another line
 
 
 [[interpolate]]
-=== <<
+=== istr
 
 String interpolation macro. Enables easy string formating allowing
 symbol substitutions and simple expression evaluation.
@@ -207,20 +207,20 @@ symbol substitutions and simple expression evaluation.
 ----
 (def value 30)
 
-(str/<< "value = ~{value}")
+(str/istr "value = ~{value}")
 ;; => "value = 30"
 
-(str/<< "value = ~(inc value)")
+(str/istr "value = ~(inc value)")
 ;; => "value = 31"
 ----
 
-The `<<` macro is variadic and allows arbitrary number of arguments
+The `istr` macro is variadic and allows arbitrary number of arguments
 that will be concatenated on the final return value:
 
 [source, clojure]
 ----
-(str/<< "the value "
-        "is ~{value}")
+(str/istr "the value "
+          "is ~{value}")
 ;; => "the value is 30"
 ----
 
