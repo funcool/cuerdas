@@ -59,21 +59,21 @@
     (t/is (= false (str/includes? "abc" nil)))
     (t/is (= nil (str/includes? nil nil))))
 
-  (t/testing "startswith?"
-    (t/is (= nil (str/startswith? nil "ab")))
-    (t/is (= nil (str/startswith? nil nil)))
-    (t/is (= true (str/startswith? "abc" "ab")))
-    (t/is (= false (str/startswith? "abc" "cab")))
-    (t/is (= false (str/startswith? "abc" nil)))
-    (t/is (= true (str/startswith? "abc" ""))))
+  (t/testing "starts-with?"
+    (t/is (= nil (str/starts-with? nil "ab")))
+    (t/is (= nil (str/starts-with? nil nil)))
+    (t/is (= true (str/starts-with? "abc" "ab")))
+    (t/is (= false (str/starts-with? "abc" "cab")))
+    (t/is (= false (str/starts-with? "abc" nil)))
+    (t/is (= true (str/starts-with? "abc" ""))))
 
-  (t/testing "endswith?"
-    (t/is (= nil (str/endswith? nil nil)))
-    (t/is (= nil (str/endswith? nil "bc")))
-    (t/is (= false (str/endswith? "abc" nil)))
-    (t/is (= false (str/endswith? "abc" "bca")))
-    (t/is (= true (str/endswith? "abc" "bc")))
-    (t/is (= true (str/endswith? "abc" ""))))
+  (t/testing "ends-with?"
+    (t/is (= nil (str/ends-with? nil nil)))
+    (t/is (= nil (str/ends-with? nil "bc")))
+    (t/is (= false (str/ends-with? "abc" nil)))
+    (t/is (= false (str/ends-with? "abc" "bca")))
+    (t/is (= true (str/ends-with? "abc" "bc")))
+    (t/is (= true (str/ends-with? "abc" ""))))
 
   (t/testing "trim"
     (t/is (= "a" (str/trim " a ")))
