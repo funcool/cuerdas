@@ -89,7 +89,7 @@ Add onto or compose strings:
 <<pad,`pad`>>,
 <<quote,`quote`>>,
 <<surround,`surround`>>
-<<interpolate,`<<`>>
+<<interpolate,`istr`>>
 
 === Casing
 
