@@ -833,7 +833,7 @@
         [s]))))
 
 #?(:clj
-   (defmacro <<
+   (defmacro istr
      "Accepts one or more strings; emits a `str` invocation that
      concatenates the string data and evaluated expressions contained
      within that argument.  Evaluation is controlled using ~{} and ~()
@@ -845,13 +845,13 @@
 
          user=> (def v 30.5)
          #'user/v
-         user=> (<< \"This trial required ~{v}ml of solution.\")
+         user=> (istr \"This trial required ~{v}ml of solution.\")
          \"This trial required 30.5ml of solution.\"
-         user=> (<< \"There are ~(int v) days in November.\")
+         user=> (istr \"There are ~(int v) days in November.\")
          \"There are 30 days in November.\"
          user=> (def m {:a [1 2 3]})
          #'user/m
-         user=> (<< \"The total for your order is $~(->> m :a (apply +)).\")
+         user=> (istr \"The total for your order is $~(->> m :a (apply +)).\")
          \"The total for your order is $6.\"
          user=> (<< \"Just split a long interpolated string up into ~(-> m :a (get 0)), \"
                   \"~(-> m :a (get 1)), or even ~(-> m :a (get 2)) separate strings \"
@@ -861,6 +861,13 @@
 
      Note that quotes surrounding string literals within ~() forms must be
      escaped."
+     [& strings]
+     `(str ~@(interpolate (apply str strings)))))
+
+#?(:clj
+   (defmacro <<
+     "A backward compatibility alias for `istr` macro."
+     {:deprecated true}
      [& strings]
      `(str ~@(interpolate (apply str strings)))))
 

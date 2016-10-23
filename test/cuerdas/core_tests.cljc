@@ -421,6 +421,13 @@
       (t/is (= "the value is 4" (str/<< "the value is ~(-> v inc inc)")))
       (t/is (= "the value is 2" (str/<< "the value" " is ~{v}")))))
 
+  (t/testing "istr"
+    (let [v 2]
+      (t/is (= "the value is 2" (str/istr "the value is ~{v}")))
+      (t/is (= "the value is 3" (str/istr "the value is ~(inc v)")))
+      (t/is (= "the value is 4" (str/istr "the value is ~(-> v inc inc)")))
+      (t/is (= "the value is 2" (str/istr "the value" " is ~{v}")))))
+
   (t/testing "<<-"
     (t/is (= "first line\n  indented two\n\n    indented four\n"
              (str/<<- "first line
