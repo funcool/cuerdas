@@ -154,7 +154,7 @@
   ([s]
    (when (string? s)
      #?(:cljs (.toLocaleUpperCase s)
-        :clj (.toUpperCase s))))
+        :clj (.toUpperCase ^String s))))
   #?(:clj
      ([s locale]
       {:pre [(instance? Locale locale)]}
