@@ -521,8 +521,8 @@
    (when (seq coll)
      (join join-with (map every-fn coll))))
   ([[fst & rst] first-fn rest-fn join-with]
-    (when (string? fst)
-      (join join-with (cons (first-fn fst) (map rest-fn rst))))))
+   (when (string? fst)
+     (join join-with (cons (first-fn fst) (map rest-fn rst))))))
 
 (defn stylize
   ([s every-fn join-with]
