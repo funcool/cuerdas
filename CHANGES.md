@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.0.1
+
+Date: 2016-11-15
+
+- Fix `js-selector` wrong behavior.
+
+
 ## Version 2.0.0
 
 Date: 2016-10-23
