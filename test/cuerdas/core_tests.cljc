@@ -374,11 +374,13 @@
 
   (t/testing "js-selector"
     (t/is (= nil (str/js-selector nil)))
+    (t/is (= "keywordizeKeys" (str/js-selector "keywordize-keys")))
     (t/is (= "SomeKeywordName" (str/js-selector :-some-keyword-name)))
     (t/is (= "SomeClassName" (str/js-selector "_some_class_name"))))
 
   (t/testing "css-selector"
     (t/is (= nil (str/css-selector nil)))
+    (t/is (= "some-keyword-name" (str/css-selector "someKeywordName")))
     (t/is (= "-some-keyword-name" (str/css-selector :SomeKeywordName)))
     (t/is (= "-some-keyword-name" (str/css-selector "SomeKeywordName"))))
 
