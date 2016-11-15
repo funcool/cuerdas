@@ -589,7 +589,7 @@
   accepts keywords and strings, with any standard delimiter"
   [s]
   (some-> (stylize-split s)
-          (stylize-join capital "")))
+          (stylize-join identity capital "")))
 
 (defn css-selector
   "Output will be either:
