@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.0.2
+
+Date: 2016-12-25
+
+- Allow pass single chars to varios functions that accepts strings.
+
+
 ## Version 2.0.1
 
 Date: 2016-11-15
