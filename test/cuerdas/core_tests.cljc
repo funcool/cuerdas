@@ -57,7 +57,10 @@
     (t/is (= true (str/includes? "abc" "")))
     (t/is (= false (str/includes? "abc" "cba")))
     (t/is (= false (str/includes? "abc" nil)))
-    (t/is (= nil (str/includes? nil nil))))
+    (t/is (= nil (str/includes? nil nil)))
+    (t/is (= false (str/includes? "abc" nil)))
+    (t/is (= false (str/includes? "abc" \space)))
+    (t/is (= true (str/includes? "a bc" \space))))
 
   (t/testing "starts-with?"
     (t/is (= nil (str/starts-with? nil "ab")))
@@ -65,7 +68,9 @@
     (t/is (= true (str/starts-with? "abc" "ab")))
     (t/is (= false (str/starts-with? "abc" "cab")))
     (t/is (= false (str/starts-with? "abc" nil)))
-    (t/is (= true (str/starts-with? "abc" ""))))
+    (t/is (= true (str/starts-with? "abc" "")))
+    (t/is (= false (str/starts-with? "abc" \b)))
+    (t/is (= true (str/starts-with? "abc" \a))))
 
   (t/testing "ends-with?"
     (t/is (= nil (str/ends-with? nil nil)))
@@ -73,7 +78,9 @@
     (t/is (= false (str/ends-with? "abc" nil)))
     (t/is (= false (str/ends-with? "abc" "bca")))
     (t/is (= true (str/ends-with? "abc" "bc")))
-    (t/is (= true (str/ends-with? "abc" ""))))
+    (t/is (= true (str/ends-with? "abc" "")))
+    (t/is (= false (str/ends-with? "abc" \b)))
+    (t/is (= true (str/ends-with? "abc" \c))))
 
   (t/testing "trim"
     (t/is (= "a" (str/trim " a ")))
@@ -178,7 +185,10 @@
     (t/is (= ["1" "2" "3"] (str/split "1 2 3")))
     (t/is (= ["1" "2" "3"] (str/split "1 2 3" " ")))
     (t/is (= ["1" "2" "3"] (str/split "1 2 3" #"\s")))
-    (t/is (= ["1" "2 3"] (str/split "1 2 3" #"\s" 2))))
+    (t/is (= ["1" "2 3"] (str/split "1 2 3" #"\s" 2)))
+    (t/is (= ["1" "2" "3"] (str/split "1 2 3" \space)))
+    (t/is (= ["1" "2 3"] (str/split "1,2 3" \,)))
+    (t/is (= ["1" "2 3"] (str/split "1 2 3" \space 2))))
 
   (t/testing "replace"
     (t/is (= nil (str/replace nil #"aa" "kk")))
@@ -195,11 +205,13 @@
   (t/testing "surround"
     (t/is (= nil (str/surround nil "-")))
     (t/is (= "-aaa-" (str/surround "aaa" "-")))
+    (t/is (= "-aaa-" (str/surround "aaa" \-)))
     (t/is (= "-^-aaa-^-" (str/surround "aaa" "-^-"))))
 
   (t/testing "unsurround"
     (t/is (= nil (str/unsurround nil "-")))
     (t/is (= "aaa" (str/unsurround "-aaa-" "-")))
+    (t/is (= "aaa" (str/unsurround "-aaa-" \-)))
     (t/is (= "aaa" (str/unsurround "-^-aaa-^-" "-^-"))))
 
   (t/testing "chars"
@@ -315,12 +327,14 @@
     (t/is (= "ab" (str/strip-prefix "ab" nil)))
     (t/is (= nil (str/strip-prefix nil nil)))
     (t/is (= "a" (str/strip-prefix "-=a" "-=")))
+    (t/is (= "a" (str/strip-prefix "-a" \-)))
     (t/is (= "=-a" (str/strip-prefix "=-a" "-="))))
 
   (t/testing "strip-suffix"
     (t/is (= "ab" (str/strip-suffix "ab" nil)))
     (t/is (= nil (str/strip-suffix nil nil)))
     (t/is (= "a" (str/strip-suffix "a=-" "=-")))
+    (t/is (= "a" (str/strip-suffix "a-" \-)))
     (t/is (= "a-=" (str/strip-suffix "a-=" "=-"))))
 
   #?(:clj

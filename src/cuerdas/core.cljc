@@ -56,7 +56,7 @@
   (when (string? s)
     (if (nil? subs)
       false
-      #?(:clj (.contains (.toString ^String s) subs)
+      #?(:clj (.contains (.toString ^String s) (.toString subs))
          :cljs (gstr/contains s subs)))))
 
 #?(:clj
@@ -92,7 +92,8 @@
       (nil? prefix) false
       (empty? prefix) true
       :else
-      #?(:clj (let [region (slice s 0 (count prefix))]
+      #?(:clj (let [prefix (.toString prefix)
+                    region (slice s 0 (count prefix))]
                 (= region prefix))
          :cljs (= (.lastIndexOf s prefix 0) 0)))))
 
@@ -102,10 +103,12 @@
   (when (string? s)
     (cond
       (nil? s) false
+      (nil? suffix) false
       (empty? suffix) true
       :else
       #?(:clj  (let [len (count s)
-                    region (slice s (- len (count suffix)) len)]
+                     suffix (.toString suffix)
+                     region (slice s (- len (count suffix)) len)]
                 (= region suffix))
          :cljs (let [l (- (count s) (count suffix))]
                  (and (>= l 0)
@@ -279,16 +282,16 @@
 
 (defn strip-prefix
   "Strip prefix in more efficient way."
-  [^String s ^String prefix]
+  [^String s prefix]
   (if (starts-with? s prefix)
-    (slice s (count prefix) (count s))
+    (slice s (count (.toString prefix)) (count s))
     s))
 
 (defn strip-suffix
   "Strip suffix in more efficient way."
-  [^String s ^String prefix]
-  (if (ends-with? s prefix)
-    (slice s 0 (- (count s) (count prefix)))
+  [^String s suffix]
+  (if (ends-with? s suffix)
+    (slice s 0 (- (count s) (count (.toString suffix))))
     s))
 
 (declare join)
@@ -379,20 +382,22 @@
 
 (defn split
   "Splits a string on a separator a limited
-  number of times. The separator can be a string
-  or Pattern (clj) / RegExp (cljs) instance."
+  number of times. The separator can be a string,
+  character or Pattern (clj) / RegExp (cljs) instance."
   ([s] (split s #"\s+" #?(:cljs nil)))
   ([s sep]
    (cond
      (nil? s) s
      (rx/regexp? sep) (str/split s sep)
      (string? sep) (str/split s (re-pattern (rx/escape sep)))
+     (char? sep) (str/split s (re-pattern (rx/escape (.toString sep))))
      :else (throw (ex-info "Invalid arguments" {:sep sep}))))
   ([s sep num]
    (cond
      (nil? s) s
      (rx/regexp? sep) (str/split s sep num)
      (string? sep) (str/split s (re-pattern (rx/escape sep)) num)
+     (char? sep) (str/split s (re-pattern (rx/escape (.toString sep))) num)
      :else (throw (ex-info "Invalid arguments" {:sep sep})))))
 
 (defn reverse
@@ -477,15 +482,16 @@
    (apply str (interpose separator coll))))
 
 (defn surround
-  "Surround a string with another string."
+  "Surround a string with another string or character."
   [s wrap]
   (when (string? s)
     (join #?(:cljs "") [wrap s wrap])))
 
 (defn unsurround
-  "Unsurround a string surrounded by another."
+  "Unsurround a string surrounded by another string or character."
   [s surrounding]
-  (let [length (count surrounding)
+  (let [surrounding (.toString surrounding)
+        length (count surrounding)
         fstr (slice s 0 length)
         slength (count s)
         rightend (- slength length)
