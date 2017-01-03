@@ -51,7 +51,7 @@
       (empty? s)))
 
 (defn includes?
-  "Determines whether a string contains a substring."
+  "Determines whether a string contains a substring or character."
   [s subs]
   (when (string? s)
     (if (nil? subs)

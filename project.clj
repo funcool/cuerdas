@@ -4,7 +4,7 @@
   :license {:name "BSD (2-Clause)"
             :url "http://opensource.org/licenses/BSD-2-Clause"}
 
-  :dependencies [[org.clojure/clojure "1.8.0" :scope "provided"]
+  :dependencies [[org.clojure/clojure "1.9.0-alpha14" :scope "provided"]
                  [org.clojure/clojurescript "1.9.293" :scope "provided"]]
   :source-paths ["src" "assets"]
   :test-paths ["test"]
@@ -12,8 +12,9 @@
   :jar-exclusions [#"\.swp|\.swo|user.clj"]
 
   :profiles
-  {:dev {:aliases {"test-all" ["with-profile" "dev,1.9:dev,1.7:dev" "test"]}}
-   :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha12"]]}
+  {:dev {:aliases {"test-all" ["with-profile" "dev,1.9:dev,1.7:dev" "test"]}
+         :dependencies [[org.clojure/test.check "0.9.0"]]}
+   :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha14"]]}
    :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}})
 
 
