@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.0.4
+
+Date: 2017-10-06
+
+- Fix compatibility issues with the latest version of cljs compiler.
+
+
 ## Version 2.0.3
 
 Date: 2017-02-06
