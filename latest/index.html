@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.5">
-<meta name="author" content="Andrey Antukh, &lt;niwi@niwi.nz&gt;">
+<meta name="generator" content="Asciidoctor 1.5.6.1">
+<meta name="author" content="Andrey Antukh, &amp;amp;lt;niwi@niwi.nz&amp;amp;gt;">
 <title>cuerdas</title>
 <style>
 .listingblock .pygments .hll { background-color: #ffffcc }
@@ -87,8 +87,8 @@
 <div id="header">
 <h1>cuerdas</h1>
 <div class="details">
-<span id="author" class="author">Andrey Antukh, &lt;niwi@niwi.nz&gt;</span><br>
-<span id="revdate">2.0.3</span>
+<span id="author" class="author">Andrey Antukh, &amp;amp;lt;niwi@niwi.nz&amp;amp;gt;</span><br>
+<span id="revdate">2.0.4</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -214,7 +214,7 @@ aljibe de madera.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">[</span><span class="tok-nv">funcool/cuerdas</span> <span class="tok-s">&quot;2.0.3&quot;</span><span class="tok-p">]</span></code></pre>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">[</span><span class="tok-nv">funcool/cuerdas</span> <span class="tok-s">&quot;2.0.4&quot;</span><span class="tok-p">]</span></code></pre>
 </div>
 </div>
 </div>
@@ -225,14 +225,14 @@ aljibe de madera.</p>
 <div class="listingblock">
 <div class="title">Import the namespace</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">my.namespace</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">my.namespace</span>
   <span class="tok-p">(</span><span class="tok-ss">:require</span> <span class="tok-p">[</span><span class="tok-nv">cuerdas.core</span> <span class="tok-ss">:as</span> <span class="tok-nv">str</span><span class="tok-p">]))</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">Use its functions</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;just some text&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;p&quot;</span><span class="tok-p">])</span>
@@ -386,7 +386,7 @@ with a user supplied regex.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/&lt;&lt;-</span> <span class="tok-s">&quot;first line</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/&lt;&lt;-</span> <span class="tok-s">&quot;first line</span>
 
 <span class="tok-s">            second line (indented)</span>
 
@@ -414,7 +414,7 @@ symbol substitutions and simple expression evaluation.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">value</span> <span class="tok-mi">30</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">value</span> <span class="tok-mi">30</span><span class="tok-p">)</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/istr</span> <span class="tok-s">&quot;value = ~{value}&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;value = 30&quot;</span>
@@ -429,7 +429,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/istr</span> <span class="tok-s">&quot;the value &quot;</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/istr</span> <span class="tok-s">&quot;the value &quot;</span>
           <span class="tok-s">&quot;is ~{value}&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;the value is 30&quot;</span></code></pre>
 </div>
@@ -442,7 +442,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/alnum?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/alnum?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; false</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/alnum?</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">)</span>
@@ -460,7 +460,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/alpha?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/alpha?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; false</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/alpha?</span> <span class="tok-s">&quot; &quot;</span><span class="tok-p">)</span>
@@ -478,7 +478,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/blank?</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/blank?</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; false</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/blank?</span> <span class="tok-s">&quot;   &quot;</span><span class="tok-p">)</span>
@@ -499,7 +499,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/camel</span> <span class="tok-s">&quot;foo bar&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/camel</span> <span class="tok-s">&quot;foo bar&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;fooBar&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/camel</span> <span class="tok-ss">:foo_barBaz</span><span class="tok-p">)</span>
@@ -517,7 +517,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/capital</span> <span class="tok-s">&quot;foo&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/capital</span> <span class="tok-s">&quot;foo&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;Foo&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/capital</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -532,7 +532,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/caseless=</span> <span class="tok-s">&quot;hello&quot;</span> <span class="tok-s">&quot;HELLO&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/caseless=</span> <span class="tok-s">&quot;hello&quot;</span> <span class="tok-s">&quot;HELLO&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; true</span></code></pre>
 </div>
 </div>
@@ -547,7 +547,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/chars</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/chars</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; [&quot;b&quot; &quot;a&quot; &quot;r&quot;]</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/chars</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -562,7 +562,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/clean</span> <span class="tok-s">&quot;  a   b   &quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/clean</span> <span class="tok-s">&quot;  a   b   &quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;a b&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/clean</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -577,7 +577,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/collapse-whitespace</span> <span class="tok-s">&quot;a\n\nb&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/collapse-whitespace</span> <span class="tok-s">&quot;a\n\nb&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;a b&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/collapse-whitespace</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -592,7 +592,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/css-selector</span> <span class="tok-s">&quot;PrependedWithDash&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/css-selector</span> <span class="tok-s">&quot;PrependedWithDash&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;-prepended-with-dash&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/css-selector</span> <span class="tok-s">&quot;noPrependedWithDash&quot;</span><span class="tok-p">)</span>
@@ -610,7 +610,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/digits?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/digits?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; false</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/digits?</span> <span class="tok-s">&quot;1.1&quot;</span><span class="tok-p">)</span>
@@ -628,7 +628,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/empty?</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/empty?</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; false</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/empty?</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">)</span>
@@ -649,7 +649,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/empty-or-nil?</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/empty-or-nil?</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; false</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/empty-or-nil?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -673,7 +673,7 @@ that will be concatenated on the final return value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/ends-with?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/ends-with?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; true</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/ends-with?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -700,7 +700,7 @@ provided values in ordered mode:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello %s and %s&quot;</span> <span class="tok-s">&quot;yen&quot;</span> <span class="tok-s">&quot;ciri&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello %s and %s&quot;</span> <span class="tok-s">&quot;yen&quot;</span> <span class="tok-s">&quot;ciri&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;hello yen and ciri&quot;</span></code></pre>
 </div>
 </div>
@@ -709,7 +709,7 @@ provided values in ordered mode:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello %s and %s&quot;</span> <span class="tok-s">&quot;yen&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello %s and %s&quot;</span> <span class="tok-s">&quot;yen&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; &quot;hello yen and %s&quot;</span></code></pre>
 </div>
 </div>
@@ -719,7 +719,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello %(name)s&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:name</span> <span class="tok-s">&quot;yen&quot;</span><span class="tok-p">})</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello %(name)s&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:name</span> <span class="tok-s">&quot;yen&quot;</span><span class="tok-p">})</span>
 <span class="tok-c1">;; =&gt; &quot;hello yen&quot;</span></code></pre>
 </div>
 </div>
@@ -728,7 +728,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello $name&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:name</span> <span class="tok-s">&quot;yen&quot;</span><span class="tok-p">})</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello $name&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:name</span> <span class="tok-s">&quot;yen&quot;</span><span class="tok-p">})</span>
 <span class="tok-c1">;; =&gt; &quot;hello yen&quot;</span></code></pre>
 </div>
 </div>
@@ -737,7 +737,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello $0&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;yen&quot;</span><span class="tok-p">])</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/format</span> <span class="tok-s">&quot;hello $0&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;yen&quot;</span><span class="tok-p">])</span>
 <span class="tok-c1">;; =&gt; &quot;hello yen&quot;</span></code></pre>
 </div>
 </div>
@@ -753,7 +753,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/human</span> <span class="tok-s">&quot;JustNiceForReading&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/human</span> <span class="tok-s">&quot;JustNiceForReading&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;just nice for reading&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/human</span> <span class="tok-ss">:great-for-csv-headers</span><span class="tok-p">)</span>
@@ -771,7 +771,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/includes?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/includes?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; true</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/includes?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -789,7 +789,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/join</span> <span class="tok-p">[</span><span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">])</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/join</span> <span class="tok-p">[</span><span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">])</span>
 <span class="tok-c1">;; =&gt; &quot;foobar&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/join</span> <span class="tok-s">&quot;,&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">])</span>
@@ -804,7 +804,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/js-selector</span> <span class="tok-s">&quot;-pascal-case-me&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/js-selector</span> <span class="tok-s">&quot;-pascal-case-me&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;PascalCaseMe&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/js-selector</span> <span class="tok-s">&quot;camel-case-me&quot;</span><span class="tok-p">)</span>
@@ -822,7 +822,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/kebab</span> <span class="tok-s">&quot;Favorite BBQ food&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/kebab</span> <span class="tok-s">&quot;Favorite BBQ food&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;favorite-bbq-food&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/kebab</span> <span class="tok-ss">:favorite-bbq-food</span><span class="tok-p">)</span>
@@ -840,7 +840,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/keyword</span> <span class="tok-s">&quot;just_doIt Right&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/keyword</span> <span class="tok-s">&quot;just_doIt Right&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; :just-do-it-right</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/keyword</span> <span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;auto namespace me&quot;</span><span class="tok-p">)</span>
@@ -862,7 +862,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/letters?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/letters?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; false</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/letters?</span> <span class="tok-s">&quot; &quot;</span><span class="tok-p">)</span>
@@ -883,7 +883,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/lines</span> <span class="tok-s">&quot;foo\nbar&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/lines</span> <span class="tok-s">&quot;foo\nbar&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; [&quot;foo&quot; &quot;bar&quot;]</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/lines</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -898,7 +898,7 @@ argument (map or vector) and use named interpolation tokens:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/lower</span> <span class="tok-s">&quot;FOO&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/lower</span> <span class="tok-s">&quot;FOO&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;foo&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/lower</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -920,7 +920,7 @@ left side of string.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/ltrim</span> <span class="tok-s">&quot; foo &quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/ltrim</span> <span class="tok-s">&quot; foo &quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;foo &quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/ltrim</span> <span class="tok-s">&quot;-foo-&quot;</span>, <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
@@ -938,7 +938,7 @@ left side of string.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/numeric?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/numeric?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; false</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/numeric?</span> <span class="tok-s">&quot;1.1&quot;</span><span class="tok-p">)</span>
@@ -960,7 +960,7 @@ the passed length parameter.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/pad</span> <span class="tok-s">&quot;1&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:length</span> <span class="tok-mi">8</span><span class="tok-p">})</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/pad</span> <span class="tok-s">&quot;1&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:length</span> <span class="tok-mi">8</span><span class="tok-p">})</span>
 <span class="tok-c1">;; =&gt; &quot;       1&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/pad</span> <span class="tok-nv">nil</span> <span class="tok-p">{</span><span class="tok-ss">:length</span> <span class="tok-mi">8</span><span class="tok-p">})</span>
@@ -984,7 +984,7 @@ the passed length parameter.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/parse-double</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/parse-double</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; 1.4</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/parse-double</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -999,7 +999,7 @@ the passed length parameter.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/parse-int</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/parse-int</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; 1</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/parse-int</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1015,7 +1015,7 @@ works with integers and floats.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/parse-number</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/parse-number</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; 1</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/parse-number</span> <span class="tok-s">&quot;1.4&quot;</span><span class="tok-p">)</span>
@@ -1037,7 +1037,7 @@ works with integers and floats.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/pascal</span> <span class="tok-s">&quot;my name is epeli&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/pascal</span> <span class="tok-s">&quot;my name is epeli&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;MyNameIsEpeli&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/pascal</span> <span class="tok-ss">:some-record</span><span class="tok-p">)</span>
@@ -1056,7 +1056,7 @@ capitalized, spaced string</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/phrase</span> <span class="tok-s">&quot;  capitalize dash-CamelCase_underscore trim  &quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/phrase</span> <span class="tok-s">&quot;  capitalize dash-CamelCase_underscore trim  &quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;Capitalize dash camel case underscore trim&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/phrase</span> <span class="tok-ss">:nobody-uses-keywords-this-long-but-it-still-works</span><span class="tok-p">)</span>
@@ -1076,7 +1076,7 @@ half-chopped words when truncating.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/prune</span> <span class="tok-s">&quot;Hello World&quot;</span> <span class="tok-mi">5</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/prune</span> <span class="tok-s">&quot;Hello World&quot;</span> <span class="tok-mi">5</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;Hello...&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/prune</span> <span class="tok-s">&quot;Hello World&quot;</span> <span class="tok-mi">8</span><span class="tok-p">)</span>
@@ -1097,7 +1097,7 @@ half-chopped words when truncating.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/quote</span> <span class="tok-s">&quot;a&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/quote</span> <span class="tok-s">&quot;a&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;\&quot;a\&quot;&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/quote</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1112,7 +1112,7 @@ half-chopped words when truncating.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/repeat</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-mi">3</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/repeat</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-mi">3</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;aaa&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/repeat</span> <span class="tok-nv">nil</span> <span class="tok-mi">3</span><span class="tok-p">)</span>
@@ -1127,7 +1127,7 @@ half-chopped words when truncating.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/replace</span> <span class="tok-s">&quot;aa bb aa&quot;</span> <span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/replace</span> <span class="tok-s">&quot;aa bb aa&quot;</span> <span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;kk bb kk&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/replace</span> <span class="tok-s">&quot;aa bb aa&quot;</span> <span class="tok-o">#</span><span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
@@ -1145,7 +1145,7 @@ half-chopped words when truncating.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/replace-first</span> <span class="tok-s">&quot;aa bb aa&quot;</span> <span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/replace-first</span> <span class="tok-s">&quot;aa bb aa&quot;</span> <span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;kk bb aa&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/replace-first</span> <span class="tok-s">&quot;aa bb aa&quot;</span> <span class="tok-o">#</span><span class="tok-s">&quot;aa&quot;</span> <span class="tok-s">&quot;kk&quot;</span><span class="tok-p">)</span>
@@ -1163,7 +1163,7 @@ half-chopped words when truncating.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/reverse</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/reverse</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;rab&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/reverse</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1182,7 +1182,7 @@ right side of string.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/rtrim</span> <span class="tok-s">&quot; foo &quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/rtrim</span> <span class="tok-s">&quot; foo &quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot; foo&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/rtrim</span> <span class="tok-s">&quot;-foo-&quot;</span>, <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
@@ -1200,7 +1200,7 @@ right side of string.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/slice</span> <span class="tok-s">&quot;123&quot;</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/slice</span> <span class="tok-s">&quot;123&quot;</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;23&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/slice</span> <span class="tok-s">&quot;1234&quot;</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">)</span>
@@ -1218,7 +1218,7 @@ right side of string.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/slug</span> <span class="tok-s">&quot;Un éléphant à l&#39;orée du bois&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/slug</span> <span class="tok-s">&quot;Un éléphant à l&#39;orée du bois&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;un-elephant-a-loree-du-bois&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/slug</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1238,7 +1238,7 @@ more modern version of slug function that respects the unicode characters.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/snake</span> <span class="tok-s">&quot;Slither-sliter Slither&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/snake</span> <span class="tok-s">&quot;Slither-sliter Slither&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;slither_slither_slither&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/snake</span> <span class="tok-ss">:slither-slither</span><span class="tok-p">)</span>
@@ -1257,7 +1257,7 @@ The separator can be a string or RegExp instance.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/split</span> <span class="tok-s">&quot;1 2 3&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/split</span> <span class="tok-s">&quot;1 2 3&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; [&quot;1&quot; &quot;2&quot; &quot;3&quot;]</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/split</span> <span class="tok-s">&quot;1 2 3&quot;</span> <span class="tok-s">&quot; &quot;</span><span class="tok-p">)</span>
@@ -1284,7 +1284,7 @@ The separator can be a string or RegExp instance.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/starts-with?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-s">&quot;foo&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/starts-with?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-s">&quot;foo&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; true</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/starts-with?</span> <span class="tok-s">&quot;foobar&quot;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1303,7 +1303,7 @@ replaced with a single space.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-newlines</span> <span class="tok-s">&quot;a\n\nb&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/strip-newlines</span> <span class="tok-s">&quot;a\n\nb&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;a b&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/strip-newlines</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1319,7 +1319,7 @@ the string untouched.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-prefix</span> <span class="tok-nv">nil</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/strip-prefix</span> <span class="tok-nv">nil</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; nil</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/strip-prefix</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1338,7 +1338,7 @@ the string untouched.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-suffix</span> <span class="tok-nv">nil</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/strip-suffix</span> <span class="tok-nv">nil</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; nil</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/strip-suffix</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1356,7 +1356,7 @@ the string untouched.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;just some text&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just &lt;b&gt;some&lt;/b&gt; text&lt;/p&gt;&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;p&quot;</span><span class="tok-p">])</span>
@@ -1371,7 +1371,7 @@ the string untouched.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just&lt;br&gt;text&lt;/p&gt;&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:br</span> <span class="tok-s">&quot;\n&quot;</span><span class="tok-p">})</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just&lt;br&gt;text&lt;/p&gt;&quot;</span> <span class="tok-p">{</span><span class="tok-ss">:br</span> <span class="tok-s">&quot;\n&quot;</span><span class="tok-p">})</span>
 <span class="tok-c1">;; =&gt; &quot;just\ntext&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/strip-tags</span> <span class="tok-s">&quot;&lt;p&gt;just&lt;br&gt;text&lt;/p&gt;&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;br&quot;</span><span class="tok-p">]</span> <span class="tok-p">{</span><span class="tok-ss">:br</span> <span class="tok-s">&quot;\n&quot;</span><span class="tok-p">})</span>
@@ -1386,7 +1386,7 @@ the string untouched.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/surround</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/surround</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;-a-&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/surround</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-s">&quot;-^-&quot;</span><span class="tok-p">)</span>
@@ -1405,7 +1405,7 @@ with each word capitalized.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/title</span> <span class="tok-s">&quot;a tale of two cities&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/title</span> <span class="tok-s">&quot;a tale of two cities&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;A Tale Of Two Cities&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/title</span> <span class="tok-ss">:title-case</span><span class="tok-p">)</span>
@@ -1423,7 +1423,7 @@ with each word capitalized.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/to-bool</span> <span class="tok-s">&quot;hello&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/to-bool</span> <span class="tok-s">&quot;hello&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; false</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/to-bool</span> <span class="tok-s">&quot;on&quot;</span><span class="tok-p">)</span>
@@ -1442,7 +1442,7 @@ both ends of string.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/trim</span> <span class="tok-s">&quot; foo &quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/trim</span> <span class="tok-s">&quot; foo &quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;foo&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/trim</span> <span class="tok-s">&quot;-foo-&quot;</span>, <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
@@ -1461,7 +1461,7 @@ the opposite of lines.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/unlines</span> <span class="tok-p">[</span><span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;nbar&quot;</span><span class="tok-p">])</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/unlines</span> <span class="tok-p">[</span><span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;nbar&quot;</span><span class="tok-p">])</span>
 <span class="tok-c1">;; =&gt; &quot;foo\nbar&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/unlines</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1476,7 +1476,7 @@ the opposite of lines.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/unquote</span> <span class="tok-s">&quot;\&quot;a\&quot;&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/unquote</span> <span class="tok-s">&quot;\&quot;a\&quot;&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;a&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/unquote</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1491,7 +1491,7 @@ the opposite of lines.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/unsurround</span> <span class="tok-s">&quot;-a-&quot;</span> <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/unsurround</span> <span class="tok-s">&quot;-a-&quot;</span> <span class="tok-s">&quot;-&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;a&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/unsurround</span> <span class="tok-s">&quot;-^-a-^-&quot;</span> <span class="tok-s">&quot;-^-&quot;</span><span class="tok-p">)</span>
@@ -1509,7 +1509,7 @@ the opposite of lines.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/upper</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/upper</span> <span class="tok-s">&quot;foobar&quot;</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; &quot;FOOBAR&quot;</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/upper</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
@@ -1527,7 +1527,7 @@ the opposite of lines.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/word?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/word?</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; false</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/word?</span> <span class="tok-s">&quot;&quot;</span><span class="tok-p">)</span>
@@ -1546,7 +1546,7 @@ expression that matches a single word (defaults to <code>[a-zA-Z0-9_-]+</code>).
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">str/words</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">str/words</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; nil</span>
 
 <span class="tok-p">(</span><span class="tok-nf">str/words</span> <span class="tok-s">&quot;foo, bar&quot;</span><span class="tok-p">)</span>
@@ -1640,7 +1640,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-02-06 09:54:55 CET
+Last updated 2017-10-06 15:37:57 CEST
 </div>
 </div>
 </body>
