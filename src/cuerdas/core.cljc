@@ -261,7 +261,7 @@
 (defn ltrim
   "Removes whitespace or specified characters
   from left side of string."
-  ([s] (ltrim s "\b\t\f\r "))
+  ([s] (ltrim s "\n\t\f\r "))
   ([s chs]
    (when (string? s)
      (let [rxstr (str "[" (rx/escape chs) "]")
