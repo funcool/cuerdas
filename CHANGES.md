@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.0.5
+
+Date: Unreleased
+
+- Fix unexpected exception on `pad` function when the provided string
+  length is larger than the `:length` parameter (cljs only).
+
+
 ## Version 2.0.4
 
 Date: 2017-10-06

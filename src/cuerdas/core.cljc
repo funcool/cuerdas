@@ -682,7 +682,8 @@
          :or {length 0 padding " " type :left}}]]
   (when (string? s)
     (let [padding (slice padding 0 1)
-          padlen  (- length (count s))]
+          padlen  (- length (count s))
+          padlen  (if (< padlen 0) 0 padlen)]
       (condp = type
         :right (str s (repeat padding padlen))
         :both  (let [first (repeat padding (Math/ceil (/ padlen 2)))

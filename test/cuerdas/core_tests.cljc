@@ -316,7 +316,8 @@
     (t/is (= "       1" (str/pad "1" {:length 8})))
     (t/is (= "00000001" (str/pad "1" {:length 8 :padding "0"})))
     (t/is (= "10000000" (str/pad "1" {:length 8 :padding "0" :type :right})))
-    (t/is (= "00001000" (str/pad "1" {:length 8 :padding "0" :type :both}))))
+    (t/is (= "00001000" (str/pad "1" {:length 8 :padding "0" :type :both})))
+    (t/is (= "12345" (str/pad "12345" {:padding "0" :length 4}))))
 
   (t/testing "capital"
     (t/is (= nil (str/capital nil)))
