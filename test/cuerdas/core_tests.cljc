@@ -278,17 +278,24 @@
 
   (t/testing "parse-number"
     (t/is (nan? (str/parse-number nil)))
+    (t/is (nan? (str/parse-number "foobar")))
     (t/is (= 1.4 (str/parse-number "1.4")))
     (t/is (= 1 (str/parse-number "1"))))
 
   (t/testing "parse-double"
     (t/is (nan? (str/parse-double nil)))
+    (t/is (nan? (str/parse-double "foobar")))
     (t/is (= 1.4 (str/parse-double "1.4")))
-    (t/is (= 1.0 (str/parse-double "1"))))
+    (t/is (= 1.0 (str/parse-double "1")))
+    (t/is (= 1.4 (str/parse-double 1.4)))
+    (t/is (= 1.0 (str/parse-double 1))))
 
   (t/testing "parse-int"
     (t/is (nan? (str/parse-int nil)))
-    (t/is (= 1 (str/parse-int "1.4"))))
+    (t/is (nan? (str/parse-int "foobar")))
+    (t/is (= 1 (str/parse-int "1.4")))
+    (t/is (= 1 (str/parse-int 1.4)))
+    (t/is (= 1 (str/parse-int 1))))
 
   (t/testing "one-of?"
     (t/is (str/one-of? ["test" "test2" "test3"] "test3"))

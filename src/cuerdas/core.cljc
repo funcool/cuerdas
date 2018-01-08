@@ -647,19 +647,34 @@
 
 (defn parse-double
   "Return the double value from string."
-  [^String s]
-  #?(:cljs (js/parseFloat s)
-     :clj  (cond
-             (nil? s) Double/NaN
-             :else (Double/parseDouble s))))
+  [s]
+  (cond
+    (number? s)
+    (double s)
+
+    (string? s)
+    #?(:cljs (js/parseFloat s)
+       :clj  (try
+               (Double/parseDouble s)
+               (catch Throwable e Double/NaN)))
+
+    :else
+    #?(:clj Double/NaN
+       :cljs js/NaN)))
 
 (defn parse-int
   "Return the number value in integer form."
   [s]
-  (if (and (string? s)
-           (re-matches #"-?\d+(\.\d+)?" s))
+  (cond
+    (number? s)
+    (int s)
+
+    (and (string? s)
+         (re-matches #"-?\d+(\.\d+)?" s))
     #?(:clj (.longValue (Double. ^String s))
        :cljs (js/parseInt s 10))
+
+    :else
     #?(:clj Double/NaN
        :cljs js/NaN)))
 
