@@ -2,10 +2,12 @@
 
 ## Version 2.0.5
 
-Date: Unreleased
+Date: 2018-01-08
 
 - Fix unexpected exception on `pad` function when the provided string
   length is larger than the `:length` parameter (cljs only).
+- Fix unexpected behavior with regexes with advanced compilation.
+- Fix `parse-int` and `parse-double` unexpected behavior on clj and cljs.
 
 
 ## Version 2.0.4
