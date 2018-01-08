@@ -278,7 +278,7 @@ Check if the string is empty or contains only whitespaces.
 ;; => true
 
 (str/blank? nil)
-;; => true
+;; => nil
 ----
 
 
