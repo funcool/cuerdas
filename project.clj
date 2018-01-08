@@ -12,8 +12,8 @@
   :jar-exclusions [#"\.swp|\.swo|user.clj"]
 
   :profiles
-  {:dev {:aliases {"test-all" ["with-profile" "dev,1.9:dev,1.7:dev" "test"]}}
-   :1.9 {:dependencies [[org.clojure/clojure "1.9.0-beta1"]]}
+  {:dev {:aliases {"test-all" ["with-profile" "dev,1.8:dev,1.7:dev" "test"]}}
+   :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
    :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}})
 
 
