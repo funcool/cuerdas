@@ -15,10 +15,12 @@
 (t/deftest cuerdas-tests
   (t/testing "lower"
     (t/is (= nil (str/lower nil)))
+    (t/is (= "" (str/lower "")))
     (t/is (= "foo" (str/lower "FOO"))))
 
   (t/testing "upper"
     (t/is (= nil (str/upper nil)))
+    (t/is (= "" (str/upper "")))
     (t/is (= "FOO" (str/upper "foo"))))
 
   (t/testing "collapse-whitespace"
@@ -328,6 +330,7 @@
 
   (t/testing "capital"
     (t/is (= nil (str/capital nil)))
+    (t/is (= "" (str/capital "")))
     (t/is (= "Foo" (str/capital "foo")))
     (t/is (= "FooBar" (str/capital "fooBar"))))
 

@@ -1,4 +1,4 @@
-;; Copyright (c) 2015-2016 Andrey Antukh <niwi@niwi.nz>
+;; Copyright (c) 2015-2018 Andrey Antukh <niwi@niwi.nz>
 ;; All rights reserved.
 ;;
 ;; Redistribution and use in source and binary forms, with or without
@@ -542,7 +542,7 @@
 (defn capital
   "Uppercases the first character of a string or keyword"
   [s]
-  (when (and (string? s) (not-empty s))
+  (when (string? s)
     (str (upper (subs s 0 1)) (subs s 1 (count s)))))
 
 (defn camel
