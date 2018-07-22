@@ -1,6 +1,6 @@
 = cuerdas
 Andrey Antukh, <niwi@niwi.nz>
-2.0.5
+2.0.6
 :toc: left
 :source-highlighter: pygments
 :pygments-style: friendly
@@ -35,7 +35,7 @@ Add the following dependency to your project.clj file:
 
 [source,clojure]
 ----
-[funcool/cuerdas "2.0.5"]
+[funcool/cuerdas "2.0.6"]
 ----
 
 
@@ -57,6 +57,13 @@ Add the following dependency to your project.clj file:
 (str/strip-tags "<p>just <b>some</b> text</p>" ["p"])
 ;; => "just <b>some</b> text"
 ----
+
+[NOTE]
+====
+This library only intends to work with strings and always being
+null-safe. So practically all functions that expectes a `string` as
+argument and receives a `nil` will return `nil`.
+====
 
 
 == Functions by Use
@@ -233,7 +240,7 @@ Checks if a string contains only alphanumeric characters.
 [source, clojure]
 ----
 (str/alnum? nil)
-;; => false
+;; => nil
 
 (str/alnum? "")
 ;; => false
@@ -251,7 +258,7 @@ Checks if a string contains only alpha characters.
 [source, clojure]
 ----
 (str/alpha? nil)
-;; => false
+;; => nil
 
 (str/alpha? " ")
 ;; => false
@@ -396,7 +403,7 @@ Checks if a string contains only digits.
 [source, clojure]
 ----
 (str/digits? nil)
-;; => false
+;; => nil
 
 (str/digits? "1.1")
 ;; => false
@@ -552,7 +559,7 @@ Determines whether a string includes a substring.
 ;; => false
 
 (str/includes? nil nil)
-;; => false
+;; => nil
 ----
 
 
@@ -633,7 +640,7 @@ This is an unicode aware version of `alpha?`.
 [source, clojure]
 ----
 (str/letters? nil)
-;; => false
+;; => nil
 
 (str/letters? " ")
 ;; => false
@@ -1039,7 +1046,7 @@ Alias: `startswith?`
 ;; => false
 
 (str/starts-with? nil "foo")
-;; => false
+;; => nil
 ----
 
 
@@ -1262,7 +1269,7 @@ This is a unicode aware version of `alnum?`.
 [source, clojure]
 ----
 (str/word? nil)
-;; => false
+;; => nil
 
 (str/word? "")
 ;; => false
