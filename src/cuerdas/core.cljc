@@ -540,9 +540,10 @@
               (stylize-join first-fn rest-fn join-with)))))
 
 (defn capital
-  "Uppercases the first character of a string or keyword"
+  "Uppercases the first character of a string"
   [s]
-  (when (string? s)
+  (if (empty-or-nil? s)
+    s
     (str (upper (subs s 0 1)) (subs s 1 (count s)))))
 
 (defn camel
