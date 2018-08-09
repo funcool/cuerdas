@@ -66,6 +66,24 @@ argument and receives a `nil` will return `nil`.
 ====
 
 
+== Self-host ClojureScript
+
+.This library is compatible with self-host ClojureScript
+
+[source, shell]
+----
+lumo -c $(clojure -Srepro -Sdeps '{:deps {funcool/cuerdas {:mvn/version "X.Y.Z"}}}' -Spath)
+----
+
+[source, clojure]
+----
+cljs.user=> (require '[cuerdas.core :as str])
+;; => nil
+cljs.user=> (str/collapse-whitespace " foo bar    ")
+;; => "foo bar"
+----
+
+
 == Functions by Use
 
 === Cleaning
@@ -209,6 +227,7 @@ another line
 
 String interpolation macro. Enables easy string formating allowing
 symbol substitutions and simple expression evaluation.
+At the moment not compatible with self-host ClojureScript.
 
 [source, clojure]
 ----

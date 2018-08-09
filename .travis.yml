@@ -2,12 +2,17 @@ language: clojure
 sudo: false
 lein: lein
 
+install:
+  - sudo ./scripts/install-ci-deps /usr/local
+  - lumo --version
+
 script:
   - lein test-all
   - ./scripts/build
   - nvm install v6.4.0
   - node --version
   - node out/tests.js
+  - lein test-lumo
 
 branches:
   only:
