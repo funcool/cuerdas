@@ -1,6 +1,5 @@
 (ns cuerdas.core-tests
-  (:require #?(:cljs [cljs.test :as t]
-               :clj  [clojure.test :as t])
+  (:require [clojure.test :as t]
             [cuerdas.core :as str :include-macros true])
   #?(:clj (:import (java.util Locale))))
 
@@ -441,19 +440,21 @@
     (t/is (= "foo" (str/substr-between "---foo>>bar" "---" ">>")))
     (t/is (= "foo" (str/substr-between "---foo>>bar--foo1>>bar" "---" ">>"))))
 
-  (t/testing "<<"
-    (let [v 2]
-      (t/is (= "the value is 2" (str/<< "the value is ~{v}")))
-      (t/is (= "the value is 3" (str/<< "the value is ~(inc v)")))
-      (t/is (= "the value is 4" (str/<< "the value is ~(-> v inc inc)")))
-      (t/is (= "the value is 2" (str/<< "the value" " is ~{v}")))))
+  #?(:clj
+     (t/testing "<<"
+       (let [v 2]
+         (t/is (= "the value is 2" (str/<< "the value is ~{v}")))
+         (t/is (= "the value is 3" (str/<< "the value is ~(inc v)")))
+         (t/is (= "the value is 4" (str/<< "the value is ~(-> v inc inc)")))
+         (t/is (= "the value is 2" (str/<< "the value" " is ~{v}"))))))
 
-  (t/testing "istr"
-    (let [v 2]
-      (t/is (= "the value is 2" (str/istr "the value is ~{v}")))
-      (t/is (= "the value is 3" (str/istr "the value is ~(inc v)")))
-      (t/is (= "the value is 4" (str/istr "the value is ~(-> v inc inc)")))
-      (t/is (= "the value is 2" (str/istr "the value" " is ~{v}")))))
+  #?(:clj
+     (t/testing "istr"
+       (let [v 2]
+         (t/is (= "the value is 2" (str/istr "the value is ~{v}")))
+         (t/is (= "the value is 3" (str/istr "the value is ~(inc v)")))
+         (t/is (= "the value is 4" (str/istr "the value is ~(-> v inc inc)")))
+         (t/is (= "the value is 2" (str/istr "the value" " is ~{v}"))))))
 
   (t/testing "<<-"
     (t/is (= "first line\n  indented two\n\n    indented four\n"
