@@ -19,3 +19,5 @@ pom.xml.asc
 /.idea
 /cuerdas.iml
 .lumo_cache
+.cpcache
+.rebel_readline_history
