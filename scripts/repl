@@ -1,2 +1,13 @@
 #!/bin/sh
-rlwrap lein trampoline run -m clojure.main scripts/repl.clj
+
+set -eu
+
+if [ "$1" = "--figwheel" ]; then
+    clojure -Srepro -A:cljs-jvm:dev:test -m figwheel.main -b dev -r
+elif [ "$1" = "--lumo" ]; then
+    port=5555
+    cp=$(clojure -Srepro -C:dev:test -Spath)
+    lumo -sfK -c "$cp" -n $port
+else
+    rlwrap lein trampoline run -m clojure.main scripts/repl.clj
+fi

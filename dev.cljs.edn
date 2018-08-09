@@ -1,0 +1,10 @@
+{:main cuerdas.core-tests
+ :target :nodejs
+ :output-to "out/tests.js"
+ :output-dir "out"
+ :optimizations :none
+ :source-map true
+ :source-map-timestamp false
+ :pretty-print true
+ :install-deps true
+ :npm-deps {:xregexp "4.2.0"}}
