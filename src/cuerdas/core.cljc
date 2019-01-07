@@ -672,7 +672,7 @@
 
     (and (string? s)
          (re-matches #"-?\d+(\.\d+)?" s))
-    #?(:clj (.longValue (Double. ^String s))
+    #?(:clj (.longValue (java.math.BigDecimal. ^String s))
        :cljs (js/parseInt s 10))
 
     :else
