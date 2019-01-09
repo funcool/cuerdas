@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 2.1.0
+
+Date: 2019-01-09
+
+- Fix `parse-int` precision issues.
+- Remove regexp bundle (provide it as npm dep).
+
+
+## Version 2.0.6
+
+Date: 2018-07-22
+
+- Fix unexpected behavior of `capital` with empty strings.
+
 ## Version 2.0.5
 
 Date: 2018-01-08
