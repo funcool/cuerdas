@@ -1,2 +1,5 @@
 {:externs ["externs.js"]
- :npm-deps {:xregexp "4.2.0"}}
+ :foreign-libs
+ [{:file "xregexp/xregexp.js"
+   :file-min "xregexp/xregexp.min.js"
+   :provides ["cuerdas.vendor.xregexp"]}]}
