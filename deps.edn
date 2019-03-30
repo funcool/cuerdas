@@ -1,8 +1,17 @@
-{:paths ["src"]
- :aliases {:dev {:extra-deps
-                 {com.bhauman/figwheel-main {:mvn/version "0.1.6-SNAPSHOT"}
-                  com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}}}
-           :test {:extra-paths ["test"]}
-           :cljs-jvm {:extra-deps
-                      {org.clojure/clojure {:mvn/version "1.9.0"}
-                       org.clojure/clojurescript {:mvn/version "1.10.339"}}}}}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.520" :scope "provided"}
+        org.clojure/clojure {:mvn/version "1.10.0"}}
+ :paths ["src" "assets"]
+ :aliases
+ {:dev
+  {:extra-paths ["test"]
+   :extra-deps
+   {com.bhauman/figwheel-main {:mvn/version "0.2.0"}
+    com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}
+    eftest {:mvn/version "0.5.7"}}}
+
+  :ancient {:main-opts ["-m" "deps-ancient.deps-ancient"]
+            :extra-deps {deps-ancient {:mvn/version "RELEASE"}}}
+
+  :jar {:extra-deps {seancorfield/depstar {:mvn/version "RELEASE"}}
+        :main-opts ["-m" "hf.depstar.jar"]}
+ }}

@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.2.0
+
+Date: 2019-03-31
+
+- Add again the xregexp bundle (revert previous change)
+- Update xregexp to 4.2.0.
+
+
 ## Version 2.1.0
 
 Date: 2019-01-09
