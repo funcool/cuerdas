@@ -4,7 +4,7 @@
   <groupId>funcool</groupId>
   <artifactId>cuerdas</artifactId>
   <packaging>jar</packaging>
-  <version>2.2.0</version>
+  <version>2.2.1</version>
   <name>cuerdas</name>
   <description>The missing string manipulation library for clojure</description>
   <url>https://github.com/funcool/cuerdas</url>
@@ -18,7 +18,7 @@
     <url>https://github.com/funcool/cuerdas</url>
     <connection>scm:git:git://github.com/funcool/cuerdas.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/funcool/cuerdas.git</developerConnection>
-    <tag>2897c2a6aa357a988887b1fcefa04386cac985ea</tag>
+    <tag>master</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -35,27 +35,6 @@
     </testResources>
     <directory>target</directory>
     <outputDirectory>target/classes</outputDirectory>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.7</version>
-        <executions>
-          <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>assets</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
   </build>
   <repositories>
     <repository>
@@ -70,12 +49,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.clojure</groupId>
-      <artifactId>clojurescript</artifactId>
-      <version>1.10.520</version>
+      <version>1.10.1</version>
     </dependency>
   </dependencies>
 </project>

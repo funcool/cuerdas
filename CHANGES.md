@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.2.1
+
+Date: 2019-11-14
+
+- Remove implicit clojurescript compiler dependency.
+
+
 ## Version 2.2.0
 
 Date: 2019-03-31
