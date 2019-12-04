@@ -324,7 +324,7 @@
        (rx/regexp? match)
        (if (string? replacement)
          (replace-all s match replacement)
-         (replace-all s match (str/replace-with replacement))))))
+         (replace-all s match (#'str/replace-with replacement))))))
 
 (defn replace
   "Replaces all instance of match with replacement in s.
