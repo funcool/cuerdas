@@ -1322,19 +1322,14 @@ expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
 _cuerdas_ has targeted some parts of implementation for Clojure and
 ClojureScript using Reader Conditionals.
 
-.Run tests in the Clojure environment using Leiningen.
+.Run tests in the Clojure environment.
 ----
-$ lein test cuerdas.core-tests
-----
-
-.Compile ClojureScript to JavaScript.
-----
-$ ./scripts/build
+$ clj -A:dev ./tools.clj test
 ----
 
-.Run tests on compiled ClojureScript using node.
+.Run tests in the ClojureScript environment.
 ----
-$ node ./out/tests.js
+$ clj -A:dev ./tools.clj test-cljs
 ----
 
 
