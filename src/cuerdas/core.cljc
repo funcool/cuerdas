@@ -1,4 +1,4 @@
-;; Copyright (c) 2015-2018 Andrey Antukh <niwi@niwi.nz>
+;; Copyright (c) 2015-2020 Andrey Antukh <niwi@niwi.nz>
 ;; All rights reserved.
 ;;
 ;; Redistribution and use in source and binary forms, with or without
@@ -41,8 +41,8 @@
 (defn empty?
   "Checks if a string is empty."
   [s]
-  (when (string? s)
-    (zero? (count s))))
+  (and (string? s)
+       (zero? (count s))))
 
 (defn empty-or-nil?
   "Convenient helper for check emptines or if value is nil."
@@ -53,11 +53,10 @@
 (defn includes?
   "Determines whether a string contains a substring."
   [s subs]
-  (when (string? s)
-    (if (nil? subs)
-      false
-      #?(:clj (.contains (.toString ^Object s) (.toString ^Object subs))
-         :cljs (gstr/contains s subs)))))
+  (and (string? s)
+       (string? subs)
+       #?(:clj (.contains s subs)
+          :cljs (gstr/contains s subs))))
 
 #?(:clj
    (defn slice
@@ -86,33 +85,28 @@
 
 (defn starts-with?
   "Check if the string starts with prefix."
-  [s ^Object prefix]
-  (when (string? s)
-    (cond
-      (nil? prefix) false
-      (empty? prefix) true
-      :else
-      #?(:clj (let [prefix (.toString prefix)
-                    region (slice s 0 (count prefix))]
-                (= region prefix))
-         :cljs (= (.lastIndexOf s prefix 0) 0)))))
+  [s prefix]
+  (and (string? s)
+       (or (string? prefix)
+           (char? prefix))
+       (or (zero? (count s))
+           #?(:clj (let [region (slice s 0 (count prefix))]
+                     (= region prefix))
+              :cljs (= (.lastIndexOf s prefix 0) 0)))))
 
 (defn ends-with?
   "Check if the string ends with suffix."
-  [s ^Object suffix]
-  (when (string? s)
-    (cond
-      (nil? s) false
-      (nil? suffix) false
-      (empty? suffix) true
-      :else
-      #?(:clj  (let [len (count s)
-                     suffix (.toString suffix)
-                     region (slice s (- len (count suffix)) len)]
-                (= region suffix))
-         :cljs (let [l (- (count s) (count suffix))]
-                 (and (>= l 0)
-                      (= (.indexOf s suffix l) l)))))))
+  [s suffix]
+  (and (string? s)
+       (or (string? suffix)
+           (char? suffix))
+       (or (zero? (count s))
+           #?(:clj (let [len (count s)
+                         region (slice s (- len (count suffix)) len)]
+                     (= region suffix))
+              :cljs (let [l (- (count s) (count suffix))]
+                      (and (>= l 0)
+                           (= (.indexOf s suffix l) l)))))))
 
 (defn lower
   "Converts string to all lower-case.
@@ -132,107 +126,73 @@
   (when (string? s)
     (.toUpperCase #?(:clj ^String s :cljs s))))
 
-(defn locale-lower
-  "Converts string to all lower-case respecting
-  the current system locale.
-
-  In the jvm you can provide a concrete locale to
-  use as the second optional argument."
-  ([s]
-   (when (string? s)
-     #?(:cljs (.toLocaleLowerCase s)
-        :clj (.toLowerCase ^String s))))
-  #?(:clj
-     ([s locale]
-      {:pre [(instance? Locale locale)]}
-      (when (string? s)
-        (.toLowerCase ^String s ^Locale locale)))))
-
-(defn locale-upper
-  "Converts string to all upper-case respecting
-  the current system locale.
-
-  In the jvm you can provide a concrete locale to
-  use as the second optional argument."
-  ([s]
-   (when (string? s)
-     #?(:cljs (.toLocaleUpperCase s)
-        :clj (.toUpperCase ^String s))))
-  #?(:clj
-     ([s locale]
-      {:pre [(instance? Locale locale)]}
-      (when (string? s)
-        (.toUpperCase ^String s ^Locale locale)))))
-
-(defn caseless=
-  "Compare strings in a case-insensitive manner.
-
-  This function is locale independent."
-  [s1 s2]
-  (when (string? s1)
-    #?(:clj  (.equalsIgnoreCase ^String s1 ^String s2)
-       :cljs (= (lower s1) (lower s2)))))
-
-(defn locale-caseless=
-  "Compare strings in a case-insensitive manner
-  respecting the current locale.
-
-  An optional locale can be passed as third
-  argument (only on JVM)."
-  ([s1 s2]
-   (when (string? s1)
-     (= (locale-lower s1) (locale-lower s2))))
-  #?(:clj
-     ([s1 s2 locale]
-      {:pre [(instance? Locale locale)]}
-      (when (string? s1)
-        (= (locale-lower s1 locale) (locale-lower s2 locale))))))
-
 (defn blank?
   "Checks if a string is empty or contains only whitespace."
   [^String s]
-  (when (string? s)
-    (or (zero? (count s))
-        (boolean (-> (rx/enhace (re-pattern "^[\\s\\p{Z}]+$"))
-                     (re-matches s))))))
+  (and (string? s)
+       (or (zero? (count s))
+           (boolean (-> (rx/enhace (re-pattern "^[\\s\\p{Z}]+$"))
+                        (re-matches s))))))
 
 (defn alpha?
   "Checks if a string contains only alpha characters."
   [s]
-  (when (string? s)
-    (boolean (re-matches #"^[a-zA-Z]+$" s))))
+  (and (string? s)
+       (boolean (re-matches #"^[a-zA-Z]+$" s))))
 
 (defn digits?
   "Checks if a string contains only digit characters."
   [s]
-  (when (string? s)
-    (boolean (re-matches #"^[0-9]+$" s))))
+  (and (string? s)
+       (boolean (re-matches #"^[0-9]+$" s))))
 
 (defn alnum?
   "Checks if a string contains only alphanumeric characters."
   [s]
-  (when (string? s)
-    (boolean (re-matches #"^[a-zA-Z0-9]+$" s))))
+  (and (string? s)
+       (boolean (re-matches #"^[a-zA-Z0-9]+$" s))))
 
 (defn word?
   "Checks if a string contains only the word characters.
   This function will use all the unicode range."
   [s]
-  (when (string? s)
-    (boolean (re-matches (rx/enhace (re-pattern "^[\\p{N}\\p{L}_-]+$")) s))))
+  (and (string? s)
+       (boolean (re-matches (rx/enhace (re-pattern "^[\\p{N}\\p{L}_-]+$")) s))))
 
 (defn letters?
   "Checks if string contains only letters.
   This function will use all the unicode range."
   [s]
-  (when (string? s)
-    (boolean (re-matches (rx/enhace (re-pattern "^\\p{L}+$")) s))))
+  (and (string? s)
+       (boolean (re-matches (rx/enhace (re-pattern "^\\p{L}+$")) s))))
 
 (defn numeric?
   "Check if a string contains only numeric values."
   [s]
-  (when (string? s)
-    (boolean (re-matches #"^[+-]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+-]?[0-9]+)?$" s))))
+  (and (string? s)
+       (boolean (re-matches #"^[+-]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+-]?[0-9]+)?$" s))))
+
+(defn index-of
+  ([s val]
+   (when (and (string? s)
+              (string? val))
+     (str/index-of s val)))
+
+  ([s val from]
+   (when (and (string? s)
+              (string? val))
+     (str/index-of s val from))))
+
+(defn last-index-of
+  ([s val]
+   (when (and (string? s)
+              (string? val))
+     (str/last-index-of s val)))
+
+  ([s val from]
+   (when (and (string? s)
+              (string? val))
+     (str/last-index-of s val from))))
 
 (declare replace)
 
@@ -282,16 +242,16 @@
 
 (defn strip-prefix
   "Strip prefix in more efficient way."
-  [^String s ^Object prefix]
+  [^String s ^String prefix]
   (if (starts-with? s prefix)
-    (slice s (count (.toString prefix)) (count s))
+    (slice s (count prefix) (count s))
     s))
 
 (defn strip-suffix
   "Strip suffix in more efficient way."
-  [^String s ^Object suffix]
+  [^String s suffix]
   (if (ends-with? s suffix)
-    (slice s 0 (- (count s) (count (.toString suffix))))
+    (slice s 0 (- (count s) (count suffix)))
     s))
 
 (declare join)
@@ -635,50 +595,6 @@
   ([n k]
    (keyword* (str n) (kebab k))))
 
-(defn parse-number
-  "General purpose function for parse number like
-  string to number. It works with both integers
-  and floats."
-  [s]
-  (if (nil? s)
-    #?(:cljs js/NaN :clj Double/NaN)
-    (if (numeric? s)
-      (edn/read-string s)
-      #?(:cljs js/NaN :clj Double/NaN))))
-
-(defn parse-double
-  "Return the double value from string."
-  [s]
-  (cond
-    (number? s)
-    (double s)
-
-    (string? s)
-    #?(:cljs (js/parseFloat s)
-       :clj  (try
-               (Double/parseDouble s)
-               (catch Throwable e Double/NaN)))
-
-    :else
-    #?(:clj Double/NaN
-       :cljs js/NaN)))
-
-(defn parse-int
-  "Return the number value in integer form."
-  [s]
-  (cond
-    (number? s)
-    (int s)
-
-    (and (string? s)
-         (re-matches #"-?\d+(\.\d+)?" s))
-    #?(:clj (.longValue (java.math.BigDecimal. ^String s))
-       :cljs (js/parseInt s 10))
-
-    :else
-    #?(:clj Double/NaN
-       :cljs js/NaN)))
-
 (defn one-of?
   "Returns true if s can be found in coll."
   [coll ^String s]
@@ -694,18 +610,19 @@
   "Pads the str with characters until the total string
   length is equal to the passed length parameter. By
   default, pads on the left with the space char."
-  [s & [{:keys [length padding type]
-         :or {length 0 padding " " type :left}}]]
-  (when (string? s)
-    (let [padding (slice padding 0 1)
-          padlen  (- length (count s))
-          padlen  (if (< padlen 0) 0 padlen)]
-      (condp = type
-        :right (str s (repeat padding padlen))
-        :both  (let [first (repeat padding (Math/ceil (/ padlen 2)))
-                     second (repeat padding (Math/floor (/ padlen 2)))]
-                 (str first s second))
-        :left  (str (repeat padding padlen) s)))))
+  ([s] (pad s nil))
+  ([s {:keys [length padding type]
+       :or {length 0 padding " " type :left}}]
+   (when (string? s)
+     (let [padding (slice padding 0 1)
+           padlen  (- length (count s))
+           padlen  (if (< padlen 0) 0 padlen)]
+       (condp = type
+         :right (str s (repeat padding padlen))
+         :both  (let [first (repeat padding (Math/ceil (/ padlen 2)))
+                      second (repeat padding (Math/floor (/ padlen 2)))]
+                  (str first s second))
+         :left  (str (repeat padding padlen) s))))))
 
 (defn collapse-whitespace
   "Converts all adjacent whitespace characters
@@ -766,22 +683,15 @@
 (defn substr-between
   "Find string that is nested in between two strings. Return first match"
   [s prefix suffix]
-  (cond
-    (nil? s) nil
-    (nil? prefix) nil
-    (nil? suffix) nil
-    (not (includes? s prefix)) nil
-    (not (includes? s suffix)) nil
-    :else
-    (some-> s
-            (split prefix)
-            second
+  (when (and (includes? s prefix)
+             (includes? s suffix))
+    (some-> (split s prefix)
+            (second)
             (split suffix)
-            first)))
+            (first))))
 
 (defn <<-
-  "Unindent multiline text.
-  Uses either a supplied regex or the shortest
+  "Unindent multiline text. Uses either a supplied regex or the shortest
   beginning-of-line to non-whitespace distance"
   ([s]
    (let [all-indents (->> (rest (lines s)) ;; ignore the first line
@@ -893,22 +803,3 @@
      {:deprecated true}
      [& strings]
      `(str ~@(interpolate (apply str strings)))))
-
-;; --- End String Interpolation
-
-;; Backward compatibility aliases.
-
-(def ^:deprecated slugify slug)
-(def ^:deprecated dasherize kebab)
-(def ^:deprecated underscore snake)
-(def ^:deprecated underscored snake)
-(def ^:deprecated classify pascal)
-(def ^:deprecated humanize human)
-(def ^:deprecated titleize title)
-(def ^:deprecated capitalize capital)
-(def ^:deprecated alpha-numeric? alnum?)
-(def ^:deprecated parse-long parse-int)
-(def ^:deprecated parse-float parse-double)
-(def ^:deprecated contains? includes?)
-(def ^:deprecated startswith? starts-with?)
-(def ^:deprecated endswith? ends-with?)
