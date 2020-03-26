@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 2020.03.26-1
+## Version 2020.03.26
 
 - Version numbering change to more simple one, based on date.
 - Remove `parse-*` functions they behave inconsistently and cuerdas is

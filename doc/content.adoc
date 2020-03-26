@@ -1,6 +1,5 @@
 = cuerdas - User Guide
 Andrey Antukh, <niwi@niwi.nz>
-:toc: left
 :source-highlighter: pygments
 :pygments-style: friendly
 :sectlinks:

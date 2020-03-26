@@ -4,7 +4,7 @@
   <groupId>funcool</groupId>
   <artifactId>cuerdas</artifactId>
   <packaging>jar</packaging>
-  <version>2020.03.26-2</version>
+  <version>2020.03.26-3</version>
   <name>cuerdas</name>
   <description>The missing string manipulation library for clojure</description>
   <url>https://github.com/funcool/cuerdas</url>
