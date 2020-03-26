@@ -1,6 +1,5 @@
 = cuerdas - User Guide
 Andrey Antukh, <niwi@niwi.nz>
-2020.06.26-1
 :toc: left
 :source-highlighter: pygments
 :pygments-style: friendly
@@ -35,7 +34,7 @@ Add the following dependency to your project.clj file:
 
 [source,clojure]
 ----
-[funcool/cuerdas "2020.06.26-1"]
+[funcool/cuerdas "RELEASE"]
 ----
 
 == Quick start
