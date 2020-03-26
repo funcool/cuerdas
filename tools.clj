@@ -1,7 +1,16 @@
 (require '[clojure.java.shell :as shell])
 (require '[figwheel.main.api :as figwheel])
-(require '[cljs.build.api :as api])
-(require '[eftest.runner :as ef])
+
+(require '[cljs.build.api :as api]
+         '[cljs.repl :as repl]
+         '[cljs.repl.node :as node])
+
+(require '[rebel-readline.core]
+         '[rebel-readline.clojure.main]
+         '[rebel-readline.clojure.line-reader]
+         '[rebel-readline.clojure.service.local]
+         '[rebel-readline.cljs.service.local]
+         '[rebel-readline.cljs.repl])
 
 (defmulti task first)
 
@@ -12,20 +21,29 @@
     (println "Unknown or missing task. Choose one of:" interposed)
     (System/exit 1)))
 
-(defmethod task "test"
-  [[_ exclude]]
-  (let [tests (ef/find-tests "test")
-        tests (if (string? exclude)
-                (ef/find-tests (symbol exclude))
-                tests)]
-    (ef/run-tests tests
-                  {:fail-fast? true
-                   :capture-output? false
-                   :multithread? false})
-    (System/exit 1)))
+(defmethod task "repl:jvm"
+  [args]
+  (rebel-readline.core/with-line-reader
+    (rebel-readline.clojure.line-reader/create
+     (rebel-readline.clojure.service.local/create))
+    (clojure.main/repl
+     :prompt (fn []) ;; prompt is handled by line-reader
+     :read (rebel-readline.clojure.main/create-repl-read))))
+
+(defmethod task "node:repl"
+  [args]
+  (rebel-readline.core/with-line-reader
+    (rebel-readline.clojure.line-reader/create
+     (rebel-readline.cljs.service.local/create))
+    (cljs.repl/repl
+     (node/repl-env)
+     :prompt (fn []) ;; prompt is handled by line-reader
+     :read (rebel-readline.cljs.repl/create-repl-read)
+     :output-dir "out/repl"
+     :cache-analysis false)))
 
 (def options
-  {:main 'cuerdas.core-tests
+  {:main 'cuerdas.tests
    :output-to "out/tests.js"
    :output-dir "out"
    :target :nodejs
@@ -36,13 +54,19 @@
    :install-deps true
    :verbose true})
 
+
 (defn build
   [optimizations]
   (api/build (api/inputs "src" "test")
              (cond->  (assoc options :optimizations optimizations)
-               (= optimizations :none) (assoc :source-map true))))
+               (= optimizations :none)
+               (assoc :source-map true)
 
-(defmethod task "build-cljs"
+               (= optimizations :advanced)
+               (assoc :pseudo-names true
+                      :pretty-print true))))
+
+(defmethod task "build"
   [[_ type]]
   (case type
     "none"     (build :none)
@@ -51,7 +75,7 @@
     (do (println "Unknown argument to test task:" type)
         (System/exit 1))))
 
-(defmethod task "test-cljs"
+(defmethod task "test"
   [[_ type]]
   (letfn [(run-tests []
             (let [{:keys [out err]} (shell/sh "node" "out/tests.js")]
@@ -82,21 +106,6 @@
       "watch"      (test-watch)
       (do (println "Unknown argument to test task:" type)
           (System/exit 1)))))
-
-
-(defmethod task "figwheel"
-  [args]
-  (figwheel/start
-   {:id "dev"
-    :options {:main 'cuerdas.core-tests
-              ;; :output-to "out/tests.js"
-              ;; :output-dir "out/tests"
-              ;; :source-map true
-              :install-deps true
-              :target :nodejs}
-    :config {:open-url false
-             :auto-testing false
-             :watch-dirs ["src" "test"]}}))
 
 ;;; Build script entrypoint. This should be the last expression.
 
