@@ -1,6 +1,6 @@
 = cuerdas - User Guide
 Andrey Antukh, <niwi@niwi.nz>
-2.2.1
+2020.06.26-1
 :toc: left
 :source-highlighter: pygments
 :pygments-style: friendly
@@ -35,9 +35,8 @@ Add the following dependency to your project.clj file:
 
 [source,clojure]
 ----
-[funcool/cuerdas "2.2.1"]
+[funcool/cuerdas "2020.06.26-1"]
 ----
-
 
 == Quick start
 
@@ -141,13 +140,11 @@ For casing extremes:
 
 <<lower, `lower`>>,
 <<upper, `upper`>>
-<<caseless-equal, `caseless=`>>
 
 And their locale aware alternatives:
 
 <<lower, `locale-lower`>>,
 <<upper, `locale-upper`>>
-<<caseless-equal, `locale-caseless=`>>
 
 
 === Identification
@@ -166,15 +163,15 @@ Identify strings with these boolean returning functions.
 <<empty-or-nil,`empty-or-nil?`>>,
 <<ends-with,`ends-with?`>>,
 <<starts-with,`starts-with?`>>
+<<index-of,`index-of`>>
+<<last-index-of,`last-index-of`>>
+
 
 === Parsing
 
 Convert from strings to other Clojure types.
 
 <<keyword,`keyword`>>,
-<<parse-double,`parse-double`>>,
-<<parse-int,`parse-int`>>,
-<<parse-number,`parse-number`>>,
 <<to-bool,`to-bool`>>
 
 === Low Level
@@ -259,7 +256,7 @@ Checks if a string contains only alphanumeric characters.
 [source, clojure]
 ----
 (str/alnum? nil)
-;; => nil
+;; => false
 
 (str/alnum? "")
 ;; => false
@@ -277,7 +274,7 @@ Checks if a string contains only alpha characters.
 [source, clojure]
 ----
 (str/alpha? nil)
-;; => nil
+;; => false
 
 (str/alpha? " ")
 ;; => false
@@ -304,7 +301,7 @@ Check if the string is empty or contains only whitespaces.
 ;; => true
 
 (str/blank? nil)
-;; => nil
+;; => false
 ----
 
 
@@ -339,20 +336,6 @@ Uppercases the first character of a string.
 (str/capital nil)
 ;; => nil
 ----
-
-
-[[caseless-equal]]
-=== caseless=
-
-Case insensitive `=` operator for strings:
-
-[source, clojure]
-----
-(str/caseless= "hello" "HELLO")
-;; => true
-----
-
-For locale awareness, use `locale-caseless=` alternative function.
 
 
 === chars
@@ -422,7 +405,7 @@ Checks if a string contains only digits.
 [source, clojure]
 ----
 (str/digits? nil)
-;; => nil
+;; => false
 
 (str/digits? "1.1")
 ;; => false
@@ -449,7 +432,7 @@ Check if the string is empty.
 ;; => false
 
 (str/empty? nil)
-;; => nil
+;; => false
 ----
 
 
@@ -477,8 +460,6 @@ Check if the string is empty or is nil.
 === ends-with?
 
 Check if the string ends with suffix.
-
-Alias: `endswith?`
 
 [source, clojure]
 ----
@@ -578,7 +559,7 @@ Determines whether a string includes a substring.
 ;; => false
 
 (str/includes? nil nil)
-;; => nil
+;; => false
 ----
 
 
@@ -659,7 +640,7 @@ This is an unicode aware version of `alpha?`.
 [source, clojure]
 ----
 (str/letters? nil)
-;; => nil
+;; => false
 
 (str/letters? " ")
 ;; => false
@@ -707,8 +688,6 @@ For locale awareness, use `locale-lower` alternative function.
 
 Removes whitespace or specified characters from
 left side of string.
-
-Alias: `lstrip`
 
 [source, clojure]
 ----
@@ -957,8 +936,6 @@ Return string reverted
 Removes whitespace or specified characters from
 right side of string.
 
-Alias: `rstrip`
-
 [source, clojure]
 ----
 (str/rtrim " foo ")
@@ -1054,8 +1031,6 @@ The separator can be a string or RegExp instance.
 
 Check if the string starts with prefix.
 
-Alias: `startswith?`
-
 [source, clojure]
 ----
 (str/starts-with? "foobar" "foo")
@@ -1065,6 +1040,34 @@ Alias: `startswith?`
 ;; => false
 
 (str/starts-with? nil "foo")
+;; => false
+----
+
+=== index-of
+
+Return index of value (string or char) in s, optionally searching
+forward from from-index. Return nil if value not found.
+
+[source, clojure]
+----
+(str/index-of "foobar" "foo")
+;; => 0
+
+(str/index-of "foobar" nil)
+;; => nil
+----
+
+=== last-index-of
+
+Return last index of value (string or char) in s, optionally searching
+backward from from-index. Return nil if value not found.
+
+[source, clojure]
+----
+(str/last-index-of "foobar" "foo")
+;; => 0
+
+(str/last-index-of "foobar" nil)
 ;; => nil
 ----
 
@@ -1202,8 +1205,6 @@ Returns true for 1/on/true/yes string values (case-insensitive), false otherwise
 Removes whitespace or specified characters from
 both ends of string.
 
-Alias: `strip`
-
 [source, clojure]
 ----
 (str/trim " foo ")
@@ -1288,7 +1289,7 @@ This is a unicode aware version of `alnum?`.
 [source, clojure]
 ----
 (str/word? nil)
-;; => nil
+;; => false
 
 (str/word? "")
 ;; => false

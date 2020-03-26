@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 2020.03.26-1
+
+- Version numbering change to more simple one, based on date.
+- Remove `parse-*` functions they behave inconsistently and cuerdas is
+  a string manipulation library (not parsing library).
+- Remove already marked deprecated functions.
+- Remove `caseless=` and `locale-caseless=`
+- Remove `lower-locale` and `upper-locale` (no cross platform support).
+- Add `index-of` and `last-index-of` (safer versions of clojure.string/*).
+- Remove support for `java.lang.Character` (all arguments should be
+  strings now, this doesn't have much added value but removing
+  improves performance).
+- Make all predicates return a boolean type (instead of logical boolean).
+
+
 ## Version 2.2.1
 
 Date: 2019-11-14
