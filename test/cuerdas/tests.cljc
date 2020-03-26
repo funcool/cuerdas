@@ -1,4 +1,4 @@
-(ns cuerdas.core-tests
+(ns cuerdas.tests
   (:require [clojure.test :as t]
             [cuerdas.core :as str :include-macros true])
   #?(:clj (:import (java.util Locale))))
@@ -28,60 +28,39 @@
     (t/is (= "a b" (str/collapse-whitespace "a\u3000b")))
     (t/is (= "a b c" (str/collapse-whitespace "a  b\n c"))))
 
-  (t/testing "locale-lower"
-    (t/is (= nil (str/locale-lower nil)))
-    (t/is (= "foobar" (str/locale-lower "foobar")))
-    (t/is (= "foobar" (str/locale-lower "FOOBAR")))
-    #?(:clj (t/is (= "foobar" (str/locale-lower "FOOBAR" Locale/UK)))))
+  (t/testing "index-of"
+    (t/is (= nil (str/index-of nil nil)))
+    (t/is (= nil (str/index-of "foo" nil)))
+    (t/is (= 1   (str/index-of "abc" "b"))))
 
-  (t/testing "locale-upper"
-    (t/is (= nil (str/locale-upper nil)))
-    (t/is (= "FOOBAR" (str/locale-upper "foobar")))
-    (t/is (= "FOOBAR" (str/locale-upper "FOOBAR")))
-    #?(:clj (t/is (= "FOOBAR" (str/locale-upper "FOOBAR" Locale/UK)))))
-
-  (t/testing "caseless="
-    (t/is (= nil (str/caseless= nil "foobar")))
-    (t/is (= nil (str/caseless= nil nil)))
-    (t/is (= true (str/caseless= "foo" "Foo"))))
-
-  (t/testing "locale-caseless="
-    (t/is (= nil (str/locale-caseless= nil "foobar")))
-    (t/is (= nil (str/locale-caseless= nil nil)))
-    (t/is (= false (str/locale-caseless= "foo" nil)))
-    (t/is (= true (str/locale-caseless= "foo" "Foo")))
-    #?(:clj
-       (t/is (= true (str/locale-caseless= "foo" "Foo" Locale/UK)))))
+  (t/testing "last-index-of"
+    (t/is (= nil (str/last-index-of nil nil)))
+    (t/is (= nil (str/last-index-of "foo" nil)))
+    (t/is (= 1   (str/last-index-of "abc" "b"))))
 
   (t/testing "includes?"
     (t/is (= true (str/includes? "abc" "ab")))
     (t/is (= true (str/includes? "abc" "")))
     (t/is (= false (str/includes? "abc" "cba")))
     (t/is (= false (str/includes? "abc" nil)))
-    (t/is (= nil (str/includes? nil nil)))
-    (t/is (= false (str/includes? "abc" nil)))
-    (t/is (= false (str/includes? "abc" \space)))
-    (t/is (= true (str/includes? "a bc" \space))))
+    (t/is (= false (str/includes? nil nil)))
+    (t/is (= false (str/includes? "abc" nil))))
 
   (t/testing "starts-with?"
-    (t/is (= nil (str/starts-with? nil "ab")))
-    (t/is (= nil (str/starts-with? nil nil)))
+    (t/is (= false (str/starts-with? nil "ab")))
+    (t/is (= false (str/starts-with? nil nil)))
     (t/is (= true (str/starts-with? "abc" "ab")))
     (t/is (= false (str/starts-with? "abc" "cab")))
     (t/is (= false (str/starts-with? "abc" nil)))
-    (t/is (= true (str/starts-with? "abc" "")))
-    (t/is (= false (str/starts-with? "abc" \b)))
-    (t/is (= true (str/starts-with? "abc" \a))))
+    (t/is (= true (str/starts-with? "abc" ""))))
 
   (t/testing "ends-with?"
-    (t/is (= nil (str/ends-with? nil nil)))
-    (t/is (= nil (str/ends-with? nil "bc")))
+    (t/is (= false (str/ends-with? nil nil)))
+    (t/is (= false (str/ends-with? nil "bc")))
     (t/is (= false (str/ends-with? "abc" nil)))
     (t/is (= false (str/ends-with? "abc" "bca")))
     (t/is (= true (str/ends-with? "abc" "bc")))
-    (t/is (= true (str/ends-with? "abc" "")))
-    (t/is (= false (str/ends-with? "abc" \b)))
-    (t/is (= true (str/ends-with? "abc" \c))))
+    (t/is (= true (str/ends-with? "abc" ""))))
 
   (t/testing "trim"
     (t/is (= "a" (str/trim " a ")))
@@ -277,27 +256,6 @@
     (t/is (= "just <b>some</b> text"
              (str/strip-tags "<p>just <b>some</b> text</p>" "P"))))
 
-  (t/testing "parse-number"
-    (t/is (nan? (str/parse-number nil)))
-    (t/is (nan? (str/parse-number "foobar")))
-    (t/is (= 1.4 (str/parse-number "1.4")))
-    (t/is (= 1 (str/parse-number "1"))))
-
-  (t/testing "parse-double"
-    (t/is (nan? (str/parse-double nil)))
-    (t/is (nan? (str/parse-double "foobar")))
-    (t/is (= 1.4 (str/parse-double "1.4")))
-    (t/is (= 1.0 (str/parse-double "1")))
-    (t/is (= 1.4 (str/parse-double 1.4)))
-    (t/is (= 1.0 (str/parse-double 1))))
-
-  (t/testing "parse-int"
-    (t/is (nan? (str/parse-int nil)))
-    (t/is (nan? (str/parse-int "foobar")))
-    (t/is (= 1 (str/parse-int "1.4")))
-    (t/is (= 1 (str/parse-int 1.4)))
-    (t/is (= 1 (str/parse-int 1))))
-
   (t/testing "one-of?"
     (t/is (str/one-of? ["test" "test2" "test3"] "test3"))
     (t/is (str/one-of? '("test" "test2") "test2"))
@@ -337,14 +295,12 @@
     (t/is (= "ab" (str/strip-prefix "ab" nil)))
     (t/is (= nil (str/strip-prefix nil nil)))
     (t/is (= "a" (str/strip-prefix "-=a" "-=")))
-    (t/is (= "a" (str/strip-prefix "-a" \-)))
     (t/is (= "=-a" (str/strip-prefix "=-a" "-="))))
 
   (t/testing "strip-suffix"
     (t/is (= "ab" (str/strip-suffix "ab" nil)))
     (t/is (= nil (str/strip-suffix nil nil)))
     (t/is (= "a" (str/strip-suffix "a=-" "=-")))
-    (t/is (= "a" (str/strip-suffix "a-" \-)))
     (t/is (= "a-=" (str/strip-suffix "a-=" "=-"))))
 
   #?(:clj
@@ -477,3 +433,8 @@
      (if (t/successful? m)
        (set! (.-exitCode js/process) 0)
        (set! (.-exitCode js/process) 1))))
+
+#?(:clj
+   (defn -main
+     [& args]
+     (t/run-tests 'cuerdas.tests)))
