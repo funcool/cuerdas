@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2020.03.27
+
+- Use the latest xregexp version (4.3.0 from npm).
+- Make it compatible with shadow-cljs.
+
+
 ## Version 2020.03.26
 
 - Version numbering change to more simple one, based on date.
