@@ -30,7 +30,7 @@
      :prompt (fn []) ;; prompt is handled by line-reader
      :read (rebel-readline.clojure.main/create-repl-read))))
 
-(defmethod task "node:repl"
+(defmethod task "repl:node"
   [args]
   (rebel-readline.core/with-line-reader
     (rebel-readline.clojure.line-reader/create

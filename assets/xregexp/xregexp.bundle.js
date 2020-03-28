@@ -1,6 +1,4 @@
-(function(){'use strict';var global$1 = (typeof global !== "undefined" ? global :
-            typeof self !== "undefined" ? self :
-            typeof window !== "undefined" ? window : {});var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var XRegExp=(function(){'use strict';var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function unwrapExports (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -7065,16 +7063,4 @@ exports.default = _default;
 module.exports = exports["default"];
 });
 
-var XRegExp = unwrapExports(lib);if (typeof self !== "undefined") {
-  init(self);
-} else if (typeof global$1 !== "undefined") {
-  init(global$1);
-} else if (typeof window !== "undefined") {
-  init(window);
-} else {
-  throw new Error("unsupported execution environment");
-}
-
-function init(g) {
-  g.XRegExp = XRegExp;
-}}());
+var XRegExp = unwrapExports(lib);return XRegExp;}());
