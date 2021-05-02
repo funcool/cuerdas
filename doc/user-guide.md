@@ -1,231 +1,100 @@
-= cuerdas - User Guide
-Andrey Antukh, <niwi@niwi.nz>
-:source-highlighter: pygments
-:pygments-style: friendly
-:sectlinks:
-:!numbered:
-:idseparator: -
-:idprefix:
+# User Guide
 
-== Introduction
+## Introduction
 
 The missing clojure(script) string manipulation library.
 
-[quote, Federico García Lorca, Las Seis Cuerdas]
-____
-La guitarra, +
-hace llorar a los sueños. +
-El sollozo de las almas +
-perdidas, +
-se escapa por su boca +
-redonda. +
-Y como la tarántula +
-teje una gran estrella +
-para cazar suspiros, +
-que flotan en su negro +
+```
+La guitarra,
+hace llorar a los sueños.
+El sollozo de las almas
+perdidas,
+se escapa por su boca
+redonda.
+Y como la tarántula
+teje una gran estrella
+para cazar suspiros,
+que flotan en su negro
 aljibe de madera.
-____
+```
 
-
-== Install
+## Install
 
 Add the following dependency to your project.clj file:
 
-[source,clojure]
-----
-[funcool/cuerdas "RELEASE"]
-----
+```clojure
+funcool/cuerdas {:mvn/version "RELEASE"}
+```
 
-== Quick start
+## Quick start
 
-.Import the namespace
-[source, clojure]
-----
+```clojure
 (ns my.namespace
   (:require [cuerdas.core :as str]))
-----
+```
 
-.Use its functions
-[source, clojure]
-----
+```clojure
 (str/strip-tags "<p>just <b>some</b> text</p>")
 ;; => "just some text"
 
 (str/strip-tags "<p>just <b>some</b> text</p>" ["p"])
 ;; => "just <b>some</b> text"
-----
+```
 
-[NOTE]
-====
-This library only intends to work with strings and always being
-null-safe. So practically all functions that expectes a `string` as
-argument and receives a `nil` will return `nil`.
-====
+**NOTE**: this library only intends to work with strings and always
+being null-safe. So practically all functions that expectes a `string`
+as argument and receives a `nil` will return `nil`.
 
 
-== Self-host ClojureScript
+## Self-host ClojureScript
 
-.This library is compatible with self-host ClojureScript
-
-[source, shell]
-----
+```
 lumo -c $(clojure -Srepro -Sdeps '{:deps {funcool/cuerdas {:mvn/version "X.Y.Z"}}}' -Spath)
-----
+```
 
-[source, clojure]
-----
+```clojure
 cljs.user=> (require '[cuerdas.core :as str])
 ;; => nil
 cljs.user=> (str/collapse-whitespace " foo bar    ")
 ;; => "foo bar"
-----
+```
 
+## Reference
 
-== Functions by Use
+**NOTE**: this section expalins only a limited set of functions, for
+complete overview look at the namespace functions reference.
 
-=== Cleaning
-
-Remove unwanted characters and substrings:
-
-<<unindent,`<<+++-+++`>>,
-<<clean,`clean`>>,
-<<collapse-whitespace,`collapse-whitespace`>>,
-<<ltrim,`ltrim`>>,
-<<prune,`prune`>>,
-<<rtrim,`rtrim`>>,
-<<strip-newlines,`strip-newlines`>>,
-<<strip-prefix,`strip-prefix`>>,
-<<strip-suffix,`strip-suffix`>>,
-<<strip-tags,`strip-tags`>>,
-<<trim,`trim`>>,
-<<unquote,`unquote`>>,
-<<unsurround,`unsurround`>>
-
-
-=== Dressing
-
-Add onto or compose strings:
-
-<<format,`format`>>,
-<<join,`join`>>,
-<<pad,`pad`>>,
-<<quote,`quote`>>,
-<<surround,`surround`>>
-<<interpolate,`istr`>>
-
-=== Casing
-
-Convert to and from different casing systems:
-
-<<camel,`camel`>>,
-<<capital,`capital`>>,
-<<human,`human`>>,
-<<kebab,`kebab`>>,
-<<pascal,`pascal`>>,
-<<phrase,`phrase`>>,
-<<slug,`slug`>>,
-<<uslug,`uslug`>>,
-<<snake,`snake`>>,
-<<title,`title`>>
-
-The next two convert between ,`-moz-transform` and `MozTransform`, respecting
-leading capitals and dashes:
-
-<<css-selector,`css-selector`>>,
-<<js-selector,`js-selector`>>
-
-For casing extremes:
-
-<<lower, `lower`>>,
-<<upper, `upper`>>
-
-And their locale aware alternatives:
-
-<<lower, `locale-lower`>>,
-<<upper, `locale-upper`>>
-
-
-=== Identification
-
-Identify strings with these boolean returning functions.
-
-<<alnum,`alnum?`>>,
-<<alpha,`alpha?`>>,
-<<digits,`digits?`>>,
-<<numeric, `numeric?`>>,
-<<letters,`letters?`>>,
-<<word,`word?`>>,
-<<blank,`blank?`>>,
-<<includes,`includes?`>>,
-<<empty,`empty?`>>,
-<<empty-or-nil,`empty-or-nil?`>>,
-<<ends-with,`ends-with?`>>,
-<<starts-with,`starts-with?`>>
-<<index-of,`index-of`>>
-<<last-index-of,`last-index-of`>>
-
-
-=== Parsing
-
-Convert from strings to other Clojure types.
-
-<<keyword,`keyword`>>,
-<<to-bool,`to-bool`>>
-
-=== Low Level
-
-String processing building blocks.
-
-<<chars,`chars`>>,
-<<join,`join`>>,
-<<lines,`lines`>>,
-<<repeat,`repeat`>>,
-<<replace-first,`replace-first`>>,
-<<replace,`replace`>>,
-<<reverse,`reverse`>>,
-<<slice,`slice`>>,
-<<split,`split`>>,
-<<unlines,`unlines`>>,
-<<words,`words`>>
-
-
-== Reference
-
-[[unindent]]
-=== +++<<-+++
+### <<-
 
 Unindent lines. Either strip preceding whitespace automatically or
 with a user supplied regex.
 
-[source, clojure]
-----
+```clojure
 (str/<<- "first line
 
             second line (indented)
 
           another line")
-----
+```
 
 yields the string
 
-----
+```clojure
 first line
 
   second line (indented)
 
 another line
-----
+```
 
 
-[[interpolate]]
-=== istr
+### istr
 
 String interpolation macro. Enables easy string formating allowing
 symbol substitutions and simple expression evaluation.
 At the moment not compatible with self-host ClojureScript.
 
-[source, clojure]
-----
+```clojure
 (def value 30)
 
 (str/istr "value = ~{value}")
@@ -233,26 +102,22 @@ At the moment not compatible with self-host ClojureScript.
 
 (str/istr "value = ~(inc value)")
 ;; => "value = 31"
-----
+```
 
 The `istr` macro is variadic and allows arbitrary number of arguments
 that will be concatenated on the final return value:
 
-[source, clojure]
-----
+```clojure
 (str/istr "the value "
           "is ~{value}")
 ;; => "the value is 30"
-----
+```
 
-
-[[alnum]]
-=== alnum?
+### alnum?
 
 Checks if a string contains only alphanumeric characters.
 
-[source, clojure]
-----
+```clojure
 (str/alnum? nil)
 ;; => false
 
@@ -261,16 +126,14 @@ Checks if a string contains only alphanumeric characters.
 
 (str/alnum? "Test123")
 ;; => true
-----
+```
 
 
-[[alpha]]
-=== alpha?
+### alpha?
 
 Checks if a string contains only alpha characters.
 
-[source, clojure]
-----
+```clojure
 (str/alpha? nil)
 ;; => false
 
@@ -279,16 +142,14 @@ Checks if a string contains only alpha characters.
 
 (str/alpha? "Test")
 ;; => true
-----
+```
 
 
-[[blank]]
-=== blank?
+### blank?
 
 Check if the string is empty or contains only whitespaces.
 
-[source, clojure]
-----
+```clojure
 (str/blank? "foobar")
 ;; => false
 
@@ -300,16 +161,14 @@ Check if the string is empty or contains only whitespaces.
 
 (str/blank? nil)
 ;; => false
-----
+```
 
 
-[[camel]]
-=== camel
+### camel
 
 Convert a string or keyword to a camelCased string.
 
-[source, clojure]
-----
+```clojure
 (str/camel "foo bar")
 ;; => "fooBar"
 
@@ -318,72 +177,67 @@ Convert a string or keyword to a camelCased string.
 
 (str/camel nil)
 ;; => nil
-----
+```
 
 
-[[capital]]
-=== capital
+### capital
 
 Uppercases the first character of a string.
 
-[source, clojure]
-----
+
+```clojure
 (str/capital "foo")
 ;; => "Foo"
 
 (str/capital nil)
 ;; => nil
-----
+```
 
-
-=== chars
+### chars
 
 Returns a seq of char strings from string.
 
-[source, clojure]
-----
+```clojure
 (str/chars "bar")
 ;; => ["b" "a" "r"]
 
 (str/chars nil)
 ;; => nil
-----
+```
 
 
-=== clean
+### clean
 
 Trim and replace multiple spaces with a single space.
 
-[source, clojure]
-----
+```clojure
 (str/clean "  a   b   ")
 ;; => "a b"
 
 (str/clean nil)
 ;; => nil
-----
+```
 
 
-=== collapse-whitespace
+### collapse-whitespace
 
 Converts any adjacent whitespace characters to a single space.
 
-[source, clojure]
-----
+```clojure
 (str/collapse-whitespace "a\n\nb")
 ;; => "a b"
 
 (str/collapse-whitespace nil)
 ;; => nil
-----
+```
 
 
-=== css-selector
+### css-selector
 
 Convert a JavaScript style selector to CSS style selector
 
-[source, clojure]
-----
+
+```clojure
 (str/css-selector "PrependedWithDash")
 ;; => "-prepended-with-dash"
 
@@ -392,16 +246,15 @@ Convert a JavaScript style selector to CSS style selector
 
 (str/css-selector nil)
 ;; => nil
-----
+```
 
 
-[[digits]]
-=== digits?
+### digits?
 
 Checks if a string contains only digits.
 
-[source, clojure]
-----
+
+```clojure
 (str/digits? nil)
 ;; => false
 
@@ -410,16 +263,15 @@ Checks if a string contains only digits.
 
 (str/digits? "210")
 ;; => true
-----
+```
 
 
-[[empty]]
-=== empty?
+### empty?
 
 Check if the string is empty.
 
-[source, clojure]
-----
+
+```clojure
 (str/empty? "foobar")
 ;; => false
 
@@ -431,16 +283,15 @@ Check if the string is empty.
 
 (str/empty? nil)
 ;; => false
-----
+```
 
 
-[[empty-or-nil]]
-=== empty-or-nil?
+### empty-or-nil?
 
 Check if the string is empty or is nil.
 
-[source, clojure]
-----
+
+```clojure
 (str/empty-or-nil? "foobar")
 ;; => false
 
@@ -452,15 +303,15 @@ Check if the string is empty or is nil.
 
 (str/empty? " ")
 ;; => false
-----
+```
 
 
-=== ends-with?
+### ends-with?
 
 Check if the string ends with suffix.
 
-[source, clojure]
-----
+
+```clojure
 (str/ends-with? "foobar" "bar")
 ;; => true
 
@@ -469,10 +320,10 @@ Check if the string ends with suffix.
 
 (str/ends-with? nil "bar")
 ;; => false
-----
+```
 
 
-=== format
+### format
 
 Simple string formatting function.
 
@@ -483,55 +334,50 @@ indicating the position where interpolation should be done and an arbitrary numb
 of non associate arguments. Format will replace all `%s` occurrences with the
 provided values in ordered mode:
 
-[source, clojure]
-----
+```clojure
 (str/format "hello %s and %s" "yen" "ciri")
 ;; => "hello yen and ciri"
-----
+```
 
 If you don't provide enough values, the `%s` tokens won't be changed:
 
-[source, clojure]
-----
+```clojure
 (str/format "hello %s and %s" "yen")
 ;; "hello yen and %s"
-----
+```
 
 There are also the associative mode that consists in passing only one associative
 argument (map or vector) and use named interpolation tokens:
 
-[source, clojure]
-----
+```clojure
 (str/format "hello %(name)s" {:name "yen"})
 ;; => "hello yen"
-----
+```
 
 A part of the `%()s` syntax, the `$something` can be used:
 
-[source, clojure]
-----
+```clojure
 (str/format "hello $name" {:name "yen"})
 ;; => "hello yen"
-----
+```
 
 And you can access to indexed positions of an vector using `$0`, `$1`, `$N` syntax:
 
-[source, clojure]
-----
+```clojure
 (str/format "hello $0" ["yen"])
 ;; => "hello yen"
-----
+```
 
 You can use `str/fmt` as shorter alias to `str/format` function.
 
 
-=== human
+### human
 
 Convert a string or keyword to a human friendly string
 (lower case and spaces).
 
-[source, clojure]
-----
+
+```clojure
 (str/human "JustNiceForReading")
 ;; => "just nice for reading"
 
@@ -540,16 +386,15 @@ Convert a string or keyword to a human friendly string
 
 (str/human nil)
 ;; => nil
-----
+```
 
 
-[[includes]]
-=== includes?
+### includes?
 
 Determines whether a string includes a substring.
 
-[source, clojure]
-----
+
+```clojure
 (str/includes? "foobar" "bar")
 ;; => true
 
@@ -558,29 +403,27 @@ Determines whether a string includes a substring.
 
 (str/includes? nil nil)
 ;; => false
-----
+```
 
 
-=== join
+### join
 
 Join strings together with given separator.
 
-[source, clojure]
-----
+```clojure
 (str/join ["foo" "bar"])
 ;; => "foobar"
 
 (str/join "," ["foo" "bar"])
 ;; => "foo,bar"
-----
+```
 
 
-=== js-selector
+### js-selector
 
 Convert a CSS style selector to JavaScript style selector.
 
-[source, clojure]
-----
+```clojure
 (str/js-selector "-pascal-case-me")
 ;; => "PascalCaseMe"
 
@@ -589,15 +432,14 @@ Convert a CSS style selector to JavaScript style selector.
 
 (str/js-selector nil)
 ;; => nil
-----
+```
 
 
-=== kebab
+### kebab
 
 Convert a string or keyword into a kebab-cased-string.
 
-[source, clojure]
-----
+```clojure
 (str/kebab "Favorite BBQ food")
 ;; => "favorite-bbq-food"
 
@@ -606,15 +448,14 @@ Convert a string or keyword into a kebab-cased-string.
 
 (str/kebab nil)
 ;; => nil
-----
+```
 
 
-=== keyword
+### keyword
 
 A more helpful and forgiving version of `clojure.core/keyword`.
 
-[source, clojure]
-----
+```clojure
 (str/keyword "just_doIt Right")
 ;; => :just-do-it-right
 
@@ -627,16 +468,14 @@ A more helpful and forgiving version of `clojure.core/keyword`.
 
 (str/keyword nil)
 ;; => nil
-----
+```
 
 
-[[letters]]
-=== letters?
+### letters?
 
 This is an unicode aware version of `alpha?`.
 
-[source, clojure]
-----
+```clojure
 (str/letters? nil)
 ;; => false
 
@@ -648,47 +487,43 @@ This is an unicode aware version of `alpha?`.
 
 (str/letters? "Русский")
 ;; => true
-----
+```
 
 
-[[lines]]
-=== lines
+### lines
 
 Return a list of the lines in the string.
 
-[source, clojure]
-----
+```clojure
 (str/lines "foo\nbar")
 ;; => ["foo" "bar"]
 
 (str/lines nil)
 ;; => nil
-----
+```
 
-[[lower]]
-=== lower
+### lower
 
 Convert a string to all lower-case in a locale independent manner:
 
-[source, clojure]
-----
+
+```clojure
 (str/lower "FOO")
 ;; => "foo"
 
 (str/lower nil)
 ;; => nil
-----
+```
 
 For locale awareness, use `locale-lower` alternative function.
 
 
-=== ltrim
+### ltrim
 
 Removes whitespace or specified characters from
 left side of string.
 
-[source, clojure]
-----
+```clojure
 (str/ltrim " foo ")
 ;; => "foo "
 
@@ -697,16 +532,14 @@ left side of string.
 
 (str/ltrim nil)
 ;; => nil
-----
+```
 
 
-[[numeric]]
-=== numeric?
+### numeric?
 
 Checks if a string contains only numeric characters.
 
-[source, clojure]
-----
+```clojure
 (str/numeric? nil)
 ;; => false
 
@@ -715,18 +548,17 @@ Checks if a string contains only numeric characters.
 
 (str/numeric? "2e10")
 ;; => true
-----
+```
 
 
-=== pad
+### pad
 
 Pads the string with characters until the total string length is equal to
 the passed length parameter.
 
 By default, pads on the left with the space char.
 
-[source, clojure]
-----
+```clojure
 (str/pad "1" {:length 8})
 ;; => "       1"
 
@@ -741,46 +573,42 @@ By default, pads on the left with the space char.
 
 (str/pad "1" {:length 8 :padding "0" :type :both})
 ;; => "00001000"
-----
+```
 
 
 [[parse-double]]
-=== parse-double
+### parse-double
 
 Parses string into a double:
 
-[source, clojure]
-----
+```clojure
 (str/parse-double "1.4")
 ;; => 1.4
 
 (str/parse-double nil)
 ;; => NaN
-----
+```
 
-
-[[parse-int]]
-=== parse-int
+### parse-int
 
 Parses string into a integer:
 
-[source, clojure]
-----
+```clojure
 (str/parse-int "1.4")
 ;; => 1
 
 (str/parse-int nil)
 ;; => NaN
-----
+```
 
 
-=== parse-number
+### parse-number
 
 General purpose function for parse number like strings to number. It
 works with integers and floats.
 
-[source, clojure]
-----
+
+```clojure
 (str/parse-number "1.4")
 ;; => 1
 
@@ -792,16 +620,15 @@ works with integers and floats.
 
 (str/parse-number "")
 ;; => NaN
-----
+```
 
 
-=== pascal
+### pascal
 
 Convert a string or keyword into a PascalCasedString
 (aka, UpperCamelCase and ClassCase).
 
-[source, clojure]
-----
+```clojure
 (str/pascal "my name is epeli")
 ;; => "MyNameIsEpeli"
 
@@ -810,16 +637,15 @@ Convert a string or keyword into a PascalCasedString
 
 (str/pascal nil)
 ;; => nil
-----
+```
 
 
-=== phrase
+### phrase
 
 Convert a potentially mixed string or keyword into a
 capitalized, spaced string
 
-[source, clojure]
-----
+```clojure
 (str/phrase "  capitalize dash-CamelCase_underscore trim  ")
 ;; => "Capitalize dash camel case underscore trim"
 
@@ -828,17 +654,17 @@ capitalized, spaced string
 
 (str/phrase nil)
 ;; => nil
-----
+```
 
 
-=== prune
+### prune
 
 Truncates a string to certain width and adds "..." if necessary. Making
 sure that the pruned string does not exceed the original length and avoid
 half-chopped words when truncating.
 
-[source, clojure]
-----
+
+```clojure
 (str/prune "Hello World" 5)
 ;; => "Hello..."
 
@@ -850,43 +676,41 @@ half-chopped words when truncating.
 
 (str/prune nil 5)
 ;; => nil
-----
+```
 
 
-=== quote
+### quote
 
 Quote a string.
 
-[source, clojure]
-----
+```clojure
 (str/quote "a")
 ;; => "\"a\""
 
 (str/quote nil)
 ;; => nil
-----
+```
 
 
-=== repeat
+### repeat
 
 Repeats string N times.
 
-[source, clojure]
-----
+```clojure
 (str/repeat "a" 3)
 ;; => "aaa"
 
 (str/repeat nil 3)
 ;; => nil
-----
+```
 
 
-=== replace
+### replace
 
 Replaces all instances of match with replacement in s.
 
-[source, clojure]
-----
+
+```clojure
 (str/replace "aa bb aa" "aa" "kk")
 ;; => "kk bb kk"
 
@@ -895,15 +719,14 @@ Replaces all instances of match with replacement in s.
 
 (str/replace nil #"aa" "kk")
 ;; => nil
-----
+```
 
 
-=== replace-first
+### replace-first
 
 Replaces first instance of match with replacement in s.
 
-[source, clojure]
-----
+```clojure
 (str/replace-first "aa bb aa" "aa" "kk")
 ;; => "kk bb aa"
 
@@ -912,30 +735,29 @@ Replaces first instance of match with replacement in s.
 
 (str/replace-first nil #"aa" "kk")
 ;; => nil
-----
+```
 
 
-=== reverse
+### reverse
 
 Return string reverted
 
-[source, clojure]
-----
+
+```clojure
 (str/reverse "bar")
 ;; => "rab"
 
 (str/reverse nil)
 ;; => nil
-----
+```
 
 
-=== rtrim
+### rtrim
 
 Removes whitespace or specified characters from
 right side of string.
 
-[source, clojure]
-----
+```clojure
 (str/rtrim " foo ")
 ;; => " foo"
 
@@ -944,15 +766,14 @@ right side of string.
 
 (str/rtrim nil)
 ;; => nil
-----
+```
 
 
-=== slice
+### slice
 
 Extracts a section of a string and returns a new string.
 
-[source, clojure]
-----
+```clojure
 (str/slice "123" 1)
 ;; => "23"
 
@@ -961,35 +782,32 @@ Extracts a section of a string and returns a new string.
 
 (str/slice nil 1 3)
 ;; => nil
-----
+```
 
 
-[[slug]]
-=== slug
+### slug
 
 Transforms string or keyword into URL slug.
 
-[source, clojure]
-----
+
+```clojure
 (str/slug "Un �l�phant � l'or�e du bois")
 ;; => "un-elephant-a-loree-du-bois"
 
 (str/slug nil)
 ;; => nil
-----
+```
 
 Traditionally, slug is consisted in ascii characters, but in modern ages,
 the URL and domain names already supports unicode characters. The `uslug` is
 more modern version of slug function that respects the unicode characters.
 
 
-[[snake]]
-=== snake
+### snake
 
 Convert a string or keyword to a snake_cased_string.
 
-[source, clojure]
-----
+```clojure
 (str/snake "Slither-sliter Slither")
 ;; => "slither_slither_slither"
 
@@ -998,16 +816,15 @@ Convert a string or keyword to a snake_cased_string.
 
 (str/snake nil)
 ;; => nil
-----
+```
 
 
-=== split
+### split
 
 Splits a string on a separator a limited number of times.
 The separator can be a string or RegExp instance.
 
-[source, clojure]
-----
+```clojure
 (str/split "1 2 3")
 ;; => ["1" "2" "3"]
 
@@ -1022,15 +839,14 @@ The separator can be a string or RegExp instance.
 
 (str/split nil)
 ;; => nil
-----
+```
 
 
-=== starts-with?
+### starts-with?
 
 Check if the string starts with prefix.
 
-[source, clojure]
-----
+```clojure
 (str/starts-with? "foobar" "foo")
 ;; => true
 
@@ -1039,59 +855,55 @@ Check if the string starts with prefix.
 
 (str/starts-with? nil "foo")
 ;; => false
-----
+```
 
-=== index-of
+### index-of
 
 Return index of value (string or char) in s, optionally searching
 forward from from-index. Return nil if value not found.
 
-[source, clojure]
-----
+```clojure
 (str/index-of "foobar" "foo")
 ;; => 0
 
 (str/index-of "foobar" nil)
 ;; => nil
-----
+```
 
-=== last-index-of
+### last-index-of
 
 Return last index of value (string or char) in s, optionally searching
 backward from from-index. Return nil if value not found.
 
-[source, clojure]
-----
+```clojure
 (str/last-index-of "foobar" "foo")
 ;; => 0
 
 (str/last-index-of "foobar" nil)
 ;; => nil
-----
+```
 
 
-=== strip-newlines
+### strip-newlines
 
 Takes a string and replaces newlines with a space. Multiple lines are
 replaced with a single space.
 
-[source, clojure]
-----
+```clojure
 (str/strip-newlines "a\n\nb")
 ;; => "a b"
 
 (str/strip-newlines nil)
 ;; => nil
-----
+```
 
 
-=== strip-prefix
+### strip-prefix
 
 Remove prefix from string if it matches exactly or leave
 the string untouched.
 
-[source, clojure]
-----
+```clojure
 (str/strip-prefix nil nil)
 ;; => nil
 
@@ -1100,16 +912,14 @@ the string untouched.
 
 (str/strip-prefix "-=a" "-=")
 ;; => "a"
-----
+```
 
-
-=== strip-suffix
+### strip-suffix
 
 Remove suffix from string if it matches exactly or leave
 the string untouched.
 
-[source, clojure]
-----
+```clojure
 (str/strip-suffix nil nil)
 ;; => nil
 
@@ -1118,15 +928,15 @@ the string untouched.
 
 (str/strip-suffix "a=-" "=-")
 ;; => "a"
-----
+```
 
 
-=== strip-tags
+### strip-tags
 
 Remove html tags from string.
 
-[source, clojure]
-----
+
+```clojure
 (str/strip-tags "<p>just <b>some</b> text</p>")
 ;; => "just some text"
 
@@ -1135,26 +945,24 @@ Remove html tags from string.
 
 (str/strip-tags nil)
 ;; => nil
-----
+```
 
 It also allows arbitrary replacements:
 
-[source, clojure]
-----
+```clojure
 (str/strip-tags "<p>just<br>text</p>" {:br "\n"})
 ;; => "just\ntext"
 
 (str/strip-tags "<p>just<br>text</p>" ["br"] {:br "\n"})
 ;; => "<p>just\ntext</p>"
-----
+```
 
 
-=== surround
+### surround
 
 Surround a string with another string.
 
-[source, clojure]
-----
+```clojure
 (str/surround "a" "-")
 ;; => "-a-"
 
@@ -1163,16 +971,15 @@ Surround a string with another string.
 
 (str/surround nil "-^-")
 ;; => nil
-----
+```
 
 
-=== title
+### title
 
 Convert a string or keyword into a space separated string
 with each word capitalized.
 
-[source, clojure]
-----
+```clojure
 (str/title "a tale of two cities")
 ;; => "A Tale Of Two Cities"
 
@@ -1181,30 +988,30 @@ with each word capitalized.
 
 (str/title nil)
 ;; => nil
-----
+```
 
 
-=== to-bool
+### to-bool
 
 Returns true for 1/on/true/yes string values (case-insensitive), false otherwise.
 
-[source, clojure]
-----
+
+```clojure
 (str/to-bool "hello")
 ;; => false
 
 (str/to-bool "on")
 ;; => true
-----
+```
 
 
-=== trim
+### trim
 
 Removes whitespace or specified characters from
 both ends of string.
 
-[source, clojure]
-----
+
+```clojure
 (str/trim " foo ")
 ;; => "foo"
 
@@ -1213,44 +1020,43 @@ both ends of string.
 
 (str/trim nil)
 ;; => nil
-----
+```
 
 
-=== unlines
+### unlines
 
 Joins a list of strings with a newline separator.  This operation is
 the opposite of lines.
 
-[source, clojure]
-----
+
+```clojure
 (str/unlines ["foo" "nbar"])
 ;; => "foo\nbar"
 
 (str/unlines nil)
 ;; => nil
-----
+```
 
 
-=== unquote
+### unquote
 
 Unquote a string.
 
-[source, clojure]
-----
+
+```clojure
 (str/unquote "\"a\"")
 ;; => "a"
 
 (str/unquote nil)
 ;; => nil
-----
+```
 
 
-=== unsurround
+### unsurround
 
 Unsurround a string surrounded by another.
 
-[source, clojure]
-----
+```clojure
 (str/unsurround "-a-" "-")
 ;; => "a"
 
@@ -1259,33 +1065,29 @@ Unsurround a string surrounded by another.
 
 (str/unsurround nil "-")
 ;; => nil
-----
+```
 
 
-[[upper]]
-=== upper
+### upper
 
 Convert a string to all upper-case in a locale independent manner:
 
-[source, clojure]
-----
+```clojure
 (str/upper "foobar")
 ;; => "FOOBAR"
 
 (str/upper nil)
 ;; => nil
-----
+```
 
 For locale awareness, use `locale-upper` alternative function.
 
 
-[[word]]
-=== word?
+### word?
 
 This is a unicode aware version of `alnum?`.
 
-[source, clojure]
-----
+```clojure
 (str/word? nil)
 ;; => false
 
@@ -1294,17 +1096,15 @@ This is a unicode aware version of `alnum?`.
 
 (str/word? "Русский222")
 ;; => true
-----
+```
 
-
-[[words]]
-=== words
+### words
 
 Returns a vector of the words in the string. Can be provided with a regular
 expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
 
-[source, clojure]
-----
+
+```
 (str/words nil)
 ;; => nil
 
@@ -1313,26 +1113,26 @@ expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
 
 (str/words "foo, bar." #"[^, ]+")
 ;; => ["foo" "bar."]
-----
+```
 
 
-== Run tests
+## Run tests
 
 _cuerdas_ has targeted some parts of implementation for Clojure and
 ClojureScript using Reader Conditionals.
 
 .Run tests in the Clojure environment.
-----
+```
 $ clj -A:dev ./tools.clj test
-----
+```
 
 .Run tests in the ClojureScript environment.
-----
+```
 $ clj -A:dev ./tools.clj test-cljs
-----
+```
 
 
-== How to Contribute?
+## How to Contribute?
 
 **cuerdas**' source is on https://github.com/funcool/cuerdas[github].
 
@@ -1342,11 +1142,11 @@ restrictions for contributions.
 *Pull requests are welcome!*
 
 
-== License
+## License
 
 _cuerdas_ is licensed under BSD (2-Clause) license:
 
-----
+```
 Copyright (c) 2015-2016 Andrey Antukh <niwi@niwi.nz>
 
 All rights reserved.
@@ -1371,4 +1171,4 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-----
+``` 

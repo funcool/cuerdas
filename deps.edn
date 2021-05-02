@@ -6,18 +6,23 @@
    {com.bhauman/figwheel-main {:mvn/version "RELEASE"}
     com.bhauman/rebel-readline-cljs {:mvn/version "RELEASE"}
     com.bhauman/rebel-readline {:mvn/version "RELEASE"}
-    eftest {:mvn/version "0.5.7"}
-    org.clojure/clojurescript {:mvn/version "1.10.597"}
-    org.clojure/clojure {:mvn/version "1.10.0"}
-    criterium/criterium {:mvn/version "0.4.5"}
+    eftest/eftest {:mvn/version "RELEASE"}
+    org.clojure/clojurescript {:mvn/version "1.10.844"}
+    org.clojure/clojure {:mvn/version "1.10.3"}
+    criterium/criterium {:mvn/version "0.4.6"}
     org.clojure/tools.namespace {:mvn/version "RELEASE"}}}
 
   :ancient
-  {:main-opts ["-m" "deps-ancient.deps-ancient"]
-   :extra-deps {deps-ancient {:mvn/version "RELEASE"}}}
+  {:main-opts ["-m" "deps-ancient.deps-ancient"],
+   :extra-deps {deps-ancient/deps-ancient {:mvn/version "RELEASE"}}}
+
+  :codox
+  {:extra-deps {codox/codox {:mvn/version "RELEASE"}
+                org.clojure/tools.reader {:mvn/version "RELEASE"}
+                codox-theme-rdash/codox-theme-rdash {:mvn/version "RELEASE"}}}
 
   :jar
-  {:extra-deps {seancorfield/depstar {:mvn/version "RELEASE"}}
-   :main-opts ["-m" "hf.depstar.jar" "target/cuerdas.jar"]}
- }}
+  {:replace-deps {com.github.seancorfield/depstar {:mvn/version "RELEASE"}}
+   :exec-fn hf.depstar/jar
+   :exec-args {:jar "target/cuerdas.jar"}}}}
 

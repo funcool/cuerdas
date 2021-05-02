@@ -1,20 +1,21 @@
-import babel from 'rollup-plugin-babel';
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import globals from 'rollup-plugin-node-globals';
-import replace from 'rollup-plugin-replace';
+import {babel} from '@rollup/plugin-babel';
+import {nodeResolve} from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import replace from '@rollup/plugin-replace';
 
 const plugins = [
   replace({
-    'process.env.NODE_ENV': JSON.stringify('production')
+    'process.env.NODE_ENV': JSON.stringify('production'),
+    preventAssignment: true
   }),
 
-  // babel({
-  //   exclude: 'node_modules/**',
-  //   sourceMap: false
-  // }),
+  babel({
+    exclude: 'node_modules/**',
+    sourceMap: false,
+    babelHelpers: 'bundled'
+  }),
 
-  resolve({
+  nodeResolve({
     mainFields: ['module', 'main'],
     // preferBuiltins: false,
     browser: true
@@ -26,8 +27,7 @@ const plugins = [
     ignoreGlobal: false,  // Default: false
     sourceMap: false,  // Default: true
   }),
-
-  globals(),
+  // globals(),
 ];
 
 export default [{

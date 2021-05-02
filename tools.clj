@@ -49,8 +49,8 @@
    :target :nodejs
    :optimizations :none
    :pretty-print true
-   :language-in  :ecmascript5
-   :language-out :ecmascript5
+   ;; :language-in  :ecmascript5
+   ;; :language-out :ecmascript5
    :install-deps true
    :verbose true})
 

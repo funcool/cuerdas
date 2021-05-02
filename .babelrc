@@ -1,0 +1,7 @@
+{
+  "presets": [
+    ["@babel/preset-env", {"targets": {"browsers": "> 1%, maintained node versions"}, "modules": false}],
+  ],
+  "plugins": ["@babel/plugin-proposal-export-default-from",
+              "@babel/plugin-proposal-class-properties"]
+}

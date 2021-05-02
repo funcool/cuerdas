@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2021.05.02-0
+
+- Update xregexp to 5.0.2
+- Update deps and docs.
+
+
 ## Version 2020.03.27
 
 - Use the latest xregexp version (4.3.0 from npm).
