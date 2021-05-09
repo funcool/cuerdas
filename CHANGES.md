@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2021.05.09-0
+
+- Reaply shadow-cljs compatibility fixes that have been accidentally
+  reverted in previous release. (sorry for the inconvenience)
+
+
 ## Version 2021.05.02-0
 
 - Update xregexp to 5.0.2

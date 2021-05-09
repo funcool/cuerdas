@@ -25,11 +25,9 @@
 (ns cuerdas.regexp
   "A regexp helpers and enhancements (mostly for cljs)."
   (:refer-clojure :exclude [regexp?])
-  #?(:cljs (:require [cuerdas.impl.xregexp]
+  #?(:cljs (:require ["xregexp" :as xregexp]
                      [goog.string :as gstr]))
   #?(:clj (:import (java.util.regex Pattern))))
-
-#?(:cljs (def xregexp js/XRegExp))
 
 (defn regexp?
   "Return `true` if `x` is a regexp pattern

@@ -10,7 +10,12 @@
     org.clojure/clojurescript {:mvn/version "1.10.844"}
     org.clojure/clojure {:mvn/version "1.10.3"}
     criterium/criterium {:mvn/version "0.4.6"}
+    org.clojure/tools.deps.alpha {:mvn/version "RELEASE"}
     org.clojure/tools.namespace {:mvn/version "RELEASE"}}}
+
+  :install
+  {:exec-fn clojure.tools.cli.api/mvn-install
+   :exec-args {:jar "target/cuerdas.jar"}}
 
   :ancient
   {:main-opts ["-m" "deps-ancient.deps-ancient"],
