@@ -21,7 +21,7 @@ ____
 
 == Documentation
 
-http://funcool.github.io/cuerdas/latest/
+https://cljdoc.org/d/funcool/cuerdas
 
 
 == License
