@@ -25,8 +25,7 @@
 (ns cuerdas.regexp
   "A regexp helpers and enhancements (mostly for cljs)."
   (:refer-clojure :exclude [regexp?])
-  #?(:cljs (:require ["xregexp" :as xregexp]
-                     [goog.string :as gstr]))
+  #?(:cljs (:require [goog.string :as gstr]))
   #?(:clj (:import (java.util.regex Pattern))))
 
 (defn regexp?
@@ -35,14 +34,6 @@
   [x]
   #?(:cljs (cljs.core/regexp? x)
      :clj (instance? Pattern x)))
-
-(defn enhace
-  "Enhace the regexp instance with unicode support. This is noop
-  in JVM because it already works perfectly with unicode."
-  [re]
-  {:pre [(regexp? re)]}
-  #?(:clj re
-     :cljs (xregexp (.-source re) (.-flags re))))
 
 (defn escape
   "Escapes characters in the string that are not safe

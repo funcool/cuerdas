@@ -131,7 +131,7 @@
   [^String s]
   (and (string? s)
        (or (zero? (count s))
-           (boolean (-> (rx/enhace (re-pattern "^[\\s\\p{Z}]+$"))
+           (boolean (-> (re-pattern "(?u)^[\\s\\p{Z}]+$")
                         (re-matches s))))))
 
 (defn alpha?
@@ -157,14 +157,14 @@
   This function will use all the unicode range."
   [s]
   (and (string? s)
-       (boolean (re-matches (rx/enhace (re-pattern "^[\\p{N}\\p{L}_-]+$")) s))))
+       (boolean (re-matches (re-pattern "(?u)^[\\p{N}\\p{L}_-]+$") s))))
 
 (defn letters?
   "Checks if string contains only letters.
   This function will use all the unicode range."
   [s]
   (and (string? s)
-       (boolean (re-matches (rx/enhace (re-pattern "^\\p{L}+$")) s))))
+       (boolean (re-matches (re-pattern "(?u)^\\p{L}+$") s))))
 
 (defn numeric?
   "Check if a string contains only numeric values."
@@ -234,7 +234,7 @@
   a single space."
   [s]
   (-> (trim s)
-      (replace (rx/enhace (re-pattern "[\\s\\p{Z}]+")) " ")))
+      (replace (re-pattern "(?u)[\\s\\p{Z}]+") " ")))
 
 (def strip trim)
 (def rstrip rtrim)
@@ -387,7 +387,7 @@
 (defn words
   "Returns a vector of the words in the string."
   ([s]
-   (words s (rx/enhace (re-pattern "[\\p{N}\\p{L}_-]+"))))
+   (words s (re-pattern "(?u)[\\p{N}\\p{L}_-]+")))
   ([s re]
    (when (string? s)
      (vec (re-seq re s)))))
@@ -474,8 +474,8 @@
 
 (defn- stylize-split
   [s]
-  (let [re1 (rx/enhace (re-pattern "(\\p{Lu}+[\\p{Ll}\\u0027\\p{Ps}\\p{Pe}]*)"))
-        re2 (rx/enhace (re-pattern "[^\\p{L}\\p{N}\\u0027\\p{Ps}\\p{Pe}]+"))]
+  (let [re1 (re-pattern "(?u)(\\p{Lu}+[\\p{Ll}\\u0027\\p{Ps}\\p{Pe}]*)")
+        re2 (re-pattern "(?u)[^\\p{L}\\p{N}\\u0027\\p{Ps}\\p{Pe}]+")]
     (some-> s
             (name)
             (replace re1 "-$1")
@@ -584,8 +584,8 @@
   "Unicode friendly version of `slug` function."
   [s]
   (some-> (lower s)
-          (replace (rx/enhace (re-pattern "[^\\p{L}\\p{N}]+")) " ")
-          (replace (rx/enhace (re-pattern "[\\p{Z}\\s]+")) "-")))
+          (replace (re-pattern "(?u)[^\\p{L}\\p{N}]+") " ")
+          (replace (re-pattern "(?u)[\\p{Z}\\s]+") "-")))
 
 (defn keyword
   "Safer version of clojure keyword, accepting a
@@ -629,7 +629,7 @@
   to a single space."
   [s]
   (some-> s
-          (replace (rx/enhace (re-pattern "[\\p{Z}\\s]+")) " ")
+          (replace (re-pattern "(?u)[\\p{Z}\\s]+") " ")
           (replace #"^\s+|\s+$" "")))
 
 (defn escape-html

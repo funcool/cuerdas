@@ -1,4 +1,4 @@
-(ns cuerdas.tests
+(ns cuerdas.core-test
   (:require [clojure.test :as t]
             [cuerdas.core :as str :include-macros true])
   #?(:clj (:import (java.util Locale))))
@@ -93,6 +93,8 @@
   (t/testing "blank?"
     (t/is (str/blank? ""))
     (t/is (str/blank? " "))
+    (t/is (str/blank? " "))
+    (t/is (str/blank? " "))
     (t/is (not (str/blank? nil)))
     (t/is (not (str/blank? " s "))))
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2021.05.29-0
+
+IMPORTANT NOTE:
+
+- This release removes the third party XRegExp dependency (making this
+  library to have 0 external dependencies). This may affect
+  environments that does not suport the unicode flag.
+
+
 ## Version 2021.05.09-0
 
 - Reaply shadow-cljs compatibility fixes that have been accidentally

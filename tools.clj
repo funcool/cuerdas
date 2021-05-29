@@ -1,14 +1,12 @@
-(require '[clojure.java.shell :as shell])
-(require '[figwheel.main.api :as figwheel])
-
-(require '[cljs.build.api :as api]
+(require '[clojure.java.shell :as shell]
+         '[cljs.build.api :as api]
          '[cljs.repl :as repl]
          '[cljs.repl.node :as node])
 
 (require '[rebel-readline.core]
-         '[rebel-readline.clojure.main]
+         ;; '[rebel-readline.clojure.main]
          '[rebel-readline.clojure.line-reader]
-         '[rebel-readline.clojure.service.local]
+         ;; '[rebel-readline.clojure.service.local]
          '[rebel-readline.cljs.service.local]
          '[rebel-readline.cljs.repl])
 
@@ -20,15 +18,6 @@
         interposed (->> all-tasks (interpose ", ") (apply str))]
     (println "Unknown or missing task. Choose one of:" interposed)
     (System/exit 1)))
-
-(defmethod task "repl:jvm"
-  [args]
-  (rebel-readline.core/with-line-reader
-    (rebel-readline.clojure.line-reader/create
-     (rebel-readline.clojure.service.local/create))
-    (clojure.main/repl
-     :prompt (fn []) ;; prompt is handled by line-reader
-     :read (rebel-readline.clojure.main/create-repl-read))))
 
 (defmethod task "repl:node"
   [args]
@@ -43,17 +32,14 @@
      :cache-analysis false)))
 
 (def options
-  {:main 'cuerdas.tests
+  {:main 'cuerdas.core-test
    :output-to "out/tests.js"
    :output-dir "out"
    :target :nodejs
    :optimizations :none
    :pretty-print true
-   ;; :language-in  :ecmascript5
-   ;; :language-out :ecmascript5
    :install-deps true
    :verbose true})
-
 
 (defn build
   [optimizations]
