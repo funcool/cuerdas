@@ -89,7 +89,7 @@
   (and (string? s)
        (or (string? prefix)
            (char? prefix))
-       (or (zero? (count s))
+       (or (zero? (count prefix))
            #?(:clj (let [region (slice s 0 (count prefix))]
                      (= region prefix))
               :cljs (= (.lastIndexOf s prefix 0) 0)))))
@@ -100,7 +100,7 @@
   (and (string? s)
        (or (string? suffix)
            (char? suffix))
-       (or (zero? (count s))
+       (or (zero? (count suffix))
            #?(:clj (let [len (count s)
                          region (slice s (- len (count suffix)) len)]
                      (= region suffix))
