@@ -47,19 +47,23 @@
     (t/is (= false (str/includes? "abc" nil))))
 
   (t/testing "starts-with?"
-    (t/is (= false (str/starts-with? nil "ab")))
     (t/is (= false (str/starts-with? nil nil)))
+    (t/is (= false (str/starts-with? nil "ab")))
+    (t/is (= false (str/starts-with? "" "ab")))
+    (t/is (= true (str/starts-with? "" "")))
+    (t/is (= false (str/starts-with? "abc" nil)))
     (t/is (= true (str/starts-with? "abc" "ab")))
     (t/is (= false (str/starts-with? "abc" "cab")))
-    (t/is (= false (str/starts-with? "abc" nil)))
     (t/is (= true (str/starts-with? "abc" ""))))
 
   (t/testing "ends-with?"
     (t/is (= false (str/ends-with? nil nil)))
     (t/is (= false (str/ends-with? nil "bc")))
+    (t/is (= false (str/ends-with? "" "bc")))
+    (t/is (= true (str/ends-with? "" "")))
     (t/is (= false (str/ends-with? "abc" nil)))
-    (t/is (= false (str/ends-with? "abc" "bca")))
     (t/is (= true (str/ends-with? "abc" "bc")))
+    (t/is (= false (str/ends-with? "abc" "bca")))
     (t/is (= true (str/ends-with? "abc" ""))))
 
   (t/testing "trim"
