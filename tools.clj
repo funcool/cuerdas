@@ -4,9 +4,7 @@
          '[cljs.repl.node :as node])
 
 (require '[rebel-readline.core]
-         ;; '[rebel-readline.clojure.main]
          '[rebel-readline.clojure.line-reader]
-         ;; '[rebel-readline.clojure.service.local]
          '[rebel-readline.cljs.service.local]
          '[rebel-readline.cljs.repl])
 

@@ -23,6 +23,10 @@ ____
 
 https://cljdoc.org/d/funcool/cuerdas
 
+or
+
+https://funcool.github.io/cuerdas/latest/
+
 
 == License
 

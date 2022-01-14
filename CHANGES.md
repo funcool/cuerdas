@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2022.01.14-391
+
+- Fix bug in starts-with? and ends-with? predictates.
+
 ## Version 2021.05.29-0
 
 IMPORTANT NOTE:
