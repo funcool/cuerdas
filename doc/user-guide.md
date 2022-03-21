@@ -576,53 +576,6 @@ By default, pads on the left with the space char.
 ```
 
 
-[[parse-double]]
-### parse-double
-
-Parses string into a double:
-
-```clojure
-(str/parse-double "1.4")
-;; => 1.4
-
-(str/parse-double nil)
-;; => NaN
-```
-
-### parse-int
-
-Parses string into a integer:
-
-```clojure
-(str/parse-int "1.4")
-;; => 1
-
-(str/parse-int nil)
-;; => NaN
-```
-
-
-### parse-number
-
-General purpose function for parse number like strings to number. It
-works with integers and floats.
-
-
-```clojure
-(str/parse-number "1.4")
-;; => 1
-
-(str/parse-number "1.4")
-;; => 1.4
-
-(str/parse-number "1")
-;; => 1
-
-(str/parse-number "")
-;; => NaN
-```
-
-
 ### pascal
 
 Convert a string or keyword into a PascalCasedString
