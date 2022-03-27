@@ -23,7 +23,7 @@ aljibe de madera.
 Add the following dependency to your project.clj file:
 
 ```clojure
-funcool/cuerdas {:mvn/version "RELEASE"}
+funcool/cuerdas {:mvn/version "2022.03.27-397"}
 ```
 
 ## Quick start
@@ -87,12 +87,43 @@ first line
 another line
 ```
 
+### concat
+
+This is a macro variant of `clojure.core/str` function that performs
+string concatenation. It is considerably faster on CLJS and slightly
+faster on JVM.
+
+On CLJS, it uses the `+` native operator to perform the concatenation
+that is more optimized than the `[].join(...)` for the vast majority
+of cases. On the JVM it only simplifies contiguos strings that are
+know to be string instances at compile time.
+
+```clojure
+(str/concat "foo" 1 "bar")
+;; => "foo1bar"
+```
+
+There some benchmark result with huge number of items to concatenate:
+
+```clojure
+;; => benchmarking: cljs.core/str
+;; --> WARM:  100000
+;; --> BENCH: 500000
+;; --> TOTAL: 197.82ms
+;; --> MEAN:  395.64ns
+;; => benchmarking: cuerdas.core/concat
+;; --> WARM:  100000
+;; --> BENCH: 500000
+;; --> TOTAL: 20.31ms
+;; --> MEAN:  40.63ns
+```
 
 ### istr
 
 String interpolation macro. Enables easy string formating allowing
-symbol substitutions and simple expression evaluation.
-At the moment not compatible with self-host ClojureScript.
+symbol substitutions and simple expression evaluation. Very similar to
+the ES6 template strings. At the moment not compatible with self-host
+ClojureScript.
 
 ```clojure
 (def value 30)
@@ -113,6 +144,35 @@ that will be concatenated on the final return value:
 ;; => "the value is 30"
 ```
 
+This macro ends using the fast string concatenation thanks to `concat`
+macro.
+
+### ffmt
+
+Another string formating, simplier alternative to the `istr` macro.
+
+It works with two basic forms: sequencial and indexed. Let seen an
+example:
+
+
+```clojure
+(str/ffmt \"url(%)\" my-url) ; sequential
+(str/ffmt \"url(%1)\" my-url) ; indexed
+```
+
+If you need the `%` character, just duplicate it:
+
+```clojure
+(str/fmt "%1%%" 1)
+;; => "1%"
+
+(str/fmt "%%%" 1)
+;; => "%1"
+```
+
+This macro ends using the fast string concatenation thanks to `concat`
+macro.
+
 ### alnum?
 
 Checks if a string contains only alphanumeric characters.
@@ -127,7 +187,6 @@ Checks if a string contains only alphanumeric characters.
 (str/alnum? "Test123")
 ;; => true
 ```
-
 
 ### alpha?
 
@@ -368,7 +427,9 @@ And you can access to indexed positions of an vector using `$0`, `$1`, `$N` synt
 ;; => "hello yen"
 ```
 
-You can use `str/fmt` as shorter alias to `str/format` function.
+You can use `str/fmt` as shorter alias to `str/format` function.  This
+performs the formatting at runtime, so consider using the `istr` or
+`ffmt` macros if you can, because they will have much lower overhead.
 
 
 ### human
@@ -1074,14 +1135,16 @@ expression that matches a single word (defaults to `[a-zA-Z0-9_-]+`).
 _cuerdas_ has targeted some parts of implementation for Clojure and
 ClojureScript using Reader Conditionals.
 
-.Run tests in the Clojure environment.
+Run tests in the Clojure environment:
+
 ```
-$ clj -A:dev ./tools.clj test
+$ clojure -M:dev:test
 ```
 
-.Run tests in the ClojureScript environment.
+Run tests in the ClojureScript environment:
+
 ```
-$ clj -A:dev ./tools.clj test-cljs
+$ clojure -M:dev ./tools.clj test <once|watch>
 ```
 
 
@@ -1100,7 +1163,7 @@ restrictions for contributions.
 _cuerdas_ is licensed under BSD (2-Clause) license:
 
 ```
-Copyright (c) 2015-2016 Andrey Antukh <niwi@niwi.nz>
+Copyright (c) 2015-Now Andrey Antukh <niwi@niwi.nz>
 
 All rights reserved.
 
@@ -1124,4 +1187,4 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-``` 
+```

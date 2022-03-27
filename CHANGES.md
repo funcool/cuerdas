@@ -1,11 +1,10 @@
 # Changelog
 
-## Version 2022.03.27-xxx
+## Version 2022.03.27-397
 
 - Add `concat` macro, for faster string concatenation on CLJS.
 - Add `ffmt` macro, a simplier and faster string formating
   macro. Alternative to the `istr` (like ES6 template strings).
-
 
 ## Version 2022.01.14-391
 

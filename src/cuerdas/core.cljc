@@ -896,8 +896,8 @@
   It works with two basic forms: sequencial and indexed. Let seen an
   example:
 
-    (dm/fmt \"url(%)\" my-url) ; sequential
-    (dm/fmt \"url(%1)\" my-url) ; indexed
+    (str/ffmt \"url(%)\" my-url) ; sequential
+    (str/ffmt \"url(%1)\" my-url) ; indexed
   "
   [s & params]
   (cons 'cuerdas.core/concat (interpolate-ffmt s (vec params))))
