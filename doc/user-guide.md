@@ -156,17 +156,17 @@ example:
 
 
 ```clojure
-(str/ffmt \"url(%)\" my-url) ; sequential
-(str/ffmt \"url(%1)\" my-url) ; indexed
+(str/ffmt "url(%, %)" my-url my-label) ; sequential access
+(str/ffmt "url(%1, %2)" my-url my-label) ; indexed access
 ```
 
 If you need the `%` character, just duplicate it:
 
 ```clojure
-(str/fmt "%1%%" 1)
+(str/ffmt "%1%%" 1)
 ;; => "1%"
 
-(str/fmt "%%%" 1)
+(str/ffmt "%%%" 1)
 ;; => "%1"
 ```
 
