@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 2022.03.27-xxx
+
+- Add `concat` macro, for faster string concatenation on CLJS.
+
+
 ## Version 2022.01.14-391
 
 - Fix bug in starts-with? and ends-with? predictates.

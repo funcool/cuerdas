@@ -38,6 +38,65 @@
 #?(:cljs (def ^:private keyword* cljs.core/keyword)
    :clj  (def ^:private keyword* clojure.core/keyword))
 
+(set! *warn-on-reflection* true)
+
+;; => benchmarking: cljs.core/str
+;; --> WARM:  100000
+;; --> BENCH: 500000
+;; --> TOTAL: 197.82ms
+;; --> MEAN:  395.64ns
+;; => benchmarking: cuerdas.core/concat
+;; --> WARM:  100000
+;; --> BENCH: 500000
+;; --> TOTAL: 20.31ms
+;; --> MEAN:  40.63ns
+
+(defmacro concat
+  "A macro variant of the clojure.core/str function that performs
+  considerbaly faster string concatenation operation on CLJS (on
+  JVM/CLJ is fallbacks to the `str` fn)."
+  ([a]
+   (if (:ns &env)
+     (list 'js* "\"\"+~{}" a)
+     (list `c/str a)))
+  ([a b]
+   (if (:ns &env)
+     (list 'js* "\"\"+~{}+~{}" a b)
+     (list `c/str a b)))
+  ([a b c]
+   (if (:ns &env)
+     (list 'js* "\"\"+~{}+~{}+~{}" a b c)
+     (list `c/str a b c)))
+  ([a b c d]
+   (if (:ns &env)
+     (list 'js* "\"\"+~{}+~{}+~{}+~{}" a b c d)
+     (list `c/str a b c d)))
+  ([a b c d e]
+   (if (:ns &env)
+     (list 'js* "\"\"+~{}+~{}+~{}+~{}+~{}" a b c d e)
+     (list `c/str a b c d e)))
+  ([a b c d e f]
+   (if (:ns &env)
+     (list 'js* "\"\"+~{}+~{}+~{}+~{}+~{}+~{}" a b c d e f)
+     (list `c/str a b c d e f)))
+  ([a b c d e f g]
+   (if (:ns &env)
+     (list 'js* "\"\"+~{}+~{}+~{}+~{}+~{}+~{}+~{}" a b c d e f g)
+     (list `c/str a b c d e f g)))
+  ([a b c d e f g h]
+   (if (:ns &env)
+     (list 'js* "\"\"+~{}+~{}+~{}+~{}+~{}+~{}+~{}+~{}" a b c d e f g h)
+     (list `c/str a b c d e f g h)))
+  ([a b c d e f g h & rest]
+   (let [all (into [a b c d e f g h] rest)]
+     (if (:ns &env)
+       (let [xf   (map (fn [items] `(str ~@items)))
+             pall (partition-all 8 all)]
+         (if (<= (count all) 64)
+           `(str ~@(sequence xf pall))
+           `(c/str ~@(sequence xf pall))))
+       `(c/str ~@all)))))
+
 (defn empty?
   "Checks if a string is empty."
   [s]
