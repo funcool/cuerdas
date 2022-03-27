@@ -17,7 +17,7 @@ aljibe de madera.
 </code></pre>
 <h2><a href="#install" id="install"></a>Install</h2>
 <p>Add the following dependency to your project.clj file:</p>
-<pre><code class="language-clojure">funcool/cuerdas {:mvn/version "RELEASE"}
+<pre><code class="language-clojure">funcool/cuerdas {:mvn/version "2022.03.27-397"}
 </code></pre>
 <h2><a href="#quick-start" id="quick-start"></a>Quick start</h2>
 <pre><code class="language-clojure">(ns my.namespace
@@ -55,8 +55,26 @@ cljs.user=&gt; (str/collapse-whitespace " foo bar    ")
 
 another line
 </code></pre>
+<h3><a href="#concat" id="concat"></a>concat</h3>
+<p>This is a macro variant of <code>clojure.core/str</code> function that performs string concatenation. It is considerably faster on CLJS and slightly faster on JVM.</p>
+<p>On CLJS, it uses the <code>+</code> native operator to perform the concatenation that is more optimized than the <code>[].join(...)</code> for the vast majority of cases. On the JVM it only simplifies contiguos strings that are know to be string instances at compile time.</p>
+<pre><code class="language-clojure">(str/concat "foo" 1 "bar")
+;; =&gt; "foo1bar"
+</code></pre>
+<p>There some benchmark result with huge number of items to concatenate:</p>
+<pre><code class="language-clojure">;; =&gt; benchmarking: cljs.core/str
+;; --&gt; WARM:  100000
+;; --&gt; BENCH: 500000
+;; --&gt; TOTAL: 197.82ms
+;; --&gt; MEAN:  395.64ns
+;; =&gt; benchmarking: cuerdas.core/concat
+;; --&gt; WARM:  100000
+;; --&gt; BENCH: 500000
+;; --&gt; TOTAL: 20.31ms
+;; --&gt; MEAN:  40.63ns
+</code></pre>
 <h3><a href="#istr" id="istr"></a>istr</h3>
-<p>String interpolation macro. Enables easy string formating allowing symbol substitutions and simple expression evaluation. At the moment not compatible with self-host ClojureScript.</p>
+<p>String interpolation macro. Enables easy string formating allowing symbol substitutions and simple expression evaluation. Very similar to the ES6 template strings. At the moment not compatible with self-host ClojureScript.</p>
 <pre><code class="language-clojure">(def value 30)
 
 (str/istr "value = ~{value}")
@@ -70,6 +88,21 @@ another line
           "is ~{value}")
 ;; =&gt; "the value is 30"
 </code></pre>
+<p>This macro ends using the fast string concatenation thanks to <code>concat</code> macro.</p>
+<h3><a href="#ffmt" id="ffmt"></a>ffmt</h3>
+<p>Another string formating, simplier alternative to the <code>istr</code> macro.</p>
+<p>It works with two basic forms: sequencial and indexed. Let seen an example:</p>
+<pre><code class="language-clojure">(str/ffmt \"url(%)\" my-url) ; sequential
+(str/ffmt \"url(%1)\" my-url) ; indexed
+</code></pre>
+<p>If you need the <code>%</code> character, just duplicate it:</p>
+<pre><code class="language-clojure">(str/fmt "%1%%" 1)
+;; =&gt; "1%"
+
+(str/fmt "%%%" 1)
+;; =&gt; "%1"
+</code></pre>
+<p>This macro ends using the fast string concatenation thanks to <code>concat</code> macro.</p>
 <h3><a href="#alnum" id="alnum"></a>alnum?</h3>
 <p>Checks if a string contains only alphanumeric characters.</p>
 <pre><code class="language-clojure">(str/alnum? nil)
@@ -233,7 +266,7 @@ another line
 <pre><code class="language-clojure">(str/format "hello $0" ["yen"])
 ;; =&gt; "hello yen"
 </code></pre>
-<p>You can use <code>str/fmt</code> as shorter alias to <code>str/format</code> function.</p>
+<p>You can use <code>str/fmt</code> as shorter alias to <code>str/format</code> function.  This performs the formatting at runtime, so consider using the <code>istr</code> or <code>ffmt</code> macros if you can, because they will have much lower overhead.</p>
 <h3><a href="#human" id="human"></a>human</h3>
 <p>Convert a string or keyword to a human friendly string (lower case and spaces).</p>
 <pre><code class="language-clojure">(str/human "JustNiceForReading")
@@ -371,37 +404,6 @@ another line
 
 (str/pad "1" {:length 8 :padding "0" :type :both})
 ;; =&gt; "00001000"
-</code></pre>
-<p><a href="null">parse-double</a></p>
-<h3><a href="#parse-double" id="parse-double"></a>parse-double</h3>
-<p>Parses string into a double:</p>
-<pre><code class="language-clojure">(str/parse-double "1.4")
-;; =&gt; 1.4
-
-(str/parse-double nil)
-;; =&gt; NaN
-</code></pre>
-<h3><a href="#parse-int" id="parse-int"></a>parse-int</h3>
-<p>Parses string into a integer:</p>
-<pre><code class="language-clojure">(str/parse-int "1.4")
-;; =&gt; 1
-
-(str/parse-int nil)
-;; =&gt; NaN
-</code></pre>
-<h3><a href="#parse-number" id="parse-number"></a>parse-number</h3>
-<p>General purpose function for parse number like strings to number. It works with integers and floats.</p>
-<pre><code class="language-clojure">(str/parse-number "1.4")
-;; =&gt; 1
-
-(str/parse-number "1.4")
-;; =&gt; 1.4
-
-(str/parse-number "1")
-;; =&gt; 1
-
-(str/parse-number "")
-;; =&gt; NaN
 </code></pre>
 <h3><a href="#pascal" id="pascal"></a>pascal</h3>
 <p>Convert a string or keyword into a PascalCasedString (aka, UpperCamelCase and ClassCase).</p>
@@ -720,11 +722,11 @@ another line
 </code></pre>
 <h2><a href="#run-tests" id="run-tests"></a>Run tests</h2>
 <p><em>cuerdas</em> has targeted some parts of implementation for Clojure and ClojureScript using Reader Conditionals.</p>
-<p>.Run tests in the Clojure environment.</p>
-<pre><code>$ clj -A:dev ./tools.clj test
+<p>Run tests in the Clojure environment:</p>
+<pre><code>$ clojure -M:dev:test
 </code></pre>
-<p>.Run tests in the ClojureScript environment.</p>
-<pre><code>$ clj -A:dev ./tools.clj test-cljs
+<p>Run tests in the ClojureScript environment:</p>
+<pre><code>$ clojure -M:dev ./tools.clj test &lt;once|watch&gt;
 </code></pre>
 <h2><a href="#how-to-contribute" id="how-to-contribute"></a>How to Contribute?</h2>
 <p><strong>cuerdas</strong>’ source is on <a href="https://github.com/funcool/cuerdas">https://github.com/funcool/cuerdas</a><a href="github">github</a>.</p>
@@ -732,7 +734,7 @@ another line
 <p><em>Pull requests are welcome!</em></p>
 <h2><a href="#license" id="license"></a>License</h2>
 <p><em>cuerdas</em> is licensed under BSD (2-Clause) license:</p>
-<pre><code>Copyright (c) 2015-2016 Andrey Antukh &lt;niwi@niwi.nz&gt;
+<pre><code>Copyright (c) 2015-Now Andrey Antukh &lt;niwi@niwi.nz&gt;
 
 All rights reserved.
 
