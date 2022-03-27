@@ -114,7 +114,7 @@
   [s subs]
   (and (string? s)
        (string? subs)
-       #?(:clj (.contains s subs)
+       #?(:clj  (.contains ^String s subs)
           :cljs (gstr/contains s subs))))
 
 #?(:clj
@@ -149,8 +149,8 @@
        (or (string? prefix)
            (char? prefix))
        (or (zero? (count prefix))
-           #?(:clj (let [region (slice s 0 (count prefix))]
-                     (= region prefix))
+           #?(:clj  (let [region (slice s 0 (count prefix))]
+                      (= region prefix))
               :cljs (= (.lastIndexOf s prefix 0) 0)))))
 
 (defn ends-with?

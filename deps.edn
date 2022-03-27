@@ -4,7 +4,7 @@
   {:extra-paths ["test" "dev"]
    :extra-deps
    {org.clojure/clojurescript {:mvn/version "RELEASE"}
-    org.clojure/clojure {:mvn/version "1.10.3"}
+    org.clojure/clojure {:mvn/version "1.11.0"}
     org.clojure/tools.deps.alpha {:mvn/version "RELEASE"}
     org.clojure/tools.namespace {:mvn/version "RELEASE"}
     com.bhauman/figwheel-main {:mvn/version "RELEASE"}
@@ -27,7 +27,7 @@
   {:main-opts  ["-m" "rebel-readline.main"]}
 
   :build
-  {:extra-deps {io.github.clojure/tools.build {:git/tag "v0.7.4" :git/sha "ac442da"}}
+  {:extra-deps {io.github.clojure/tools.build {:git/tag "v0.8.1" :git/sha "7d40500"}}
    :ns-default build}
 
   :test
