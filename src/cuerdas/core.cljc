@@ -806,7 +806,7 @@
        (catch Exception e))))
 
 #?(:clj
-   (defn- interpolate
+   (defn- interpolate-istr
      "Yields a seq of Strings and read forms."
      ([s atom?]
       (lazy-seq
@@ -824,41 +824,94 @@
                    (interpolate (subs s start) (= \{ (.charAt s (inc start))))))
         [s]))))
 
-#?(:clj
-   (defmacro istr
-     "Accepts one or more strings; emits a `str` invocation that
-     concatenates the string data and evaluated expressions contained
-     within that argument.  Evaluation is controlled using ~{} and ~()
-     forms. The former is used for simple value replacement using
-     clojure.core/str; the latter can be used to embed the results of
-     arbitrary function invocation into the produced string.
+(defmacro istr
+  "A string formating macro that works LIKE ES6 template literals but
+  using clojure construcs and symbols for interpolation delimiters.
 
-     Examples:
+  It accepts one or more strings; emits a `concat` invocation that
+  concatenates the string data and evaluated expressions contained
+  within that argument.
 
-         user=> (def v 30.5)
-         #'user/v
-         user=> (istr \"This trial required ~{v}ml of solution.\")
-         \"This trial required 30.5ml of solution.\"
-         user=> (istr \"There are ~(int v) days in November.\")
-         \"There are 30 days in November.\"
-         user=> (def m {:a [1 2 3]})
-         #'user/m
-         user=> (istr \"The total for your order is $~(->> m :a (apply +)).\")
-         \"The total for your order is $6.\"
-         user=> (<< \"Just split a long interpolated string up into ~(-> m :a (get 0)), \"
-                  \"~(-> m :a (get 1)), or even ~(-> m :a (get 2)) separate strings \"
-                  \"if you don't want a << expression to end up being e.g. ~(* 4 (int v)) \"
-                  \"columns wide.\")
-         \"Just split a long interpolated string up into 1, 2, or even 3 separate strings if you don't want a << expression to end up being e.g. 120 columns wide.\"
+  Evaluation is controlled using ~{} and ~() forms. The former is used
+  for simple value replacement using clojure.core/str; the latter can
+  be used to embed the results of arbitrary function invocation into
+  the produced string.
 
-     Note that quotes surrounding string literals within ~() forms must be
-     escaped."
+  Examples:
+
+    user=> (def v 30.5)
+    user=> (istr \"This trial required ~{v}ml of solution.\")
+    \"This trial required 30.5ml of solution.\"
+    user=> (istr \"There are ~(int v) days in November.\")
+    \"There are 30 days in November.\"
+
+    user=> (def m {:a [1 2 3]})
+    user=> (istr \"The total for your order is $~(->> m :a (apply +)).\")
+    \"The total for your order is $6.\"
+
+    user=> (istr \"Just split a long interpolated string up into ~(-> m :a (get 0)), \"
+                 \"~(-> m :a (get 1)), or even ~(-> m :a (get 2)) separate strings \"
+                 \"if you don't want a << expression to end up being e.g. ~(* 4 (int v)) \"
+                 \"columns wide.\")
+    \"Just split a long interpolated string up into 1, 2, or even 3 separate strings if you don't want a << expression to end up being e.g. 120 columns wide.\"
+
+    Note that quotes surrounding string literals within ~() forms must be
+    escaped."
      [& strings]
-     `(str ~@(interpolate (apply str strings)))))
+     `(cuerdas.core/concat ~@(interpolate-istr (apply str strings)))))
+
+(defmacro <<
+  "A backward compatibility alias for `istr` macro."
+  {:deprecated true}
+  [& strings]
+  `(str ~@(interpolate (apply str strings))))
 
 #?(:clj
-   (defmacro <<
-     "A backward compatibility alias for `istr` macro."
-     {:deprecated true}
-     [& strings]
-     `(str ~@(interpolate (apply str strings)))))
+   (defn- interpolate-ffmt
+     [s params]
+     (loop [items  (->> (re-seq #"([^\%]+)*(\%(\d+)?)?" s)
+                        (remove (fn [[full seg]] (and (nil? seg) (not full)))))
+            result []
+            index  0]
+       (if-let [[_ segment var? sidx] (first items)]
+         (cond
+           (and var? sidx)
+           (let [cidx (dec (d/read-string sidx))]
+             (recur (rest items)
+                    (-> result
+                        (conj segment)
+                        (conj (nth params cidx)))
+                    (inc index)))
+
+           var?
+           (recur (rest items)
+                  (-> result
+                      (conj segment)
+                      (conj (nth params index)))
+                  (inc index))
+
+           :else
+           (recur (rest items)
+                  (conj result segment)
+                  (inc index)))
+
+         (remove nil? result)))))
+
+(defmacro ffmt
+  "Alternative (to `istr`) string formating macro, that performs simple
+  string formating on the compile time (this means that the string
+  should be known at compile time). Internally it uses the fast string
+  concatenation mechanism implemented in the `concat` macro.
+
+  If you don't need the peculiarities of the `istr` macro, this macro
+  should be prefered.
+
+  It works with two basic forms: sequencial and indexed. Let seen an
+  example:
+
+    (dm/fmt \"url(%)\" my-url) ; sequential
+    (dm/fmt \"url(%1)\" my-url) ; indexed
+  "
+  [s & params]
+  (cons 'cuerdas.core/concat (interpolate-ffmt s (vec params))))
+
