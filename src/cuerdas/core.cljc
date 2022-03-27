@@ -24,12 +24,15 @@
 
 (ns cuerdas.core
   (:refer-clojure :exclude [contains? empty? repeat regexp?
-                            replace reverse chars keyword
+                            replace reverse chars keyword concat
                             #?@(:clj [unquote format])])
   (:require [clojure.string :as str]
             [clojure.set :refer [map-invert]]
+            [clojure.core :as c]
+
             [clojure.walk :refer [stringify-keys]]
             [cuerdas.regexp :as rx]
+
             #?(:cljs [goog.string :as gstr])
             #?(:cljs [cljs.reader :as edn]
                :clj  [clojure.edn :as edn]))
@@ -38,7 +41,7 @@
 #?(:cljs (def ^:private keyword* cljs.core/keyword)
    :clj  (def ^:private keyword* clojure.core/keyword))
 
-(set! *warn-on-reflection* true)
+#?(:clj (set! *warn-on-reflection* true))
 
 ;; => benchmarking: cljs.core/str
 ;; --> WARM:  100000
@@ -51,51 +54,24 @@
 ;; --> TOTAL: 20.31ms
 ;; --> MEAN:  40.63ns
 
+(declare repeat)
+
 (defmacro concat
   "A macro variant of the clojure.core/str function that performs
   considerbaly faster string concatenation operation on CLJS (on
-  JVM/CLJ is fallbacks to the `str` fn)."
-  ([a]
-   (if (:ns &env)
-     (list 'js* "\"\"+~{}" a)
-     (list `c/str a)))
-  ([a b]
-   (if (:ns &env)
-     (list 'js* "\"\"+~{}+~{}" a b)
-     (list `c/str a b)))
-  ([a b c]
-   (if (:ns &env)
-     (list 'js* "\"\"+~{}+~{}+~{}" a b c)
-     (list `c/str a b c)))
-  ([a b c d]
-   (if (:ns &env)
-     (list 'js* "\"\"+~{}+~{}+~{}+~{}" a b c d)
-     (list `c/str a b c d)))
-  ([a b c d e]
-   (if (:ns &env)
-     (list 'js* "\"\"+~{}+~{}+~{}+~{}+~{}" a b c d e)
-     (list `c/str a b c d e)))
-  ([a b c d e f]
-   (if (:ns &env)
-     (list 'js* "\"\"+~{}+~{}+~{}+~{}+~{}+~{}" a b c d e f)
-     (list `c/str a b c d e f)))
-  ([a b c d e f g]
-   (if (:ns &env)
-     (list 'js* "\"\"+~{}+~{}+~{}+~{}+~{}+~{}+~{}" a b c d e f g)
-     (list `c/str a b c d e f g)))
-  ([a b c d e f g h]
-   (if (:ns &env)
-     (list 'js* "\"\"+~{}+~{}+~{}+~{}+~{}+~{}+~{}+~{}" a b c d e f g h)
-     (list `c/str a b c d e f g h)))
-  ([a b c d e f g h & rest]
-   (let [all (into [a b c d e f g h] rest)]
-     (if (:ns &env)
-       (let [xf   (map (fn [items] `(str ~@items)))
-             pall (partition-all 8 all)]
-         (if (<= (count all) 64)
-           `(str ~@(sequence xf pall))
-           `(c/str ~@(sequence xf pall))))
-       `(c/str ~@all)))))
+  JVM/CLJ it only applies basic simplification and then relies on the
+  `clojure.core/str`)."
+  [& params]
+  (let [xform  (comp (partition-by string?)
+                     (mapcat (fn [part]
+                               (if (string? (first part))
+                                 [(apply c/str part)]
+                                 part))))
+        params (into [] xform params)]
+    (if (:ns &env)
+      (let [stmpl (apply c/str "\"\"" (repeat "+~{}" (count params)))]
+        (cons 'js* (cons stmpl params)))
+      (cons `c/str params))))
 
 (defn empty?
   "Checks if a string is empty."
@@ -755,7 +731,7 @@
   ([s]
    (let [all-indents (->> (rest (lines s)) ;; ignore the first line
                           (remove blank?)
-                          (concat [(last (lines s))]) ;; in case all lines are indented
+                          (c/concat [(last (lines s))]) ;; in case all lines are indented
                           (map #(->> % (re-find #"^( +)") second count)))
          min-indent  (re-pattern (format "^ {%s}"
                                          (apply min all-indents)))]
@@ -811,8 +787,8 @@
      ([s atom?]
       (lazy-seq
        (if-let [[form rest] (silent-read (subs s (if atom? 2 1)))]
-         (cons form (interpolate (if atom? (subs rest 1) rest)))
-         (cons (subs s 0 2) (interpolate (subs s 2))))))
+         (cons form (interpolate-istr (if atom? (subs rest 1) rest)))
+         (cons (subs s 0 2) (interpolate-istr (subs s 2))))))
      ([^String s]
       (if-let [start (->> ["~{" "~("]
                           (map #(.indexOf s ^String %))
@@ -821,9 +797,10 @@
                           first)]
         (lazy-seq (cons
                    (subs s 0 start)
-                   (interpolate (subs s start) (= \{ (.charAt s (inc start))))))
+                   (interpolate-istr (subs s start) (= \{ (.charAt s (inc start))))))
         [s]))))
 
+#?(:clj
 (defmacro istr
   "A string formating macro that works LIKE ES6 template literals but
   using clojure construcs and symbols for interpolation delimiters.
@@ -858,25 +835,34 @@
     Note that quotes surrounding string literals within ~() forms must be
     escaped."
      [& strings]
-     `(cuerdas.core/concat ~@(interpolate-istr (apply str strings)))))
+     `(cuerdas.core/concat ~@(interpolate-istr (apply str strings))))
+)
 
+#?(:clj
 (defmacro <<
   "A backward compatibility alias for `istr` macro."
   {:deprecated true}
   [& strings]
-  `(str ~@(interpolate (apply str strings))))
+  `(cuerdas.core/concat ~@(interpolate-istr (apply str strings))))
+)
 
 #?(:clj
    (defn- interpolate-ffmt
      [s params]
-     (loop [items  (->> (re-seq #"([^\%]+)*(\%(\d+)?)?" s)
+     (loop [items  (->> (re-seq #"([^\%]+)*(\%{1,2}(\d+)?)?" s)
                         (remove (fn [[full seg]] (and (nil? seg) (not full)))))
             result []
             index  0]
-       (if-let [[_ segment var? sidx] (first items)]
+       ;; (prn "interpolate-ffmt" items)
+       (if-let [[full segment var? sidx] (first items)]
          (cond
+           (and var? (= "%%" var?))
+           (recur (rest items)
+                  (conj result (str/replace full "%%" "%"))
+                  index)
+
            (and var? sidx)
-           (let [cidx (dec (d/read-string sidx))]
+           (let [cidx (dec (edn/read-string sidx))]
              (recur (rest items)
                     (-> result
                         (conj segment)
@@ -897,6 +883,7 @@
 
          (remove nil? result)))))
 
+#?(:clj
 (defmacro ffmt
   "Alternative (to `istr`) string formating macro, that performs simple
   string formating on the compile time (this means that the string
@@ -914,4 +901,4 @@
   "
   [s & params]
   (cons 'cuerdas.core/concat (interpolate-ffmt s (vec params))))
-
+)
