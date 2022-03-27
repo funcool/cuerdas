@@ -92,14 +92,14 @@ another line
 <h3><a href="#ffmt" id="ffmt"></a>ffmt</h3>
 <p>Another string formating, simplier alternative to the <code>istr</code> macro.</p>
 <p>It works with two basic forms: sequencial and indexed. Let seen an example:</p>
-<pre><code class="language-clojure">(str/ffmt \"url(%)\" my-url) ; sequential
-(str/ffmt \"url(%1)\" my-url) ; indexed
+<pre><code class="language-clojure">(str/ffmt "url(%, %)" my-url my-label) ; sequential access
+(str/ffmt "url(%1, %2)" my-url my-label) ; indexed access
 </code></pre>
 <p>If you need the <code>%</code> character, just duplicate it:</p>
-<pre><code class="language-clojure">(str/fmt "%1%%" 1)
+<pre><code class="language-clojure">(str/ffmt "%1%%" 1)
 ;; =&gt; "1%"
 
-(str/fmt "%%%" 1)
+(str/ffmt "%%%" 1)
 ;; =&gt; "%1"
 </code></pre>
 <p>This macro ends using the fast string concatenation thanks to <code>concat</code> macro.</p>
