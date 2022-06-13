@@ -62,13 +62,16 @@
   JVM/CLJ it only applies basic simplification and then relies on the
   `clojure.core/str`)."
   [& params]
-  (let [xform  (comp (partition-by string?)
+  (let [cljs?  (:ns &env)
+        xform  (comp (partition-by string?)
+                     (filter some?)
                      (mapcat (fn [part]
                                (if (string? (first part))
                                  [(apply c/str part)]
-                                 part))))
+                                 (cond->> part
+                                   cljs? (map (fn [o] (list 'js* "(~{} || \"\")" o))))))))
         params (into [] xform params)]
-    (if (:ns &env)
+    (if cljs?
       (let [stmpl (apply c/str "\"\"" (repeat "+~{}" (count params)))]
         (cons 'js* (cons stmpl params)))
       (cons `c/str params))))

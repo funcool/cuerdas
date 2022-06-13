@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 2022.06.13-401
+
+- Handle `nils` on concat macro.
+
+
 ## Version 2022.03.27-397
 
 - Add `concat` macro, for faster string concatenation on CLJS.

@@ -401,6 +401,11 @@
   (t/is (= "foo" (str/substr-between "---foo>>bar" "---" ">>")))
   (t/is (= "foo" (str/substr-between "---foo>>bar--foo1>>bar" "---" ">>"))))
 
+(t/deftest concat-macro
+  (t/is (= "2" (str/concat nil "2")))
+  (let [foo nil]
+    (t/is (= "2" (str/concat foo "2")))))
+
 (t/deftest <<-macro
   (let [v 2]
     (t/is (= "the value is 2" (str/<< "the value is ~{v}")))

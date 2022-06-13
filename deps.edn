@@ -3,8 +3,8 @@
  {:dev
   {:extra-paths ["test" "dev"]
    :extra-deps
-   {org.clojure/clojurescript {:mvn/version "RELEASE"}
-    org.clojure/clojure {:mvn/version "1.11.0"}
+   {org.clojure/clojurescript {:mvn/version "1.11.54"}
+    org.clojure/clojure {:mvn/version "1.11.1"}
     org.clojure/tools.deps.alpha {:mvn/version "RELEASE"}
     org.clojure/tools.namespace {:mvn/version "RELEASE"}
     com.bhauman/figwheel-main {:mvn/version "RELEASE"}
