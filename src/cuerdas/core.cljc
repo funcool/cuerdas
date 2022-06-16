@@ -69,7 +69,7 @@
                                (if (string? (first part))
                                  [(apply c/str part)]
                                  (cond->> part
-                                   cljs? (map (fn [o] (list 'js* "(~{} || \"\")" o))))))))
+                                   cljs? (map (fn [o] (list 'js* "(~{} ?? \"\")" o))))))))
         params (into [] xform params)]
     (if cljs?
       (let [stmpl (apply c/str "\"\"" (repeat "+~{}" (count params)))]

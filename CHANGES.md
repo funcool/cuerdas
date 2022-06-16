@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 2022.06.16-402
+
+- Handle `nils` on concat macro.
+
+
 ## Version 2022.06.13-401
 
 - Handle `nils` on concat macro.
