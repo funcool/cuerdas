@@ -58,7 +58,7 @@
 
 (defmacro concat
   "A macro variant of the clojure.core/str function that performs
-  considerbaly faster string concatenation operation on CLJS (on
+  considerably faster string concatenation operation on CLJS (on
   JVM/CLJ it only applies basic simplification and then relies on the
   `clojure.core/str`)."
   [& params]
