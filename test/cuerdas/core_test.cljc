@@ -84,7 +84,7 @@
 
 (t/deftest empty-pred
   (t/is (str/empty? ""))
-  (t/is (not (str/empty? nil)))
+  (t/is (str/empty? nil))
   (t/is (not (str/empty? " ")))
   (t/is (not (str/empty? " s "))))
 
@@ -99,7 +99,7 @@
   (t/is (str/blank? " "))
   (t/is (str/blank? " "))
   (t/is (str/blank? " "))
-  (t/is (not (str/blank? nil)))
+  (t/is (str/blank? nil))
   (t/is (not (str/blank? " s "))))
 
 (t/deftest alpha-pred
@@ -318,19 +318,33 @@
   (t/is (= nil (str/camel nil)))
   (t/is (= "mozTransform" (str/camel :-moz-transform)))
   (t/is (= "mozTransform" (str/camel :moz-transform)))
-  (t/is (= "mozTransform" (str/camel "moz_transform")))
-  (t/is (= "mozTransform" (str/camel "moz transform"))))
+  (t/is (= "mozTransform" (str/camel "moz_transform_")))
+  (t/is (= "mozTransform" (str/camel "moz transform-")))
+  (t/is (= "mozTransform" (str/camel "-moz  _transform-")))
+
+  )
 
 (t/deftest kebab-fn
   (t/is (= nil (str/kebab nil)))
   (t/is (= "moz" (str/kebab "MOZ")))
   (t/is (= "dasherized-keyword" (str/kebab :dasherized-keyword)))
-  (t/is (= "moz-transform" (str/kebab "MozTransform"))))
+  (t/is (= "moz-transform" (str/kebab "MozTransform")))
+  (t/is (= "moz-transform" (str/kebab "_MozTransform-__-")))
+  (t/is (= "this-key" (str/kebab "This_Key")))
+  (t/is (= "this-key" (str/kebab "This Key")))
+  (t/is (= "moz-transform" (str/kebab "_Moz   _Transform-")))
+  )
 
 (t/deftest snake-fn
   (t/is (= nil (str/snake nil)))
   (t/is (= "user_table" (str/snake :user-table)))
-  (t/is (= "moz_transform" (str/snake "MozTransform"))))
+  (t/is (= "moz_transform" (str/snake "MozTransform")))
+  (t/is (= "moz_transform" (str/snake "-moz Transform")))
+  (t/is (= "moz_transform" (str/snake "-moz  Transform--_")))
+  (t/is (= "this_key" (str/snake "This_Key")))
+  (t/is (= "this_key" (str/snake "This Key-")))
+  (t/is (= "this_key" (str/snake "ThisKey")))
+  )
 
 (t/deftest phrase-fn
   (t/is (= nil (str/phrase nil)))
@@ -420,15 +434,15 @@
     (t/is (= "the value is 4" (str/istr "the value is ~(-> v inc inc)")))
     (t/is (= "the value is 2" (str/istr "the value" " is ~{v}")))))
 
-(t/deftest <<--macro
+(t/deftest unindent
   (t/is (= "first line\n  indented two\n\n    indented four\n"
-           (str/<<- "first line
+           (str/unindent "first line
                       indented two
 
                         indented four
                     ")))
   (t/is (= "first\nsecond\n  third"
-           (str/<<- #"\t" "first\n\tsecond\n\t  third"))))
+           (str/unindent "first\n\tsecond\n\t  third" #"\t"))))
 
 (t/deftest ffmt-macro
   (t/is (= "aa1" (str/ffmt "aa%" 1)))

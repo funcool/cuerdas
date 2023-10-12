@@ -1,5 +1,23 @@
 # Changelog
 
+## Version 2023.10.15-405
+
+- Add performance improvement on `word?` predicate (x3 aprox)
+- Add performance improvement for `letters?` predicate (x3 aprox)
+- Add performance improvement for default case of `trim`, `rtrim` and `ltrim` (arity 1)
+- Add performance improvement to `camel`, `snake` and `kebab` (x9 in cljs)
+- Add `unindent` helper as replacement for `<<-`
+
+**Important**: these changes introduces some minor _breaking changes_;
+in practice, these changes should be considered safe and most likely
+will not affect you at all; because users are probably already
+managing `nil` explicitly.
+
+- Make `blank?` return `true` when value is `nil`
+- Make `empty?` return `true` when value is `nil`
+- Deprecate `empty-or-nil?` predicate
+
+
 ## Version 2022.06.16-403
 
 - Handle `nils` on concat macro.

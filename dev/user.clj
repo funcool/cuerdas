@@ -6,10 +6,11 @@
    [clojure.pprint :refer [pprint]]
    [clojure.test :as test]
    [clojure.repl :refer :all]
+   [cuerdas.core :as str]
    [criterium.core :refer [quick-bench bench with-progress-reporting]]))
 
 (defn- run-tests
-  ([] (run-tests #"^cuerdas.*"))
+  ([] (run-tests #"^cuerdas.*-test$"))
   ([o]
    (r/refresh)
    (cond

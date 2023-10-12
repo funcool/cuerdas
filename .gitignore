@@ -5,6 +5,7 @@ pom.xml.asc
 *.jar
 *.class
 *.swp
+.shadow-cljs
 /.lein-*
 /.nrepl-port
 /doc/dist

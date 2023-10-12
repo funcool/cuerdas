@@ -26,6 +26,7 @@
   (:refer-clojure :exclude [contains? empty? repeat regexp?
                             replace reverse chars keyword concat
                             #?@(:clj [unquote format])])
+  #?(:cljs (:require-macros [cuerdas.core :refer [unsafe-concat nilv]]))
   (:require [clojure.string :as str]
             [clojure.set :refer [map-invert]]
             [clojure.core :as c]
@@ -56,34 +57,62 @@
 
 (declare repeat)
 
+(defmacro nilv
+  "Mark a expression string safe, if value is nil or undefined, the \"\"
+  is returned."
+  [v]
+  (if (:ns &env)
+    (list 'js* "(~{} ?? \"\")" v)
+    `(if (string? ~v) ~v "")))
+
+#?(:clj
+   (defn- make-concat-xform
+     [safe?]
+     (comp (partition-by string?)
+           (filter some?)
+           (mapcat (fn [part]
+                     (if (string? (first part))
+                       [(apply c/str part)]
+                       (if safe?
+                         (map (fn [o] (list 'js* "(~{} ?? \"\")" o)) part)
+                         (map (fn [o] (list 'js* "(~{})" o)) part))))))))
+
 (defmacro concat
   "A macro variant of the clojure.core/str function that performs
   considerably faster string concatenation operation on CLJS (on
   JVM/CLJ it only applies basic simplification and then relies on the
   `clojure.core/str`)."
   [& params]
-  (let [cljs?  (:ns &env)
-        xform  (comp (partition-by string?)
-                     (filter some?)
-                     (mapcat (fn [part]
-                               (if (string? (first part))
-                                 [(apply c/str part)]
-                                 (cond->> part
-                                   cljs? (map (fn [o] (list 'js* "(~{} ?? \"\")" o))))))))
-        params (into [] xform params)]
-    (if cljs?
-      (let [stmpl (apply c/str "\"\"" (repeat "+~{}" (count params)))]
-        (cons 'js* (cons stmpl params)))
-      (cons `c/str params))))
+  (if (:ns &env)
+    (let [xform  (make-concat-xform true)
+          params (into [] xform params)
+          stmpl  (reduce c/str "\"\"" (repeat "+~{}" (count params)))]
+      (cons 'js* (cons stmpl params)))
+    (cons `c/str params)))
+
+(defmacro unsafe-concat
+  "Unsafe variant of `concat`. Does not add checks on unknown symbols."
+  [& params]
+  (if (:ns &env)
+    (let [xform  (make-concat-xform false)
+          params (into [] xform params)
+          stmpl  (reduce c/str "\"\"" (repeat "+~{}" (count params)))]
+      (cons 'js* (cons stmpl params)))
+    (cons `c/str params)))
 
 (defn empty?
   "Checks if a string is empty."
   [s]
-  (and (string? s)
-       (zero? (count s))))
+  (or (nil? s)
+      (and (string? s)
+           (zero? (count s)))))
 
 (defn empty-or-nil?
-  "Convenient helper for check emptines or if value is nil."
+  "Convenient helper for check emptines or if value is nil
+
+  DEPRECATED: this is already covered by `empty?`
+  "
+  {:deprecated true}
   [s]
   (or (nil? s)
       (empty? s)))
@@ -121,30 +150,40 @@
       (when (string? s)
         (.slice s begin end)))))
 
+(defn unsafe-starts-with?
+  "UNSAFE version of starts-with? predicate"
+  [s prefix]
+  #?(:clj (let [len-s (count s)
+                len-p (count prefix)]
+            (if (> len-p len-s)
+              false
+              (= (subs s 0 len-p) prefix)))
+     :cljs (== (.lastIndexOf s prefix 0) 0)))
+
 (defn starts-with?
   "Check if the string starts with prefix."
   [s prefix]
   (and (string? s)
-       (or (string? prefix)
-           (char? prefix))
-       (or (zero? (count prefix))
-           #?(:clj  (let [region (slice s 0 (count prefix))]
-                      (= region prefix))
-              :cljs (= (.lastIndexOf s prefix 0) 0)))))
+       (string? prefix)
+       (unsafe-starts-with? s prefix)))
+
+(defn unsafe-ends-with?
+  "UNSAFE version of ends-with? predicate"
+  [s suffix]
+  (or (zero? (count suffix))
+      #?(:clj (let [len    (count s)
+                    region (slice s (- len (count suffix)) len)]
+                (= region suffix))
+         :cljs (let [l (- (count s) (count suffix))]
+                 (and (>= l 0)
+                      (= (.indexOf s suffix l) l))))))
 
 (defn ends-with?
   "Check if the string ends with suffix."
   [s suffix]
   (and (string? s)
-       (or (string? suffix)
-           (char? suffix))
-       (or (zero? (count suffix))
-           #?(:clj (let [len (count s)
-                         region (slice s (- len (count suffix)) len)]
-                     (= region suffix))
-              :cljs (let [l (- (count s) (count suffix))]
-                      (and (>= l 0)
-                           (= (.indexOf s suffix l) l)))))))
+       (string? suffix)
+       (unsafe-ends-with? s suffix)))
 
 (defn lower
   "Converts string to all lower-case.
@@ -164,51 +203,72 @@
   (when (string? s)
     (.toUpperCase #?(:clj ^String s :cljs s))))
 
+(def ^:private str-blank-re
+  (re-pattern "(?u)^[\\s\\p{Z}]+$"))
+
 (defn blank?
-  "Checks if a string is empty or contains only whitespace."
+  "Checks if is a nil, empty string or contains only whitespace."
   [^String s]
-  (and (string? s)
-       (or (zero? (count s))
-           (boolean (-> (re-pattern "(?u)^[\\s\\p{Z}]+$")
-                        (re-matches s))))))
+  (or (nil? s)
+      (and (string? s)
+           (or (zero? (count s))
+               (some? (re-matches str-blank-re s))))))
+
+(def ^:private alpha-pred-re
+  (re-pattern "^[a-zA-Z]+$"))
 
 (defn alpha?
   "Checks if a string contains only alpha characters."
   [s]
   (and (string? s)
-       (boolean (re-matches #"^[a-zA-Z]+$" s))))
+       (some? (re-matches alpha-pred-re s))))
+
+(def ^:private digits-pred-re
+  (re-pattern "^[0-9]+$"))
 
 (defn digits?
   "Checks if a string contains only digit characters."
   [s]
   (and (string? s)
-       (boolean (re-matches #"^[0-9]+$" s))))
+       (some? (re-matches digits-pred-re s))))
+
+(def ^:private alnum-pred-re
+  (re-pattern "^[a-zA-Z0-9]+$"))
 
 (defn alnum?
   "Checks if a string contains only alphanumeric characters."
   [s]
   (and (string? s)
-       (boolean (re-matches #"^[a-zA-Z0-9]+$" s))))
+       (some? (re-matches alnum-pred-re s))))
+
+(def ^:private world-pred-re
+  (re-pattern "(?u)^[\\p{N}\\p{L}_-]+$"))
 
 (defn word?
   "Checks if a string contains only the word characters.
   This function will use all the unicode range."
   [s]
   (and (string? s)
-       (boolean (re-matches (re-pattern "(?u)^[\\p{N}\\p{L}_-]+$") s))))
+       (some? (re-matches world-pred-re s))))
+
+(def ^:private letters-pred-re
+  (re-pattern "(?u)^\\p{L}+$"))
 
 (defn letters?
   "Checks if string contains only letters.
   This function will use all the unicode range."
   [s]
   (and (string? s)
-       (boolean (re-matches (re-pattern "(?u)^\\p{L}+$") s))))
+       (some? (re-matches letters-pred-re s))))
+
+(def ^:private numeric-pred-re
+  (re-pattern "^[+-]?([0-9]*\\.?[0-9]+|[0-9]+\\.?[0-9]*)([eE][+-]?[0-9]+)?$"))
 
 (defn numeric?
   "Check if a string contains only numeric values."
   [s]
   (and (string? s)
-       (boolean (re-matches #"^[+-]?([0-9]*\.?[0-9]+|[0-9]+\.?[0-9]*)([eE][+-]?[0-9]+)?$" s))))
+       (some? (re-matches numeric-pred-re s))))
 
 (defn index-of
   ([s val]
@@ -234,45 +294,69 @@
 
 (declare replace)
 
+(defn- str->trim-re
+  [chs]
+  (let [rxstr (unsafe-concat "[" (rx/escape chs) "]")
+        rxstr (unsafe-concat "^" rxstr "+|" rxstr "+$")]
+    (re-pattern rxstr)))
+
+(defn- str->rtrim-re
+  [chs]
+  (let [rxstr (unsafe-concat "[" (rx/escape chs) "]")
+        rxstr (unsafe-concat rxstr "+$")]
+    (re-pattern rxstr)))
+
+(defn- str->ltrim-re
+  [chs]
+  (let [rxstr (unsafe-concat "[" (rx/escape chs) "]")
+        rxstr (unsafe-concat "^" rxstr "+")]
+    (re-pattern rxstr)))
+
+(def ^:private trim-default-re
+  (-> "\n\f\r\t " rx/escape str->trim-re))
+
+(def ^:private rtrim-default-re
+  (-> "\n\f\r\t " rx/escape str->rtrim-re))
+
+(def ^:private ltrim-default-re
+  (-> "\n\f\r\t " rx/escape str->ltrim-re))
+
 (defn trim
   "Removes whitespace or specified characters
   from both ends of string."
-  ([s] (trim s "\n\t\f\r "))
+  ([s] (replace s trim-default-re ""))
   ([s chs]
    (when (string? s)
-     (let [rxstr (str "[" (rx/escape chs) "]")
-           rxstr (str "^" rxstr "+|" rxstr "+$")]
-       (as-> (re-pattern rxstr) rx
-         (replace s rx ""))))))
+     (as-> (str->trim-re chs) rx
+       (replace s rx "")))))
 
 (defn rtrim
   "Removes whitespace or specified characters
   from right side of string."
-  ([s] (rtrim s "\n\t\f\r "))
+  ([s] (replace s rtrim-default-re ""))
   ([s chs]
    (when (string? s)
-     (let [rxstr (str "[" (rx/escape chs) "]")
-           rxstr (str rxstr "+$")]
-       (as-> (re-pattern rxstr) rx
-         (replace s rx ""))))))
+     (as-> (str->rtrim-re chs) rx
+       (replace s rx "")))))
 
 (defn ltrim
   "Removes whitespace or specified characters
   from left side of string."
-  ([s] (ltrim s "\n\t\f\r "))
+  ([s] (replace s ltrim-default-re ""))
   ([s chs]
    (when (string? s)
-     (let [rxstr (str "[" (rx/escape chs) "]")
-           rxstr (str "^" rxstr "+")]
-       (as-> (re-pattern rxstr) rx
-         (replace s rx ""))))))
+     (as-> (str->ltrim-re chs) rx
+       (replace s rx "")))))
+
+(def ^:private clean-re
+  (re-pattern "(?u)[\\s\\p{Z}]+"))
 
 (defn clean
   "Trim and replace multiple spaces with
   a single space."
   [s]
   (-> (trim s)
-      (replace (re-pattern "(?u)[\\s\\p{Z}]+") " ")))
+      (replace clean-re " ")))
 
 (def strip trim)
 (def rstrip rtrim)
@@ -282,14 +366,14 @@
   "Strip prefix in more efficient way."
   [^String s ^String prefix]
   (if (starts-with? s prefix)
-    (slice s (count prefix) (count s))
+    (subs s (count prefix) (count s))
     s))
 
 (defn strip-suffix
   "Strip suffix in more efficient way."
   [^String s suffix]
   (if (ends-with? s suffix)
-    (slice s 0 (- (count s) (count suffix)))
+    (subs s 0 (- (count s) (count suffix)))
     s))
 
 (declare join)
@@ -306,12 +390,20 @@
    (defn- replace-all
      [s re replacement]
      (let [flags (.-flags re)
-           flags (if (includes? flags "g")
+           flags (if ^boolean (includes? flags "g")
                    flags
-                   (str flags "g"))
+                   (unsafe-concat flags "g"))
            rx (js/RegExp. (.-source re) flags)]
        (.replace s rx replacement))))
 
+#?(:cljs
+   (defn- replace-with
+     [f]
+     (fn [& args]
+       (let [matches (drop-last 2 args)]
+         (if (= (count matches) 1)
+           (f (first matches))
+           (f (vec matches)))))))
 #?(:cljs
    (defn- replace*
      [s match replacement]
@@ -322,7 +414,7 @@
        (rx/regexp? match)
        (if (string? replacement)
          (replace-all s match replacement)
-         (replace-all s match (#'str/replace-with replacement))))))
+         (replace-all s match (replace-with replacement))))))
 
 (defn replace
   "Replaces all instance of match with replacement in s.
@@ -370,7 +462,7 @@
                       (rtrim (slice template 0 (dec (count template)))))]
        (if (> (count (str template subs)) (count s))
          s
-         (str (slice s 0 (count template)) subs))))))
+         (unsafe-concat (slice s 0 (count template)) (nilv subs)))))))
 
 (defn strip-newlines
   "Takes a string and replaces newlines with a space.
@@ -409,7 +501,7 @@
   [s]
   (when (string? s)
     #?(:clj  (vec (.split ^String s "(?!^)"))
-       :cljs (js->clj (.split s "")))))
+       :cljs (vec (.split s "")))))
 
 (defn lines
   "Return a list of the lines in the string."
@@ -422,10 +514,12 @@
   (when (sequential? s)
     (str/join "\n" s)))
 
+(def ^:private words-default-re
+  (re-pattern "(?u)[\\p{N}\\p{L}_-]+"))
+
 (defn words
   "Returns a vector of the words in the string."
-  ([s]
-   (words s (re-pattern "(?u)[\\p{N}\\p{L}_-]+")))
+  ([s] (words s words-default-re))
   ([s re]
    (when (string? s)
      (vec (re-seq re s)))))
@@ -510,15 +604,20 @@
   ([s qchar]
    (unsurround s qchar)))
 
+(def ^:private stylize-re1
+  (re-pattern "(?u)(\\p{Lu}+[\\p{Ll}\\u0027\\p{Ps}\\p{Pe}]*)"))
+
+(def ^:private stylize-re2
+  (re-pattern "(?u)[^\\p{L}\\p{N}\\u0027\\p{Ps}\\p{Pe}]+"))
+
 (defn- stylize-split
   [s]
-  (let [re1 (re-pattern "(?u)(\\p{Lu}+[\\p{Ll}\\u0027\\p{Ps}\\p{Pe}]*)")
-        re2 (re-pattern "(?u)[^\\p{L}\\p{N}\\u0027\\p{Ps}\\p{Pe}]+")]
-    (some-> s
-            (name)
-            (replace re1 "-$1")
-            (split re2)
-            (seq))))
+  (when (or (string? s)
+            (keyword? s))
+    (-> (name s)
+        (replace stylize-re1 "-$1")
+        (split stylize-re2)
+        (seq))))
 
 (defn- stylize-join
   ([coll every-fn join-with]
@@ -540,21 +639,44 @@
 (defn capital
   "Uppercases the first character of a string"
   [s]
-  (if (empty-or-nil? s)
-    s
-    (str (upper (subs s 0 1)) (subs s 1 (count s)))))
+  (if (string? s)
+    (let [len (count s)]
+      (if (zero? len)
+        s
+        (unsafe-concat (upper (subs s 0 1)) (subs s 1 len))))
+    s))
 
 (defn camel
   "Output will be: lowerUpperUpperNoSpaces
   accepts strings and keywords"
   [s]
-  (stylize s lower capital ""))
+  #?(:cljs (cond
+             (string? s)
+             (js* "(~{}.replace(/[:\\s\\_\\-]+/g, \"-\").replace(/(^-|-$)/g, \"\").replace(/-./g, x=>x[1].toUpperCase()))", s)
+
+             (keyword? s)
+             (-> s name camel)
+
+             :else
+             nil)
+     :clj  (stylize s lower capital "")))
 
 (defn snake
   "Output will be: lower_cased_and_underscore_separated
   accepts strings and keywords"
   [s]
-  (stylize s lower "_"))
+  #?(:cljs
+     (cond
+       (string? s)
+       (js* "(~{}.replace(/[:\\s_\\-]+/g, '_').replace(/[A-Z]+/g, x=> '_'+x.toLowerCase()).replace(/_+/g, '_').replace(/(^_+|_+$)/g, ''))" s)
+
+       (keyword? s)
+       (-> s name snake)
+
+       :else
+       nil)
+
+     :clj (stylize s lower "_")))
 
 (defn phrase
   "Output will be: Space separated with the first letter capitalized.
@@ -584,7 +706,18 @@
   "Output will be: lower-cased-and-separated-with-dashes
   accepts strings and keywords"
   [s]
-  (stylize s lower "-"))
+  #?(:cljs
+     (cond
+       (string? s)
+       (js* "(~{}.replace(/[:\\s_\\-]+/g, '-').replace(/[A-Z]+/g, x=> '-'+x.toLowerCase()).replace(/\\-+/g, '-').replace(/(^-+|-+$)/g, ''))" s)
+
+       (keyword? s)
+       (-> s name kebab)
+
+       :else
+       nil)
+
+     :clj (stylize s lower "-")))
 
 (defn js-selector
   "Output will be either:
@@ -618,12 +751,18 @@
           (replace #"[^\w\s]+" "")
           (replace #"\s+" "-")))
 
+(def ^:private uslug-re1
+  (re-pattern "(?u)[^\\p{L}\\p{N}]+"))
+
+(def ^:private uslug-re2
+  (re-pattern "(?u)[\\p{Z}\\s]+"))
+
 (defn uslug
   "Unicode friendly version of `slug` function."
   [s]
   (some-> (lower s)
-          (replace (re-pattern "(?u)[^\\p{L}\\p{N}]+") " ")
-          (replace (re-pattern "(?u)[\\p{Z}\\s]+") "-")))
+          (replace uslug-re1 " ")
+          (replace uslug-re2 "-")))
 
 (defn keyword
   "Safer version of clojure keyword, accepting a
@@ -728,9 +867,37 @@
             (split suffix)
             (first))))
 
-(defn <<-
+(defn unindent
   "Unindent multiline text. Uses either a supplied regex or the shortest
   beginning-of-line to non-whitespace distance"
+  ([s]
+   (when (string? s)
+     (let [re-space    #"^( +)"
+           all-lines   (lines s)
+           all-indents (->> (rest all-lines) ;; ignore the first line
+                            (remove blank?)
+                            (not-empty))
+           all-indents (c/concat all-indents [(last all-lines)])
+           all-indents (map (fn [o]
+                              (let [result (re-find re-space o)]
+                                (count (nth result 1))))
+                            all-indents)
+
+           min-indent  (re-pattern (str "^ {" (apply min all-indents) "}"))]
+       (->> all-lines
+            (map #(replace % min-indent ""))
+            (unlines)))))
+  ([s re]
+   (->> (lines s)
+        (map #(replace % re ""))
+        (unlines))))
+
+(defn <<-
+  "Unindent multiline text. Uses either a supplied regex or the shortest
+  beginning-of-line to non-whitespace distance
+
+  DEPRECTED: replaced by `uninindent`"
+  {:deprecated true}
   ([s]
    (let [all-indents (->> (rest (lines s)) ;; ignore the first line
                           (remove blank?)
