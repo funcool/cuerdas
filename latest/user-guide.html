@@ -137,7 +137,7 @@ another line
 ;; =&gt; true
 
 (str/blank? nil)
-;; =&gt; false
+;; =&gt; true
 </code></pre>
 <h3><a href="#camel" id="camel"></a>camel</h3>
 <p>Convert a string or keyword to a camelCased string.</p>
@@ -216,21 +216,7 @@ another line
 ;; =&gt; false
 
 (str/empty? nil)
-;; =&gt; false
-</code></pre>
-<h3><a href="#empty-or-nil" id="empty-or-nil"></a>empty-or-nil?</h3>
-<p>Check if the string is empty or is nil.</p>
-<pre><code class="language-clojure">(str/empty-or-nil? "foobar")
-;; =&gt; false
-
-(str/empty-or-nil? nil)
 ;; =&gt; true
-
-(str/empty? "")
-;; =&gt; true
-
-(str/empty? " ")
-;; =&gt; false
 </code></pre>
 <h3><a href="#ends-with" id="ends-with"></a>ends-with?</h3>
 <p>Check if the string ends with suffix.</p>
