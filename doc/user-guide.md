@@ -219,7 +219,7 @@ Check if the string is empty or contains only whitespaces.
 ;; => true
 
 (str/blank? nil)
-;; => false
+;; => true
 ```
 
 
@@ -341,29 +341,8 @@ Check if the string is empty.
 ;; => false
 
 (str/empty? nil)
-;; => false
-```
-
-
-### empty-or-nil?
-
-Check if the string is empty or is nil.
-
-
-```clojure
-(str/empty-or-nil? "foobar")
-;; => false
-
-(str/empty-or-nil? nil)
 ;; => true
-
-(str/empty? "")
-;; => true
-
-(str/empty? " ")
-;; => false
 ```
-
 
 ### ends-with?
 
