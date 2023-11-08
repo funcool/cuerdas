@@ -23,7 +23,7 @@ aljibe de madera.
 Add the following dependency to your project.clj file:
 
 ```clojure
-funcool/cuerdas {:mvn/version "2023.10.15-405"}
+funcool/cuerdas {:mvn/version "2023.11.09-407"}
 ```
 
 ## Quick start
@@ -64,16 +64,14 @@ cljs.user=> (str/collapse-whitespace " foo bar    ")
 **NOTE**: this section expalins only a limited set of functions, for
 complete overview look at the namespace functions reference.
 
-### <<-
+### unindent
 
 Unindent lines. Either strip preceding whitespace automatically or
 with a user supplied regex.
 
 ```clojure
-(str/<<- "first line
-
+(str/unindent "first line
             second line (indented)
-
           another line")
 ```
 
@@ -81,9 +79,7 @@ yields the string
 
 ```clojure
 first line
-
   second line (indented)
-
 another line
 ```
 

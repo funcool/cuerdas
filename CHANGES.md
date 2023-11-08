@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 2023.11.09-407
+
+- Fix deprecation warning
+
+
 ## Version 2023.10.15-405
 
 - Add performance improvement on `word?` predicate (x3 aprox)

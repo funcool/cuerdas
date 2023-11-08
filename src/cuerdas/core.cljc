@@ -899,14 +899,15 @@
   DEPRECTED: replaced by `uninindent`"
   {:deprecated true}
   ([s]
-   (let [all-indents (->> (rest (lines s)) ;; ignore the first line
-                          (remove blank?)
-                          (c/concat [(last (lines s))]) ;; in case all lines are indented
-                          (map #(->> % (re-find #"^( +)") second count)))
-         min-indent  (re-pattern (format "^ {%s}"
-                                         (apply min all-indents)))]
-     (<<- min-indent s)))
-  ([r s] (->> s lines (map #(replace % r "")) unlines)))
+   (let [re (->> (rest (lines s)) ;; ignore the first line
+                 (remove blank?)
+                 (c/concat [(last (lines s))]) ;; in case all lines are indented
+                 (map #(->> % (re-find #"^( +)") second count))
+                 (apply min)
+                 (format "^ {%s}")
+                 (re-pattern))]
+     (->> s lines (map #(replace % re "")) unlines)))
+  ([re s] (->> s lines (map #(replace % re "")) unlines)))
 
 ;; --- String Interpolation
 
