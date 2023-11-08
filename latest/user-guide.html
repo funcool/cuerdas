@@ -17,7 +17,7 @@ aljibe de madera.
 </code></pre>
 <h2><a href="#install" id="install"></a>Install</h2>
 <p>Add the following dependency to your project.clj file:</p>
-<pre><code class="language-clojure">funcool/cuerdas {:mvn/version "2023.10.15-405"}
+<pre><code class="language-clojure">funcool/cuerdas {:mvn/version "2023.11.09-407"}
 </code></pre>
 <h2><a href="#quick-start" id="quick-start"></a>Quick start</h2>
 <pre><code class="language-clojure">(ns my.namespace
@@ -40,19 +40,15 @@ cljs.user=&gt; (str/collapse-whitespace " foo bar    ")
 </code></pre>
 <h2><a href="#reference" id="reference"></a>Reference</h2>
 <p><strong>NOTE</strong>: this section expalins only a limited set of functions, for complete overview look at the namespace functions reference.</p>
-<h3><a href="#-" id="-"></a>&lt;&lt;-</h3>
+<h3><a href="#unindent" id="unindent"></a>unindent</h3>
 <p>Unindent lines. Either strip preceding whitespace automatically or with a user supplied regex.</p>
-<pre><code class="language-clojure">(str/&lt;&lt;- "first line
-
+<pre><code class="language-clojure">(str/unindent "first line
             second line (indented)
-
           another line")
 </code></pre>
 <p>yields the string</p>
 <pre><code class="language-clojure">first line
-
   second line (indented)
-
 another line
 </code></pre>
 <h3><a href="#concat" id="concat"></a>concat</h3>
