@@ -3,14 +3,11 @@
  {:dev
   {:extra-paths ["test" "dev"]
    :extra-deps
-   {org.clojure/clojure {:mvn/version "1.11.1"}
-    org.clojure/clojurescript {:mvn/version "1.11.60"}
-
-    ;; org.clojure/tools.deps.alpha {:mvn/version "RELEASE"}
+   {org.clojure/clojure {:mvn/version "1.12.0"}
     org.clojure/tools.namespace {:mvn/version "RELEASE"}
     com.bhauman/rebel-readline-cljs {:mvn/version "RELEASE"}
     com.bhauman/rebel-readline {:mvn/version "RELEASE"}
-    thheller/shadow-cljs {:mvn/version "2.25.8"}
+    thheller/shadow-cljs {:mvn/version "RELEASE"}
     criterium/criterium {:mvn/version "RELEASE"}}}
 
   :outdated
@@ -31,7 +28,8 @@
   {:main-opts  ["-m" "rebel-readline.main"]}
 
   :build
-  {:extra-deps {io.github.clojure/tools.build {:git/tag "v0.9.6" :git/sha "8e78bcc"}}
+  {:extra-deps
+   {io.github.clojure/tools.build {:git/tag "v0.10.9" :git/sha "e405aac"}}
    :ns-default build}
 
   :test
