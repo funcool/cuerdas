@@ -313,13 +313,13 @@
     (re-pattern rxstr)))
 
 (def ^:private trim-default-re
-  (-> "\n\f\r\t " rx/escape str->trim-re))
+  (str->trim-re "\n\f\r\t "))
 
 (def ^:private rtrim-default-re
-  (-> "\n\f\r\t " rx/escape str->rtrim-re))
+  (str->rtrim-re "\n\f\r\t "))
 
 (def ^:private ltrim-default-re
-  (-> "\n\f\r\t " rx/escape str->ltrim-re))
+  (str->ltrim-re "\n\f\r\t "))
 
 (defn trim
   "Removes whitespace or specified characters
