@@ -62,7 +62,9 @@ cljs.user=> (str/collapse-whitespace " foo bar    ")
 ## Reference
 
 **NOTE**: this section expalins only a limited set of functions, for
-complete overview look at the namespace functions reference.
+
+complete overview look at [API reference](http://funcool.github.io/cuerdas/latest/).
+
 
 ### unindent
 
@@ -1113,13 +1115,14 @@ ClojureScript using Reader Conditionals.
 Run tests in the Clojure environment:
 
 ```
-$ clojure -M:dev:test
+$ clojure -X:dev:test
 ```
 
 Run tests in the ClojureScript environment:
 
 ```
-$ clojure -M:dev ./tools.clj test <once|watch>
+yarn install
+yarn test
 ```
 
 

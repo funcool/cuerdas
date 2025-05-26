@@ -29,68 +29,6 @@
      :output-dir "out/repl"
      :cache-analysis false)))
 
-(def options
-  {:main 'cuerdas.core-test
-   :output-to "out/tests.js"
-   :output-dir "out"
-   :target :nodejs
-   :optimizations :none
-   :pretty-print true
-   :install-deps true
-   :verbose true})
-
-(defn build
-  [optimizations]
-  (api/build (api/inputs "src" "test")
-             (cond->  (assoc options :optimizations optimizations)
-               (= optimizations :none)
-               (assoc :source-map true)
-
-               (= optimizations :advanced)
-               (assoc :pseudo-names true
-                      :pretty-print true))))
-
-(defmethod task "build"
-  [[_ type]]
-  (case type
-    "none"     (build :none)
-    "simple"   (build :simple)
-    "advanced" (build :advanced)
-    (do (println "Unknown argument to test task:" type)
-        (System/exit 1))))
-
-(defmethod task "test"
-  [[_ type]]
-  (letfn [(run-tests []
-            (let [{:keys [out err]} (shell/sh "node" "out/tests.js")]
-              (println out err)))
-
-          (test-once []
-            (build :none)
-            (run-tests)
-            (shutdown-agents))
-
-          (test-watch []
-            (println "Start watch loop...")
-            (try
-              (api/watch (api/inputs "src" "test")
-                         (assoc options
-                                :parallel-build false
-                                :watch-fn run-tests
-                                :cache-analysis false
-                                :optimizations :none
-                                :source-map false))
-              (catch Exception e
-                (println "ERROR:" e)
-                (Thread/sleep 2000)
-                (test-watch))))]
-
-    (case type
-      (nil "once") (test-once)
-      "watch"      (test-watch)
-      (do (println "Unknown argument to test task:" type)
-          (System/exit 1)))))
-
 ;;; Build script entrypoint. This should be the last expression.
 
 (task *command-line-args*)
