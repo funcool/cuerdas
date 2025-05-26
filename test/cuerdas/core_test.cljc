@@ -82,6 +82,29 @@
   (t/is (= nil (str/rtrim nil)))
   (t/is (= "-a" (str/rtrim "-a-", "-"))))
 
+;; Check correct handling of java.util.regex.Pattern.quote, that adds \Q and \E
+;; sequences to quote strings, and it has been source of a bug that causes Q
+;; and E characters to be recognized as whitespace.
+;;   https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
+;;   https://github.com/funcool/cuerdas/pull/94
+(t/deftest trim-fn-ghost-EQ
+  (t/is (= "EEstringEE" (str/trim "EEstringEE")))
+  (t/is (= "EEstringEE" (str/trim "  EEstringEE  ")))
+  (t/is (= "QQstringQQ" (str/trim "QQstringQQ")))
+  (t/is (= "QQstringQQ" (str/trim "  QQstringQQ  "))))
+
+(t/deftest ltrim-fn-ghost-EQ
+  (t/is (= "EEstringEE" (str/ltrim "EEstringEE")))
+  (t/is (= "EEstringEE  " (str/ltrim "  EEstringEE  ")))
+  (t/is (= "QQstringQQ" (str/ltrim "QQstringQQ")))
+  (t/is (= "QQstringQQ  " (str/ltrim "  QQstringQQ  "))))
+
+(t/deftest rtrim-fn-ghost-EQ
+  (t/is (= "EEstringEE" (str/rtrim "EEstringEE")))
+  (t/is (= "  EEstringEE" (str/rtrim "  EEstringEE  ")))
+  (t/is (= "QQstringQQ" (str/rtrim "QQstringQQ")))
+  (t/is (= "  QQstringQQ" (str/rtrim "  QQstringQQ  "))))
+
 (t/deftest empty-pred
   (t/is (str/empty? ""))
   (t/is (str/empty? nil))
