@@ -1,5 +1,42 @@
 # Changelog
 
+## Version 2025.06.16-414
+
+- Fix incorrect handling of contigous capital letters on kebab and
+  snake functions. This change is important because it changes a bit
+  how that functions works with some input:
+
+  ```clojure
+  ;; Previous:
+  (str/kebab "MOZ") => "moz"
+  ;; Current
+  (str/kebab "MOZ") => "m-o-z"
+  ```
+
+  This change fix the inconsistency of the previous output that
+  caused:
+
+  ```clojure
+  ;; Previous
+  (str/kebab "layoutItemHSizing") => "layout-item-hsizing"
+  ;; Current
+  (str/kebab "layoutItemHSizing") => "layout-item-h-sizing"
+  ```
+
+  All this because the `str/camel` produces:
+
+  ```clojure
+  (str/camel "layout-item-h-sizing") => "layoutItemHSizing"
+  ```
+
+  And all this functions should always produce reversible output
+  between distinct cases (whenever technically possible)
+
+## Version 2025.05.26-411
+
+- Fix regex escape on trim function
+
+
 ## Version 2023.11.09-407
 
 - Fix deprecation warning

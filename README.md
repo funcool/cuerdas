@@ -23,7 +23,7 @@ aljibe de madera.
 Add the following dependency to your project.clj file:
 
 ```clojure
-funcool/cuerdas {:mvn/version "2025.05.26-411"}
+funcool/cuerdas {:mvn/version "2025.06.16-413"}
 ```
 
 ## Quick start
