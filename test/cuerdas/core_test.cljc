@@ -344,17 +344,17 @@
   (t/is (= "mozTransform" (str/camel "moz_transform_")))
   (t/is (= "mozTransform" (str/camel "moz transform-")))
   (t/is (= "mozTransform" (str/camel "-moz  _transform-")))
-
   )
 
 (t/deftest kebab-fn
   (t/is (= nil (str/kebab nil)))
-  (t/is (= "moz" (str/kebab "MOZ")))
+  (t/is (= "m-o-z" (str/kebab "MOZ")))
   (t/is (= "dasherized-keyword" (str/kebab :dasherized-keyword)))
   (t/is (= "moz-transform" (str/kebab "MozTransform")))
   (t/is (= "moz-transform" (str/kebab "_MozTransform-__-")))
   (t/is (= "this-key" (str/kebab "This_Key")))
   (t/is (= "this-key" (str/kebab "This Key")))
+  (t/is (= "layout-item-h-sizing" (str/kebab "layoutItemHSizing")))
   (t/is (= "moz-transform" (str/kebab "_Moz   _Transform-")))
   )
 
@@ -364,6 +364,7 @@
   (t/is (= "moz_transform" (str/snake "MozTransform")))
   (t/is (= "moz_transform" (str/snake "-moz Transform")))
   (t/is (= "moz_transform" (str/snake "-moz  Transform--_")))
+  (t/is (= "layout_item_h_sizing" (str/snake "layoutItemHSizing")))
   (t/is (= "this_key" (str/snake "This_Key")))
   (t/is (= "this_key" (str/snake "This Key-")))
   (t/is (= "this_key" (str/snake "ThisKey")))

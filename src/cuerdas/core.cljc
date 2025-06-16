@@ -605,7 +605,7 @@
    (unsurround s qchar)))
 
 (def ^:private stylize-re1
-  (re-pattern "(?u)(\\p{Lu}+[\\p{Ll}\\u0027\\p{Ps}\\p{Pe}]*)"))
+  (re-pattern "(?u)(\\p{Lu}[\\p{Ll}\\u0027\\p{Ps}\\p{Pe}]*)"))
 
 (def ^:private stylize-re2
   (re-pattern "(?u)[^\\p{L}\\p{N}\\u0027\\p{Ps}\\p{Pe}]+"))
@@ -650,33 +650,13 @@
   "Output will be: lowerUpperUpperNoSpaces
   accepts strings and keywords"
   [s]
-  #?(:cljs (cond
-             (string? s)
-             (js* "(~{}.replace(/[:\\s\\_\\-]+/g, \"-\").replace(/(^-|-$)/g, \"\").replace(/-./g, x=>x[1].toUpperCase()))", s)
-
-             (keyword? s)
-             (-> s name camel)
-
-             :else
-             nil)
-     :clj  (stylize s lower capital "")))
+  (stylize s lower capital ""))
 
 (defn snake
   "Output will be: lower_cased_and_underscore_separated
   accepts strings and keywords"
   [s]
-  #?(:cljs
-     (cond
-       (string? s)
-       (js* "(~{}.replace(/[:\\s_\\-]+/g, '_').replace(/[A-Z]+/g, x=> '_'+x.toLowerCase()).replace(/_+/g, '_').replace(/(^_+|_+$)/g, ''))" s)
-
-       (keyword? s)
-       (-> s name snake)
-
-       :else
-       nil)
-
-     :clj (stylize s lower "_")))
+  (stylize s lower "_"))
 
 (defn phrase
   "Output will be: Space separated with the first letter capitalized.
@@ -706,18 +686,7 @@
   "Output will be: lower-cased-and-separated-with-dashes
   accepts strings and keywords"
   [s]
-  #?(:cljs
-     (cond
-       (string? s)
-       (js* "(~{}.replace(/[:\\s_\\-]+/g, '-').replace(/[A-Z]+/g, x=> '-'+x.toLowerCase()).replace(/\\-+/g, '-').replace(/(^-+|-+$)/g, ''))" s)
-
-       (keyword? s)
-       (-> s name kebab)
-
-       :else
-       nil)
-
-     :clj (stylize s lower "-")))
+  (stylize s lower "-"))
 
 (defn js-selector
   "Output will be either:
