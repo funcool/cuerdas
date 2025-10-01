@@ -20,10 +20,16 @@ aljibe de madera.
 
 ## Install
 
-Add the following dependency to your project.clj file:
+Add the following dependency to your `deps.edn` file:
 
 ```clojure
 funcool/cuerdas {:mvn/version "2025.05.26-411"}
+```
+
+Or to your `project.clj` file:
+
+```clojure
+[funcool/cuerdas "2025.05.26-411"]
 ```
 
 ## Quick start
@@ -42,7 +48,7 @@ funcool/cuerdas {:mvn/version "2025.05.26-411"}
 ```
 
 **NOTE**: this library only intends to work with strings and always
-being null-safe. So practically all functions that expectes a `string`
+being null-safe. So practically all functions that expects a `string`
 as argument and receives a `nil` will return `nil`.
 
 
@@ -61,7 +67,7 @@ cljs.user=> (str/collapse-whitespace " foo bar    ")
 
 ## Reference
 
-**NOTE**: this section expalins only a limited set of functions, for
+**NOTE**: this section explains only a limited set of functions, for
 
 complete overview look at [API reference](http://funcool.github.io/cuerdas/latest/).
 
@@ -93,7 +99,7 @@ faster on JVM.
 
 On CLJS, it uses the `+` native operator to perform the concatenation
 that is more optimized than the `[].join(...)` for the vast majority
-of cases. On the JVM it only simplifies contiguos strings that are
+of cases. On the JVM it only simplifies contiguous strings that are
 know to be string instances at compile time.
 
 ```clojure
@@ -147,9 +153,9 @@ macro.
 
 ### ffmt
 
-Another string formating, simplier alternative to the `istr` macro.
+Another string formating, simpler alternative to the `istr` macro.
 
-It works with two basic forms: sequencial and indexed. Let seen an
+It works with two basic forms: sequential and indexed. Let seen an
 example:
 
 
