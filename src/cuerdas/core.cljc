@@ -37,7 +37,11 @@
             #?(:cljs [goog.string :as gstr])
             #?(:cljs [cljs.reader :as edn]
                :clj  [clojure.edn :as edn]))
-  #?(:clj (:import (java.util List Locale))))
+  #?(:clj (:import
+           (java.util List Locale)
+           (java.text BreakIterator)
+           (java.util Locale))))
+
 
 #?(:cljs (def ^:private keyword* cljs.core/keyword)
    :clj  (def ^:private keyword* clojure.core/keyword))
@@ -451,11 +455,12 @@
   ([s num subs]
    (if (<= (count s) num)
      s
-     (let [tmpl (fn [c]
-                  (if (not= (upper c) (lower c)) "A" " "))
+     (let [template (fn [c]
+                      (if (not= (upper c) (lower c)) "A" " "))
            template (-> (slice s 0 (inc num))
-                        (replace #".(?=\W*\w*$)" tmpl))
-           tmp (slice template (- (count template) 2))
+                        (replace #".(?=\W*\w*$)" template))
+
+           tmp      (slice template (- (count template) 2))
            template (if #?(:clj  (.matches ^String tmp "\\w\\w")
                            :cljs (.match tmp #"\w\w"))
                       (replace-first template #"\s*\S+$" "")
@@ -463,6 +468,42 @@
        (if (> (count (str template subs)) (count s))
          s
          (unsafe-concat (slice s 0 (count template)) (nilv subs)))))))
+
+(defn abbreviate
+  "Abreviates the string. Similar to `prune` but is unicode aware."
+  ([s num] (abbreviate s num "..."))
+  ([s num subs]
+   (if (or (nil? s) (zero? (count s)))
+     s
+     #?(:clj
+        (let [it    (BreakIterator/getCharacterInstance Locale/ROOT)
+              limit (inc num)]
+          (.setText it ^String s)
+          (loop [pos (.first it)
+                 count 0
+                 last-end 0]
+            (cond
+              ;; end of string: return original
+              (= pos BreakIterator/DONE)
+              s
+
+              ;; reached limit: cut at grapheme boundary
+              (= count limit)
+              (str (.substring ^String s 0 last-end) "...")
+
+              :else
+              (recur (.next it)
+                     (inc count)
+                     pos))))
+
+        :cljs
+        (let [seg   (new js/Intl.Segmenter "en" #js {:granularity "grapheme"})
+              items (.from js/Array
+                           (.segment ^js seg s)
+                           (fn [s] (.-segment ^js s)))]
+          (if (<= (.-length items) num)
+            str
+            (unsafe-concat (.join (.slice items 0 num) "") subs)))))))
 
 (defn strip-newlines
   "Takes a string and replaces newlines with a space.

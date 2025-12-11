@@ -243,6 +243,18 @@
   (t/is (= "Hello World, I'm pruning..."
            (str/prune "Hello World, I'm pruning strings today!" 25))))
 
+(t/deftest abbreviate-fn
+  (t/is (= nil (str/abbreviate nil 8)))
+  (t/is (= "Hello Wo..." (str/abbreviate "Hello World" 8)))
+  (t/is (= "Hell..." (str/abbreviate "Hello World" 4)))
+  (t/is (= "Hello (...)"
+           (str/prune "Hello World" 10 " (...)")))
+  (t/is (= "Hello world"
+           (str/prune "Hello world" 11 " (...)")))
+  (t/is (= "Hello World, I'm pruning..."
+           (str/prune "Hello World, I'm pruning strings today!" 25)))
+  )
+
 (t/deftest join-fn
   (t/is (= "ab" (str/join ["a" "b"]))))
 

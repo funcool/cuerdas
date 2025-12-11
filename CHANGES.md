@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 2025.12.11-0 (Unreleased)
+
+- Add `abbreviate` function, a better, unicode-aware version of `prune`
+
+
 ## Version 2025.06.16-414
 
 - Fix incorrect handling of contigous capital letters on kebab and
