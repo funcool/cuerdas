@@ -1,8 +1,9 @@
 # Changelog
 
-## Version 2025.12.11-0 (Unreleased)
+## Version 2026.415
 
 - Add `abbreviate` function, a better, unicode-aware version of `prune`
+- Simplify the versioning to just a year plus number of commits (example 2026.XXX)
 
 
 ## Version 2025.06.16-414
